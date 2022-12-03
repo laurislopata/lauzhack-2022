@@ -1,218 +1,78 @@
+// Java program to find the Minimum length Unsorted Subarray,
+// sorting which makes the complete array sorted
+class Main {
 
-// Java program to find the Minimum length Unsorted Subarray, 
-// sorting which makes the complete array sorted 
-class
-Main 
-{ 
+  static void printUnsorted(int arr[], int n) {
+    int s = 0, e = n - 1, i, max, min;
 
-static
-void
-printUnsorted(
-int
-arr[], 
-int
-n) 
+    // step 1(a) of above algo
 
-{ 
+    for (s = 0; s < n - 1; s++) {
+      if (arr[s] > arr[s + 1]) break;
+    }
 
-int
-s = 
-0
-, e = n-
-1
-, i, max, min; 
+    if (s == n - 1) {
+      System.out.println("The complete array is sorted");
 
+      return;
+    }
 
-// step 1(a) of above algo 
+    // step 1(b) of above algo
 
-for
-(s = 
-0
-; s < n-
-1
-; s++) 
+    for (e = n - 1; e > 0; e--) {
+      if (arr[e] < arr[e - 1]) break;
+    }
 
-{ 
+    // step 2(a) of above algo
 
-if
-(arr[s] > arr[s+
-1
-]) 
+    max = arr[s];
+    min = arr[s];
 
-break
-; 
+    for (i = s + 1; i <= e; i++) {
+      if (arr[i] > max) max = arr[i];
 
-} 
+      if (arr[i] < min) min = arr[i];
+    }
 
-if
-(s == n-
-1
-) 
+    // step 2(b) of above algo
 
-{ 
+    for (i = 0; i < s; i++) {
+      if (arr[i] > min) {
+        s = i;
 
-System.out.println(
-"The complete array is sorted"
-); 
+        break;
+      }
+    }
 
-return
-; 
+    // step 2(c) of above algo
 
-} 
+    for (i = n - 1; i >= e + 1; i--) {
+      if (arr[i] < max) {
+        e = i;
 
+        break;
+      }
+    }
 
-// step 1(b) of above algo 
+    // step 3 of above algo
 
-for
-(e = n - 
-1
-; e > 
-0
-; e--) 
+    System.out.println(
+      " The unsorted subarray which" +
+      " makes the given array sorted lies" +
+      " between the indices " +
+      s +
+      " and " +
+      e
+    );
 
-{ 
+    return;
+  }
 
-if
-(arr[e] < arr[e-
-1
-]) 
+  public static void main(String args[]) {
+    int arr[] = { 10, 12, 20, 30, 25, 40, 32, 31, 35, 50, 60 };
 
-break
-; 
+    int arr_size = arr.length;
 
-} 
-
-
-// step 2(a) of above algo 
-
-max = arr[s]; min = arr[s]; 
-
-for
-(i = s + 
-1
-; i <= e; i++) 
-
-{ 
-
-if
-(arr[i] > max) 
-
-max = arr[i]; 
-
-if
-(arr[i] < min) 
-
-min = arr[i]; 
-
-} 
-
-
-// step 2(b) of above algo 
-
-for
-( i = 
-0
-; i < s; i++) 
-
-{ 
-
-if
-(arr[i] > min) 
-
-{ 
-
-s = i; 
-
-break
-; 
-
-} 
-
-} 
-
-
-// step 2(c) of above algo 
-
-for
-( i = n -
-1
-; i >= e+
-1
-; i--) 
-
-{ 
-
-if
-(arr[i] < max) 
-
-{ 
-
-e = i; 
-
-break
-; 
-
-} 
-
-} 
-
-
-// step 3 of above algo 
-
-System.out.println(
-" The unsorted subarray which"
-+ 
-
-" makes the given array sorted lies"
-+ 
-
-" between the indices "
-+s+
-" and "
-+e); 
-
-return
-; 
-
-} 
-
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-arr[] = {
-10
-, 
-12
-, 
-20
-, 
-30
-, 
-25
-, 
-40
-, 
-32
-, 
-31
-, 
-35
-, 
-50
-, 
-60
-}; 
-
-int
-arr_size = arr.length; 
-
-printUnsorted(arr, arr_size); 
-
-} 
-} 
+    printUnsorted(arr, arr_size);
+  }
+}

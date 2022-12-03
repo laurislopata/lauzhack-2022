@@ -1,158 +1,62 @@
+import java.util.Arrays;
 
-import
-java.util.Arrays; 
+// Java program to test whether an array
+// can be sorted by swapping adjacent
+// elements using boolean array
 
-// Java program to test whether an array 
-// can be sorted by swapping adjacent 
-// elements using boolean array 
+class GFG {
 
-class
-GFG { 
+  // Return true if array can be
 
+  // sorted otherwise false
 
-// Return true if array can be 
+  static boolean sortedAfterSwap(int A[], boolean B[], int n) {
+    int i, j;
 
-// sorted otherwise false 
+    // Check bool array B and sorts
 
-static
-boolean
-sortedAfterSwap(
-int
-A[], 
+    // elements for continuos sequence of 1
 
-boolean
-B[], 
-int
-n) 
+    for (i = 0; i < n - 1; i++) {
+      if (B[i]) {
+        j = i;
 
-{ 
+        while (B[j]) {
+          j++;
+        }
 
-int
-i, j; 
+        // Sort array A from i to j
 
+        Arrays.sort(A, i, 1 + j);
 
-// Check bool array B and sorts 
+        i = j;
+      }
+    }
 
-// elements for continuos sequence of 1 
+    // Check if array is sorted or not
 
-for
-(i = 
-0
-; i < n - 
-1
-; i++) { 
+    for (i = 0; i < n; i++) {
+      if (A[i] != i + 1) {
+        return false;
+      }
+    }
 
-if
-(B[i]) { 
+    return true;
+  }
 
-j = i; 
+  // Driver program to test sortedAfterSwap()
 
-while
-(B[j]) { 
+  public static void main(String[] args) {
+    int A[] = { 1, 2, 5, 3, 4, 6 };
 
-j++; 
+    boolean B[] = { false, true, true, true, false };
 
-} 
+    int n = A.length;
 
-// Sort array A from i to j 
-
-Arrays.sort(A, i, 
-1
-+ j); 
-
-i = j; 
-
-} 
-
-} 
-
-
-// Check if array is sorted or not 
-
-for
-(i = 
-0
-; i < n; i++) { 
-
-if
-(A[i] != i + 
-1
-) { 
-
-return
-false
-; 
-
-} 
-
-} 
-
-
-return
-true
-; 
-
-} 
-
-
-// Driver program to test sortedAfterSwap() 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-A[] = { 
-1
-, 
-2
-, 
-5
-, 
-3
-, 
-4
-, 
-6
-}; 
-
-boolean
-B[] = { 
-false
-, 
-true
-, 
-true
-, 
-true
-, 
-false
-}; 
-
-int
-n = A.length; 
-
-
-if
-(sortedAfterSwap(A, B, n)) { 
-
-System.out.println(
-"A can be sorted"
-); 
-
-} 
-
-else
-{ 
-
-System.out.println(
-"A can not be sorted"
-); 
-
-} 
-
-} 
-} 
+    if (sortedAfterSwap(A, B, n)) {
+      System.out.println("A can be sorted");
+    } else {
+      System.out.println("A can not be sorted");
+    }
+  }
+}

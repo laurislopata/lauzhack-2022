@@ -1,44 +1,25 @@
+// Java implementation of program to find
+// the maximum length that can be removed
+import java.util.ArrayList;
 
-// Java implementation of program to find 
-// the maximum length that can be removed 
-import
-java.util.ArrayList; 
+public class GFG {
 
-public
-class
-GFG 
-{ 
+  // User defined class Pair
 
-// User defined class Pair 
+  static class Pair {
 
-static
-class
-Pair{ 
+    char first;
 
-char
-first; 
+    int second;
 
-int
-second; 
+    Pair(char first, int second) {
+      this.first = first;
 
-Pair(
-char
-first, 
-int
-second){ 
+      this.second = second;
+    }
+  }
 
-this
-.first = first; 
-
-this
-.second = second; 
-
-} 
-
-} 
-
-
-/* Function to find the length of longest 
+  /* Function to find the length of longest 
 
 sub-string that can me make removed 
 
@@ -50,155 +31,80 @@ and second field stores
 
 corresponding index of that character*/
 
-static
-int
-longestNull(String str) 
+  static int longestNull(String str) {
+    ArrayList<Pair> arr = new ArrayList<>();
 
-{ 
+    // store {'@',-1} in arr , here this value
 
-ArrayList<Pair> arr = 
-new
-ArrayList<>(); 
+    // will work as base index
 
+    arr.add(new Pair('@', -1));
 
-// store {'@',-1} in arr , here this value 
+    int maxlen = 0;
+    // Initialize result
 
-// will work as base index 
+    // one by one iterate characters of string
 
-arr.add(
-new
-Pair(
-'@'
-, -
-1
-)); 
+    for (int i = 0; i < str.length(); ++i) {
+      // make pair of char and index , then
 
+      // store them into arr
 
-int
-maxlen = 
-0
-; 
-// Initialize result 
+      arr.add(new Pair(str.charAt(i), i));
 
+      // now if last three elements of arr[]
 
-// one by one iterate characters of string 
+      // are making sub-string "100" or not
 
-for
-(
-int
-i = 
-0
-; i < str.length(); ++i) 
+      while (
+        arr.size() >= 3 &&
+        arr.get(arr.size() - 3).first == '1' &&
+        arr.get(arr.size() - 2).first == '0' &&
+        arr.get(arr.size() - 1).first == '0'
+      ) {
+        // if above condition is true then
 
-{ 
+        // delete sub-string "100" from arr[]
 
-// make pair of char and index , then 
+        arr.remove(arr.size() - 3);
 
-// store them into arr 
+        arr.remove(arr.size() - 2);
 
-arr.add(
-new
-Pair(str.charAt(i), i)); 
+        arr.remove(arr.size() - 1);
+      }
 
+      // index of current last element in arr[]
 
-// now if last three elements of arr[] 
+      int tmp = arr.get(arr.size() - 1).second;
 
-// are making sub-string "100" or not 
+      // This is important, here 'i' is the index
 
-while
-(arr.size() >= 
-3
-&& 
+      // of current character inserted into arr[]
 
-arr.get(arr.size()-
-3
-).first==
-'1'
-&& 
+      // and 'tmp' is the index of last element
 
-arr.get(arr.size()-
-2
-).first==
-'0'
-&& 
+      // in arr[] after continuous deletion of
 
-arr.get(arr.size()-
-1
-).first==
-'0'
-) 
+      // sub-string "100" from arr[] till we make
 
-{ 
+      // it null, difference of these to 'i-tmp'
 
-// if above condition is true then 
+      // gives the length of current sub-string
 
-// delete sub-string "100" from arr[] 
+      // that can be make null by continuous
 
-arr.remove(arr.size() - 
-3
-); 
+      // deletion of sub-string "100"
 
-arr.remove(arr.size() - 
-2
-); 
+      maxlen = Math.max(maxlen, i - tmp);
+    }
 
-arr.remove(arr.size() - 
-1
-); 
+    return maxlen;
+  }
 
-} 
+  // Driver program to run the case
 
-
-// index of current last element in arr[] 
-
-int
-tmp = arr.get(arr.size() - 
-1
-).second; 
-
-
-// This is important, here 'i' is the index 
-
-// of current character inserted into arr[] 
-
-// and 'tmp' is the index of last element 
-
-// in arr[] after continuous deletion of 
-
-// sub-string "100" from arr[] till we make 
-
-// it null, difference of these to 'i-tmp' 
-
-// gives the length of current sub-string 
-
-// that can be make null by continuous 
-
-// deletion of sub-string "100" 
-
-maxlen = Math.max(maxlen, i - tmp); 
-
-} 
-
-
-return
-maxlen; 
-
-} 
-
-
-// Driver program to run the case 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-System.out.println(longestNull(
-"1011100000100"
-)); 
-
-} 
-} 
-// This code is contributed by Sumit Ghosh 
+  public static void main(String args[]) {
+    System.out.println(longestNull("1011100000100"));
+  }
+}
+// This code is contributed by Sumit Ghosh

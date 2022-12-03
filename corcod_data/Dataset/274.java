@@ -1,120 +1,61 @@
+// Java implementation to find the character in
+// first string that is present at minimum index
+// in second string
 
-// Java implementation to find the character in 
-// first string that is present at minimum index 
-// in second string 
+public class GFG {
 
-public
-class
-GFG 
-{ 
+  // method to find the minimum index character
 
-// method to find the minimum index character 
+  static void printMinIndexChar(String str, String patt) {
+    // to store the index of character having
 
-static
-void
-printMinIndexChar(String str, String patt) 
+    // minimum index
 
-{ 
+    int minIndex = Integer.MAX_VALUE;
 
-// to store the index of character having 
+    // lengths of the two strings
 
-// minimum index 
+    int m = str.length();
 
-int
-minIndex = Integer.MAX_VALUE; 
+    int n = patt.length();
 
+    // traverse 'patt'
 
-// lengths of the two strings 
+    for (int i = 0; i < n; i++) {
+      // for each character of 'patt' traverse 'str'
 
-int
-m = str.length(); 
+      for (int j = 0; j < m; j++) {
+        // if patt.charAt(i)is found in 'str', check if
 
-int
-n = patt.length(); 
+        // it has the minimum index or not. If yes,
 
+        // then update 'minIndex' and break
 
-// traverse 'patt' 
+        if (patt.charAt(i) == str.charAt(j) && j < minIndex) {
+          minIndex = j;
 
-for
-(
-int
-i = 
-0
-; i < n; i++) { 
+          break;
+        }
+      }
+    }
 
+    // print the minimum index character
 
-// for each character of 'patt' traverse 'str' 
+    if (minIndex != Integer.MAX_VALUE) System.out.println(
+      "Minimum Index Character = " + str.charAt(minIndex)
+    );
+    // if no character of 'patt' is present in 'str'
 
-for
-(
-int
-j = 
-0
-; j < m; j++) { 
+    else System.out.println("No character present");
+  }
 
+  // Driver Method
 
-// if patt.charAt(i)is found in 'str', check if 
+  public static void main(String[] args) {
+    String str = "geeksforgeeks";
 
-// it has the minimum index or not. If yes, 
+    String patt = "set";
 
-// then update 'minIndex' and break 
-
-if
-(patt.charAt(i)== str.charAt(j) && j < minIndex) { 
-
-minIndex = j; 
-
-break
-; 
-
-} 
-
-} 
-
-} 
-
-
-// print the minimum index character 
-
-if
-(minIndex != Integer.MAX_VALUE) 
-
-System.out.println(
-"Minimum Index Character = "
-+ 
-
-str.charAt(minIndex)); 
-
-
-// if no character of 'patt' is present in 'str' 
-
-else
-
-System.out.println(
-"No character present"
-); 
-
-} 
-
-
-// Driver Method 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-String str = 
-"geeksforgeeks"
-; 
-
-String patt = 
-"set"
-; 
-
-printMinIndexChar(str, patt); 
-
-} 
-} 
+    printMinIndexChar(str, patt);
+  }
+}

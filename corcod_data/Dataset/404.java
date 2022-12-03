@@ -1,272 +1,131 @@
+// Java program to convert BTT to DLL using
+// simple inorder traversal
 
-// Java program to convert BTT to DLL using 
-// simple inorder traversal 
+public class BinaryTreeToDLL {
 
-public
-class
-BinaryTreeToDLL 
-{ 
+  static class node {
 
-static
-class
-node 
+    int data;
 
-{ 
+    node left, right;
 
-int
-data; 
+    public node(int data) {
+      this.data = data;
+    }
+  }
 
-node left, right; 
+  static node prev;
 
+  // Changes left pointers to work as previous
 
-public
-node(
-int
-data) 
+  // pointers in converted DLL The function
 
-{ 
+  // simply does inorder traversal of Binary
 
-this
-.data = data; 
+  // Tree and updates left pointer using
 
-} 
+  // previously visited node
 
-} 
+  static void fixPrevptr(node root) {
+    if (root == null) return;
 
+    fixPrevptr(root.left);
 
-static
-node prev; 
+    root.left = prev;
 
+    prev = root;
 
-// Changes left pointers to work as previous 
+    fixPrevptr(root.right);
+  }
 
-// pointers in converted DLL The function 
+  // Changes right pointers to work
 
-// simply does inorder traversal of Binary 
+  // as next pointers in converted DLL
 
-// Tree and updates left pointer using 
+  static node fixNextptr(node root) {
+    // Find the right most node in
 
-// previously visited node 
+    // BT or last node in DLL
 
-static
-void
-fixPrevptr(node root) 
+    while (root.right != null) root = root.right;
 
-{ 
+    // Start from the rightmost node, traverse
 
-if
-(root == 
-null
-) 
+    // back using left pointers. While traversing,
 
-return
-; 
+    // change right pointer of nodes
 
+    while (root != null && root.left != null) {
+      node left = root.left;
 
-fixPrevptr(root.left); 
+      left.right = root;
 
-root.left = prev; 
+      root = root.left;
+    }
 
-prev = root; 
+    // The leftmost node is head of linked list, return it
 
-fixPrevptr(root.right); 
+    return root;
+  }
 
+  static node BTTtoDLL(node root) {
+    prev = null;
 
-} 
+    // Set the previous pointer
 
+    fixPrevptr(root);
 
-// Changes right pointers to work 
+    // Set the next pointer and return head of DLL
 
-// as next pointers in converted DLL 
+    return fixNextptr(root);
+  }
 
-static
-node fixNextptr(node root) 
+  // Traverses the DLL from left tor right
 
-{ 
+  static void printlist(node root) {
+    while (root != null) {
+      System.out.print(root.data + " ");
 
-// Find the right most node in 
+      root = root.right;
+    }
+  }
 
-// BT or last node in DLL 
+  // Standard Inorder traversal of tree
 
-while
-(root.right != 
-null
-) 
+  static void inorder(node root) {
+    if (root == null) return;
 
-root = root.right; 
+    inorder(root.left);
 
+    System.out.print(root.data + " ");
 
-// Start from the rightmost node, traverse 
+    inorder(root.right);
+  }
 
-// back using left pointers. While traversing, 
+  public static void main(String[] args) {
+    // Let us create the tree shown in above diagram
 
-// change right pointer of nodes 
+    node root = new node(10);
 
-while
-(root != 
-null
-&& root.left != 
-null
-) 
+    root.left = new node(12);
 
-{ 
+    root.right = new node(15);
 
-node left = root.left; 
+    root.left.left = new node(25);
 
-left.right = root; 
+    root.left.right = new node(30);
 
-root = root.left; 
+    root.right.left = new node(36);
 
-} 
+    System.out.println("Inorder Tree Traversal");
 
+    inorder(root);
 
-// The leftmost node is head of linked list, return it 
+    node head = BTTtoDLL(root);
 
-return
-root; 
+    System.out.println("\nDLL Traversal");
 
-} 
-
-
-static
-node BTTtoDLL(node root) 
-
-{ 
-
-prev = 
-null
-; 
-
-
-// Set the previous pointer 
-
-fixPrevptr(root); 
-
-
-// Set the next pointer and return head of DLL 
-
-return
-fixNextptr(root); 
-
-} 
-
-
-// Traverses the DLL from left tor right 
-
-static
-void
-printlist(node root) 
-
-{ 
-
-while
-(root != 
-null
-) 
-
-{ 
-
-System.out.print(root.data + 
-" "
-); 
-
-root = root.right; 
-
-} 
-
-} 
-
-
-// Standard Inorder traversal of tree 
-
-static
-void
-inorder(node root) 
-
-{ 
-
-if
-(root == 
-null
-) 
-
-return
-; 
-
-inorder(root.left); 
-
-System.out.print(root.data + 
-" "
-); 
-
-inorder(root.right); 
-
-} 
-
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-// Let us create the tree shown in above diagram 
-
-node root = 
-new
-node(
-10
-); 
-
-root.left = 
-new
-node(
-12
-); 
-
-root.right = 
-new
-node(
-15
-); 
-
-root.left.left = 
-new
-node(
-25
-); 
-
-root.left.right = 
-new
-node(
-30
-); 
-
-root.right.left = 
-new
-node(
-36
-); 
-
-
-System.out.println(
-"Inorder Tree Traversal"
-); 
-
-inorder(root); 
-
-
-node head = BTTtoDLL(root); 
-
-
-System.out.println(
-"\nDLL Traversal"
-); 
-
-printlist(head); 
-
-} 
-} 
-
-// This code is contributed by Rishabh Mahrsee 
+    printlist(head);
+  }
+}
+// This code is contributed by Rishabh Mahrsee

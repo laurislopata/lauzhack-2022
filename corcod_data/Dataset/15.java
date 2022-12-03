@@ -1,152 +1,55 @@
+// Java program to print the array in given order
+import java.util.Arrays;
 
-// Java program to print the array in given order 
-import
-java.util.Arrays; 
+public class GFG {
 
-public
-class
-GFG { 
+  // Function which arrange the array.
 
+  static void rearrangeArray(int arr[], int n) {
+    // Sorting the array elements
 
-// Function which arrange the array. 
+    Arrays.sort(arr);
 
-static
-void
-rearrangeArray(
-int
-arr[], 
-int
-n) 
+    int[] tempArr = new int[n];
+    // To store modified array
 
-{ 
+    // Adding numbers from sorted array to
 
-// Sorting the array elements 
+    // new array accordingly
 
-Arrays.sort(arr); 
+    int ArrIndex = 0;
 
+    // Traverse from begin and end simultaneously
 
-int
-[] tempArr = 
-new
-int
-[n]; 
-// To store modified array 
+    for (int i = 0, j = n - 1; i <= n / 2 || j > n / 2; i++, j--) {
+      if (ArrIndex < n) {
+        tempArr[ArrIndex] = arr[i];
 
+        ArrIndex++;
+      }
 
-// Adding numbers from sorted array to 
+      if (ArrIndex < n) {
+        tempArr[ArrIndex] = arr[j];
 
-// new array accordingly 
+        ArrIndex++;
+      }
+    }
 
-int
-ArrIndex = 
-0
-; 
+    // Modifying original array
 
+    for (int i = 0; i < n; i++) arr[i] = tempArr[i];
+  }
 
-// Traverse from begin and end simultaneously 
+  // Driver Code
 
-for
-(
-int
-i = 
-0
-, j = n-
-1
-; i <= n / 
-2
-|| j > n / 
-2
-; 
+  public static void main(String args[]) {
+    int arr[] = { 5, 8, 1, 4, 2, 9, 3, 7, 6 };
 
-i++, j--) { 
+    int n = arr.length;
 
-if
-(ArrIndex < n) 
+    rearrangeArray(arr, n);
 
-{ 
-
-tempArr[ArrIndex] = arr[i]; 
-
-ArrIndex++; 
-
-} 
-
-
-if
-(ArrIndex < n) 
-
-{ 
-
-tempArr[ArrIndex] = arr[j]; 
-
-ArrIndex++; 
-
-} 
-
-} 
-
-
-// Modifying original array 
-
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-arr[i] = tempArr[i]; 
-
-} 
-
-
-// Driver Code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-arr[] = { 
-5
-, 
-8
-, 
-1
-, 
-4
-, 
-2
-, 
-9
-, 
-3
-, 
-7
-, 
-6
-}; 
-
-int
-n = arr.length; 
-
-rearrangeArray(arr, n); 
-
-
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-System.out.print(arr[i]+
-" "
-); 
-
-} 
-} 
-// This code is contributed by Sumit Ghosh 
+    for (int i = 0; i < n; i++) System.out.print(arr[i] + " ");
+  }
+}
+// This code is contributed by Sumit Ghosh

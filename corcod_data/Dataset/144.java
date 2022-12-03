@@ -1,161 +1,67 @@
+// Java program to find triplets in a given
+// array whose sum is zero
+import java.io.*;
+import java.util.Arrays;
 
-// Java program to find triplets in a given 
-// array whose sum is zero 
-import
-java.util.Arrays; 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG { 
+  // function to print triplets with 0 sum
+  static void findTriplets(int arr[], int n) {
+    boolean found = false;
 
-// function to print triplets with 0 sum 
-static
-void
-findTriplets(
-int
-arr[], 
-int
-n) 
-{ 
+    // sort array elements
 
-boolean
-found = 
-false
-; 
+    Arrays.sort(arr);
 
+    for (int i = 0; i < n - 1; i++) {
+      // initialize left and right
 
-// sort array elements 
+      int l = i + 1;
 
-Arrays.sort(arr); 
+      int r = n - 1;
 
+      int x = arr[i];
 
-for
-(
-int
-i=
-0
-; i<n-
-1
-; i++) 
+      while (l < r) {
+        if (x + arr[l] + arr[r] == 0) {
+          // print elements if it's sum is zero
 
-{ 
+          System.out.print(x + " ");
 
-// initialize left and right 
+          System.out.print(arr[l] + " ");
 
-int
-l = i + 
-1
-; 
+          System.out.println(arr[r] + " ");
 
-int
-r = n - 
-1
-; 
+          l++;
 
-int
-x = arr[i]; 
+          r--;
 
-while
-(l < r) 
+          found = true;
+        }
+        // If sum of three elements is less
 
-{ 
+        // than zero then increment in left
 
-if
-(x + arr[l] + arr[r] == 
-0
-) 
+        else if (x + arr[l] + arr[r] < 0) l++;
+        // if sum is greater than zero than
 
-{ 
+        // decrement in right side
 
-// print elements if it's sum is zero 
+        else r--;
+      }
+    }
 
-System.out.print(x + 
-" "
-); 
+    if (found == false) System.out.println(" No Triplet Found");
+  }
 
-System.out.print(arr[l]+ 
-" "
-); 
+  // Driven source
 
-System.out.println(arr[r]+ 
-" "
-); 
+  public static void main(String[] args) {
+    int arr[] = { 0, -1, 2, -3, 1 };
 
+    int n = arr.length;
 
-l++; 
-
-r--; 
-
-found = 
-true
-; 
-
-} 
-
-
-// If sum of three elements is less 
-
-// than zero then increment in left 
-
-else
-if
-(x + arr[l] + arr[r] < 
-0
-) 
-
-l++; 
-
-
-// if sum is greater than zero than 
-
-// decrement in right side 
-
-else
-
-r--; 
-
-} 
-
-} 
-
-
-if
-(found == 
-false
-) 
-
-System.out.println(
-" No Triplet Found"
-); 
-} 
-
-// Driven source 
-
-public
-static
-void
-main (String[] args) { 
-
-
-int
-arr[] = {
-0
-, -
-1
-, 
-2
-, -
-3
-, 
-1
-}; 
-
-int
-n =arr.length; 
-
-findTriplets(arr, n); 
-
-} 
-//This code is contributed by Tushil.. 
-} 
+    findTriplets(arr, n);
+  }
+  //This code is contributed by Tushil..
+}

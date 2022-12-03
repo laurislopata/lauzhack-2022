@@ -1,160 +1,80 @@
+// Java Code to find the last man Standing
+public class GFG {
 
-// Java Code to find the last man Standing 
-public
-class
-GFG { 
+  // Node class to store data
 
+  static class Node {
 
-// Node class to store data 
+    public int data;
 
-static
-class
-Node 
+    public Node next;
 
-{ 
+    public Node(int data) {
+      this.data = data;
+    }
+  }
 
-public
-int
-data ; 
-
-public
-Node next; 
-
-public
-Node( 
-int
-data ) 
-
-{ 
-
-this
-.data = data; 
-
-} 
-
-} 
-
-
-/* Function to find the only person left 
+  /* Function to find the only person left 
 
 after one in every m-th node is killed 
 
 in a circle of n nodes */
 
-static
-void
-getJosephusPosition(
-int
-m, 
-int
-n) 
+  static void getJosephusPosition(int m, int n) {
+    // Create a circular linked list of
 
-{ 
+    // size N.
 
-// Create a circular linked list of 
+    Node head = new Node(1);
 
-// size N. 
+    Node prev = head;
 
-Node head = 
-new
-Node(
-1
-); 
+    for (int i = 2; i <= n; i++) {
+      prev.next = new Node(i);
 
-Node prev = head; 
+      prev = prev.next;
+    }
 
-for
-(
-int
-i = 
-2
-; i <= n; i++) 
+    // Connect last node to first
 
-{ 
+    prev.next = head;
 
-prev.next = 
-new
-Node(i); 
-
-prev = prev.next; 
-
-} 
-
-
-// Connect last node to first 
-
-prev.next = head; 
-
-
-/* while only one node is left in the 
+    /* while only one node is left in the 
 
 linked list*/
 
-Node ptr1 = head, ptr2 = head; 
+    Node ptr1 = head, ptr2 = head;
 
+    while (ptr1.next != ptr1) {
+      // Find m-th node
 
-while
-(ptr1.next != ptr1) 
+      int count = 1;
 
-{ 
+      while (count != m) {
+        ptr2 = ptr1;
 
+        ptr1 = ptr1.next;
 
-// Find m-th node 
+        count++;
+      }
 
-int
-count = 
-1
-; 
+      /* Remove the m-th node */
 
-while
-(count != m) 
+      ptr2.next = ptr1.next;
 
-{ 
+      ptr1 = ptr2.next;
+    }
 
-ptr2 = ptr1; 
+    System.out.println(
+      "Last person left standing " + "(Josephus Position) is " + ptr1.data
+    );
+  }
 
-ptr1 = ptr1.next; 
+  /* Driver program to test above functions */
 
-count++; 
+  public static void main(String args[]) {
+    int n = 14, m = 2;
 
-} 
-
-
-/* Remove the m-th node */
-
-ptr2.next = ptr1.next; 
-
-ptr1 = ptr2.next; 
-
-} 
-
-System.out.println (
-"Last person left standing "
-+ 
-
-"(Josephus Position) is "
-+ ptr1.data); 
-
-} 
-
-
-/* Driver program to test above functions */
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-n = 
-14
-, m = 
-2
-; 
-
-getJosephusPosition(m, n); 
-
-} 
-} 
+    getJosephusPosition(m, n);
+  }
+}

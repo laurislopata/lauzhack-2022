@@ -1,285 +1,149 @@
+// Java program to implement merge sort in singly linked list
 
-// Java program to implement merge sort in singly linked list 
+// Linked List Class
+class LinkedList {
 
-// Linked List Class 
-class
-LinkedList { 
+  static Node head;
 
+  // head of list
 
-static
-Node head; 
-// head of list 
+  /* Node Class */
 
+  static class Node {
 
-/* Node Class */
+    int data;
 
-static
-class
-Node { 
+    Node next, prev;
 
+    // Constructor to create a new node
 
-int
-data; 
+    Node(int d) {
+      data = d;
 
-Node next, prev; 
+      next = prev = null;
+    }
+  }
 
+  void print(Node node) {
+    Node temp = node;
 
-// Constructor to create a new node 
+    System.out.println("Forward Traversal using next pointer");
 
-Node(
-int
-d) { 
+    while (node != null) {
+      System.out.print(node.data + " ");
 
-data = d; 
+      temp = node;
 
-next = prev = 
-null
-; 
+      node = node.next;
+    }
 
-} 
+    System.out.println("\nBackward Traversal using prev pointer");
 
-} 
+    while (temp != null) {
+      System.out.print(temp.data + " ");
 
+      temp = temp.prev;
+    }
+  }
 
-void
-print(Node node) { 
+  // Split a doubly linked list (DLL) into 2 DLLs of
 
-Node temp = node; 
+  // half sizes
 
-System.out.println(
-"Forward Traversal using next pointer"
-); 
+  Node split(Node head) {
+    Node fast = head, slow = head;
 
-while
-(node != 
-null
-) { 
+    while (fast.next != null && fast.next.next != null) {
+      fast = fast.next.next;
 
-System.out.print(node.data + 
-" "
-); 
+      slow = slow.next;
+    }
 
-temp = node; 
+    Node temp = slow.next;
 
-node = node.next; 
+    slow.next = null;
 
-} 
+    return temp;
+  }
 
-System.out.println(
-"\nBackward Traversal using prev pointer"
-); 
+  Node mergeSort(Node node) {
+    if (node == null || node.next == null) {
+      return node;
+    }
 
-while
-(temp != 
-null
-) { 
+    Node second = split(node);
 
-System.out.print(temp.data + 
-" "
-); 
+    // Recur for left and right halves
 
-temp = temp.prev; 
+    node = mergeSort(node);
 
-} 
+    second = mergeSort(second);
 
-} 
+    // Merge the two sorted halves
 
+    return merge(node, second);
+  }
 
-// Split a doubly linked list (DLL) into 2 DLLs of 
+  // Function to merge two linked lists
 
-// half sizes 
+  Node merge(Node first, Node second) {
+    // If first linked list is empty
 
-Node split(Node head) { 
+    if (first == null) {
+      return second;
+    }
 
-Node fast = head, slow = head; 
+    // If second linked list is empty
 
-while
-(fast.next != 
-null
-&& fast.next.next != 
-null
-) { 
+    if (second == null) {
+      return first;
+    }
 
-fast = fast.next.next; 
+    // Pick the smaller value
 
-slow = slow.next; 
+    if (first.data < second.data) {
+      first.next = merge(first.next, second);
 
-} 
+      first.next.prev = first;
 
-Node temp = slow.next; 
+      first.prev = null;
 
-slow.next = 
-null
-; 
+      return first;
+    } else {
+      second.next = merge(first, second.next);
 
-return
-temp; 
+      second.next.prev = second;
 
-} 
+      second.prev = null;
 
+      return second;
+    }
+  }
 
-Node mergeSort(Node node) { 
+  // Driver program to test above functions
 
-if
-(node == 
-null
-|| node.next == 
-null
-) { 
+  public static void main(String[] args) {
+    LinkedList list = new LinkedList();
 
-return
-node; 
+    list.head = new Node(10);
 
-} 
+    list.head.next = new Node(30);
 
-Node second = split(node); 
+    list.head.next.next = new Node(3);
 
+    list.head.next.next.next = new Node(4);
 
-// Recur for left and right halves 
+    list.head.next.next.next.next = new Node(20);
 
-node = mergeSort(node); 
+    list.head.next.next.next.next.next = new Node(5);
 
-second = mergeSort(second); 
+    Node node = null;
 
+    node = list.mergeSort(head);
 
-// Merge the two sorted halves 
+    System.out.println("Linked list after sorting :");
 
-return
-merge(node, second); 
-
-} 
-
-
-// Function to merge two linked lists 
-
-Node merge(Node first, Node second) { 
-
-// If first linked list is empty 
-
-if
-(first == 
-null
-) { 
-
-return
-second; 
-
-} 
-
-
-// If second linked list is empty 
-
-if
-(second == 
-null
-) { 
-
-return
-first; 
-
-} 
-
-
-// Pick the smaller value 
-
-if
-(first.data < second.data) { 
-
-first.next = merge(first.next, second); 
-
-first.next.prev = first; 
-
-first.prev = 
-null
-; 
-
-return
-first; 
-
-} 
-else
-{ 
-
-second.next = merge(first, second.next); 
-
-second.next.prev = second; 
-
-second.prev = 
-null
-; 
-
-return
-second; 
-
-} 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String[] args) { 
-
-
-LinkedList list = 
-new
-LinkedList(); 
-
-list.head = 
-new
-Node(
-10
-); 
-
-list.head.next = 
-new
-Node(
-30
-); 
-
-list.head.next.next = 
-new
-Node(
-3
-); 
-
-list.head.next.next.next = 
-new
-Node(
-4
-); 
-
-list.head.next.next.next.next = 
-new
-Node(
-20
-); 
-
-list.head.next.next.next.next.next = 
-new
-Node(
-5
-); 
-
-
-
-Node node = 
-null
-; 
-
-node = list.mergeSort(head); 
-
-System.out.println(
-"Linked list after sorting :"
-); 
-
-list.print(node); 
-
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    list.print(node);
+  }
+}
+// This code has been contributed by Mayank Jaiswal

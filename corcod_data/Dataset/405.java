@@ -1,201 +1,101 @@
+// A Java program for in-place conversion of Binary Tree to DLL
 
-// A Java program for in-place conversion of Binary Tree to DLL 
+// A binary tree node has data, left pointers and right pointers
+class Node {
 
-// A binary tree node has data, left pointers and right pointers 
-class
-Node 
-{ 
+  int data;
 
-int
-data; 
+  Node left, right;
 
-Node left, right; 
+  public Node(int data) {
+    this.data = data;
 
+    left = right = null;
+  }
+}
 
-public
-Node(
-int
-data) 
+class BinaryTree {
 
-{ 
+  Node root;
 
-this
-.data = data; 
+  // head --> Pointer to head node of created doubly linked list
 
-left = right = 
-null
-; 
+  Node head;
 
-} 
-} 
+  // Initialize previously visited node as NULL. This is
 
-class
-BinaryTree 
-{ 
+  // static so that the same value is accessible in all recursive
 
-Node root; 
+  // calls
 
+  static Node prev = null;
 
-// head --> Pointer to head node of created doubly linked list 
+  // A simple recursive function to convert a given Binary tree
 
-Node head; 
+  // to Doubly Linked List
 
+  // root --> Root of Binary Tree
 
-// Initialize previously visited node as NULL. This is 
+  void BinaryTree2DoubleLinkedList(Node root) {
+    // Base case
 
-// static so that the same value is accessible in all recursive 
+    if (root == null) return;
 
-// calls 
+    // Recursively convert left subtree
 
-static
-Node prev = 
-null
-; 
+    BinaryTree2DoubleLinkedList(root.left);
 
+    // Now convert this node
 
-// A simple recursive function to convert a given Binary tree 
+    if (prev == null) head = root; else {
+      root.left = prev;
 
-// to Doubly Linked List 
+      prev.right = root;
+    }
 
-// root --> Root of Binary Tree 
+    prev = root;
 
-void
-BinaryTree2DoubleLinkedList(Node root) 
+    // Finally convert right subtree
 
-{ 
+    BinaryTree2DoubleLinkedList(root.right);
+  }
 
-// Base case 
+  /* Function to print nodes in a given doubly linked list */
 
-if
-(root == 
-null
-) 
+  void printList(Node node) {
+    while (node != null) {
+      System.out.print(node.data + " ");
 
-return
-; 
+      node = node.right;
+    }
+  }
 
+  // Driver program to test above functions
 
-// Recursively convert left subtree 
+  public static void main(String[] args) {
+    // Let us create the tree as shown in above diagram
 
-BinaryTree2DoubleLinkedList(root.left); 
+    BinaryTree tree = new BinaryTree();
 
+    tree.root = new Node(10);
 
-// Now convert this node 
+    tree.root.left = new Node(12);
 
-if
-(prev == 
-null
-) 
+    tree.root.right = new Node(15);
 
-head = root; 
+    tree.root.left.left = new Node(25);
 
-else
+    tree.root.left.right = new Node(30);
 
-{ 
+    tree.root.right.left = new Node(36);
 
-root.left = prev; 
+    // convert to DLL
 
-prev.right = root; 
+    tree.BinaryTree2DoubleLinkedList(tree.root);
 
-} 
+    // Print the converted List
 
-prev = root; 
-
-
-// Finally convert right subtree 
-
-BinaryTree2DoubleLinkedList(root.right); 
-
-} 
-
-
-/* Function to print nodes in a given doubly linked list */
-
-void
-printList(Node node) 
-
-{ 
-
-while
-(node != 
-null
-) 
-
-{ 
-
-System.out.print(node.data + 
-" "
-); 
-
-node = node.right; 
-
-} 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-// Let us create the tree as shown in above diagram 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-tree.root = 
-new
-Node(
-10
-); 
-
-tree.root.left = 
-new
-Node(
-12
-); 
-
-tree.root.right = 
-new
-Node(
-15
-); 
-
-tree.root.left.left = 
-new
-Node(
-25
-); 
-
-tree.root.left.right = 
-new
-Node(
-30
-); 
-
-tree.root.right.left = 
-new
-Node(
-36
-); 
-
-
-// convert to DLL 
-
-tree.BinaryTree2DoubleLinkedList(tree.root); 
-
-
-// Print the converted List 
-
-tree.printList(tree.head); 
-
-
-} 
-} 
-// This code has been contributed by Mayank Jaiswal(mayank_24) 
+    tree.printList(tree.head);
+  }
+}
+// This code has been contributed by Mayank Jaiswal(mayank_24)

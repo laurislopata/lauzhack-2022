@@ -1,259 +1,92 @@
+// Java program to solve Gold Mine problem
+import java.util.Arrays;
 
-// Java program to solve Gold Mine problem 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG { 
+  static final int MAX = 100;
 
+  // Returns maximum amount of gold that
 
-static
-final
-int
-MAX = 
-100
-; 
+  // can be collected when journey started
 
+  // from first column and moves allowed
 
-// Returns maximum amount of gold that 
+  // are right, right-up and right-down
 
-// can be collected when journey started 
+  static int getMaxGold(int gold[][], int m, int n) {
+    // Create a table for storing
 
-// from first column and moves allowed 
+    // intermediate results and initialize
 
-// are right, right-up and right-down 
+    // all cells to 0. The first row of
 
-static
-int
-getMaxGold(
-int
-gold[][], 
+    // goldMineTable gives the maximum
 
-int
-m, 
-int
-n) 
+    // gold that the miner can collect
 
-{ 
+    // when starts that row
 
+    int goldTable[][] = new int[m][n];
 
-// Create a table for storing 
+    for (int[] rows : goldTable) Arrays.fill(rows, 0);
 
-// intermediate results and initialize 
+    for (int col = n - 1; col >= 0; col--) {
+      for (int row = 0; row < m; row++) {
+        // Gold collected on going to
 
-// all cells to 0. The first row of 
+        // the cell on the right(->)
 
-// goldMineTable gives the maximum 
+        int right = (col == n - 1) ? 0 : goldTable[row][col + 1];
 
-// gold that the miner can collect 
+        // Gold collected on going to
 
-// when starts that row 
+        // the cell to right up (/)
 
-int
-goldTable[][] = 
-new
-int
-[m][n]; 
+        int right_up = (row == 0 || col == n - 1)
+          ? 0
+          : goldTable[row - 1][col + 1];
 
+        // Gold collected on going to
 
-for
-(
-int
-[] rows:goldTable) 
+        // the cell to right down (\)
 
-Arrays.fill(rows, 
-0
-); 
+        int right_down = (row == m - 1 || col == n - 1)
+          ? 0
+          : goldTable[row + 1][col + 1];
 
+        // Max gold collected from taking
 
-for
-(
-int
-col = n-
-1
-; col >= 
-0
-; col--) 
+        // either of the above 3 paths
 
-{ 
+        goldTable[row][col] =
+          gold[row][col] + Math.max(right, Math.max(right_up, right_down));
+      }
+    }
 
-for
-(
-int
-row = 
-0
-; row < m; row++) 
+    // The max amount of gold collected will be
 
-{ 
+    // the max value in first column of all rows
 
+    int res = goldTable[0][0];
 
-// Gold collected on going to 
+    for (int i = 1; i < m; i++) res = Math.max(res, goldTable[i][0]);
 
-// the cell on the right(->) 
+    return res;
+  }
 
-int
-right = (col == n-
-1
-) ? 
-0
+  //driver code
 
-: goldTable[row][col+
-1
-]; 
+  public static void main(String arg[]) {
+    int gold[][] = {
+      { 1, 3, 1, 5 },
+      { 2, 2, 4, 1 },
+      { 5, 0, 2, 3 },
+      { 0, 6, 1, 2 },
+    };
 
+    int m = 4, n = 4;
 
-// Gold collected on going to 
-
-// the cell to right up (/) 
-
-int
-right_up = (row == 
-0
-|| 
-
-col == n-
-1
-) ? 
-0
-: 
-
-goldTable[row-
-1
-][col+
-1
-]; 
-
-
-// Gold collected on going to 
-
-// the cell to right down (\) 
-
-int
-right_down = (row == m-
-1
-
-|| col == n-
-1
-) ? 
-0
-: 
-
-goldTable[row+
-1
-][col+
-1
-]; 
-
-
-// Max gold collected from taking 
-
-// either of the above 3 paths 
-
-goldTable[row][col] = gold[row][col] 
-
-+ Math.max(right, Math.max(right_up, 
-
-right_down)); 
-
-; 
-
-} 
-
-} 
-
-
-// The max amount of gold collected will be 
-
-// the max value in first column of all rows 
-
-int
-res = goldTable[
-0
-][
-0
-]; 
-
-
-for
-(
-int
-i = 
-1
-; i < m; i++) 
-
-res = Math.max(res, goldTable[i][
-0
-]); 
-
-
-return
-res; 
-
-} 
-
-
-//driver code 
-
-public
-static
-void
-main(String arg[]) 
-
-{ 
-
-int
-gold[][]= { {
-1
-, 
-3
-, 
-1
-, 
-5
-}, 
-
-{
-2
-, 
-2
-, 
-4
-, 
-1
-}, 
-
-{
-5
-, 
-0
-, 
-2
-, 
-3
-}, 
-
-{
-0
-, 
-6
-, 
-1
-, 
-2
-} }; 
-
-
-int
-m = 
-4
-, n = 
-4
-; 
-
-
-System.out.print(getMaxGold(gold, m, n)); 
-
-} 
-} 
-
-// This code is contributed by Anant Agarwal. 
+    System.out.print(getMaxGold(gold, m, n));
+  }
+}
+// This code is contributed by Anant Agarwal.

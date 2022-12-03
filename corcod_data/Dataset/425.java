@@ -1,215 +1,85 @@
-
-// Java program to check if binay tree is full or not 
+// Java program to check if binay tree is full or not
 
 /* Tree node structure */
-class
-Node 
-{ 
+class Node {
 
-int
-data; 
+  int data;
 
-Node left, right; 
+  Node left, right;
 
+  Node(int item) {
+    data = item;
 
-Node(
-int
-item) 
+    left = right = null;
+  }
+}
 
-{ 
+class BinaryTree {
 
-data = item; 
+  Node root;
 
-left = right = 
-null
-; 
+  /* this function checks if a binary tree is full or not */
 
-} 
-} 
+  boolean isFullTree(Node node) {
+    // if empty tree
 
-class
-BinaryTree 
-{ 
+    if (node == null) return true;
 
-Node root; 
+    // if leaf node
 
+    if (node.left == null && node.right == null) return true;
 
-/* this function checks if a binary tree is full or not */
+    // if both left and right subtrees are not null
 
-boolean
-isFullTree(Node node) 
+    // the are full
 
-{ 
+    if ((node.left != null) && (node.right != null)) return (
+      isFullTree(node.left) && isFullTree(node.right)
+    );
 
-// if empty tree 
+    // if none work
 
-if
-(node == 
-null
-) 
+    return false;
+  }
 
-return
-true
-; 
+  // Driver program
 
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
 
-// if leaf node 
+    tree.root = new Node(10);
 
-if
-(node.left == 
-null
-&& node.right == 
-null
-) 
+    tree.root.left = new Node(20);
 
-return
-true
-; 
+    tree.root.right = new Node(30);
 
+    tree.root.left.right = new Node(40);
 
-// if both left and right subtrees are not null 
+    tree.root.left.left = new Node(50);
 
-// the are full 
+    tree.root.right.left = new Node(60);
 
-if
-((node.left!=
-null
-) && (node.right!=
-null
-)) 
+    tree.root.left.left.left = new Node(80);
 
-return
-(isFullTree(node.left) && isFullTree(node.right)); 
+    tree.root.right.right = new Node(70);
 
+    tree.root.left.left.right = new Node(90);
 
-// if none work 
+    tree.root.left.right.left = new Node(80);
 
-return
-false
-; 
+    tree.root.left.right.right = new Node(90);
 
-} 
+    tree.root.right.left.left = new Node(80);
 
+    tree.root.right.left.right = new Node(90);
 
+    tree.root.right.right.left = new Node(80);
 
-// Driver program 
+    tree.root.right.right.right = new Node(90);
 
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-tree.root = 
-new
-Node(
-10
-); 
-
-tree.root.left = 
-new
-Node(
-20
-); 
-
-tree.root.right = 
-new
-Node(
-30
-); 
-
-tree.root.left.right = 
-new
-Node(
-40
-); 
-
-tree.root.left.left = 
-new
-Node(
-50
-); 
-
-tree.root.right.left = 
-new
-Node(
-60
-); 
-
-tree.root.left.left.left = 
-new
-Node(
-80
-); 
-
-tree.root.right.right = 
-new
-Node(
-70
-); 
-
-tree.root.left.left.right = 
-new
-Node(
-90
-); 
-
-tree.root.left.right.left = 
-new
-Node(
-80
-); 
-
-tree.root.left.right.right = 
-new
-Node(
-90
-); 
-
-tree.root.right.left.left = 
-new
-Node(
-80
-); 
-
-tree.root.right.left.right = 
-new
-Node(
-90
-); 
-
-tree.root.right.right.left = 
-new
-Node(
-80
-); 
-
-tree.root.right.right.right = 
-new
-Node(
-90
-); 
-
-
-if
-(tree.isFullTree(tree.root)) 
-
-System.out.print(
-"The binary tree is full"
-); 
-
-else
-
-System.out.print(
-"The binary tree is not full"
-); 
-
-} 
-} 
-
-// This code is contributed by Mayank Jaiswal 
+    if (tree.isFullTree(tree.root)) System.out.print(
+      "The binary tree is full"
+    ); else System.out.print("The binary tree is not full");
+  }
+}
+// This code is contributed by Mayank Jaiswal

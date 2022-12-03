@@ -1,168 +1,69 @@
+// Java program to find lexicographically minimum
+// value after k swaps.
+class GFG {
 
-// Java program to find lexicographically minimum 
-// value after k swaps. 
-class
-GFG { 
+  // Modifies arr[0..n-1] to lexicographically
 
+  // smallest with k swaps.
 
-// Modifies arr[0..n-1] to lexicographically 
+  static void minimizeWithKSwaps(int arr[], int n, int k) {
+    for (int i = 0; i < n - 1 && k > 0; ++i) {
+      // Set the position where we want
 
-// smallest with k swaps. 
+      // to put the smallest integer
 
-static
-void
-minimizeWithKSwaps(
-int
-arr[], 
-int
-n, 
-int
-k) 
+      int pos = i;
 
-{ 
+      for (int j = i + 1; j < n; ++j) {
+        // If we exceed the Max swaps
 
-for
-(
-int
-i = 
-0
-; i < n-
-1
-&& k > 
-0
-; ++i) 
+        // then terminate the loop
 
-{ 
+        if (j - i > k) break;
 
+        // Find the minimum value from i+1 to
 
-// Set the position where we want 
+        // max k or n
 
-// to put the smallest integer 
+        if (arr[j] < arr[pos]) pos = j;
+      }
 
-int
-pos = i; 
+      // Swap the elements from Minimum position
 
-for
-(
-int
-j = i+
-1
-; j < n ; ++j) 
+      // we found till now to the i index
 
-{ 
+      int temp;
 
+      for (int j = pos; j > i; --j) {
+        temp = arr[j];
 
-// If we exceed the Max swaps 
+        arr[j] = arr[j - 1];
 
-// then terminate the loop 
+        arr[j - 1] = temp;
+      }
 
-if
-(j - i > k) 
+      // Set the final value after swapping pos-i
 
-break
-; 
+      // elements
 
+      k -= pos - i;
+    }
+  }
 
-// Find the minimum value from i+1 to 
+  // Driver method
 
-// max k or n 
+  public static void main(String[] args) {
+    int arr[] = { 7, 6, 9, 2, 1 };
 
-if
-(arr[j] < arr[pos]) 
+    int n = arr.length;
 
-pos = j; 
+    int k = 3;
 
-} 
+    minimizeWithKSwaps(arr, n, k);
 
+    //Print the final Array
 
-// Swap the elements from Minimum position 
-
-// we found till now to the i index 
-
-int
-temp; 
-
-
-for
-(
-int
-j = pos; j>i; --j) 
-
-{ 
-
-temp=arr[j]; 
-
-arr[j]=arr[j-
-1
-]; 
-
-arr[j-
-1
-]=temp; 
-
-} 
-
-
-// Set the final value after swapping pos-i 
-
-// elements 
-
-k -= pos-i; 
-
-} 
-
-} 
-
-
-// Driver method 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-
-int
-arr[] = {
-7
-, 
-6
-, 
-9
-, 
-2
-, 
-1
-}; 
-
-int
-n = arr.length; 
-
-int
-k = 
-3
-; 
-
-
-minimizeWithKSwaps(arr, n, k); 
-
-
-//Print the final Array 
-
-for
-(
-int
-i=
-0
-; i<n; ++i) 
-
-System.out.print(arr[i] +
-" "
-); 
-
-} 
-} 
-
-// This code is contributed by Anant Agarwal. 
+    for (int i = 0; i < n; ++i) System.out.print(arr[i] + " ");
+  }
+}
+// This code is contributed by Anant Agarwal.

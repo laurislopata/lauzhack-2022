@@ -1,310 +1,159 @@
+// Java code to find a pair with given sum
+// in a Balanced BST
+import java.util.ArrayList;
 
-// Java code to find a pair with given sum 
-// in a Balanced BST 
-import
-java.util.ArrayList; 
+// A binary tree node
+class Node {
 
-// A binary tree node 
-class
-Node { 
+  int data;
 
+  Node left, right;
 
-int
-data; 
+  Node(int d) {
+    data = d;
 
-Node left, right; 
+    left = right = null;
+  }
+}
 
+class BinarySearchTree {
 
-Node(
-int
-d) 
+  // Root of BST
 
-{ 
+  Node root;
 
-data = d; 
+  // Constructor
 
-left = right = 
-null
-; 
+  BinarySearchTree() {
+    root = null;
+  }
 
-} 
-} 
+  // Inorder traversal of the tree
 
-class
-BinarySearchTree { 
+  void inorder() {
+    inorderUtil(this.root);
+  }
 
+  // Utility function for inorder traversal of the tree
 
-// Root of BST 
+  void inorderUtil(Node node) {
+    if (node == null) return;
 
-Node root; 
+    inorderUtil(node.left);
 
+    System.out.print(node.data + " ");
 
-// Constructor 
+    inorderUtil(node.right);
+  }
 
-BinarySearchTree() 
+  // This method mainly calls insertRec()
 
-{ 
+  void insert(int key) {
+    root = insertRec(root, key);
+  }
 
-root = 
-null
-; 
+  /* A recursive function to insert a new key in BST */
 
-} 
+  Node insertRec(Node root, int data) {
+    /* If the tree is empty, return a new node */
 
+    if (root == null) {
+      root = new Node(data);
 
-// Inorder traversal of the tree 
+      return root;
+    }
 
-void
-inorder() 
+    /* Otherwise, recur down the tree */
 
-{ 
+    if (data < root.data) root.left = insertRec(root.left, data); else if (
+      data > root.data
+    ) root.right = insertRec(root.right, data);
 
-inorderUtil(
-this
-.root); 
+    return root;
+  }
 
-} 
+  // Method that adds values of given BST into ArrayList
 
+  // and hence returns the ArrayList
 
-// Utility function for inorder traversal of the tree 
+  ArrayList<Integer> treeToList(Node node, ArrayList<Integer> list) {
+    // Base Case
 
-void
-inorderUtil(Node node) 
+    if (node == null) return list;
 
-{ 
+    treeToList(node.left, list);
 
-if
-(node == 
-null
-) 
+    list.add(node.data);
 
-return
-; 
+    treeToList(node.right, list);
 
+    return list;
+  }
 
-inorderUtil(node.left); 
+  // method that checks if there is a pair present
 
-System.out.print(node.data + 
-" "
-); 
+  boolean isPairPresent(Node node, int target) {
+    // This list a1 is passed as an argument
 
-inorderUtil(node.right); 
+    // in treeToList method
 
-} 
+    // which is later on filled by the values of BST
 
+    ArrayList<Integer> a1 = new ArrayList<>();
 
-// This method mainly calls insertRec() 
+    // a2 list contains all the values of BST
 
-void
-insert(
-int
-key) 
+    // returned by treeToList method
 
-{ 
+    ArrayList<Integer> a2 = treeToList(node, a1);
 
-root = insertRec(root, key); 
+    int start = 0;
+    // Starting index of a2
 
-} 
+    int end = a2.size() - 1;
+    // Ending index of a2
 
+    while (start < end) {
+      if (a2.get(start) + a2.get(end) == target) // Target Found!
 
-/* A recursive function to insert a new key in BST */
+      {
+        System.out.println(
+          "Pair Found: " +
+          a2.get(start) +
+          " + " +
+          a2.get(end) +
+          " " +
+          "= " +
+          target
+        );
 
-Node insertRec(Node root, 
-int
-data) 
+        return true;
+      }
 
-{ 
+      if (a2.get(start) + a2.get(end) > target) // decrements end
 
+      {
+        end--;
+      }
 
-/* If the tree is empty, return a new node */
+      if (a2.get(start) + a2.get(end) < target) // increments start
 
-if
-(root == 
-null
-) { 
+      {
+        start++;
+      }
+    }
 
-root = 
-new
-Node(data); 
+    System.out.println("No such values are found!");
 
-return
-root; 
+    return false;
+  }
 
-} 
+  // Driver function
 
+  public static void main(String[] args) {
+    BinarySearchTree tree = new BinarySearchTree();
 
-/* Otherwise, recur down the tree */
-
-if
-(data < root.data) 
-
-root.left = insertRec(root.left, data); 
-
-else
-if
-(data > root.data) 
-
-root.right = insertRec(root.right, data); 
-
-
-return
-root; 
-
-} 
-
-
-// Method that adds values of given BST into ArrayList 
-
-// and hence returns the ArrayList 
-
-ArrayList<Integer> treeToList(Node node, ArrayList<Integer> 
-
-list) 
-
-{ 
-
-// Base Case 
-
-if
-(node == 
-null
-) 
-
-return
-list; 
-
-
-treeToList(node.left, list); 
-
-list.add(node.data); 
-
-treeToList(node.right, list); 
-
-
-return
-list; 
-
-} 
-
-
-// method that checks if there is a pair present 
-
-boolean
-isPairPresent(Node node, 
-int
-target) 
-
-{ 
-
-// This list a1 is passed as an argument 
-
-// in treeToList method 
-
-// which is later on filled by the values of BST 
-
-ArrayList<Integer> a1 = 
-new
-ArrayList<>(); 
-
-
-// a2 list contains all the values of BST 
-
-// returned by treeToList method 
-
-ArrayList<Integer> a2 = treeToList(node, a1); 
-
-
-int
-start = 
-0
-; 
-// Starting index of a2 
-
-
-int
-end = a2.size() - 
-1
-; 
-// Ending index of a2 
-
-
-while
-(start < end) { 
-
-
-if
-(a2.get(start) + a2.get(end) == target) 
-// Target Found! 
-
-{ 
-
-System.out.println(
-"Pair Found: "
-+ a2.get(start) + 
-" + "
-+ a2.get(end) + 
-" "
-
-+ 
-"= "
-+ target); 
-
-return
-true
-; 
-
-} 
-
-
-if
-(a2.get(start) + a2.get(end) > target) 
-// decrements end 
-
-{ 
-
-end--; 
-
-} 
-
-
-if
-(a2.get(start) + a2.get(end) < target) 
-// increments start 
-
-{ 
-
-start++; 
-
-} 
-
-} 
-
-
-System.out.println(
-"No such values are found!"
-); 
-
-return
-false
-; 
-
-} 
-
-
-// Driver function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-BinarySearchTree tree = 
-new
-BinarySearchTree(); 
-
-/* 
+    /* 
 
 15 
 
@@ -316,40 +165,21 @@ BinarySearchTree();
 
 8 12 16 25 */
 
-tree.insert(
-15
-); 
+    tree.insert(15);
 
-tree.insert(
-10
-); 
+    tree.insert(10);
 
-tree.insert(
-20
-); 
+    tree.insert(20);
 
-tree.insert(
-8
-); 
+    tree.insert(8);
 
-tree.insert(
-12
-); 
+    tree.insert(12);
 
-tree.insert(
-16
-); 
+    tree.insert(16);
 
-tree.insert(
-25
-); 
+    tree.insert(25);
 
-
-tree.isPairPresent(tree.root, 
-33
-); 
-
-} 
-} 
-
-// This code is contributed by Kamal Rawal 
+    tree.isPairPresent(tree.root, 33);
+  }
+}
+// This code is contributed by Kamal Rawal

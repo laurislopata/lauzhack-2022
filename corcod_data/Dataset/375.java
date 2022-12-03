@@ -1,159 +1,60 @@
+// Java program to print postorder
+// traversal from preorder and
+// inorder traversals
+import java.util.Arrays;
 
-// Java program to print postorder 
-// traversal from preorder and 
-// inorder traversals 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG 
-{ 
+  // A utility function to search x in arr[] of size n
+  static int search(int arr[], int x, int n) {
+    for (int i = 0; i < n; i++) if (arr[i] == x) return i;
 
-// A utility function to search x in arr[] of size n 
-static
-int
-search(
-int
-arr[], 
-int
-x, 
-int
-n) 
-{ 
+    return -1;
+  }
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+  // Prints postorder traversal from
+  // given inorder and preorder traversals
+  static void printPostOrder(int in1[], int pre[], int n) {
+    // The first element in pre[] is
 
-if
-(arr[i] == x) 
+    // always root, search it in in[]
 
-return
-i; 
+    // to find left and right subtrees
 
-return
--
-1
-; 
-} 
+    int root = search(in1, pre[0], n);
 
-// Prints postorder traversal from 
-// given inorder and preorder traversals 
-static
-void
-printPostOrder(
-int
-in1[], 
+    // If left subtree is not empty,
 
-int
-pre[], 
-int
-n) 
-{ 
+    // print left subtree
 
-// The first element in pre[] is 
+    if (root != 0) printPostOrder(in1, Arrays.copyOfRange(pre, 1, n), root);
 
-// always root, search it in in[] 
+    // If right subtree is not empty,
 
-// to find left and right subtrees 
+    // print right subtree
 
-int
-root = search(in1, pre[
-0
-], n); 
+    if (root != n - 1) printPostOrder(
+      Arrays.copyOfRange(in1, root + 1, n),
+      Arrays.copyOfRange(pre, 1 + root, n),
+      n - root - 1
+    );
 
+    // Print root
 
-// If left subtree is not empty, 
+    System.out.print(pre[0] + " ");
+  }
 
-// print left subtree 
+  // Driver code
+  public static void main(String args[]) {
+    int in1[] = { 4, 2, 5, 1, 3, 6 };
 
-if
-(root != 
-0
-) 
+    int pre[] = { 1, 2, 4, 5, 3, 6 };
 
-printPostOrder(in1, Arrays.copyOfRange(pre, 
-1
-, n), root); 
+    int n = in1.length;
 
+    System.out.println("Postorder traversal ");
 
-// If right subtree is not empty, 
-
-// print right subtree 
-
-if
-(root != n - 
-1
-) 
-
-printPostOrder(Arrays.copyOfRange(in1, root+
-1
-, n), 
-
-Arrays.copyOfRange(pre, 
-1
-+root, n), n - root - 
-1
-); 
-
-
-// Print root 
-
-System.out.print( pre[
-0
-] + 
-" "
-); 
-} 
-
-// Driver code 
-public
-static
-void
-main(String args[]) 
-{ 
-
-int
-in1[] = { 
-4
-, 
-2
-, 
-5
-, 
-1
-, 
-3
-, 
-6
-}; 
-
-int
-pre[] = { 
-1
-, 
-2
-, 
-4
-, 
-5
-, 
-3
-, 
-6
-}; 
-
-int
-n = in1.length; 
-
-System.out.println(
-"Postorder traversal "
-); 
-
-printPostOrder(in1, pre, n); 
-} 
-} 
-// This code is contributed by Arnab Kundu 
+    printPostOrder(in1, pre, n);
+  }
+}
+// This code is contributed by Arnab Kundu

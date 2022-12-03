@@ -1,352 +1,188 @@
+// Java implementation to count pairs from two
+// BSTs whose sum is equal to a given value x
+import java.util.Stack;
 
-// Java implementation to count pairs from two 
-// BSTs whose sum is equal to a given value x 
-import
-java.util.Stack; 
-public
-class
-GFG { 
+public class GFG {
 
+  // structure of a node of BST
 
-// structure of a node of BST 
+  static class Node {
 
-static
-class
-Node { 
+    int data;
 
-int
-data; 
+    Node left, right;
 
-Node left, right; 
+    // constructor
 
+    public Node(int data) {
+      this.data = data;
 
-// constructor 
+      left = null;
 
-public
-Node(
-int
-data) { 
+      right = null;
+    }
+  }
 
-this
-.data = data; 
+  static Node root1;
 
-left = 
-null
-; 
+  static Node root2;
 
-right = 
-null
-; 
+  // function to count pairs from two BSTs
 
-} 
+  // whose sum is equal to a given value x
 
-} 
+  static int countPairs(Node root1, Node root2, int x) {
+    // if either of the tree is empty
 
+    if (root1 == null || root2 == null) return 0;
 
-static
-Node root1; 
+    // stack 'st1' used for the inorder
 
-static
-Node root2; 
+    // traversal of BST 1
 
-// function to count pairs from two BSTs 
+    // stack 'st2' used for the reverse
 
-// whose sum is equal to a given value x 
+    // inorder traversal of BST 2
 
-static
-int
-countPairs(Node root1, Node root2, 
+    //stack<Node*> st1, st2;
 
-int
-x) 
+    Stack<Node> st1 = new Stack<>();
 
-{ 
+    Stack<Node> st2 = new Stack<>();
 
-// if either of the tree is empty 
+    Node top1, top2;
 
-if
-(root1 == 
-null
-|| root2 == 
-null
-) 
+    int count = 0;
 
-return
-0
-; 
+    // the loop will break when either of two
 
+    // traversals gets completed
 
-// stack 'st1' used for the inorder 
+    while (true) {
+      // to find next node in inorder
 
-// traversal of BST 1 
+      // traversal of BST 1
 
-// stack 'st2' used for the reverse 
+      while (root1 != null) {
+        st1.push(root1);
 
-// inorder traversal of BST 2 
+        root1 = root1.left;
+      }
 
-//stack<Node*> st1, st2; 
+      // to find next node in reverse
 
-Stack<Node> st1 = 
-new
-Stack<>(); 
+      // inorder traversal of BST 2
 
-Stack<Node> st2 = 
-new
-Stack<>(); 
+      while (root2 != null) {
+        st2.push(root2);
 
-Node top1, top2; 
+        root2 = root2.right;
+      }
 
+      // if either gets empty then corresponding
 
-int
-count = 
-0
-; 
+      // tree traversal is completed
 
+      if (st1.empty() || st2.empty()) break;
 
-// the loop will break when either of two 
+      top1 = st1.peek();
 
-// traversals gets completed 
+      top2 = st2.peek();
 
-while
-(
-true
-) { 
+      // if the sum of the node's is equal to 'x'
 
+      if ((top1.data + top2.data) == x) {
+        // increment count
 
-// to find next node in inorder 
+        count++;
 
-// traversal of BST 1 
+        // pop nodes from the respective stacks
 
-while
-(root1 != 
-null
-) { 
+        st1.pop();
 
-st1.push(root1); 
+        st2.pop();
 
-root1 = root1.left; 
+        // insert next possible node in the
 
-} 
+        // respective stacks
 
+        root1 = top1.right;
 
-// to find next node in reverse 
+        root2 = top2.left;
+      }
+      // move to next possible node in the
 
-// inorder traversal of BST 2 
+      // inoder traversal of BST 1
 
-while
-(root2 != 
-null
-) { 
+      else if ((top1.data + top2.data) < x) {
+        st1.pop();
 
-st2.push(root2); 
+        root1 = top1.right;
+      }
+      // move to next possible node in the
 
-root2 = root2.right; 
+      // reverse inoder traversal of BST 2
 
-} 
+      else {
+        st2.pop();
 
+        root2 = top2.left;
+      }
+    }
 
-// if either gets empty then corresponding 
+    // required count of pairs
 
-// tree traversal is completed 
+    return count;
+  }
 
-if
-(st1.empty() || st2.empty()) 
+  // Driver program to test above
 
-break
-; 
+  public static void main(String args[]) {
+    // formation of BST 1
 
+    root1 = new Node(5);
+    /* 5 */
 
-top1 = st1.peek(); 
+    root1.left = new Node(3);
+    /* / \ */
 
-top2 = st2.peek(); 
+    root1.right = new Node(7);
+    /* 3 7 */
 
+    root1.left.left = new Node(2);
+    /* / \ / \ */
 
-// if the sum of the node's is equal to 'x' 
+    root1.left.right = new Node(4);
+    /* 2 4 6 8 */
 
-if
-((top1.data + top2.data) == x) { 
+    root1.right.left = new Node(6);
 
-// increment count 
+    root1.right.right = new Node(8);
 
-count++; 
+    // formation of BST 2
 
+    root2 = new Node(10);
+    /* 10 */
 
-// pop nodes from the respective stacks 
+    root2.left = new Node(6);
+    /* / \ */
 
-st1.pop(); 
+    root2.right = new Node(15);
+    /* 6 15 */
 
-st2.pop(); 
+    root2.left.left = new Node(3);
+    /* / \ / \ */
 
+    root2.left.right = new Node(8);
+    /* 3 8 11 18 */
 
-// insert next possible node in the 
+    root2.right.left = new Node(11);
 
-// respective stacks 
+    root2.right.right = new Node(18);
 
-root1 = top1.right; 
+    int x = 16;
 
-root2 = top2.left; 
-
-} 
-
-
-// move to next possible node in the 
-
-// inoder traversal of BST 1 
-
-else
-if
-((top1.data + top2.data) < x) { 
-
-st1.pop(); 
-
-root1 = top1.right; 
-
-} 
-
-
-// move to next possible node in the 
-
-// reverse inoder traversal of BST 2 
-
-else
-{ 
-
-st2.pop(); 
-
-root2 = top2.left; 
-
-} 
-
-} 
-
-
-// required count of pairs 
-
-return
-count; 
-
-} 
-
-
-// Driver program to test above 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-// formation of BST 1 
-
-root1 = 
-new
-Node(
-5
-); 
-/* 5 */
-
-root1.left = 
-new
-Node(
-3
-); 
-/* / \ */
-
-root1.right = 
-new
-Node(
-7
-); 
-/* 3 7 */
-
-root1.left.left = 
-new
-Node(
-2
-); 
-/* / \ / \ */
-
-root1.left.right = 
-new
-Node(
-4
-); 
-/* 2 4 6 8 */
-
-root1.right.left = 
-new
-Node(
-6
-); 
-
-root1.right.right = 
-new
-Node(
-8
-); 
-
-
-// formation of BST 2 
-
-root2 = 
-new
-Node(
-10
-); 
-/* 10 */
-
-root2.left = 
-new
-Node(
-6
-); 
-/* / \ */
-
-root2.right = 
-new
-Node(
-15
-); 
-/* 6 15 */
-
-root2.left.left = 
-new
-Node(
-3
-); 
-/* / \ / \ */
-
-root2.left.right = 
-new
-Node(
-8
-); 
-/* 3 8 11 18 */
-
-root2.right.left = 
-new
-Node(
-11
-); 
-
-root2.right.right = 
-new
-Node(
-18
-); 
-
-
-int
-x = 
-16
-; 
-
-System.out.println(
-"Pairs = "
-
-+ countPairs(root1, root2, x)); 
-
-} 
-} 
-// This code is contributed by Sumit Ghosh 
+    System.out.println("Pairs = " + countPairs(root1, root2, x));
+  }
+}
+// This code is contributed by Sumit Ghosh

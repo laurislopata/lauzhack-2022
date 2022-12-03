@@ -1,241 +1,106 @@
+// Java program to print cousins of a node
+class GfG {
 
-// Java program to print cousins of a node 
-class
-GfG { 
+  // A Binary Tree Node
+  static class Node {
 
-// A Binary Tree Node 
-static
-class
-Node 
-{ 
+    int data;
 
-int
-data; 
+    Node left, right;
+  }
 
-Node left, right; 
-} 
+  // A utility function to create a new Binary
+  // Tree Node
+  static Node newNode(int item) {
+    Node temp = new Node();
 
-// A utility function to create a new Binary 
-// Tree Node 
-static
-Node newNode(
-int
-item) 
-{ 
+    temp.data = item;
 
-Node temp = 
-new
-Node(); 
+    temp.left = null;
 
-temp.data = item; 
+    temp.right = null;
 
-temp.left = 
-null
-; 
+    return temp;
+  }
 
-temp.right = 
-null
-; 
-
-return
-temp; 
-} 
-
-/* It returns level of the node if it is present 
+  /* It returns level of the node if it is present 
 in tree, otherwise returns 0.*/
-static
-int
-getLevel(Node root, Node node, 
-int
-level) 
-{ 
+  static int getLevel(Node root, Node node, int level) {
+    // base cases
 
-// base cases 
+    if (root == null) return 0;
 
-if
-(root == 
-null
-) 
+    if (root == node) return level;
 
-return
-0
-; 
+    // If node is present in left subtree
 
-if
-(root == node) 
+    int downlevel = getLevel(root.left, node, level + 1);
 
-return
-level; 
+    if (downlevel != 0) return downlevel;
 
+    // If node is not present in left subtree
 
-// If node is present in left subtree 
+    return getLevel(root.right, node, level + 1);
+  }
 
-int
-downlevel = getLevel(root.left, node, level+
-1
-); 
-
-if
-(downlevel != 
-0
-) 
-
-return
-downlevel; 
-
-
-// If node is not present in left subtree 
-
-return
-getLevel(root.right, node, level+
-1
-); 
-} 
-
-/* Print nodes at a given level such that sibling of 
+  /* Print nodes at a given level such that sibling of 
 node is not printed if it exists */
-static
-void
-printGivenLevel(Node root, Node node, 
-int
-level) 
-{ 
+  static void printGivenLevel(Node root, Node node, int level) {
+    // Base cases
 
-// Base cases 
+    if (root == null || level < 2) return;
 
-if
-(root == 
-null
-|| level < 
-2
-) 
+    // If current node is parent of a node with
 
-return
-; 
+    // given level
 
+    if (level == 2) {
+      if (root.left == node || root.right == node) return;
 
-// If current node is parent of a node with 
+      if (root.left != null) System.out.print(root.left.data + " ");
 
-// given level 
+      if (root.right != null) System.out.print(root.right.data + " ");
+    }
+    // Recur for left and right subtrees
 
-if
-(level == 
-2
-) 
+    else if (level > 2) {
+      printGivenLevel(root.left, node, level - 1);
 
-{ 
+      printGivenLevel(root.right, node, level - 1);
+    }
+  }
 
-if
-(root.left == node || root.right == node) 
+  // This function prints cousins of a given node
+  static void printCousins(Node root, Node node) {
+    // Get level of given node
 
-return
-; 
+    int level = getLevel(root, node, 1);
 
-if
-(root.left != 
-null
-) 
+    // Print nodes of given level.
 
-System.out.print(root.left.data + 
-" "
-); 
+    printGivenLevel(root, node, level);
+  }
 
-if
-(root.right != 
-null
-) 
+  // Driver Program to test above functions
+  public static void main(String[] args) {
+    Node root = newNode(1);
 
-System.out.print(root.right.data + 
-" "
-); 
+    root.left = newNode(2);
 
-} 
+    root.right = newNode(3);
 
+    root.left.left = newNode(4);
 
-// Recur for left and right subtrees 
+    root.left.right = newNode(5);
 
-else
-if
-(level > 
-2
-) 
+    root.left.right.right = newNode(15);
 
-{ 
+    root.right.left = newNode(6);
 
-printGivenLevel(root.left, node, level-
-1
-); 
+    root.right.right = newNode(7);
 
-printGivenLevel(root.right, node, level-
-1
-); 
+    root.right.left.right = newNode(8);
 
-} 
-} 
-
-// This function prints cousins of a given node 
-static
-void
-printCousins(Node root, Node node) 
-{ 
-
-// Get level of given node 
-
-int
-level = getLevel(root, node, 
-1
-); 
-
-
-// Print nodes of given level. 
-
-printGivenLevel(root, node, level); 
-} 
-
-// Driver Program to test above functions 
-public
-static
-void
-main(String[] args) 
-{ 
-
-Node root = newNode(
-1
-); 
-
-root.left = newNode(
-2
-); 
-
-root.right = newNode(
-3
-); 
-
-root.left.left = newNode(
-4
-); 
-
-root.left.right = newNode(
-5
-); 
-
-root.left.right.right = newNode(
-15
-); 
-
-root.right.left = newNode(
-6
-); 
-
-root.right.right = newNode(
-7
-); 
-
-root.right.left.right = newNode(
-8
-); 
-
-
-printCousins(root, root.left.right); 
-} 
-} 
+    printCousins(root, root.left.right);
+  }
+}

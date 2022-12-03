@@ -1,130 +1,68 @@
+// Java program to keep track of maximum
+// element in a stack
+import java.util.*;
 
-// Java program to keep track of maximum 
-// element in a stack 
-import
-java.util.*; 
-class
-GfG { 
+class GfG {
 
-static
-class
-StackWithMax 
-{ 
+  static class StackWithMax {
 
-// main stack 
+    // main stack
 
-static
-Stack<Integer> mainStack = 
-new
-Stack<Integer> (); 
+    static Stack<Integer> mainStack = new Stack<Integer>();
 
+    // tack to keep track of max element
 
-// tack to keep track of max element 
+    static Stack<Integer> trackStack = new Stack<Integer>();
 
-static
-Stack<Integer> trackStack = 
-new
-Stack<Integer> (); 
+    static void push(int x) {
+      mainStack.push(x);
 
-static
-void
-push(
-int
-x) 
+      if (mainStack.size() == 1) {
+        trackStack.push(x);
 
-{ 
+        return;
+      }
 
-mainStack.push(x); 
+      // If current element is greater than
 
-if
-(mainStack.size() == 
-1
-) 
+      // the top element of track stack, push
 
-{ 
+      // the current element to track stack
 
-trackStack.push(x); 
+      // otherwise push the element at top of
 
-return
-; 
+      // track stack again into it.
 
-} 
+      if (x > trackStack.peek()) trackStack.push(x); else trackStack.push(
+        trackStack.peek()
+      );
+    }
 
+    static int getMax() {
+      return trackStack.peek();
+    }
 
-// If current element is greater than 
+    static void pop() {
+      mainStack.pop();
 
-// the top element of track stack, push 
+      trackStack.pop();
+    }
+  }
 
-// the current element to track stack 
+  // Driver program to test above functions
+  public static void main(String[] args) {
+    StackWithMax s = new StackWithMax();
 
-// otherwise push the element at top of 
+    s.push(20);
 
-// track stack again into it. 
+    System.out.println(s.getMax());
 
-if
-(x > trackStack.peek()) 
+    s.push(10);
 
-trackStack.push(x); 
+    System.out.println(s.getMax());
 
-else
+    s.push(50);
 
-trackStack.push(trackStack.peek()); 
-
-} 
-
-
-static
-int
-getMax() 
-
-{ 
-
-return
-trackStack.peek(); 
-
-} 
-
-
-static
-void
-pop() 
-
-{ 
-
-mainStack.pop(); 
-
-trackStack.pop(); 
-
-} 
-}; 
-
-// Driver program to test above functions 
-public
-static
-void
-main(String[] args) 
-{ 
-
-StackWithMax s = 
-new
-StackWithMax(); 
-
-s.push(
-20
-); 
-
-System.out.println(s.getMax()); 
-
-s.push(
-10
-); 
-
-System.out.println(s.getMax()); 
-
-s.push(
-50
-); 
-
-System.out.println(s.getMax()); 
-} 
-} 
+    System.out.println(s.getMax());
+  }
+}

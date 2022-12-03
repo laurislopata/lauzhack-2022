@@ -1,101 +1,56 @@
+//Java program to generate binary numbers from 1 to n
 
-//Java program to generate binary numbers from 1 to n 
+import java.util.LinkedList;
+import java.util.Queue;
 
-import
-java.util.LinkedList; 
-import
-java.util.Queue; 
+public class GenerateBNo {
 
-public
-class
-GenerateBNo 
-{ 
+  // This function uses queue data structure to print binary numbers
 
-// This function uses queue data structure to print binary numbers 
+  static void generatePrintBinary(int n) {
+    // Create an empty queue of strings
 
-static
-void
-generatePrintBinary(
-int
-n) 
+    Queue<String> q = new LinkedList<String>();
 
-{ 
+    // Enqueue the first binary number
 
-// Create an empty queue of strings 
+    q.add("1");
 
-Queue<String> q = 
-new
-LinkedList<String>(); 
+    // This loops is like BFS of a tree with 1 as root
 
+    // 0 as left child and 1 as right child and so on
 
-// Enqueue the first binary number 
+    while (n-- > 0) {
+      // print the front of queue
 
-q.add(
-"1"
-); 
+      String s1 = q.peek();
 
+      q.remove();
 
-// This loops is like BFS of a tree with 1 as root 
+      System.out.println(s1);
 
-// 0 as left child and 1 as right child and so on 
+      // Store s1 before changing it
 
-while
-(n-- > 
-0
-) 
+      String s2 = s1;
 
-{ 
+      // Append "0" to s1 and enqueue it
 
-// print the front of queue 
+      q.add(s1 + "0");
 
-String s1 = q.peek(); 
+      // Append "1" to s2 and enqueue it. Note that s2 contains
 
-q.remove(); 
+      // the previous front
 
-System.out.println(s1); 
+      q.add(s2 + "1");
+    }
+  }
 
+  // Driver program to test above function
 
-// Store s1 before changing it 
+  public static void main(String[] args) {
+    int n = 10;
 
-String s2 = s1; 
-
-
-// Append "0" to s1 and enqueue it 
-
-q.add(s1 + 
-"0"
-); 
-
-
-// Append "1" to s2 and enqueue it. Note that s2 contains 
-
-// the previous front 
-
-q.add(s2 + 
-"1"
-); 
-
-} 
-
-} 
-
-
-// Driver program to test above function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-n=
-10
-; 
-
-generatePrintBinary(n); 
-
-} 
-} 
-//This code is contributed by Sumit Ghosh 
+    generatePrintBinary(n);
+  }
+}
+//This code is contributed by Sumit Ghosh

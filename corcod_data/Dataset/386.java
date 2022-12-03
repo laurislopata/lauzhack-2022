@@ -1,195 +1,91 @@
+// Java program to do level order
+// traversal line by line
+import java.util.LinkedList;
+import java.util.Queue;
 
-// Java program to do level order 
-// traversal line by line 
-import
-java.util.LinkedList; 
-import
-java.util.Queue; 
+public class GFG {
 
-public
-class
-GFG { 
+  static class Node {
 
-static
-class
-Node { 
+    int data;
 
-int
-data; 
+    Node left;
 
-Node left; 
+    Node right;
 
-Node right; 
+    Node(int data) {
+      this.data = data;
 
+      left = null;
 
-Node(
-int
-data) { 
+      right = null;
+    }
+  }
 
-this
-.data = data; 
+  // Prints level order traversal line
 
-left = 
-null
-; 
+  // by line using two queues.
 
-right = 
-null
-; 
+  static void levelOrder(Node root) {
+    if (root == null) return;
 
-} 
+    Queue<Node> q = new LinkedList<>();
 
-} 
+    // Pushing root node into the queue.
 
+    q.add(root);
 
-// Prints level order traversal line 
+    // Pushing delimiter into the queue.
 
-// by line using two queues. 
+    q.add(null);
 
-static
-void
-levelOrder(Node root) { 
+    // Executing loop till queue becomes
 
-if
-(root == 
-null
-) 
+    // empty
 
-return
-; 
+    while (!q.isEmpty()) {
+      Node curr = q.poll();
 
+      // condition to check the
 
-Queue<Node> q = 
-new
-LinkedList<>(); 
+      // occurence of next level
 
+      if (curr == null) {
+        if (!q.isEmpty()) {
+          q.add(null);
 
-// Pushing root node into the queue. 
+          System.out.println();
+        }
+      } else {
+        // Pushing left child current node
 
-q.add(root); 
+        if (curr.left != null) q.add(curr.left);
 
+        // Pushing right child current node
 
-// Pushing delimiter into the queue. 
+        if (curr.right != null) q.add(curr.right);
 
-q.add(
-null
-); 
+        System.out.print(curr.data + " ");
+      }
+    }
+  }
 
+  // Driver function
 
-// Executing loop till queue becomes 
+  public static void main(String[] args) {
+    Node root = new Node(1);
 
-// empty 
+    root.left = new Node(2);
 
-while
-(!q.isEmpty()) { 
+    root.right = new Node(3);
 
+    root.left.left = new Node(4);
 
-Node curr = q.poll(); 
+    root.left.right = new Node(5);
 
+    root.right.right = new Node(6);
 
-// condition to check the 
-
-// occurence of next level 
-
-if
-(curr == 
-null
-) { 
-
-if
-(!q.isEmpty()) { 
-
-q.add(
-null
-); 
-
-System.out.println(); 
-
-} 
-
-} 
-else
-{ 
-
-// Pushing left child current node 
-
-if
-(curr.left != 
-null
-) 
-
-q.add(curr.left); 
-
-
-// Pushing right child current node 
-
-if
-(curr.right != 
-null
-) 
-
-q.add(curr.right); 
-
-
-System.out.print(curr.data + 
-" "
-); 
-
-} 
-
-} 
-
-} 
-
-
-// Driver function 
-
-public
-static
-void
-main(String[] args) { 
-
-
-Node root = 
-new
-Node(
-1
-); 
-
-root.left = 
-new
-Node(
-2
-); 
-
-root.right = 
-new
-Node(
-3
-); 
-
-root.left.left = 
-new
-Node(
-4
-); 
-
-root.left.right = 
-new
-Node(
-5
-); 
-
-root.right.right = 
-new
-Node(
-6
-); 
-
-
-levelOrder(root); 
-
-} 
-} 
-
-// This code is Contributed by Rishabh Jindal 
+    levelOrder(root);
+  }
+}
+// This code is Contributed by Rishabh Jindal

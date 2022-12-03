@@ -1,97 +1,43 @@
+// Java program to count all substrings with same
+// first and last characters.
+public class GFG {
 
-// Java program to count all substrings with same 
-// first and last characters. 
-public
-class
-GFG { 
+  // Returns true if first and last characters
 
+  // of s are same.
 
-// Returns true if first and last characters 
+  static boolean checkEquality(String s) {
+    return (s.charAt(0) == s.charAt(s.length() - 1));
+  }
 
-// of s are same. 
+  static int countSubstringWithEqualEnds(String s) {
+    int result = 0;
 
-static
-boolean
-checkEquality(String s) 
+    int n = s.length();
 
-{ 
+    // Starting point of substring
 
-return
-(s.charAt(
-0
-) == s.charAt(s.length() - 
-1
-)); 
+    for (int i = 0; i < n; i++) // Length of substring
 
-} 
+    for (
+      int len = 1;
+      len <= n - i;
+      len++
+    ) // Check if current substring has same
 
+    // starting and ending characters.
 
-static
-int
-countSubstringWithEqualEnds(String s) 
+    if (checkEquality(s.substring(i, i + len))) result++;
 
-{ 
+    return result;
+  }
 
-int
-result = 
-0
-; 
+  // Driver function
 
-int
-n = s.length(); 
+  public static void main(String args[]) {
+    String s = "abcab";
 
-
-// Starting point of substring 
-
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-
-// Length of substring 
-
-for
-(
-int
-len = 
-1
-; len <= n-i; len++) 
-
-
-// Check if current substring has same 
-
-// starting and ending characters. 
-
-if
-(checkEquality(s.substring(i, i + len))) 
-
-result++; 
-
-
-return
-result; 
-
-} 
-
-
-// Driver function 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-String s = 
-"abcab"
-; 
-
-System.out.println(countSubstringWithEqualEnds(s)); 
-
-} 
-} 
-// This code is contributed by Sumit Ghosh 
+    System.out.println(countSubstringWithEqualEnds(s));
+  }
+}
+// This code is contributed by Sumit Ghosh

@@ -2,8 +2,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main implements Runnable {
-  static String readLn(int maxLength) {
 
+  static String readLn(int maxLength) {
     byte line[] = new byte[maxLength];
     int length = 0;
     int input = -1;
@@ -38,9 +38,10 @@ public class Main implements Runnable {
 }
 
 class Watermelon implements Runnable {
+
   public void run() {
     String line = Main.readLn(100).trim();
     int weight = Integer.parseInt(line);
-    System.out.println(weight % 2 == 0 && weight > 2 ? "YES": "NO");
+    System.out.println(weight % 2 == 0 && weight > 2 ? "YES" : "NO");
   }
 }

@@ -1,226 +1,107 @@
+// A space efficient Java program to rearrange contents of
+// arr[] such that arr[j] becomes j if arr[i] is j
 
-// A space efficient Java program to rearrange contents of 
-// arr[] such that arr[j] becomes j if arr[i] is j 
+class RearrangeArray {
 
-class
-RearrangeArray { 
+  // A utility function to rearrange elements in the cycle
 
-// A utility function to rearrange elements in the cycle 
+  // starting at arr[i]. This function assumes values in
 
-// starting at arr[i]. This function assumes values in 
+  // arr[] be from 1 to n. It changes arr[j-1] to i+1
 
-// arr[] be from 1 to n. It changes arr[j-1] to i+1 
+  // if arr[i-1] is j+1
 
-// if arr[i-1] is j+1 
+  void rearrangeUtil(int arr[], int n, int i) {
+    // 'val' is the value to be stored at 'arr[i]'
 
-void
-rearrangeUtil(
-int
-arr[], 
-int
-n, 
-int
-i) 
+    // The next value is determined using current index
 
-{ 
+    int val = -(i + 1);
 
-// 'val' is the value to be stored at 'arr[i]' 
+    // The next index is determined
 
+    // using current value
 
-// The next value is determined using current index 
+    i = arr[i] - 1;
 
-int
-val = -(i + 
-1
-); 
+    // While all elements in cycle are not processed
 
+    while (arr[i] > 0) {
+      // Store value at index as it is going to be
 
-// The next index is determined 
+      // used as next index
 
-// using current value 
+      int new_i = arr[i] - 1;
 
-i = arr[i] - 
-1
-; 
+      // Update arr[]
 
+      arr[i] = val;
 
-// While all elements in cycle are not processed 
+      // Update value and index for next iteration
 
-while
-(arr[i] > 
-0
-) { 
+      val = -(i + 1);
 
-// Store value at index as it is going to be 
+      i = new_i;
+    }
+  }
 
-// used as next index 
+  // A space efficient method to rearrange 'arr[0..n-1]'
 
-int
-new_i = arr[i] - 
-1
-; 
+  // so that 'arr[j]' becomes 'i' if 'arr[i]' is 'j'
 
+  void rearrange(int arr[], int n) {
+    // Increment all values by 1, so that all elements
 
-// Update arr[] 
+    // can be made negative to mark them as visited
 
-arr[i] = val; 
+    int i;
 
+    for (i = 0; i < n; i++) arr[i]++;
 
-// Update value and index for next iteration 
+    // Process all cycles
 
-val = -(i + 
-1
-); 
+    for (i = 0; i < n; i++) {
+      // Process cycle starting at arr[i] if this cycle is
 
-i = new_i; 
+      // not already processed
 
-} 
+      if (arr[i] > 0) rearrangeUtil(arr, n, i);
+    }
 
-} 
+    // Change sign and values of arr[] to get the original
 
+    // values back, i.e., values in range from 0 to n-1
 
-// A space efficient method to rearrange 'arr[0..n-1]' 
+    for (i = 0; i < n; i++) arr[i] = (-arr[i]) - 1;
+  }
 
-// so that 'arr[j]' becomes 'i' if 'arr[i]' is 'j' 
+  // A utility function to print contents of arr[0..n-1]
 
-void
-rearrange(
-int
-arr[], 
-int
-n) 
+  void printArray(int arr[], int n) {
+    int i;
 
-{ 
+    for (i = 0; i < n; i++) System.out.print(arr[i] + " ");
 
-// Increment all values by 1, so that all elements 
+    System.out.println("");
+  }
 
-// can be made negative to mark them as visited 
+  // Driver program
 
-int
-i; 
+  public static void main(String[] args) {
+    RearrangeArray arrange = new RearrangeArray();
 
-for
-(i = 
-0
-; i < n; i++) 
+    int arr[] = { 2, 0, 1, 4, 5, 3 };
 
-arr[i]++; 
+    int n = arr.length;
 
+    System.out.println("Given array is ");
 
-// Process all cycles 
+    arrange.printArray(arr, n);
 
-for
-(i = 
-0
-; i < n; i++) { 
+    arrange.rearrange(arr, n);
 
-// Process cycle starting at arr[i] if this cycle is 
+    System.out.println("Modified array is ");
 
-// not already processed 
-
-if
-(arr[i] > 
-0
-) 
-
-rearrangeUtil(arr, n, i); 
-
-} 
-
-
-// Change sign and values of arr[] to get the original 
-
-// values back, i.e., values in range from 0 to n-1 
-
-for
-(i = 
-0
-; i < n; i++) 
-
-arr[i] = (-arr[i]) - 
-1
-; 
-
-} 
-
-
-// A utility function to print contents of arr[0..n-1] 
-
-void
-printArray(
-int
-arr[], 
-int
-n) 
-
-{ 
-
-int
-i; 
-
-for
-(i = 
-0
-; i < n; i++) 
-
-System.out.print(arr[i] + 
-" "
-); 
-
-System.out.println(
-""
-); 
-
-} 
-
-
-// Driver program 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-RearrangeArray arrange = 
-new
-RearrangeArray(); 
-
-int
-arr[] = { 
-2
-, 
-0
-, 
-1
-, 
-4
-, 
-5
-, 
-3
-}; 
-
-int
-n = arr.length; 
-
-
-System.out.println(
-"Given array is "
-); 
-
-arrange.printArray(arr, n); 
-
-
-arrange.rearrange(arr, n); 
-
-
-System.out.println(
-"Modified array is "
-); 
-
-arrange.printArray(arr, n); 
-
-} 
-} 
+    arrange.printArray(arr, n);
+  }
+}

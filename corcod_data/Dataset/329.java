@@ -1,153 +1,62 @@
+// Java implementation to divide N into
+// maximum number of segments
+// of length a, b and c
+import java.util.*;
 
-// Java implementation to divide N into 
-// maximum number of segments 
-// of length a, b and c 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  // function to find the maximum
 
+  // number of segments
 
-// function to find the maximum 
+  static int maximumSegments(int n, int a, int b, int c) {
+    // stores the maximum number of
 
-// number of segments 
+    // segments each index can have
 
-static
-int
-maximumSegments(
-int
-n, 
-int
-a, 
+    int dp[] = new int[n + 10];
 
-int
-b, 
-int
-c) 
+    // initialize with -1
 
-{ 
+    Arrays.fill(dp, -1);
 
-// stores the maximum number of 
+    // 0th index will have 0 segments
 
-// segments each index can have 
+    // base case
 
-int
-dp[] = 
-new
-int
-[n + 
-10
-]; 
+    dp[0] = 0;
 
+    // traverse for all possible
 
-// initialize with -1 
+    // segments till n
 
-Arrays.fill(dp, -
-1
-); 
+    for (int i = 0; i < n; i++) {
+      if (dp[i] != -1) {
+        // conditions
 
+        if (i + a <= n) //avoid buffer overflow
 
-// 0th index will have 0 segments 
+        dp[i + a] = Math.max(dp[i] + 1, dp[i + a]);
 
-// base case 
+        if (i + b <= n) //avoid buffer overflow
 
-dp[
-0
-] = 
-0
-; 
+        dp[i + b] = Math.max(dp[i] + 1, dp[i + b]);
 
+        if (i + c <= n) //avoid buffer overflow
 
-// traverse for all possible 
+        dp[i + c] = Math.max(dp[i] + 1, dp[i + c]);
+      }
+    }
 
-// segments till n 
+    return dp[n];
+  }
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+  // Driver code
 
-{ 
+  public static void main(String arg[]) {
+    int n = 7, a = 5, b = 2, c = 5;
 
-if
-(dp[i] != -
-1
-) 
-
-{ 
-
-
-// conditions 
-
-if
-(i + a <= n ) 
-//avoid buffer overflow 
-
-dp[i + a] = Math.max(dp[i] + 
-1
-, 
-
-dp[i + a]); 
-
-
-if
-(i + b <= n ) 
-//avoid buffer overflow 
-
-dp[i + b] = Math.max(dp[i] + 
-1
-, 
-
-dp[i + b]); 
-
-
-if
-(i + c <= n ) 
-//avoid buffer overflow 
-
-dp[i + c] = Math.max(dp[i] + 
-1
-, 
-
-dp[i + c]); 
-
-} 
-
-} 
-
-return
-dp[n]; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String arg[]) 
-
-{ 
-
-int
-n = 
-7
-, a = 
-5
-, b = 
-2
-, c = 
-5
-; 
-
-System.out.print(maximumSegments(n, a, b, c)); 
-
-} 
-} 
-
-// This code is contributed by Anant Agarwal. 
+    System.out.print(maximumSegments(n, a, b, c));
+  }
+}
+// This code is contributed by Anant Agarwal.

@@ -1,78 +1,33 @@
+class GFG {
 
-class
-GFG { 
+  // Returns count of ways n people
 
-// Returns count of ways n people 
+  // can remain single or paired up.
 
-// can remain single or paired up. 
+  static int countFriendsPairings(int n) {
+    int a = 1, b = 2, c = 0;
 
-static
-int
-countFriendsPairings(
-int
-n) 
+    if (n <= 2) {
+      return n;
+    }
 
-{ 
+    for (int i = 3; i <= n; i++) {
+      c = b + (i - 1) * a;
 
-int
-a = 
-1
-, b = 
-2
-, c = 
-0
-; 
+      a = b;
 
-if
-(n <= 
-2
-) { 
+      b = c;
+    }
 
-return
-n; 
+    return c;
+  }
 
-} 
+  // Driver code
 
-for
-(
-int
-i = 
-3
-; i <= n; i++) { 
+  public static void main(String[] args) {
+    int n = 4;
 
-c = b + (i - 
-1
-) * a; 
-
-a = b; 
-
-b = c; 
-
-} 
-
-return
-c; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-n = 
-4
-; 
-
-System.out.println(countFriendsPairings(n)); 
-
-} 
-} 
-
-// This code is contributed by Ravi Kasha. 
+    System.out.println(countFriendsPairings(n));
+  }
+}
+// This code is contributed by Ravi Kasha.

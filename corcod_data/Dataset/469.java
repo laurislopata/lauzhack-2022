@@ -1,216 +1,93 @@
+// Java program to find maximum product of
+// a subset.
+class GFG {
 
-// Java program to find maximum product of 
-// a subset. 
-class
-GFG { 
+  static int minProductSubset(int a[], int n) {
+    if (n == 1) return a[0];
 
+    // Find count of negative numbers,
 
-static
-int
-minProductSubset(
-int
-a[], 
-int
-n) 
+    // count of zeros, maximum valued
 
-{ 
+    // negative number, minimum valued
 
-if
-(n == 
-1
-) 
+    // positive number and product of
 
-return
-a[
-0
-]; 
+    // non-zero numbers
 
+    int negmax = Integer.MIN_VALUE;
 
-// Find count of negative numbers, 
+    int posmin = Integer.MAX_VALUE;
 
-// count of zeros, maximum valued 
+    int count_neg = 0, count_zero = 0;
 
-// negative number, minimum valued 
+    int product = 1;
 
-// positive number and product of 
+    for (int i = 0; i < n; i++) {
+      // if number is zero,count it
 
-// non-zero numbers 
+      // but dont multiply
 
-int
-negmax = Integer.MIN_VALUE; 
+      if (a[i] == 0) {
+        count_zero++;
 
-int
-posmin = Integer.MAX_VALUE; 
+        continue;
+      }
 
-int
-count_neg = 
-0
-, count_zero = 
-0
-; 
+      // count the negetive numbers
 
-int
-product = 
-1
-; 
+      // and find the max negetive number
 
+      if (a[i] < 0) {
+        count_neg++;
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+        negmax = Math.max(negmax, a[i]);
+      }
 
-{ 
+      // find the minimum positive number
 
+      if (a[i] > 0 && a[i] < posmin) posmin = a[i];
 
-// if number is zero,count it 
+      product *= a[i];
+    }
 
-// but dont multiply 
+    // if there are all zeroes
 
-if
-(a[i] == 
-0
-){ 
+    // or zero is present but no
 
-count_zero++; 
+    // negetive number is present
 
-continue
-; 
+    if (count_zero == n || (count_neg == 0 && count_zero > 0)) return 0;
 
-} 
+    // If there are all positive
 
+    if (count_neg == 0) return posmin;
 
-// count the negetive numbers 
+    // If there are even number except
 
-// and find the max negetive number 
+    // zero of negative numbers
 
-if
-(a[i] < 
-0
-) 
+    if (count_neg % 2 == 0 && count_neg != 0) {
+      // Otherwise result is product of
 
-{ 
+      // all non-zeros divided by maximum
 
-count_neg++; 
+      // valued negative.
 
-negmax = Math.max(negmax, a[i]); 
+      product = product / negmax;
+    }
 
-} 
+    return product;
+  }
 
+  // main function
 
-// find the minimum positive number 
+  public static void main(String[] args) {
+    int a[] = { -1, -1, -2, 4, 3 };
 
-if
-(a[i] > 
-0
-&& a[i] < posmin) 
+    int n = 5;
 
-posmin = a[i]; 
-
-
-product *= a[i]; 
-
-} 
-
-
-// if there are all zeroes 
-
-// or zero is present but no 
-
-// negetive number is present 
-
-if
-(count_zero == n || 
-
-(count_neg == 
-0
-&& count_zero > 
-0
-)) 
-
-return
-0
-; 
-
-
-// If there are all positive 
-
-if
-(count_neg == 
-0
-) 
-
-return
-posmin; 
-
-
-// If there are even number except 
-
-// zero of negative numbers 
-
-if
-(count_neg % 
-2
-== 
-0
-&& count_neg != 
-0
-) 
-
-{ 
-
-
-// Otherwise result is product of 
-
-// all non-zeros divided by maximum 
-
-// valued negative. 
-
-product = product / negmax; 
-
-} 
-
-
-return
-product; 
-
-} 
-
-
-// main function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-
-int
-a[] = { -
-1
-, -
-1
-, -
-2
-, 
-4
-, 
-3
-}; 
-
-int
-n = 
-5
-; 
-
-
-System.out.println(minProductSubset(a, n)); 
-
-} 
-} 
-
-// This code is contributed by Arnab Kundu. 
+    System.out.println(minProductSubset(a, n));
+  }
+}
+// This code is contributed by Arnab Kundu.

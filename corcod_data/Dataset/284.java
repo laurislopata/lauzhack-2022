@@ -1,150 +1,67 @@
+// Java program to count number of distinct
+// subsequences of a given string.
+import java.util.ArrayList;
+import java.util.Arrays;
 
-// Java program to count number of distinct 
-// subsequences of a given string. 
-import
-java.util.ArrayList; 
-import
-java.util.Arrays; 
-public
-class
-Count_Subsequences { 
+public class Count_Subsequences {
 
+  static final int MAX_CHAR = 256;
 
-static
-final
-int
-MAX_CHAR = 
-256
-; 
+  // Returns count of distinct sunsequences of str.
 
+  static int countSub(String str) {
+    // Create an array to store index
 
-// Returns count of distinct sunsequences of str. 
+    // of last
 
-static
-int
-countSub(String str) 
+    int[] last = new int[MAX_CHAR];
 
-{ 
+    Arrays.fill(last, -1);
 
-// Create an array to store index 
+    // Length of input string
 
-// of last 
+    int n = str.length();
 
-int
-[] last = 
-new
-int
-[MAX_CHAR]; 
+    // dp[i] is going to store count of distinct
 
-Arrays.fill(last, -
-1
-); 
+    // subsequences of length i.
 
+    int[] dp = new int[n + 1];
 
-// Length of input string 
+    // Empty substring has only one subsequence
 
-int
-n = str.length(); 
+    dp[0] = 1;
 
+    // Traverse through all lengths from 1 to n.
 
-// dp[i] is going to store count of distinct 
+    for (int i = 1; i <= n; i++) {
+      // Number of subsequences with substring
 
-// subsequences of length i. 
+      // str[0..i-1]
 
-int
-[] dp = 
-new
-int
-[n+
-1
-]; 
+      dp[i] = 2 * dp[i - 1];
 
+      // If current character has appeared
 
-// Empty substring has only one subsequence 
+      // before, then remove all subsequences
 
-dp[
-0
-] = 
-1
-; 
+      // ending with previous occurrence.
 
+      if (last[(int) str.charAt(i - 1)] != -1) dp[i] =
+        dp[i] - dp[last[(int) str.charAt(i - 1)]];
 
-// Traverse through all lengths from 1 to n. 
+      // Mark occurrence of current character
 
-for
-(
-int
-i=
-1
-; i<=n; i++) 
+      last[(int) str.charAt(i - 1)] = (i - 1);
+    }
 
-{ 
+    return dp[n];
+  }
 
-// Number of subsequences with substring 
+  // Driver code
 
-// str[0..i-1] 
-
-dp[i] = 
-2
-*dp[i-
-1
-]; 
-
-
-// If current character has appeared 
-
-// before, then remove all subsequences 
-
-// ending with previous occurrence. 
-
-if
-(last[(
-int
-)str.charAt(i-
-1
-)] != -
-1
-) 
-
-dp[i] = dp[i] - dp[last[(
-int
-)str.charAt(i-
-1
-)]]; 
-
-
-// Mark occurrence of current character 
-
-last[(
-int
-)str.charAt(i-
-1
-)] = (i-
-1
-); 
-
-} 
-
-
-return
-dp[n]; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-System.out.println(countSub(
-"gfg"
-)); 
-
-} 
-} 
-// This code is contributed by Sumit Ghosh 
+  public static void main(String args[]) {
+    System.out.println(countSub("gfg"));
+  }
+}
+// This code is contributed by Sumit Ghosh

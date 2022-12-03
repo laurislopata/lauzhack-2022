@@ -1,298 +1,172 @@
+// Java implementation to replace each node
+// in binary tree with the sum of its inorder
+// predecessor and successor
+import java.util.*;
 
-// Java implementation to replace each node 
-// in binary tree with the sum of its inorder 
-// predecessor and successor 
-import
-java.util.*; 
-class
-Solution 
-{ 
+class Solution {
 
-// node of a binary tree 
-static
-class
-Node { 
+  // node of a binary tree
+  static class Node {
 
-int
-data; 
+    int data;
 
-Node left, right; 
-} 
+    Node left, right;
+  }
 
-//INT class 
-static
-class
-INT 
-{ 
+  //INT class
+  static class INT {
 
-int
-data; 
-} 
+    int data;
+  }
 
-// function to get a new node of a binary tree 
-static
-Node getNode(
-int
-data) 
-{ 
+  // function to get a new node of a binary tree
+  static Node getNode(int data) {
+    // allocate node
 
-// allocate node 
+    Node new_node = new Node();
 
-Node new_node =
-new
-Node(); 
+    // put in the data;
 
+    new_node.data = data;
 
-// put in the data; 
+    new_node.left = new_node.right = null;
 
-new_node.data = data; 
+    return new_node;
+  }
 
-new_node.left = new_node.right = 
-null
-; 
+  // function to store the inorder traversal
+  // of the binary tree in 'arr'
+  static void storeInorderTraversal(Node root, Vector<Integer> arr) {
+    // if root is null
 
+    if (root == null) return;
 
-return
-new_node; 
-} 
+    // first recur on left child
 
-// function to store the inorder traversal 
-// of the binary tree in 'arr' 
-static
-void
-storeInorderTraversal( Node root, 
+    storeInorderTraversal(root.left, arr);
 
-Vector<Integer> arr) 
-{ 
+    // then store the root's data in 'arr'
 
-// if root is null 
+    arr.add(root.data);
 
-if
-(root==
-null
-) 
+    // now recur on right child
 
-return
-; 
+    storeInorderTraversal(root.right, arr);
+  }
 
+  // function to replace each node with the sum of its
+  // inorder predecessor and successor
+  static void replaceNodeWithSum(Node root, Vector<Integer> arr, INT i) {
+    // if root is null
 
-// first recur on left child 
+    if (root == null) return;
 
-storeInorderTraversal(root.left, arr); 
+    // first recur on left child
 
+    replaceNodeWithSum(root.left, arr, i);
 
-// then store the root's data in 'arr' 
+    // replace node's data with the sum of its
 
-arr.add(root.data); 
+    // inorder predecessor and successor
 
+    root.data = arr.get(i.data - 1) + arr.get(i.data + 1);
 
-// now recur on right child 
+    // move 'i' to point to the next 'arr' element
 
-storeInorderTraversal(root.right, arr); 
-} 
+    i.data++;
 
-// function to replace each node with the sum of its 
-// inorder predecessor and successor 
-static
-void
-replaceNodeWithSum( Node root, 
+    // now recur on right child
 
-Vector<Integer> arr, INT i) 
-{ 
+    replaceNodeWithSum(root.right, arr, i);
+  }
 
-// if root is null 
+  // Utility function to replace each node in binary
+  // tree with the sum of its inorder predecessor
+  // and successor
+  static void replaceNodeWithSumUtil(Node root) {
+    // if tree is empty
 
-if
-(root==
-null
-) 
+    if (root == null) return;
 
-return
-; 
+    Vector<Integer> arr = new Vector<Integer>();
 
+    // store the value of inorder predecessor
 
-// first recur on left child 
+    // for the leftmost leaf
 
-replaceNodeWithSum(root.left, arr, i); 
+    arr.add(0);
 
+    // store the inoder traversal of the tree in 'arr'
 
-// replace node's data with the sum of its 
+    storeInorderTraversal(root, arr);
 
-// inorder predecessor and successor 
+    // store the value of inorder successor
 
-root.data = arr.get(i.data - 
-1
-) + arr.get(i.data + 
-1
-); 
+    // for the rightmost leaf
 
+    arr.add(0);
 
-// move 'i' to point to the next 'arr' element 
+    // replace each node with the required sum
 
-i.data++; 
+    INT i = new INT();
 
+    i.data = 1;
 
-// now recur on right child 
+    replaceNodeWithSum(root, arr, i);
+  }
 
-replaceNodeWithSum(root.right, arr, i); 
-} 
+  // function to print the preorder traversal
+  // of a binary tree
+  static void preorderTraversal(Node root) {
+    // if root is null
 
-// Utility function to replace each node in binary 
-// tree with the sum of its inorder predecessor 
-// and successor 
-static
-void
-replaceNodeWithSumUtil( Node root) 
-{ 
+    if (root == null) return;
 
-// if tree is empty 
+    // first print the data of node
 
-if
-(root==
-null
-) 
+    System.out.print(root.data + " ");
 
-return
-; 
+    // then recur on left subtree
 
+    preorderTraversal(root.left);
 
-Vector<Integer> arr= 
-new
-Vector<Integer>(); 
+    // now recur on right subtree
 
+    preorderTraversal(root.right);
+  }
 
-// store the value of inorder predecessor 
+  // Driver program to test above
+  public static void main(String args[]) {
+    // binary tree formation
 
-// for the leftmost leaf 
+    Node root = getNode(1);
+    // 1
 
-arr.add(
-0
-); 
+    root.left = getNode(2);
+    // / \
 
+    root.right = getNode(3);
+    // 2 3
 
-// store the inoder traversal of the tree in 'arr' 
+    root.left.left = getNode(4);
+    // / \ / \
 
-storeInorderTraversal(root, arr); 
+    root.left.right = getNode(5);
+    // 4 5 6 7
 
+    root.right.left = getNode(6);
 
-// store the value of inorder successor 
+    root.right.right = getNode(7);
 
-// for the rightmost leaf 
+    System.out.println("Preorder Traversal before tree modification:");
 
-arr.add(
-0
-); 
+    preorderTraversal(root);
 
+    replaceNodeWithSumUtil(root);
 
-// replace each node with the required sum 
+    System.out.println("\nPreorder Traversal after tree modification:");
 
-INT i = 
-new
-INT(); 
-
-
-i.data=
-1
-; 
-
-
-replaceNodeWithSum(root, arr, i); 
-} 
-
-// function to print the preorder traversal 
-// of a binary tree 
-static
-void
-preorderTraversal( Node root) 
-{ 
-
-// if root is null 
-
-if
-(root==
-null
-) 
-
-return
-; 
-
-
-// first print the data of node 
-
-System.out.print( root.data + 
-" "
-); 
-
-
-// then recur on left subtree 
-
-preorderTraversal(root.left); 
-
-
-// now recur on right subtree 
-
-preorderTraversal(root.right); 
-} 
-
-// Driver program to test above 
-public
-static
-void
-main(String args[]) 
-{ 
-
-// binary tree formation 
-
-Node root = getNode(
-1
-); 
-// 1 
-
-root.left = getNode(
-2
-); 
-// / \ 
-
-root.right = getNode(
-3
-); 
-// 2 3 
-
-root.left.left = getNode(
-4
-); 
-// / \ / \ 
-
-root.left.right = getNode(
-5
-); 
-// 4 5 6 7 
-
-root.right.left = getNode(
-6
-); 
-
-root.right.right = getNode(
-7
-); 
-
-
-System.out.println( 
-"Preorder Traversal before tree modification:"
-); 
-
-preorderTraversal(root); 
-
-
-replaceNodeWithSumUtil(root); 
-
-
-System.out.println(
-"\nPreorder Traversal after tree modification:"
-); 
-
-preorderTraversal(root); 
-
-} 
-} 
-//contributed by Arnab Kundu 
+    preorderTraversal(root);
+  }
+}
+//contributed by Arnab Kundu

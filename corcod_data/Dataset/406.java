@@ -1,142 +1,78 @@
-
-// Java program to convert a given Binary Tree to 
-// Doubly Linked List 
+// Java program to convert a given Binary Tree to
+// Doubly Linked List
 
 /* Structure for tree and Linked List */
-class
-Node 
-{ 
+class Node {
 
-int
-data; 
+  int data;
 
-Node left, right; 
+  Node left, right;
 
+  public Node(int data) {
+    this.data = data;
 
-public
-Node(
-int
-data) 
+    left = right = null;
+  }
+}
 
-{ 
+class BinaryTree {
 
-this
-.data = data; 
+  // 'root' - root of binary tree
 
-left = right = 
-null
-; 
+  Node root;
 
-} 
-} 
+  // 'head' - reference to head node of created
 
-class
-BinaryTree 
-{ 
+  //double linked list
 
-// 'root' - root of binary tree 
+  Node head;
 
-Node root; 
+  // A simple recursive function to convert a given
 
+  // Binary tree to Doubly Linked List
 
-// 'head' - reference to head node of created 
+  void BToDLL(Node root) {
+    // Base cases
 
-//double linked list 
+    if (root == null) return;
 
-Node head; 
+    // Recursively convert right subtree
 
+    BToDLL(root.right);
 
-// A simple recursive function to convert a given 
+    // insert root into DLL
 
-// Binary tree to Doubly Linked List 
+    root.right = head;
 
-void
-BToDLL(Node root) 
+    // Change left pointer of previous head
 
-{ 
+    if (head != null) (head).left = root;
 
-// Base cases 
+    // Change head of Doubly linked list
 
-if
-(root == 
-null
-) 
+    head = root;
 
-return
-; 
+    // Recursively convert left subtree
 
+    BToDLL(root.left);
+  }
 
-// Recursively convert right subtree 
+  // Utility function for printing double linked list.
 
-BToDLL(root.right); 
+  void printList(Node head) {
+    System.out.println("Extracted Double Linked List is : ");
 
+    while (head != null) {
+      System.out.print(head.data + " ");
 
-// insert root into DLL 
+      head = head.right;
+    }
+  }
 
-root.right = head; 
+  // Driver program to test the above functions
 
-
-// Change left pointer of previous head 
-
-if
-(head != 
-null
-) 
-
-(head).left = root; 
-
-
-// Change head of Doubly linked list 
-
-head = root; 
-
-
-// Recursively convert left subtree 
-
-BToDLL(root.left); 
-
-} 
-
-
-// Utility function for printing double linked list. 
-
-void
-printList(Node head) 
-
-{ 
-
-System.out.println(
-"Extracted Double Linked List is : "
-); 
-
-while
-(head != 
-null
-) 
-
-{ 
-
-System.out.print(head.data + 
-" "
-); 
-
-head = head.right; 
-
-} 
-
-} 
-
-
-// Driver program to test the above functions 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-/* Constructing below tree 
+  public static void main(String[] args) {
+    /* Constructing below tree 
 
 5 
 
@@ -152,77 +88,31 @@ main(String[] args)
 
 0 2 7 9 */
 
+    BinaryTree tree = new BinaryTree();
 
-BinaryTree tree = 
-new
-BinaryTree(); 
+    tree.root = new Node(5);
 
-tree.root = 
-new
-Node(
-5
-); 
+    tree.root.left = new Node(3);
 
-tree.root.left = 
-new
-Node(
-3
-); 
+    tree.root.right = new Node(6);
 
-tree.root.right = 
-new
-Node(
-6
-); 
+    tree.root.left.right = new Node(4);
 
-tree.root.left.right = 
-new
-Node(
-4
-); 
+    tree.root.left.left = new Node(1);
 
-tree.root.left.left = 
-new
-Node(
-1
-); 
+    tree.root.right.right = new Node(8);
 
-tree.root.right.right = 
-new
-Node(
-8
-); 
+    tree.root.left.left.right = new Node(2);
 
-tree.root.left.left.right = 
-new
-Node(
-2
-); 
+    tree.root.left.left.left = new Node(0);
 
-tree.root.left.left.left = 
-new
-Node(
-0
-); 
+    tree.root.right.right.left = new Node(7);
 
-tree.root.right.right.left = 
-new
-Node(
-7
-); 
+    tree.root.right.right.right = new Node(9);
 
-tree.root.right.right.right = 
-new
-Node(
-9
-); 
+    tree.BToDLL(tree.root);
 
-
-tree.BToDLL(tree.root); 
-
-tree.printList(tree.head); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal(mayank_24) 
+    tree.printList(tree.head);
+  }
+}
+// This code has been contributed by Mayank Jaiswal(mayank_24)

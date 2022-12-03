@@ -1,131 +1,56 @@
+// A simple Java program to rearrange contents of arr[]
+// such that arr[j] becomes j if arr[i] is j
+class RearrangeArray {
 
-// A simple Java program to rearrange contents of arr[] 
-// such that arr[j] becomes j if arr[i] is j 
-class
-RearrangeArray { 
+  // A simple method to rearrange 'arr[0..n-1]' so that 'arr[j]'
 
-// A simple method to rearrange 'arr[0..n-1]' so that 'arr[j]' 
+  // becomes 'i' if 'arr[i]' is 'j'
 
-// becomes 'i' if 'arr[i]' is 'j' 
+  void rearrangeNaive(int arr[], int n) {
+    // Create an auxiliary array of same size
 
-void
-rearrangeNaive(
-int
-arr[], 
-int
-n) 
+    int temp[] = new int[n];
 
-{ 
+    int i;
 
-// Create an auxiliary array of same size 
+    // Store result in temp[]
 
-int
-temp[] = 
-new
-int
-[n]; 
+    for (i = 0; i < n; i++) temp[arr[i]] = i;
 
-int
-i; 
+    // Copy temp back to arr[]
 
+    for (i = 0; i < n; i++) arr[i] = temp[i];
+  }
 
-// Store result in temp[] 
+  // A utility function to print contents of arr[0..n-1]
 
-for
-(i = 
-0
-; i < n; i++) 
+  void printArray(int arr[], int n) {
+    int i;
 
-temp[arr[i]] = i; 
+    for (i = 0; i < n; i++) {
+      System.out.print(arr[i] + " ");
+    }
 
+    System.out.println("");
+  }
 
-// Copy temp back to arr[] 
+  // Driver program to test above functions
 
-for
-(i = 
-0
-; i < n; i++) 
+  public static void main(String[] args) {
+    RearrangeArray arrange = new RearrangeArray();
 
-arr[i] = temp[i]; 
+    int arr[] = { 1, 3, 0, 2 };
 
-} 
+    int n = arr.length;
 
+    System.out.println("Given array is ");
 
-// A utility function to print contents of arr[0..n-1] 
+    arrange.printArray(arr, n);
 
-void
-printArray(
-int
-arr[], 
-int
-n) 
+    arrange.rearrangeNaive(arr, n);
 
-{ 
+    System.out.println("Modified array is ");
 
-int
-i; 
-
-for
-(i = 
-0
-; i < n; i++) { 
-
-System.out.print(arr[i] + 
-" "
-); 
-
-} 
-
-System.out.println(
-""
-); 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-RearrangeArray arrange = 
-new
-RearrangeArray(); 
-
-int
-arr[] = { 
-1
-, 
-3
-, 
-0
-, 
-2
-}; 
-
-int
-n = arr.length; 
-
-
-System.out.println(
-"Given array is "
-); 
-
-arrange.printArray(arr, n); 
-
-
-arrange.rearrangeNaive(arr, n); 
-
-
-System.out.println(
-"Modified array is "
-); 
-
-arrange.printArray(arr, n); 
-
-} 
-} 
+    arrange.printArray(arr, n);
+  }
+}

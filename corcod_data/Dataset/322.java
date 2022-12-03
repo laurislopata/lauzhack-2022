@@ -1,167 +1,67 @@
+// Java program to find the longest subsequence
+// such that the difference between adjacent
+// elements of the subsequence is one.
+import java.io.*;
 
-// Java program to find the longest subsequence 
-// such that the difference between adjacent 
-// elements of the subsequence is one. 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG { 
+  // Function to find the length of longest
 
+  // subsequence
 
-// Function to find the length of longest 
+  static int longestSubseqWithDiffOne(int arr[], int n) {
+    // Initialize the dp[] array with 1 as a
 
-// subsequence 
+    // single element will be of 1 length
 
-static
-int
-longestSubseqWithDiffOne(
-int
-arr[], 
+    int dp[] = new int[n];
 
-int
-n) 
+    for (int i = 0; i < n; i++) dp[i] = 1;
 
-{ 
+    // Start traversing the given array
 
-// Initialize the dp[] array with 1 as a 
+    for (int i = 1; i < n; i++) {
+      // Compare with all the previous
 
-// single element will be of 1 length 
+      // elements
 
-int
-dp[] = 
-new
-int
-[n]; 
+      for (int j = 0; j < i; j++) {
+        // If the element is consecutive
 
-for
-(
-int
-i = 
-0
-; i< n; i++) 
+        // then consider this subsequence
 
-dp[i] = 
-1
-; 
+        // and update dp[i] if required.
 
+        if ((arr[i] == arr[j] + 1) || (arr[i] == arr[j] - 1)) dp[i] =
+          Math.max(dp[i], dp[j] + 1);
+      }
+    }
 
-// Start traversing the given array 
+    // Longest length will be the maximum
 
-for
-(
-int
-i = 
-1
-; i < n; i++) 
+    // value of dp array.
 
-{ 
+    int result = 1;
 
-// Compare with all the previous 
+    for (int i = 0; i < n; i++) if (result < dp[i]) result = dp[i];
 
-// elements 
+    return result;
+  }
 
-for
-(
-int
-j = 
-0
-; j < i; j++) 
+  // Driver code
 
-{ 
+  public static void main(String[] args) {
+    // Longest subsequence with one
 
-// If the element is consecutive 
+    // difference is
 
-// then consider this subsequence 
+    // {1, 2, 3, 4, 3, 2}
 
-// and update dp[i] if required. 
+    int arr[] = { 1, 2, 3, 4, 5, 3, 2 };
 
-if
-((arr[i] == arr[j] + 
-1
-) || 
+    int n = arr.length;
 
-(arr[i] == arr[j] - 
-1
-)) 
-
-
-dp[i] = Math.max(dp[i], dp[j]+
-1
-); 
-
-} 
-
-} 
-
-
-// Longest length will be the maximum 
-
-// value of dp array. 
-
-int
-result = 
-1
-; 
-
-for
-(
-int
-i = 
-0
-; i < n ; i++) 
-
-if
-(result < dp[i]) 
-
-result = dp[i]; 
-
-return
-result; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-// Longest subsequence with one 
-
-// difference is 
-
-// {1, 2, 3, 4, 3, 2} 
-
-int
-arr[] = {
-1
-, 
-2
-, 
-3
-, 
-4
-, 
-5
-, 
-3
-, 
-2
-}; 
-
-int
-n = arr.length; 
-
-System.out.println(longestSubseqWithDiffOne( 
-
-arr, n)); 
-
-} 
-} 
-
-// This code is contributed by Prerna Saini 
+    System.out.println(longestSubseqWithDiffOne(arr, n));
+  }
+}
+// This code is contributed by Prerna Saini

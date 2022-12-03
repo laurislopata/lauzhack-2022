@@ -1,233 +1,111 @@
-
 /* Java program to flip a binary tree */
-import
-java.util.Queue; 
-import
-java.util.LinkedList; 
-public
-class
-FlipTree { 
+import java.util.LinkedList;
+import java.util.Queue;
 
+public class FlipTree {
 
-// method to flip the binary tree 
+  // method to flip the binary tree
 
-public
-static
-Node flipBinaryTree(Node root) 
+  public static Node flipBinaryTree(Node root) {
+    if (root == null) return root;
 
-{ 
+    if (root.left == null && root.right == null) return root;
 
-if
-(root == 
-null
-) 
+    // recursively call the same method
 
-return
-root; 
+    Node flippedRoot = flipBinaryTree(root.left);
 
-if
-(root.left == 
-null
-&& root.right ==
-null
-) 
+    // rearranging main root Node after returning
 
-return
-root; 
+    // from recursive call
 
+    root.left.left = root.right;
 
-// recursively call the same method 
+    root.left.right = root;
 
-Node flippedRoot=flipBinaryTree(root.left); 
+    root.left = root.right = null;
 
+    return flippedRoot;
+  }
 
-// rearranging main root Node after returning 
+  // Iterative method to do level order traversal
 
-// from recursive call 
+  // line by line
 
-root.left.left=root.right; 
+  public static void printLevelOrder(Node root) {
+    // Base Case
 
-root.left.right=root; 
+    if (root == null) return;
 
-root.left=root.right=
-null
-; 
+    // Create an empty queue for level order traversal
 
-return
-flippedRoot; 
+    Queue<Node> q = new LinkedList<>();
 
-} 
+    // Enqueue Root and initialize height
 
+    q.add(root);
 
-// Iterative method to do level order traversal 
+    while (true) {
+      // nodeCount (queue size) indicates number
 
-// line by line 
+      // of nodes at current lelvel.
 
-public
-static
-void
-printLevelOrder(Node root) 
+      int nodeCount = q.size();
 
-{ 
+      if (nodeCount == 0) break;
 
-// Base Case 
+      // Dequeue all nodes of current level and
 
-if
-(root==
-null
-) 
+      // Enqueue all nodes of next level
 
-return
-; 
+      while (nodeCount > 0) {
+        Node node = q.remove();
 
+        System.out.print(node.data + " ");
 
-// Create an empty queue for level order traversal 
+        if (node.left != null) q.add(node.left);
 
-Queue<Node> q=
-new
-LinkedList<>(); 
+        if (node.right != null) q.add(node.right);
 
-// Enqueue Root and initialize height 
+        nodeCount--;
+      }
 
-q.add(root); 
+      System.out.println();
+    }
+  }
 
-while
-(
-true
-) 
+  public static void main(String args[]) {
+    Node root = new Node(1);
 
-{ 
+    root.left = new Node(2);
 
-// nodeCount (queue size) indicates number 
+    root.right = new Node(1);
 
-// of nodes at current lelvel. 
+    root.right.left = new Node(4);
 
-int
-nodeCount = q.size(); 
+    root.right.right = new Node(5);
 
-if
-(nodeCount == 
-0
-) 
+    System.out.println("Level order traversal of given tree");
 
-break
-; 
+    printLevelOrder(root);
 
+    root = flipBinaryTree(root);
 
-// Dequeue all nodes of current level and 
+    System.out.println("Level order traversal of flipped tree");
 
-// Enqueue all nodes of next level 
-
-while
-(nodeCount > 
-0
-) 
-
-{ 
-
-Node node = q.remove(); 
-
-System.out.print(node.data+
-" "
-); 
-
-if
-(node.left != 
-null
-) 
-
-q.add(node.left); 
-
-if
-(node.right != 
-null
-) 
-
-q.add(node.right); 
-
-nodeCount--; 
-
-} 
-
-System.out.println(); 
-
-} 
-
-} 
-
-
-public
-static
-void
-main(String args[]) { 
-
-Node root=
-new
-Node(
-1
-); 
-
-root.left=
-new
-Node(
-2
-); 
-
-root.right=
-new
-Node(
-1
-); 
-
-root.right.left = 
-new
-Node(
-4
-); 
-
-root.right.right = 
-new
-Node(
-5
-); 
-
-System.out.println(
-"Level order traversal of given tree"
-); 
-
-printLevelOrder(root); 
-
-
-root = flipBinaryTree(root); 
-
-System.out.println(
-"Level order traversal of flipped tree"
-); 
-
-printLevelOrder(root); 
-
-} 
-} 
+    printLevelOrder(root);
+  }
+}
 
 /* A binary tree node structure */
-class
-Node 
-{ 
+class Node {
 
-int
-data; 
+  int data;
 
-Node left, right; 
+  Node left, right;
 
-Node(
-int
-data) 
-
-{ 
-
-this
-.data=data; 
-
-} 
-}; 
-//This code is contributed by Gaurav Tiwari 
+  Node(int data) {
+    this.data = data;
+  }
+}
+//This code is contributed by Gaurav Tiwari

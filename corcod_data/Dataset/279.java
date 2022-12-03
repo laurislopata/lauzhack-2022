@@ -1,80 +1,33 @@
+// An otpimized Java program to find pairs with distance
+// equal to English alphabet distance
 
-// An otpimized Java program to find pairs with distance 
-// equal to English alphabet distance 
+class Test {
 
-class
-Test { 
+  static final int MAX_CHAR = 26;
 
-static
-final
-int
-MAX_CHAR = 
-26
-; 
+  // Method to count pairs with distance
 
+  // equal to English alphabet distance
 
-// Method to count pairs with distance 
+  static int countPairs(String str) {
+    int result = 0;
 
-// equal to English alphabet distance 
+    int n = str.length();
 
-static
-int
-countPairs(String str) 
+    for (int i = 0; i < n; i++) // This loop runs at most 26 times
 
-{ 
+    for (int j = 1; (i + j) < n && j <= MAX_CHAR; j++) if (
+      (Math.abs(str.charAt(i + j) - str.charAt(i)) == j)
+    ) result++;
 
-int
-result = 
-0
-; 
+    return result;
+  }
 
-int
-n = str.length(); 
+  // Driver method
 
+  public static void main(String args[]) {
+    String str = "geeksforgeeks";
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-
-// This loop runs at most 26 times 
-
-for
-(
-int
-j = 
-1
-; (i + j) < n && j <= MAX_CHAR; j++) 
-
-if
-((Math.abs(str.charAt(i + j) - str.charAt(i)) == j)) 
-
-result++; 
-
-
-return
-result; 
-
-} 
-
-
-// Driver method 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-String str = 
-"geeksforgeeks"
-; 
-
-System.out.println(countPairs(str)); 
-
-} 
-} 
+    System.out.println(countPairs(str));
+  }
+}

@@ -1,130 +1,45 @@
+// A Dynamic Programming based solution that uses table C[][] to
+// calculate the Binomial Coefficient
 
-// A Dynamic Programming based solution that uses table C[][] to 
-// calculate the Binomial Coefficient 
+class BinomialCoefficient {
 
-class
-BinomialCoefficient 
-{ 
+  // Returns value of Binomial Coefficient C(n, k)
 
-// Returns value of Binomial Coefficient C(n, k) 
+  static int binomialCoeff(int n, int k) {
+    int C[][] = new int[n + 1][k + 1];
 
-static
-int
-binomialCoeff(
-int
-n, 
-int
-k) 
+    int i, j;
 
-{ 
+    // Calculate value of Binomial Coefficient in bottom up manner
 
-int
-C[][] = 
-new
-int
-[n+
-1
-][k+
-1
-]; 
+    for (i = 0; i <= n; i++) {
+      for (j = 0; j <= min(i, k); j++) {
+        // Base Cases
 
-int
-i, j; 
+        if (j == 0 || j == i) C[i][j] = 1;
+        // Calculate value using previously stored values
 
+        else C[i][j] = C[i - 1][j - 1] + C[i - 1][j];
+      }
+    }
 
-// Calculate value of Binomial Coefficient in bottom up manner 
+    return C[n][k];
+  }
 
-for
-(i = 
-0
-; i <= n; i++) 
+  // A utility function to return minimum of two integers
 
-{ 
+  static int min(int a, int b) {
+    return (a < b) ? a : b;
+  }
 
-for
-(j = 
-0
-; j <= min(i, k); j++) 
+  /* Driver program to test above function*/
 
-{ 
+  public static void main(String args[]) {
+    int n = 5, k = 2;
 
-// Base Cases 
-
-if
-(j == 
-0
-|| j == i) 
-
-C[i][j] = 
-1
-; 
-
-
-// Calculate value using previously stored values 
-
-else
-
-C[i][j] = C[i-
-1
-][j-
-1
-] + C[i-
-1
-][j]; 
-
-} 
-
-} 
-
-
-return
-C[n][k]; 
-
-} 
-
-
-// A utility function to return minimum of two integers 
-
-static
-int
-min(
-int
-a, 
-int
-b) 
-
-{ 
-
-return
-(a<b)? a: b; 
-
-} 
-
-
-/* Driver program to test above function*/
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-n = 
-5
-, k = 
-2
-; 
-
-System.out.println(
-"Value of C("
-+n+
-","
-+k+
-") is "
-+binomialCoeff(n, k)); 
-
-} 
-} 
+    System.out.println(
+      "Value of C(" + n + "," + k + ") is " + binomialCoeff(n, k)
+    );
+  }
+}
 /*This code is contributed by Rajat Mishra*/

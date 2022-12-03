@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
@@ -14,8 +13,9 @@ public class ChainReaction implements Closeable {
 
   private InputReader in = new InputReader(System.in);
   private PrintWriter out = new PrintWriter(System.out);
-  
+
   private class Beacon implements Comparable<Beacon> {
+
     private int position, range, score;
 
     private Beacon(int position, int range) {
@@ -45,7 +45,8 @@ public class ChainReaction implements Closeable {
     }
     beacons.sort(Comparator.naturalOrder());
     for (int i = 1; i < n; i++) {
-      int left = 0, right = i - 1, position = beacons.get(i).position, range = beacons.get(i).range;
+      int left = 0, right = i - 1, position = beacons.get(i)
+        .position, range = beacons.get(i).range;
       int leftmost = i;
       while (left <= right) {
         int mid = left + (right - left) / 2;
@@ -65,20 +66,20 @@ public class ChainReaction implements Closeable {
     }
     out.println(ans);
   }
-  
+
   private List<Beacon> beacons;
   private Integer[] dp;
-  
+
   private int recurse(int idx) {
     if (idx <= 0) return 0;
-    
+
     if (dp[idx] != null) return dp[idx];
-    
+
     int destroyed = beacons.get(idx).score;
     int ans = destroyed + recurse(idx - destroyed - 1);
     return dp[idx] = ans;
   }
-  
+
   @Override
   public void close() throws IOException {
     in.close();
@@ -86,6 +87,7 @@ public class ChainReaction implements Closeable {
   }
 
   static class InputReader {
+
     public BufferedReader reader;
     public StringTokenizer tokenizer;
 

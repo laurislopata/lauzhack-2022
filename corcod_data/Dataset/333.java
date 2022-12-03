@@ -1,139 +1,57 @@
+// Java Code for Maximum sum in a 2 x n grid
+// such that no two elements are adjacent
+import java.util.*;
 
-// Java Code for Maximum sum in a 2 x n grid 
-// such that no two elements are adjacent 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG { 
+  // Function to find max sum without adjacent
 
+  public static int maxSum(int grid[][], int n) {
+    // Sum including maximum element of first
 
-// Function to find max sum without adjacent 
+    // column
 
-public
-static
-int
-maxSum(
-int
-grid[][], 
-int
-n) 
+    int incl = Math.max(grid[0][0], grid[1][0]);
 
-{ 
+    // Not including first column's element
 
-// Sum including maximum element of first 
+    int excl = 0, excl_new;
 
-// column 
+    // Traverse for further elements
 
-int
-incl = Math.max(grid[
-0
-][
-0
-], grid[
-1
-][
-0
-]); 
+    for (int i = 1; i < n; i++) {
+      // Update max_sum on including or
 
+      // excluding of previous column
 
-// Not including first column's element 
+      excl_new = Math.max(excl, incl);
 
-int
-excl = 
-0
-, excl_new; 
+      // Include current column. Add maximum element
 
+      // from both row of current column
 
-// Traverse for further elements 
+      incl = excl + Math.max(grid[0][i], grid[1][i]);
 
-for
-(
-int
-i = 
-1
-; i < n; i++ ) 
+      // If current column doesn't to be included
 
-{ 
+      excl = excl_new;
+    }
 
-// Update max_sum on including or 
+    // Return maximum of excl and incl
 
-// excluding of previous column 
+    // As that will be the maximum sum
 
-excl_new = Math.max(excl, incl); 
+    return Math.max(excl, incl);
+  }
 
+  /* Driver program to test above function */
 
-// Include current column. Add maximum element 
+  public static void main(String[] args) {
+    int grid[][] = { { 1, 2, 3, 4, 5 }, { 6, 7, 8, 9, 10 } };
 
-// from both row of current column 
+    int n = 5;
 
-incl = excl + Math.max(grid[
-0
-][i], grid[
-1
-][i]); 
-
-
-// If current column doesn't to be included 
-
-excl = excl_new; 
-
-} 
-
-
-// Return maximum of excl and incl 
-
-// As that will be the maximum sum 
-
-return
-Math.max(excl, incl); 
-
-} 
-
-
-/* Driver program to test above function */
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-grid[][] = {{ 
-1
-, 
-2
-, 
-3
-, 
-4
-, 
-5
-}, 
-
-{ 
-6
-, 
-7
-, 
-8
-, 
-9
-, 
-10
-}}; 
-
-
-int
-n = 
-5
-; 
-
-System.out.println(maxSum(grid, n)); 
-
-} 
-
-} 
-// This code is contributed by Arnav Kr. Mandal. 
+    System.out.println(maxSum(grid, n));
+  }
+}
+// This code is contributed by Arnav Kr. Mandal.

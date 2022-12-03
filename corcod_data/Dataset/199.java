@@ -1,185 +1,89 @@
+// Java program to sort an
+// array using stack
+import java.io.*;
+import java.util.*;
 
-// Java program to sort an 
-// array using stack 
-import
-java.io.*; 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  // This function return
 
-// This function return 
+  // the sorted stack
 
-// the sorted stack 
+  static Stack<Integer> sortStack(Stack<Integer> input) {
+    Stack<Integer> tmpStack = new Stack<Integer>();
 
-static
-Stack<Integer> sortStack(Stack<Integer> input) 
+    while (!input.empty()) {
+      // pop out the
 
-{ 
+      // first element
 
-Stack<Integer> tmpStack = 
+      int tmp = input.peek();
 
-new
-Stack<Integer>(); 
+      input.pop();
 
+      // while temporary stack is
 
-while
-(!input.empty()) 
+      // not empty and top of stack
 
-{ 
+      // is smaller than temp
 
-// pop out the 
+      while (!tmpStack.empty() && tmpStack.peek() < tmp) {
+        // pop from temporary
 
-// first element 
+        // stack and push it
 
-int
-tmp = input.peek(); 
+        // to the input stack
 
-input.pop(); 
+        input.push(tmpStack.peek());
 
+        tmpStack.pop();
+      }
 
-// while temporary stack is 
+      // push temp in
 
-// not empty and top of stack 
+      // tempory of stack
 
-// is smaller than temp 
+      tmpStack.push(tmp);
+    }
 
-while
-(!tmpStack.empty() && 
+    return tmpStack;
+  }
 
-tmpStack.peek() < tmp) 
+  static void sortArrayUsingStacks(int[] arr, int n) {
+    // push array elements
 
-{ 
+    // to stack
 
-// pop from temporary 
+    Stack<Integer> input = new Stack<Integer>();
 
-// stack and push it 
+    for (int i = 0; i < n; i++) input.push(arr[i]);
 
-// to the input stack 
+    // Sort the temporary stack
 
-input.push(tmpStack.peek()); 
+    Stack<Integer> tmpStack = sortStack(input);
 
-tmpStack.pop(); 
+    // Put stack elements
 
-} 
+    // in arrp[]
 
+    for (int i = 0; i < n; i++) {
+      arr[i] = tmpStack.peek();
 
-// push temp in 
+      tmpStack.pop();
+    }
+  }
 
-// tempory of stack 
+  // Driver Code
 
-tmpStack.push(tmp); 
+  public static void main(String args[]) {
+    int[] arr = { 10, 5, 15, 45 };
 
-} 
+    int n = arr.length;
 
+    sortArrayUsingStacks(arr, n);
 
-return
-tmpStack; 
-
-} 
-
-
-static
-void
-sortArrayUsingStacks(
-int
-[]arr, 
-
-int
-n) 
-
-{ 
-
-// push array elements 
-
-// to stack 
-
-Stack<Integer> input = 
-
-new
-Stack<Integer>(); 
-
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-input.push(arr[i]); 
-
-
-// Sort the temporary stack 
-
-Stack<Integer> tmpStack = 
-
-sortStack(input); 
-
-
-// Put stack elements 
-
-// in arrp[] 
-
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-{ 
-
-arr[i] = tmpStack.peek(); 
-
-tmpStack.pop(); 
-
-} 
-
-} 
-
-
-// Driver Code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-[]arr = {
-10
-, 
-5
-, 
-15
-, 
-45
-}; 
-
-int
-n = arr.length; 
-
-
-sortArrayUsingStacks(arr, n); 
-
-
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-System.out.print(arr[i] + 
-" "
-); 
-
-} 
-} 
-
-// This code is contributed by 
-// Manish Shaw(manishshaw1) 
+    for (int i = 0; i < n; i++) System.out.print(arr[i] + " ");
+  }
+}
+// This code is contributed by
+// Manish Shaw(manishshaw1)

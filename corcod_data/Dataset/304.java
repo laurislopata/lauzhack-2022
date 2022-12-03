@@ -1,239 +1,109 @@
+// Java program to check if there is a subset
+// with sum divisible by m.
+import java.util.Arrays;
 
-// Java program to check if there is a subset 
-// with sum divisible by m. 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG { 
+  // Returns true if there is a subset
 
+  // of arr[] with sum divisible by m
 
-// Returns true if there is a subset 
+  static boolean modularSum(int arr[], int n, int m) {
+    if (n > m) return true;
 
-// of arr[] with sum divisible by m 
+    // This array will keep track of all
 
-static
-boolean
-modularSum(
-int
-arr[], 
+    // the possible sum (after modulo m)
 
-int
-n, 
-int
-m) 
+    // which can be made using subsets of arr[]
 
-{ 
+    // initialising boolean array with all false
 
-if
-(n > m) 
+    boolean DP[] = new boolean[m];
 
-return
-true
-; 
+    Arrays.fill(DP, false);
 
+    // we'll loop through all the elements
 
-// This array will keep track of all 
+    // of arr[]
 
-// the possible sum (after modulo m) 
+    for (int i = 0; i < n; i++) {
+      // anytime we encounter a sum divisible
 
-// which can be made using subsets of arr[] 
+      // by m, we are done
 
-// initialising boolean array with all false 
+      if (DP[0]) return true;
 
-boolean
-DP[]=
-new
-boolean
-[m]; 
+      // To store all the new encountered sum
 
+      // (after modulo). It is used to make
 
-Arrays.fill(DP, 
-false
-); 
+      // sure that arr[i] is added only to
 
+      // those entries for which DP[j]
 
-// we'll loop through all the elements 
+      // was true before current iteration.
 
-// of arr[] 
+      boolean temp[] = new boolean[m];
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+      Arrays.fill(temp, false);
 
-{ 
+      // For each element of arr[], we loop
 
+      // through all elements of DP table
 
-// anytime we encounter a sum divisible 
+      // from 1 to m and we add current
 
-// by m, we are done 
+      // element i. e., arr[i] to all those
 
-if
-(DP[
-0
-]) 
+      // elements which are true in DP table
 
-return
-true
-; 
+      for (int j = 0; j < m; j++) {
+        // if an element is true in
 
+        // DP table
 
-// To store all the new encountered sum 
+        if (DP[j] == true) {
+          if (DP[(j + arr[i]) % m] == false) // We update it in temp and update
 
-// (after modulo). It is used to make 
+          // to DP once loop of j is over
 
-// sure that arr[i] is added only to 
+          temp[(j + arr[i]) % m] = true;
+        }
+      }
 
-// those entries for which DP[j] 
+      // Updating all the elements of temp
 
-// was true before current iteration. 
+      // to DP table since iteration over
 
-boolean
-temp[] = 
-new
-boolean
-[m]; 
+      // j is over
 
-Arrays.fill(temp, 
-false
-); 
+      for (int j = 0; j < m; j++) if (temp[j]) DP[j] = true;
 
+      // Also since arr[i] is a single
 
-// For each element of arr[], we loop 
+      // element subset, arr[i]%m is one
 
-// through all elements of DP table 
+      // of the possible sum
 
-// from 1 to m and we add current 
+      DP[arr[i] % m] = true;
+    }
 
-// element i. e., arr[i] to all those 
+    return DP[0];
+  }
 
-// elements which are true in DP table 
+  //driver code
 
-for
-(
-int
-j = 
-0
-; j < m; j++) 
+  public static void main(String arg[]) {
+    int arr[] = { 1, 7 };
 
-{ 
+    int n = arr.length;
 
-
-// if an element is true in 
-
-// DP table 
-
-if
-(DP[j] == 
-true
-) 
-
-{ 
-
-if
-(DP[(j + arr[i]) % m] == 
-false
-) 
-
-
-// We update it in temp and update 
-
-// to DP once loop of j is over 
-
-temp[(j + arr[i]) % m] = 
-true
-; 
-
-} 
-
-} 
-
-
-// Updating all the elements of temp 
-
-// to DP table since iteration over 
-
-// j is over 
-
-for
-(
-int
-j = 
-0
-; j < m; j++) 
-
-if
-(temp[j]) 
-
-DP[j] = 
-true
-; 
-
-
-
-// Also since arr[i] is a single 
-
-// element subset, arr[i]%m is one 
-
-// of the possible sum 
-
-DP[arr[i] % m] = 
-true
-; 
-
-} 
-
-
-return
-DP[
-0
-]; 
-
-} 
-
-
-//driver code 
-
-public
-static
-void
-main(String arg[]) 
-
-{ 
-
-int
-arr[] = {
-1
-, 
-7
-}; 
-
-int
-n = arr.length; 
-
-int
-m = 
-5
-; 
-
-
-if
-(modularSum(arr, n, m)) 
-
-System.out.print(
-"YES\n"
-); 
-
-else
-
-System.out.print(
-"NO\n"
-); 
-
-} 
-} 
-
-//This code is contributed by Anant Agarwal. 
+    int m = 5;
+
+    if (modularSum(arr, n, m)) System.out.print("YES\n"); else System.out.print(
+      "NO\n"
+    );
+  }
+}
+//This code is contributed by Anant Agarwal.

@@ -1,272 +1,153 @@
+// Java program to flip a binary tree
+import java.util.*;
 
-// Java program to flip a binary tree 
-import
-java.util.*; 
-class
-GFG 
-{ 
+class GFG {
 
-// A binary tree node 
-static
-class
-Node 
-{ 
+  // A binary tree node
+  static class Node {
 
-int
-data; 
+    int data;
 
-Node left, right; 
-}; 
+    Node left, right;
+  }
 
-// Utility function to create 
-// a new Binary Tree Node 
+  // Utility function to create
+  // a new Binary Tree Node
 
-static
-Node newNode(
-int
-data) 
-{ 
+  static Node newNode(int data) {
+    Node temp = new Node();
 
-Node temp = 
-new
-Node(); 
+    temp.data = data;
 
-temp.data = data; 
+    temp.left = temp.right = null;
 
-temp.left = temp.right = 
-null
-; 
+    return temp;
+  }
 
-return
-temp; 
-} 
+  // method to flip the binary tree
+  static Node flipBinaryTree(Node root) {
+    // Initialization of pointers
 
-// method to flip the binary tree 
-static
-Node flipBinaryTree(Node root) 
-{ 
+    Node curr = root;
 
-// Initialization of pointers 
+    Node next = null;
 
-Node curr = root; 
+    Node temp = null;
 
-Node next = 
-null
-; 
+    Node prev = null;
 
-Node temp = 
-null
-; 
+    // Iterate through all left nodes
 
-Node prev = 
-null
-; 
+    while (curr != null) {
+      next = curr.left;
 
+      // Swapping nodes now, need
 
-// Iterate through all left nodes 
+      // temp to keep the previous
 
-while
-(curr != 
-null
-) 
+      // right child
 
-{ 
+      // Making prev's right
 
-next = curr.left; 
+      // as curr's left child
 
+      curr.left = temp;
 
-// Swapping nodes now, need 
+      // Storing curr's right child
 
-// temp to keep the previous 
+      temp = curr.right;
 
-// right child 
+      // Making prev as curr's
 
+      // right child
 
-// Making prev's right 
+      curr.right = prev;
 
-// as curr's left child 
+      prev = curr;
 
-curr.left = temp; 
+      curr = next;
+    }
 
+    return prev;
+  }
 
-// Storing curr's right child 
+  // Iterative method to do
+  // level order traversal
+  // line by line
+  static void printLevelOrder(Node root) {
+    // Base Case
 
-temp = curr.right; 
+    if (root == null) return;
 
+    // Create an empty queue for
 
-// Making prev as curr's 
+    // level order traversal
 
-// right child 
+    Queue<Node> q = new LinkedList<Node>();
 
-curr.right = prev; 
+    // Enqueue Root and
 
+    // initialize height
 
-prev = curr; 
+    q.add(root);
 
-curr = next; 
+    while (true) {
+      // nodeCount (queue size)
 
-} 
+      // indicates number of nodes
 
-return
-prev; 
-} 
+      // at current lelvel.
 
-// Iterative method to do 
-// level order traversal 
-// line by line 
-static
-void
-printLevelOrder(Node root) 
-{ 
+      int nodeCount = q.size();
 
-// Base Case 
+      if (nodeCount == 0) break;
 
-if
-(root == 
-null
-) 
-return
-; 
+      // Dequeue all nodes of current
 
+      // level and Enqueue all nodes
 
-// Create an empty queue for 
+      // of next level
 
-// level order traversal 
+      while (nodeCount > 0) {
+        Node node = q.peek();
 
-Queue<Node> q = 
-new
-LinkedList<Node>(); 
+        System.out.print(node.data + " ");
 
+        q.remove();
 
-// Enqueue Root and 
+        if (node.left != null) q.add(node.left);
 
-// initialize height 
+        if (node.right != null) q.add(node.right);
 
-q.add(root); 
+        nodeCount--;
+      }
 
+      System.out.println();
+    }
+  }
 
-while
-(
-true
-) 
+  // Driver code
+  public static void main(String args[]) {
+    Node root = newNode(1);
 
-{ 
+    root.left = newNode(2);
 
-// nodeCount (queue size) 
+    root.right = newNode(3);
 
-// indicates number of nodes 
+    root.right.left = newNode(4);
 
-// at current lelvel. 
+    root.right.right = newNode(5);
 
-int
-nodeCount = q.size(); 
+    System.out.print("Level order traversal " + "of given tree\n");
 
-if
-(nodeCount == 
-0
-) 
+    printLevelOrder(root);
 
-break
-; 
+    root = flipBinaryTree(root);
 
+    System.out.print("\nLevel order traversal " + "of the flipped tree\n");
 
-// Dequeue all nodes of current 
-
-// level and Enqueue all nodes 
-
-// of next level 
-
-while
-(nodeCount > 
-0
-) 
-
-{ 
-
-Node node = q.peek(); 
-
-System.out.print(node.data + 
-" "
-); 
-
-q.remove(); 
-
-
-if
-(node.left != 
-null
-) 
-
-q.add(node.left); 
-
-
-if
-(node.right != 
-null
-) 
-
-q.add(node.right); 
-
-nodeCount--; 
-
-} 
-
-System.out.println(); 
-
-} 
-} 
-
-// Driver code 
-public
-static
-void
-main(String args[]) 
-{ 
-
-Node root = newNode(
-1
-); 
-
-root.left = newNode(
-2
-); 
-
-root.right = newNode(
-3
-); 
-
-root.right.left = newNode(
-4
-); 
-
-root.right.right = newNode(
-5
-); 
-
-
-System.out.print(
-"Level order traversal "
-+ 
-
-"of given tree\n"
-); 
-
-printLevelOrder(root); 
-
-
-root = flipBinaryTree(root); 
-
-
-System.out.print(
-"\nLevel order traversal "
-+ 
-
-"of the flipped tree\n"
-); 
-
-printLevelOrder(root); 
-} 
-} 
-
-// This code is contributed 
-// by Arnab Kundu 
+    printLevelOrder(root);
+  }
+}
+// This code is contributed
+// by Arnab Kundu

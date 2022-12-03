@@ -1,101 +1,43 @@
+class MaximumSum {
 
-class
-MaximumSum 
-{ 
-
-/*Function to return max sum such that no two elements 
+  /*Function to return max sum such that no two elements 
 
 are adjacent */
 
-int
-FindMaxSum(
-int
-arr[], 
-int
-n) 
+  int FindMaxSum(int arr[], int n) {
+    int incl = arr[0];
 
-{ 
+    int excl = 0;
 
-int
-incl = arr[
-0
-]; 
+    int excl_new;
 
-int
-excl = 
-0
-; 
+    int i;
 
-int
-excl_new; 
+    for (i = 1; i < n; i++) {
+      /* current max excluding i */
 
-int
-i; 
+      excl_new = (incl > excl) ? incl : excl;
 
+      /* current max including i */
 
-for
-(i = 
-1
-; i < n; i++) 
+      incl = excl + arr[i];
 
-{ 
+      excl = excl_new;
+    }
 
-/* current max excluding i */
+    /* return max of incl and excl */
 
-excl_new = (incl > excl) ? incl : excl; 
+    return ((incl > excl) ? incl : excl);
+  }
 
+  // Driver program to test above functions
 
-/* current max including i */
+  public static void main(String[] args) {
+    MaximumSum sum = new MaximumSum();
 
-incl = excl + arr[i]; 
+    int arr[] = new int[] { 5, 5, 10, 100, 10, 5 };
 
-excl = excl_new; 
-
-} 
-
-
-/* return max of incl and excl */
-
-return
-((incl > excl) ? incl : excl); 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-MaximumSum sum = 
-new
-MaximumSum(); 
-
-int
-arr[] = 
-new
-int
-[]{
-5
-, 
-5
-, 
-10
-, 
-100
-, 
-10
-, 
-5
-}; 
-
-System.out.println(sum.FindMaxSum(arr, arr.length)); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    System.out.println(sum.FindMaxSum(arr, arr.length));
+  }
+}
+// This code has been contributed by Mayank Jaiswal

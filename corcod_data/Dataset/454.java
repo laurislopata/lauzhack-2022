@@ -1,267 +1,110 @@
+// Java program to find maximum element in the path
+// between two Nodes of Binary Search Tree.
+class Solution {
 
-// Java program to find maximum element in the path 
-// between two Nodes of Binary Search Tree. 
-class
-Solution 
-{ 
+  static class Node {
 
-static
-class
-Node 
-{ 
+    Node left, right;
 
-Node left, right; 
+    int data;
+  }
 
-int
-data; 
-} 
+  // Create and return a pointer of new Node.
+  static Node createNode(int x) {
+    Node p = new Node();
 
-// Create and return a pointer of new Node. 
-static
-Node createNode(
-int
-x) 
-{ 
+    p.data = x;
 
-Node p = 
-new
-Node(); 
+    p.left = p.right = null;
 
-p . data = x; 
+    return p;
+  }
 
-p . left = p . right = 
-null
-; 
+  // Insert a new Node in Binary Search Tree.
+  static void insertNode(Node root, int x) {
+    Node p = root, q = null;
 
-return
-p; 
-} 
+    while (p != null) {
+      q = p;
 
-// Insert a new Node in Binary Search Tree. 
-static
-void
-insertNode( Node root, 
-int
-x) 
-{ 
+      if (p.data < x) p = p.right; else p = p.left;
+    }
 
-Node p = root, q = 
-null
-; 
+    if (q == null) p = createNode(x); else {
+      if (q.data < x) q.right = createNode(x); else q.left = createNode(x);
+    }
+  }
 
+  // Return the maximum element between a Node
+  // and its given ancestor.
+  static int maxelpath(Node q, int x) {
+    Node p = q;
 
-while
-(p != 
-null
-) 
+    int mx = -1;
 
-{ 
+    // Traversing the path between ansector and
 
-q = p; 
+    // Node and finding maximum element.
 
-if
-(p . data < x) 
+    while (p.data != x) {
+      if (p.data > x) {
+        mx = Math.max(mx, p.data);
 
-p = p . right; 
+        p = p.left;
+      } else {
+        mx = Math.max(mx, p.data);
 
-else
+        p = p.right;
+      }
+    }
 
-p = p . left; 
+    return Math.max(mx, x);
+  }
 
-} 
+  // Return maximum element in the path between
+  // two given Node of BST.
+  static int maximumElement(Node root, int x, int y) {
+    Node p = root;
 
+    // Finding the LCA of Node x and Node y
 
-if
-(q == 
-null
-) 
+    while ((x < p.data && y < p.data) || (x > p.data && y > p.data)) {
+      // Checking if both the Node lie on the
 
-p = createNode(x); 
+      // left side of the parent p.
 
-else
+      if (x < p.data && y < p.data) p = p.left;
+      // Checking if both the Node lie on the
 
-{ 
+      // right side of the parent p.
 
-if
-(q . data < x) 
+      else if (x > p.data && y > p.data) p = p.right;
+    }
 
-q . right = createNode(x); 
+    // Return the maximum of maximum elements occur
 
-else
+    // in path from ancestor to both Node.
 
-q . left = createNode(x); 
+    return Math.max(maxelpath(p, x), maxelpath(p, y));
+  }
 
-} 
-} 
+  // Driver Code
+  public static void main(String args[]) {
+    int arr[] = { 18, 36, 9, 6, 12, 10, 1, 8 };
 
-// Return the maximum element between a Node 
-// and its given ancestor. 
-static
-int
-maxelpath(Node q, 
-int
-x) 
-{ 
+    int a = 1, b = 10;
 
-Node p = q; 
+    int n = arr.length;
 
+    // Creating the root of Binary Search Tree
 
-int
-mx = -
-1
-; 
+    Node root = createNode(arr[0]);
 
+    // Inserting Nodes in Binary Search Tree
 
-// Traversing the path between ansector and 
+    for (int i = 1; i < n; i++) insertNode(root, arr[i]);
 
-// Node and finding maximum element. 
-
-while
-(p . data != x) 
-
-{ 
-
-if
-(p . data > x) 
-
-{ 
-
-mx = Math.max(mx, p . data); 
-
-p = p . left; 
-
-} 
-
-else
-
-{ 
-
-mx = Math.max(mx, p . data); 
-
-p = p . right; 
-
-} 
-
-} 
-
-
-return
-Math.max(mx, x); 
-} 
-
-// Return maximum element in the path between 
-// two given Node of BST. 
-static
-int
-maximumElement( Node root, 
-int
-x, 
-int
-y) 
-{ 
-
-Node p = root; 
-
-
-// Finding the LCA of Node x and Node y 
-
-while
-((x < p . data && y < p . data) || 
-
-(x > p . data && y > p . data)) 
-
-{ 
-
-// Checking if both the Node lie on the 
-
-// left side of the parent p. 
-
-if
-(x < p . data && y < p . data) 
-
-p = p . left; 
-
-
-// Checking if both the Node lie on the 
-
-// right side of the parent p. 
-
-else
-if
-(x > p . data && y > p . data) 
-
-p = p . right; 
-
-} 
-
-
-// Return the maximum of maximum elements occur 
-
-// in path from ancestor to both Node. 
-
-return
-Math.max(maxelpath(p, x), maxelpath(p, y)); 
-} 
-
-
-// Driver Code 
-public
-static
-void
-main(String args[]) 
-{ 
-
-int
-arr[] = { 
-18
-, 
-36
-, 
-9
-, 
-6
-, 
-12
-, 
-10
-, 
-1
-, 
-8
-}; 
-
-int
-a = 
-1
-, b = 
-10
-; 
-
-int
-n =arr.length; 
-
-
-// Creating the root of Binary Search Tree 
-
-Node root = createNode(arr[
-0
-]); 
-
-
-// Inserting Nodes in Binary Search Tree 
-
-for
-(
-int
-i = 
-1
-; i < n; i++) 
-
-insertNode(root, arr[i]); 
-
-
-System.out.println( maximumElement(root, a, b) ); 
-
-} 
-} 
-//contributed by Arnab Kundu 
+    System.out.println(maximumElement(root, a, b));
+  }
+}
+//contributed by Arnab Kundu

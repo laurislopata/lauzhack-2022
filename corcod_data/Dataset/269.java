@@ -1,198 +1,75 @@
+// Java implementation to find the uncommon
+// characters of the two strings
+class GFG {
 
-// Java implementation to find the uncommon 
-// characters of the two strings 
-class
-GFG 
-{ 
+  // size of the hash table
 
+  static int MAX_CHAR = 26;
 
-// size of the hash table 
+  // function to find the uncommon
 
-static
-int
-MAX_CHAR = 
-26
-; 
+  // characters of the two strings
 
+  static void findAndPrintUncommonChars(String str1, String str2) {
+    // mark presence of each character as 0
 
-// function to find the uncommon 
+    // in the hash table 'present[]'
 
-// characters of the two strings 
+    int present[] = new int[MAX_CHAR];
 
-static
-void
-findAndPrintUncommonChars(String str1, 
+    for (int i = 0; i < MAX_CHAR; i++) {
+      present[i] = 0;
+    }
 
-String str2) 
+    int l1 = str1.length();
 
-{ 
+    int l2 = str2.length();
 
-// mark presence of each character as 0 
+    // for each character of str1, mark its
 
-// in the hash table 'present[]' 
+    // presence as 1 in 'present[]'
 
-int
-present[] = 
-new
-int
-[MAX_CHAR]; 
+    for (int i = 0; i < l1; i++) {
+      present[str1.charAt(i) - 'a'] = 1;
+    }
 
-for
-(
-int
-i = 
-0
-; i < MAX_CHAR; i++) 
+    // for each character of str2
 
-{ 
+    for (int i = 0; i < l2; i++) {
+      // if a character of str2 is also present
 
-present[i] = 
-0
-; 
+      // in str1, then mark its presence as -1
 
-} 
+      if (
+        present[str2.charAt(i) - 'a'] == 1 ||
+        present[str2.charAt(i) - 'a'] == -1
+      ) {
+        present[str2.charAt(i) - 'a'] = -1;
+      }
+      // else mark its presence as 2
 
+      else {
+        present[str2.charAt(i) - 'a'] = 2;
+      }
+    }
 
-int
-l1 = str1.length(); 
+    // print all the uncommon characters
 
-int
-l2 = str2.length(); 
+    for (int i = 0; i < MAX_CHAR; i++) {
+      if (present[i] == 1 || present[i] == 2) {
+        System.out.print((char) (i + 'a') + " ");
+      }
+    }
+  }
 
+  // Driver code
 
-// for each character of str1, mark its 
+  public static void main(String[] args) {
+    String str1 = "characters";
 
-// presence as 1 in 'present[]' 
+    String str2 = "alphabets";
 
-for
-(
-int
-i = 
-0
-; i < l1; i++) 
-
-{ 
-
-present[str1.charAt(i) - 
-'a'
-] = 
-1
-; 
-
-} 
-
-
-// for each character of str2 
-
-for
-(
-int
-i = 
-0
-; i < l2; i++) 
-
-{ 
-
-
-// if a character of str2 is also present 
-
-// in str1, then mark its presence as -1 
-
-if
-(present[str2.charAt(i) - 
-'a'
-] == 
-1
-
-|| present[str2.charAt(i) - 
-'a'
-] == -
-1
-) 
-
-{ 
-
-present[str2.charAt(i) - 
-'a'
-] = -
-1
-; 
-
-} 
-
-
-// else mark its presence as 2 
-
-else
-
-{ 
-
-present[str2.charAt(i) - 
-'a'
-] = 
-2
-; 
-
-} 
-
-} 
-
-
-// print all the uncommon characters 
-
-for
-(
-int
-i = 
-0
-; i < MAX_CHAR; i++) 
-
-{ 
-
-if
-(present[i] == 
-1
-|| present[i] == 
-2
-) 
-
-{ 
-
-System.out.print((
-char
-) (i + 
-'a'
-) + 
-" "
-); 
-
-} 
-
-} 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-String str1 = 
-"characters"
-; 
-
-String str2 = 
-"alphabets"
-; 
-
-findAndPrintUncommonChars(str1, str2); 
-
-} 
-} 
-
-// This code is contributed by Rajput-JI 
+    findAndPrintUncommonChars(str1, str2);
+  }
+}
+// This code is contributed by Rajput-JI

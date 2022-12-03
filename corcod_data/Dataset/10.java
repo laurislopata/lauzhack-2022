@@ -1,171 +1,70 @@
+// Java program to rearrange the array
+// as per the given condition
+import java.lang.*;
+import java.util.*;
 
-// Java program to rearrange the array 
-// as per the given condition 
-import
-java.util.*; 
-import
-java.lang.*; 
+public class GfG {
 
-public
-class
-GfG{ 
+  // function to rearrange the array
 
-// function to rearrange the array 
+  public static void rearrangeArr(int arr[], int n) {
+    // total even positions
 
-public
-static
-void
-rearrangeArr(
-int
-arr[], 
+    int evenPos = n / 2;
 
-int
-n) 
+    // total odd positions
 
-{ 
+    int oddPos = n - evenPos;
 
-// total even positions 
+    int[] tempArr = new int[n];
 
-int
-evenPos = n / 
-2
-; 
+    // copy original array in an
 
+    // auxiliary array
 
-// total odd positions 
+    for (int i = 0; i < n; i++) tempArr[i] = arr[i];
 
-int
-oddPos = n - evenPos; 
+    // sort the auxiliary array
 
+    Arrays.sort(tempArr);
 
-int
-[] tempArr = 
-new
-int
-[n]; 
+    int j = oddPos - 1;
 
+    // fill up odd position in
 
-// copy original array in an 
+    // original array
 
-// auxiliary array 
+    for (int i = 0; i < n; i += 2) {
+      arr[i] = tempArr[j];
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+      j--;
+    }
 
-tempArr[i] = arr[i]; 
+    j = oddPos;
 
+    // fill up even positions in
 
-// sort the auxiliary array 
+    // original array
 
-Arrays.sort(tempArr); 
+    for (int i = 1; i < n; i += 2) {
+      arr[i] = tempArr[j];
 
+      j++;
+    }
 
-int
-j = oddPos - 
-1
-; 
+    // display array
 
+    for (int i = 0; i < n; i++) System.out.print(arr[i] + " ");
+  }
 
-// fill up odd position in 
+  // Driver function
 
-// original array 
+  public static void main(String argc[]) {
+    int[] arr = new int[] { 1, 2, 3, 4, 5, 6, 7 };
 
-for
-(
-int
-i = 
-0
-; i < n; i += 
-2
-) { 
+    int size = 7;
 
-arr[i] = tempArr[j]; 
-
-j--; 
-
-} 
-
-
-j = oddPos; 
-
-
-// fill up even positions in 
-
-// original array 
-
-for
-(
-int
-i = 
-1
-; i < n; i += 
-2
-) { 
-
-arr[i] = tempArr[j]; 
-
-j++; 
-
-} 
-
-
-// display array 
-
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-System.out.print(arr[i] + 
-" "
-); 
-
-} 
-
-
-// Driver function 
-
-public
-static
-void
-main(String argc[]){ 
-
-int
-[] arr = 
-new
-int
-[]{ 
-1
-, 
-2
-, 
-3
-, 
-4
-, 
-5
-, 
-
-6
-, 
-7
-}; 
-
-int
-size = 
-7
-; 
-
-rearrangeArr(arr, size); 
-
-
-} 
-} 
-
+    rearrangeArr(arr, size);
+  }
+}
 /* This code is contributed by Sagar Shukla */

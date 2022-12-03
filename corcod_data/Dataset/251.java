@@ -1,154 +1,73 @@
+// Java program to CountKSubStr number of substrings
+// with exactly distinct characters in a given string
+import java.util.Arrays;
 
-// Java program to CountKSubStr number of substrings 
-// with exactly distinct characters in a given string 
-import
-java.util.Arrays; 
+public class CountKSubStr {
 
-public
-class
-CountKSubStr 
-{ 
+  // Function to count number of substrings
 
-// Function to count number of substrings 
+  // with exactly k unique characters
 
-// with exactly k unique characters 
+  int countkDist(String str, int k) {
+    // Initialize result
 
-int
-countkDist(String str, 
-int
-k) 
+    int res = 0;
 
-{ 
+    int n = str.length();
 
-// Initialize result 
+    // To store count of characters from 'a' to 'z'
 
-int
-res = 
-0
-; 
+    int cnt[] = new int[26];
 
+    // Consider all substrings beginning with
 
-int
-n = str.length(); 
+    // str[i]
 
+    for (int i = 0; i < n; i++) {
+      int dist_count = 0;
 
-// To store count of characters from 'a' to 'z' 
+      // Initializing count array with 0
 
-int
-cnt[] = 
-new
-int
-[
-26
-]; 
+      Arrays.fill(cnt, 0);
 
+      // Consider all substrings between str[i..j]
 
-// Consider all substrings beginning with 
+      for (int j = i; j < n; j++) {
+        // If this is a new character for this
 
-// str[i] 
+        // substring, increment dist_count.
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+        if (cnt[str.charAt(j) - 'a'] == 0) dist_count++;
 
-{ 
+        // Increment count of current character
 
-int
-dist_count = 
-0
-; 
+        cnt[str.charAt(j) - 'a']++;
 
+        // If distinct character count becomes k,
 
-// Initializing count array with 0 
+        // then increment result.
 
-Arrays.fill(cnt, 
-0
-); 
+        if (dist_count == k) res++;
+      }
+    }
 
+    return res;
+  }
 
-// Consider all substrings between str[i..j] 
+  // Driver Program
 
-for
-(
-int
-j=i; j<n; j++) 
+  public static void main(String[] args) {
+    CountKSubStr ob = new CountKSubStr();
 
-{ 
+    String ch = "abcbaa";
 
-// If this is a new character for this 
+    int k = 3;
 
-// substring, increment dist_count. 
-
-if
-(cnt[str.charAt(j) - 
-'a'
-] == 
-0
-) 
-
-dist_count++; 
-
-
-// Increment count of current character 
-
-cnt[str.charAt(j) - 
-'a'
-]++; 
-
-
-// If distinct character count becomes k, 
-
-// then increment result. 
-
-if
-(dist_count == k) 
-
-res++; 
-
-} 
-
-} 
-
-
-return
-res; 
-
-} 
-
-
-// Driver Program 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-CountKSubStr ob = 
-new
-CountKSubStr(); 
-
-String ch = 
-"abcbaa"
-; 
-
-int
-k = 
-3
-; 
-
-System.out.println(
-"Total substrings with exactly "
-+ 
-
-k + 
-" distinct characters : "
-
-+ ob.countkDist(ch, k)); 
-
-} 
-} 
+    System.out.println(
+      "Total substrings with exactly " +
+      k +
+      " distinct characters : " +
+      ob.countkDist(ch, k)
+    );
+  }
+}

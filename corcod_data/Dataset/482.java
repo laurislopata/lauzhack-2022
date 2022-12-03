@@ -1,118 +1,51 @@
+// Java program to find minimum sum of two numbers
+// formed from all digits in a given array.
+import java.util.PriorityQueue;
 
-// Java program to find minimum sum of two numbers 
-// formed from all digits in a given array. 
-import
-java.util.PriorityQueue; 
+class MinSum {
 
-class
-MinSum 
-{ 
+  // Returns sum of two numbers formed
 
-// Returns sum of two numbers formed 
+  // from all digits in a[]
 
-// from all digits in a[] 
+  public static long solve(int[] a) {
+    // min Heap
 
-public
-static
-long
-solve(
-int
-[] a) 
+    PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
 
-{ 
+    // to store the 2 numbers formed by array elements to
 
-// min Heap 
+    // minimize the required sum
 
-PriorityQueue<Integer> pq = 
-new
-PriorityQueue<Integer>(); 
+    StringBuilder num1 = new StringBuilder();
 
+    StringBuilder num2 = new StringBuilder();
 
-// to store the 2 numbers formed by array elements to 
+    // Adding elements in Priority Queue
 
-// minimize the required sum 
+    for (int x : a) pq.add(x);
 
-StringBuilder num1 = 
-new
-StringBuilder(); 
+    // checking if the priority queue is non empty
 
-StringBuilder num2 = 
-new
-StringBuilder(); 
+    while (!pq.isEmpty()) {
+      num1.append(pq.poll() + "");
 
+      if (!pq.isEmpty()) num2.append(pq.poll() + "");
+    }
 
-// Adding elements in Priority Queue 
+    // the required sum calculated
 
-for
-(
-int
-x : a) 
+    long sum =
+      Long.parseLong(num1.toString()) + Long.parseLong(num2.toString());
 
-pq.add(x); 
+    return sum;
+  }
 
+  // Driver code
 
-// checking if the priority queue is non empty 
+  public static void main(String[] args) {
+    int arr[] = { 6, 8, 4, 5, 2, 3 };
 
-while
-(!pq.isEmpty()) 
-
-{ 
-
-num1.append(pq.poll()+ 
-""
-); 
-
-if
-(!pq.isEmpty()) 
-
-num2.append(pq.poll()+ 
-""
-); 
-
-} 
-
-
-// the required sum calculated 
-
-long
-sum = Long.parseLong(num1.toString()) + 
-
-Long.parseLong(num2.toString()); 
-
-
-return
-sum; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-int
-arr[] = {
-6
-, 
-8
-, 
-4
-, 
-5
-, 
-2
-, 
-3
-}; 
-
-System.out.println(
-"The required sum is "
-+ solve(arr)); 
-
-} 
-} 
+    System.out.println("The required sum is " + solve(arr));
+  }
+}

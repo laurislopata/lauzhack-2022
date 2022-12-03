@@ -1,119 +1,50 @@
+// Java implementation to count number
+// of ways to tile a floor of size
+// n x m using 1 x m tiles
+import java.io.*;
 
-// Java implementation to count number 
-// of ways to tile a floor of size 
-// n x m using 1 x m tiles 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG { 
+  // function to count the total number of ways
 
-// function to count the total number of ways 
+  static int countWays(int n, int m) {
+    // table to store values
 
-static
-int
-countWays(
-int
-n, 
-int
-m) 
+    // of subproblems
 
-{ 
+    int count[] = new int[n + 1];
 
-// table to store values 
+    count[0] = 0;
 
-// of subproblems 
+    // Fill the table upto value n
 
-int
-count[] = 
-new
-int
-[n + 
-1
-]; 
+    int i;
 
-count[
-0
-] = 
-0
-; 
+    for (i = 1; i <= n; i++) {
+      // recurrence relation
 
+      if (i > m) count[i] = count[i - 1] + count[i - m];
+      // base cases
 
-// Fill the table upto value n 
+      else if (i < m) count[i] = 1;
+      // i = = m
 
-int
-i; 
+      else count[i] = 2;
+    }
 
-for
-(i = 
-1
-; i <= n; i++) { 
+    // required number of ways
 
-// recurrence relation 
+    return count[n];
+  }
 
-if
-(i > m) 
+  // Driver program
 
-count[i] = count[i - 
-1
-] + count[i - m]; 
+  public static void main(String[] args) {
+    int n = 7;
 
+    int m = 4;
 
-// base cases 
-
-else
-if
-(i < m) 
-
-count[i] = 
-1
-; 
-
-
-// i = = m 
-
-else
-
-count[i] = 
-2
-; 
-
-} 
-
-
-// required number of ways 
-
-return
-count[n]; 
-
-} 
-
-
-// Driver program 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-n = 
-7
-; 
-
-int
-m = 
-4
-; 
-
-System.out.println(
-"Number of ways = "
-
-+ countWays(n, m)); 
-
-} 
-} 
-
-// This code is contributed by vt_m. 
+    System.out.println("Number of ways = " + countWays(n, m));
+  }
+}
+// This code is contributed by vt_m.

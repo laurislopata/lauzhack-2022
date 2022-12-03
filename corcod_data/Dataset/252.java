@@ -1,171 +1,74 @@
+// Java program to count number of substrings
+// with counts of distinct characters as k.
+class GFG {
 
-// Java program to count number of substrings 
-// with counts of distinct characters as k. 
-class
-GFG 
-{ 
+  static int MAX_CHAR = 26;
 
-static
-int
-MAX_CHAR = 
-26
-; 
+  // Returns true if all values
+  // in freq[] are either 0 or k.
+  static boolean check(int freq[], int k) {
+    for (int i = 0; i < MAX_CHAR; i++) if (
+      freq[i] != 0 && freq[i] != k
+    ) return false;
 
-// Returns true if all values 
-// in freq[] are either 0 or k. 
-static
-boolean
-check(
-int
-freq[], 
-int
-k) 
-{ 
+    return true;
+  }
 
-for
-(
-int
-i = 
-0
-; i < MAX_CHAR; i++) 
+  // Returns count of substrings where frequency
+  // of every present character is k
+  static int substrings(String s, int k) {
+    int res = 0;
+    // Initialize result
 
-if
-(freq[i] !=
-0
-&& freq[i] != k) 
+    // Pick a starting point
 
-return
-false
-; 
+    for (int i = 0; i < s.length(); i++) {
+      // Initialize all frequencies as 0
 
-return
-true
-; 
-} 
+      // for this starting point
 
-// Returns count of substrings where frequency 
-// of every present character is k 
-static
-int
-substrings(String s, 
-int
-k) 
-{ 
+      int freq[] = new int[MAX_CHAR];
 
-int
-res = 
-0
-; 
-// Initialize result 
+      // One by one pick ending points
 
+      for (int j = i; j < s.length(); j++) {
+        // Increment frequency of current char
 
-// Pick a starting point 
+        int index = s.charAt(j) - 'a';
 
-for
-(
-int
-i = 
-0
-; i< s.length(); i++) 
+        freq[index]++;
 
-{ 
+        // If frequency becomes more than
 
+        // k, we can't have more substrings
 
-// Initialize all frequencies as 0 
+        // starting with i
 
-// for this starting point 
+        if (freq[index] > k) break;
+        // If frequency becomes k, then check
 
-int
-freq[] = 
-new
-int
-[MAX_CHAR]; 
+        // other frequencies as well.
 
+        else if (freq[index] == k && check(freq, k) == true) res++;
+      }
+    }
 
-// One by one pick ending points 
+    return res;
+  }
 
-for
-(
-int
-j = i; j<s.length(); j++) 
+  // Driver code
+  public static void main(String[] args) {
+    String s = "aabbcc";
 
-{ 
+    int k = 2;
 
+    System.out.println(substrings(s, k));
 
-// Increment frequency of current char 
+    s = "aabbc";
 
-int
-index = s.charAt(j) - 
-'a'
-; 
+    k = 2;
 
-freq[index]++; 
-
-
-// If frequency becomes more than 
-
-// k, we can't have more substrings 
-
-// starting with i 
-
-if
-(freq[index] > k) 
-
-break
-; 
-
-
-// If frequency becomes k, then check 
-
-// other frequencies as well. 
-
-else
-if
-(freq[index] == k && 
-
-check(freq, k) == 
-true
-) 
-
-res++; 
-
-} 
-
-} 
-
-return
-res; 
-} 
-
-// Driver code 
-public
-static
-void
-main(String[] args) 
-{ 
-
-String s = 
-"aabbcc"
-; 
-
-int
-k = 
-2
-; 
-
-System.out.println(substrings(s, k)); 
-
-
-s = 
-"aabbc"
-; 
-
-k = 
-2
-; 
-
-System.out.println(substrings(s, k)); 
-} 
-} 
-
-// This code has been contributed by 29AjayKumar 
+    System.out.println(substrings(s, k));
+  }
+}
+// This code has been contributed by 29AjayKumar

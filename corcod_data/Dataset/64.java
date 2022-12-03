@@ -1,142 +1,71 @@
+// Java implementation of brute
+// force solution.
+import java.util.LinkedHashSet;
 
-// Java implementation of brute 
-// force solution. 
-import
-java.util.LinkedHashSet; 
+class GFG {
 
-class
-GFG 
-{ 
-// Function to check if the given 
-// number has repeated digit or not 
-static
-int
-repeated_digit(
-int
-n) 
-{ 
+  // Function to check if the given
+  // number has repeated digit or not
+  static int repeated_digit(int n) {
+    LinkedHashSet<Integer> s = new LinkedHashSet<>();
 
-LinkedHashSet<Integer> s = 
-new
-LinkedHashSet<>(); 
+    // Traversing through each digit
 
+    while (n != 0) {
+      int d = n % 10;
 
-// Traversing through each digit 
+      // if the digit is present
 
-while
-(n != 
-0
-) 
+      // more than once in the
 
-{ 
+      // number
 
-int
-d = n % 
-10
-; 
+      if (s.contains(d)) {
+        // return 0 if the number
 
+        // has repeated digit
 
-// if the digit is present 
+        return 0;
+      }
 
-// more than once in the 
+      s.add(d);
 
-// number 
+      n = n / 10;
+    }
 
-if
-(s.contains(d)) 
+    // return 1 if the number has
 
-{ 
+    // no repeated digit
 
-// return 0 if the number 
+    return 1;
+  }
 
-// has repeated digit 
+  // Function to find total number
+  // in the given range which has
+  // no repeated digit
+  static int calculate(int L, int R) {
+    int answer = 0;
 
-return
-0
-; 
+    // Traversing through the range
 
-} 
+    for (int i = L; i < R + 1; ++i) {
+      // Add 1 to the answer if i has
 
-s.add(d); 
+      // no repeated digit else 0
 
-n = n / 
-10
-; 
+      answer = answer + repeated_digit(i);
+    }
 
-} 
+    return answer;
+  }
 
+  // Driver Code
+  public static void main(String[] args) {
+    int L = 1, R = 100;
 
-// return 1 if the number has 
+    // Calling the calculate
 
-// no repeated digit 
-
-return
-1
-; 
-} 
-
-// Function to find total number 
-// in the given range which has 
-// no repeated digit 
-static
-int
-calculate(
-int
-L, 
-int
-R) 
-{ 
-
-int
-answer = 
-0
-; 
-
-
-// Traversing through the range 
-
-for
-(
-int
-i = L; i < R + 
-1
-; ++i) 
-
-{ 
-
-
-// Add 1 to the answer if i has 
-
-// no repeated digit else 0 
-
-answer = answer + repeated_digit(i); 
-
-} 
-
-
-return
-answer; 
-} 
-
-// Driver Code 
-public
-static
-void
-main(String[] args) 
-{ 
-
-int
-L = 
-1
-, R = 
-100
-; 
-
-
-// Calling the calculate 
-
-System.out.println(calculate(L, R)); 
-} 
-} 
-
-// This code is contributed by RAJPUT-JI 
+    System.out.println(calculate(L, R));
+  }
+}
+// This code is contributed by RAJPUT-JI

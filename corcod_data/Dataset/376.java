@@ -1,152 +1,51 @@
+// Java program to print Postorder traversal from given Inorder
+// and Preorder traversals.
 
-// Java program to print Postorder traversal from given Inorder 
-// and Preorder traversals. 
+public class PrintPost {
 
-public
-class
-PrintPost { 
+  static int preIndex = 0;
 
-static
-int
-preIndex = 
-0
-; 
+  void printPost(int[] in, int[] pre, int inStrt, int inEnd) {
+    if (inStrt > inEnd) return;
 
-void
-printPost(
-int
-[] in, 
-int
-[] pre, 
-int
-inStrt, 
-int
-inEnd) 
+    // Find index of next item in preorder traversal in
 
-{ 
+    // inorder.
 
-if
-(inStrt > inEnd) 
+    int inIndex = search(in, inStrt, inEnd, pre[preIndex++]);
 
-return
-; 
+    // traverse left tree
 
+    printPost(in, pre, inStrt, inIndex - 1);
 
-// Find index of next item in preorder traversal in 
+    // traverse right tree
 
-// inorder. 
+    printPost(in, pre, inIndex + 1, inEnd);
 
-int
-inIndex = search(in, inStrt, inEnd, pre[preIndex++]); 
+    // print root node at the end of traversal
 
+    System.out.print(in[inIndex] + " ");
+  }
 
-// traverse left tree 
+  int search(int[] in, int startIn, int endIn, int data) {
+    int i = 0;
 
-printPost(in, pre, inStrt, inIndex - 
-1
-); 
+    for (i = startIn; i < endIn; i++) if (in[i] == data) return i;
 
+    return i;
+  }
 
-// traverse right tree 
+  // Driver code
 
-printPost(in, pre, inIndex + 
-1
-, inEnd); 
+  public static void main(String ars[]) {
+    int in[] = { 4, 2, 5, 1, 3, 6 };
 
+    int pre[] = { 1, 2, 4, 5, 3, 6 };
 
-// print root node at the end of traversal 
+    int len = in.length;
 
-System.out.print(in[inIndex] + 
-" "
-); 
+    PrintPost tree = new PrintPost();
 
-} 
-
-
-int
-search(
-int
-[] in, 
-int
-startIn, 
-int
-endIn, 
-int
-data) 
-
-{ 
-
-int
-i = 
-0
-; 
-
-for
-(i = startIn; i < endIn; i++) 
-
-if
-(in[i] == data) 
-
-return
-i; 
-
-return
-i; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String ars[]) 
-
-{ 
-
-int
-in[] = { 
-4
-, 
-2
-, 
-5
-, 
-1
-, 
-3
-, 
-6
-}; 
-
-int
-pre[] = { 
-1
-, 
-2
-, 
-4
-, 
-5
-, 
-3
-, 
-6
-}; 
-
-int
-len = in.length; 
-
-PrintPost tree = 
-new
-PrintPost(); 
-
-tree.printPost(in, pre, 
-0
-, len - 
-1
-); 
-
-} 
-} 
+    tree.printPost(in, pre, 0, len - 1);
+  }
+}

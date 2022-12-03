@@ -1,53 +1,23 @@
+// Java program to remove duplicates, the order of
+// characters is not maintained in this program
 
-// Java program to remove duplicates, the order of 
-// characters is not maintained in this program 
+public class GFG {
 
-public
-class
-GFG 
-{ 
+  static final int NO_OF_CHARS = 256;
 
-static
-final
-int
-NO_OF_CHARS = 
-256
-; 
-
-
-/* Returns an array of size 256 containg count 
+  /* Returns an array of size 256 containg count 
 
 of characters in the passed char array */
 
-static
-int
-[] getCharCountArray(String str) 
+  static int[] getCharCountArray(String str) {
+    int count[] = new int[NO_OF_CHARS];
 
-{ 
+    for (int i = 0; i < str.length(); i++) count[str.charAt(i)]++;
 
-int
-count[] = 
-new
-int
-[NO_OF_CHARS]; 
+    return count;
+  }
 
-for
-(
-int
-i = 
-0
-; i<str.length(); i++) 
-
-count[str.charAt(i)]++; 
-
-
-return
-count; 
-
-} 
-
-
-/* removeDirtyChars takes two string as arguments: First 
+  /* removeDirtyChars takes two string as arguments: First 
 
 string (str) is the one from where function removes dirty 
 
@@ -55,90 +25,41 @@ characters. Second string is the string which contain all
 
 dirty characters which need to be removed from first string */
 
-static
-String removeDirtyChars(String str, String mask_str) 
+  static String removeDirtyChars(String str, String mask_str) {
+    int count[] = getCharCountArray(mask_str);
 
-{ 
+    int ip_ind = 0, res_ind = 0;
 
-int
-count[] = getCharCountArray(mask_str); 
+    char arr[] = str.toCharArray();
 
-int
-ip_ind = 
-0
-, res_ind = 
-0
-; 
+    while (ip_ind != arr.length) {
+      char temp = arr[ip_ind];
 
+      if (count[temp] == 0) {
+        arr[res_ind] = arr[ip_ind];
 
-char
-arr[] = str.toCharArray(); 
+        res_ind++;
+      }
 
+      ip_ind++;
+    }
 
-while
-(ip_ind != arr.length) 
+    str = new String(arr);
 
-{ 
-
-char
-temp = arr[ip_ind]; 
-
-if
-(count[temp] == 
-0
-) 
-
-{ 
-
-arr[res_ind] = arr[ip_ind]; 
-
-res_ind ++; 
-
-} 
-
-ip_ind++; 
-
-
-} 
-
-
-str = 
-new
-String(arr); 
-
-
-/* After above step string is ngring. 
+    /* After above step string is ngring. 
 
 Removing extra "iittg" after string*/
 
+    return str.substring(0, res_ind);
+  }
 
-return
-str.substring(
-0
-, res_ind); 
+  // Driver Method
 
+  public static void main(String[] args) {
+    String str = "geeksforgeeks";
 
-} 
+    String mask_str = "mask";
 
-
-// Driver Method 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-String str = 
-"geeksforgeeks"
-; 
-
-String mask_str = 
-"mask"
-; 
-
-System.out.println(removeDirtyChars(str, mask_str)); 
-
-} 
-} 
+    System.out.println(removeDirtyChars(str, mask_str));
+  }
+}

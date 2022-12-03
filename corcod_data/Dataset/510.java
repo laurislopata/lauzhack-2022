@@ -1,122 +1,53 @@
+// Java code to find minimum number of elements
+// such that their sum is greater than sum of
+// remaining elements of the array.
+import java.io.*;
+import java.util.*;
 
-// Java code to find minimum number of elements 
-// such that their sum is greater than sum of 
-// remaining elements of the array. 
-import
-java.io.*; 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG { 
+  // Function to find minimum elements needed
 
+  static int minElements(int arr[], int n) {
+    // Calculating HALF of array sum
 
-// Function to find minimum elements needed 
+    int halfSum = 0;
 
-static
-int
-minElements(
-int
-arr[], 
-int
-n) 
+    for (int i = 0; i < n; i++) halfSum = halfSum + arr[i];
 
-{ 
+    halfSum = halfSum / 2;
 
-// Calculating HALF of array sum 
+    // Sort the array in ascending order and
 
-int
-halfSum = 
-0
-; 
+    // start traversing array from the ascending
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+    // sort in descending order.
 
-halfSum = halfSum + arr[i]; 
+    Arrays.sort(arr);
 
-halfSum = halfSum / 
-2
-; 
+    int res = 0, curr_sum = 0;
 
+    for (int i = n - 1; i >= 0; i--) {
+      curr_sum += arr[i];
 
+      res++;
 
-// Sort the array in ascending order and 
+      // Current sum greater than sum
 
-// start traversing array from the ascending 
+      if (curr_sum > halfSum) return res;
+    }
 
-// sort in descending order. 
+    return res;
+  }
 
-Arrays.sort(arr); 
+  // Driver Code
 
+  public static void main(String[] args) {
+    int arr[] = { 3, 1, 7, 1 };
 
-int
-res = 
-0
-, curr_sum = 
-0
-; 
+    int n = arr.length;
 
-for
-(
-int
-i = n-
-1
-; i >= 
-0
-; i--) { 
-
-
-curr_sum += arr[i]; 
-
-res++; 
-
-
-// Current sum greater than sum 
-
-if
-(curr_sum > halfSum) 
-
-return
-res; 
-
-} 
-
-return
-res; 
-
-} 
-
-
-// Driver Code 
-
-public
-static
-void
-main (String[] args) { 
-
-int
-arr[] = {
-3
-, 
-1
-, 
-7
-, 
-1
-}; 
-
-int
-n = arr.length; 
-
-System.out.println(minElements(arr, n)); 
-
-} 
-
-} 
-
-// This code is contributed by Gitanjali 
+    System.out.println(minElements(arr, n));
+  }
+}
+// This code is contributed by Gitanjali

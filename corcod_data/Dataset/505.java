@@ -1,117 +1,48 @@
+// Program to make all array equal
+import java.io.*;
+import java.util.Arrays;
 
-// Program to make all array equal 
-import
-java.io.*; 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG { 
+  // function for calculating min operations
 
-// function for calculating min operations 
+  static int minOps(int arr[], int n, int k) {
+    // max elements of array
 
-static
-int
-minOps(
-int
-arr[], 
-int
-n, 
-int
-k) 
+    Arrays.sort(arr);
 
-{ 
+    int max = arr[arr.length - 1];
 
-// max elements of array 
+    int res = 0;
 
-Arrays.sort(arr); 
+    // iterate for all elements
 
-int
-max = arr[arr.length - 
-1
-]; 
+    for (int i = 0; i < n; i++) {
+      // check if element can make equal to
 
-int
-res = 
-0
-; 
+      // max or not if not then return -1
 
+      if ((max - arr[i]) % k != 0) return -1;
+      // else update res for required operations
 
-// iterate for all elements 
+      else res += (max - arr[i]) / k;
+    }
 
-for
-(
-int
-i = 
-0
-; i < n; i++) { 
+    // return result
 
+    return res;
+  }
 
-// check if element can make equal to 
+  // Driver program
 
-// max or not if not then return -1 
+  public static void main(String[] args) {
+    int arr[] = { 21, 33, 9, 45, 63 };
 
-if
-((max - arr[i]) % k != 
-0
-) 
+    int n = arr.length;
 
-return
--
-1
-; 
+    int k = 6;
 
-
-// else update res for required operations 
-
-else
-
-res += (max - arr[i]) / k; 
-
-} 
-
-
-// return result 
-
-return
-res; 
-
-} 
-
-
-// Driver program 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = { 
-21
-, 
-33
-, 
-9
-, 
-45
-, 
-63
-}; 
-
-int
-n = arr.length; 
-
-int
-k = 
-6
-; 
-
-System.out.println(minOps(arr, n, k)); 
-
-} 
-} 
-
-// This code is contributed by vt_m 
+    System.out.println(minOps(arr, n, k));
+  }
+}
+// This code is contributed by vt_m

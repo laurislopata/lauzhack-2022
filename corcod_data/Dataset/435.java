@@ -1,112 +1,56 @@
+// Recursive Java program to print odd level nodes
+class GfG {
 
-// Recursive Java program to print odd level nodes 
-class
-GfG { 
+  static class Node {
 
-static
-class
-Node { 
+    int data;
 
-int
-data; 
+    Node left, right;
+  }
 
-Node left, right; 
-} 
+  static void printOddNodes(Node root, boolean isOdd) {
+    // If empty tree
 
-static
-void
-printOddNodes(Node root, 
-boolean
-isOdd) 
-{ 
+    if (root == null) return;
 
-// If empty tree 
+    // If current node is of odd level
 
-if
-(root == 
-null
-) 
+    if (isOdd == true) System.out.print(root.data + " ");
 
-return
-; 
+    // Recur for children with isOdd
 
+    // switched.
 
-// If current node is of odd level 
+    printOddNodes(root.left, !isOdd);
 
-if
-(isOdd == 
-true
-) 
+    printOddNodes(root.right, !isOdd);
+  }
 
-System.out.print(root.data + 
-" "
-); 
+  // Utility method to create a node
+  static Node newNode(int data) {
+    Node node = new Node();
 
+    node.data = data;
 
-// Recur for children with isOdd 
+    node.left = null;
 
-// switched. 
+    node.right = null;
 
-printOddNodes(root.left, !isOdd); 
+    return (node);
+  }
 
-printOddNodes(root.right, !isOdd); 
-} 
+  // Driver code
+  public static void main(String[] args) {
+    Node root = newNode(1);
 
-// Utility method to create a node 
-static
-Node newNode(
-int
-data) 
-{ 
+    root.left = newNode(2);
 
-Node node = 
-new
-Node(); 
+    root.right = newNode(3);
 
-node.data = data; 
+    root.left.left = newNode(4);
 
-node.left = 
-null
-; 
+    root.left.right = newNode(5);
 
-node.right = 
-null
-; 
-
-return
-(node); 
-} 
-
-// Driver code 
-public
-static
-void
-main(String[] args) 
-{ 
-
-Node root = newNode(
-1
-); 
-
-root.left = newNode(
-2
-); 
-
-root.right = newNode(
-3
-); 
-
-root.left.left = newNode(
-4
-); 
-
-root.left.right = newNode(
-5
-); 
-
-printOddNodes(root, 
-true
-); 
-
-} 
-} 
+    printOddNodes(root, true);
+  }
+}

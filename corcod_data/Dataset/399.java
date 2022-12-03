@@ -1,165 +1,70 @@
+// Java program to construct binary tree from
+// given array in level order fashion
 
-// Java program to construct binary tree from 
-// given array in level order fashion 
+public class Tree {
 
-public
-class
-Tree { 
+  Node root;
 
-Node root; 
+  // Tree Node
 
+  static class Node {
 
-// Tree Node 
+    int data;
 
-static
-class
-Node { 
+    Node left, right;
 
-int
-data; 
+    Node(int data) {
+      this.data = data;
 
-Node left, right; 
+      this.left = null;
 
-Node(
-int
-data) 
+      this.right = null;
+    }
+  }
 
-{ 
+  // Function to insert nodes in level order
 
-this
-.data = data; 
+  public Node insertLevelOrder(int[] arr, Node root, int i) {
+    // Base case for recursion
 
-this
-.left = 
-null
-; 
+    if (i < arr.length) {
+      Node temp = new Node(arr[i]);
 
-this
-.right = 
-null
-; 
+      root = temp;
 
-} 
+      // insert left child
 
-} 
+      root.left = insertLevelOrder(arr, root.left, 2 * i + 1);
 
+      // insert right child
 
-// Function to insert nodes in level order 
+      root.right = insertLevelOrder(arr, root.right, 2 * i + 2);
+    }
 
-public
-Node insertLevelOrder(
-int
-[] arr, Node root, 
+    return root;
+  }
 
-int
-i) 
+  // Function to print tree nodes in InOrder fashion
 
-{ 
+  public void inOrder(Node root) {
+    if (root != null) {
+      inOrder(root.left);
 
-// Base case for recursion 
+      System.out.print(root.data + " ");
 
-if
-(i < arr.length) { 
+      inOrder(root.right);
+    }
+  }
 
-Node temp = 
-new
-Node(arr[i]); 
+  // Driver program to test above function
 
-root = temp; 
+  public static void main(String args[]) {
+    Tree t2 = new Tree();
 
+    int arr[] = { 1, 2, 3, 4, 5, 6, 6, 6, 6 };
 
-// insert left child 
+    t2.root = t2.insertLevelOrder(arr, t2.root, 0);
 
-root.left = insertLevelOrder(arr, root.left, 
-
-2
-* i + 
-1
-); 
-
-
-// insert right child 
-
-root.right = insertLevelOrder(arr, root.right, 
-
-2
-* i + 
-2
-); 
-
-} 
-
-return
-root; 
-
-} 
-
-
-// Function to print tree nodes in InOrder fashion 
-
-public
-void
-inOrder(Node root) 
-
-{ 
-
-if
-(root != 
-null
-) { 
-
-inOrder(root.left); 
-
-System.out.print(root.data + 
-" "
-); 
-
-inOrder(root.right); 
-
-} 
-
-} 
-
-
-// Driver program to test above function 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-Tree t2 = 
-new
-Tree(); 
-
-int
-arr[] = { 
-1
-, 
-2
-, 
-3
-, 
-4
-, 
-5
-, 
-6
-, 
-6
-, 
-6
-, 
-6
-}; 
-
-t2.root = t2.insertLevelOrder(arr, t2.root, 
-0
-); 
-
-t2.inOrder(t2.root); 
-
-} 
-} 
+    t2.inOrder(t2.root);
+  }
+}

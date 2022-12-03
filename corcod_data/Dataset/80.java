@@ -1,140 +1,62 @@
+// Java program to find number of operations
+// to make an array palindrome
 
-// Java program to find number of operations 
-// to make an array palindrome 
+class GFG {
 
-class
-GFG 
-{ 
+  // Returns minimum number of count operations
 
-// Returns minimum number of count operations 
+  // required to make arr[] palindrome
 
-// required to make arr[] palindrome 
+  static int findMinOps(int[] arr, int n) {
+    int ans = 0;
+    // Initialize result
 
-static
-int
-findMinOps(
-int
-[] arr, 
-int
-n) 
+    // Start from two corners
 
-{ 
+    for (int i = 0, j = n - 1; i <= j;) {
+      // If corner elements are same,
 
-int
-ans = 
-0
-; 
-// Initialize result 
+      // problem reduces arr[i+1..j-1]
 
+      if (arr[i] == arr[j]) {
+        i++;
 
-// Start from two corners 
+        j--;
+      }
+      // If left element is greater, then
 
-for
-(
-int
-i=
-0
-,j=n-
-1
-; i<=j;) 
+      // we merge right two elements
 
-{ 
+      else if (arr[i] > arr[j]) {
+        // need to merge from tail.
 
-// If corner elements are same, 
+        j--;
 
-// problem reduces arr[i+1..j-1] 
+        arr[j] += arr[j + 1];
 
-if
-(arr[i] == arr[j]) 
+        ans++;
+      }
+      // Else we merge left two elements
 
-{ 
+      else {
+        i++;
 
-i++; 
+        arr[i] += arr[i - 1];
 
-j--; 
+        ans++;
+      }
+    }
 
-} 
+    return ans;
+  }
 
+  // Driver method to test the above function
 
-// If left element is greater, then 
+  public static void main(String[] args) {
+    int arr[] = new int[] { 1, 4, 5, 9, 1 };
 
-// we merge right two elements 
-
-else
-if
-(arr[i] > arr[j]) 
-
-{ 
-
-// need to merge from tail. 
-
-j--; 
-
-arr[j] += arr[j+
-1
-] ; 
-
-ans++; 
-
-} 
-
-
-// Else we merge left two elements 
-
-else
-
-{ 
-
-i++; 
-
-arr[i] += arr[i-
-1
-]; 
-
-ans++; 
-
-} 
-
-} 
-
-
-return
-ans; 
-
-} 
-
-
-// Driver method to test the above function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = 
-new
-int
-[]{
-1
-, 
-4
-, 
-5
-, 
-9
-, 
-1
-} ; 
-
-System.out.println(
-"Count of minimum operations is "
-+ 
-
-findMinOps(arr, arr.length)); 
-
-
-} 
-} 
+    System.out.println(
+      "Count of minimum operations is " + findMinOps(arr, arr.length)
+    );
+  }
+}

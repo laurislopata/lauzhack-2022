@@ -1,241 +1,92 @@
+// Java program to solve fractional Knapsack Problem
+import java.util.Arrays;
+import java.util.Comparator;
 
-// Java program to solve fractional Knapsack Problem 
-import
-java.util.Arrays; 
-import
-java.util.Comparator; 
+// Greedy approach
+public class FractionalKnapSack {
 
-// Greedy approach 
-public
-class
-FractionalKnapSack 
-{ 
+  // Time complexity O(n log n)
 
-// Time complexity O(n log n) 
+  public static void main(String[] args) {
+    int[] wt = { 10, 40, 20, 30 };
 
-public
-static
-void
-main(String[] args) 
+    int[] val = { 60, 40, 100, 120 };
 
-{ 
+    int capacity = 50;
 
-int
-[] wt = {
-10
-, 
-40
-, 
-20
-, 
-30
-}; 
+    double maxValue = getMaxValue(wt, val, capacity);
 
-int
-[] val = {
-60
-, 
-40
-, 
-100
-, 
-120
-}; 
+    System.out.println("Maximum value we can obtain = " + maxValue);
+  }
 
-int
-capacity = 
-50
-; 
+  // function to get maximum value
 
+  private static double getMaxValue(int[] wt, int[] val, int capacity) {
+    ItemValue[] iVal = new ItemValue[wt.length];
 
-double
-maxValue = getMaxValue(wt, val, capacity); 
+    for (int i = 0; i < wt.length; i++) {
+      iVal[i] = new ItemValue(wt[i], val[i], i);
+    }
 
-System.out.println(
-"Maximum value we can obtain = "
-+ 
+    //sorting items by value;
 
-maxValue); 
+    Arrays.sort(
+      iVal,
+      new Comparator<ItemValue>() {
+        @Override
+        public int compare(ItemValue o1, ItemValue o2) {
+          return o2.cost.compareTo(o1.cost);
+        }
+      }
+    );
 
+    double totalValue = 0d;
 
-} 
+    for (ItemValue i : iVal) {
+      int curWt = (int) i.wt;
 
+      int curVal = (int) i.val;
 
-// function to get maximum value 
+      if (capacity - curWt >= 0) {
+        // this weight can be picked while
 
-private
-static
-double
-getMaxValue(
-int
-[] wt, 
+        capacity = capacity - curWt;
 
-int
-[] val, 
-int
-capacity) 
+        totalValue += curVal;
+      } else {
+        // item cant be picked whole
 
-{ 
+        double fraction = ((double) capacity / (double) curWt);
 
-ItemValue[] iVal = 
-new
-ItemValue[wt.length]; 
+        totalValue += (curVal * fraction);
 
+        capacity = (int) (capacity - (curWt * fraction));
 
-for
-(
-int
-i = 
-0
-; i < wt.length; i++) 
+        break;
+      }
+    }
 
-{ 
+    return totalValue;
+  }
 
-iVal[i] = 
-new
-ItemValue(wt[i], val[i], i); 
+  // item value class
 
-} 
+  static class ItemValue {
 
+    Double cost;
 
-//sorting items by value; 
+    double wt, val, ind;
 
-Arrays.sort(iVal, 
-new
-Comparator<ItemValue>() 
+    // item value function
 
-{ 
+    public ItemValue(int wt, int val, int ind) {
+      this.wt = wt;
 
-@Override
+      this.val = val;
 
-public
-int
-compare(ItemValue o1, ItemValue o2) 
+      this.ind = ind;
 
-{ 
-
-return
-o2.cost.compareTo(o1.cost) ; 
-
-} 
-
-}); 
-
-
-
-double
-totalValue = 0d; 
-
-
-for
-(ItemValue i: iVal) 
-
-{ 
-
-
-int
-curWt = (
-int
-) i.wt; 
-
-int
-curVal = (
-int
-) i.val; 
-
-
-if
-(capacity - curWt >= 
-0
-) 
-
-{ 
-
-// this weight can be picked while 
-
-capacity = capacity-curWt; 
-
-totalValue += curVal; 
-
-
-} 
-
-else
-
-{ 
-
-// item cant be picked whole 
-
-double
-fraction = ((
-double
-)capacity/(
-double
-)curWt); 
-
-totalValue += (curVal*fraction); 
-
-capacity = (
-int
-)(capacity - (curWt*fraction)); 
-
-break
-; 
-
-} 
-
-
-
-} 
-
-
-return
-totalValue; 
-
-} 
-
-
-// item value class 
-
-static
-class
-ItemValue 
-
-{ 
-
-Double cost; 
-
-double
-wt, val, ind; 
-
-
-// item value function 
-
-public
-ItemValue(
-int
-wt, 
-int
-val, 
-int
-ind) 
-
-{ 
-
-this
-.wt = wt; 
-
-this
-.val = val; 
-
-this
-.ind = ind; 
-
-cost = 
-new
-Double(val/wt ); 
-
-} 
-
-} 
-} 
+      cost = new Double(val / wt);
+    }
+  }
+}

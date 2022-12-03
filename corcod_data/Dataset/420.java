@@ -1,269 +1,121 @@
+// Java program to check if all leaf nodes are at
+// same level of binary tree
+import java.util.*;
 
-// Java program to check if all leaf nodes are at 
-// same level of binary tree 
-import
-java.util.*; 
+// User defined node class
+class Node {
 
-// User defined node class 
-class
-Node { 
+  int data;
 
-int
-data; 
+  Node left, right;
 
-Node left, right; 
+  // Constructor to create a new tree node
 
+  Node(int key) {
+    int data = key;
 
-// Constructor to create a new tree node 
+    left = right = null;
+  }
+}
 
-Node(
-int
-key) { 
+class GFG {
 
-int
-data = key; 
+  // return true if all leaf nodes are
 
-left = right = 
-null
-; 
+  // at same level, else false
 
-} 
-} 
+  static boolean checkLevelLeafNode(Node root) {
+    if (root == null) return true;
 
-class
-GFG { 
+    // create a queue for level order traversal
 
+    Queue<Node> q = new LinkedList<>();
 
-// return true if all leaf nodes are 
+    q.add(root);
 
-// at same level, else false 
+    int result = Integer.MAX_VALUE;
 
-static
-boolean
-checkLevelLeafNode(Node root) 
+    int level = 0;
 
-{ 
+    // traverse until the queue is empty
 
-if
-(root == 
-null
-) 
+    while (q.size() != 0) {
+      int size = q.size();
 
-return
-true
-; 
+      level++;
 
+      // traverse for complete level
 
-// create a queue for level order traversal 
+      while (size > 0) {
+        Node temp = q.remove();
 
-Queue<Node> q = 
-new
-LinkedList<>(); 
+        // check for left child
 
-q.add(root); 
+        if (temp.left != null) {
+          q.add(temp.left);
 
+          // if its leaf node
 
-int
-result = Integer.MAX_VALUE; 
+          if (temp.left.left == null && temp.left.right == null) {
+            // if it's first leaf node, then update result
 
-int
-level = 
-0
-; 
+            if (result == Integer.MAX_VALUE) result = level;
+            // if it's not first leaf node, then compare
 
+            // the level with level of previous leaf node.
 
-// traverse until the queue is empty 
+            else if (result != level) return false;
+          }
+        }
 
-while
-(q.size() != 
-0
-) { 
+        // check for right child
 
-int
-size = q.size(); 
+        if (temp.right != null) {
+          q.add(temp.right);
 
-level++; 
+          // if its leaf node
 
+          if (temp.right.left == null && temp.right.right == null) {
+            // if it's first leaf node, then update result
 
-// traverse for complete level 
+            if (result == Integer.MAX_VALUE) result = level;
+            // if it's not first leaf node, then compare
 
-while
-(size > 
-0
-) { 
+            // the level with level of previous leaf node.
 
-Node temp = q.remove(); 
+            else if (result != level) return false;
+          }
+        }
 
+        size--;
+      }
+    }
 
-// check for left child 
+    return true;
+  }
 
-if
-(temp.left != 
-null
-) { 
+  // Driver code
 
-q.add(temp.left); 
+  public static void main(String args[]) {
+    // construct a tree
 
+    Node root = new Node(1);
 
-// if its leaf node 
+    root.left = new Node(2);
 
-if
-(temp.left.left == 
-null
-&& temp.left.right == 
-null
-) { 
+    root.right = new Node(3);
 
+    root.left.right = new Node(4);
 
-// if it's first leaf node, then update result 
+    root.right.left = new Node(5);
 
-if
-(result == Integer.MAX_VALUE) 
+    root.right.right = new Node(6);
 
-result = level; 
+    boolean result = checkLevelLeafNode(root);
 
-
-// if it's not first leaf node, then compare 
-
-// the level with level of previous leaf node. 
-
-else
-if
-(result != level) 
-
-return
-false
-; 
-
-} 
-
-} 
-
-
-// check for right child 
-
-if
-(temp.right != 
-null
-) { 
-
-q.add(temp.right); 
-
-
-// if its leaf node 
-
-if
-(temp.right.left == 
-null
-&& temp.right.right == 
-null
-) { 
-
-
-// if it's first leaf node, then update result 
-
-if
-(result == Integer.MAX_VALUE) 
-
-result = level; 
-
-
-// if it's not first leaf node, then compare 
-
-// the level with level of previous leaf node. 
-
-else
-if
-(result != level) 
-
-return
-false
-; 
-
-} 
-
-} 
-
-size--; 
-
-} 
-
-
-} 
-
-return
-true
-; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-// construct a tree 
-
-Node root = 
-new
-Node(
-1
-); 
-
-root.left = 
-new
-Node(
-2
-); 
-
-root.right = 
-new
-Node(
-3
-); 
-
-root.left.right = 
-new
-Node(
-4
-); 
-
-root.right.left = 
-new
-Node(
-5
-); 
-
-root.right.right = 
-new
-Node(
-6
-); 
-
-
-boolean
-result = checkLevelLeafNode(root); 
-
-if
-(result == 
-true
-) 
-
-System.out.println(
-"All leaf nodes are at same level"
-); 
-
-else
-
-System.out.println(
-"Leaf nodes not at same level"
-); 
-
-} 
-} 
-// This code is contributed by rachana soma 
+    if (result == true) System.out.println(
+      "All leaf nodes are at same level"
+    ); else System.out.println("Leaf nodes not at same level");
+  }
+}
+// This code is contributed by rachana soma

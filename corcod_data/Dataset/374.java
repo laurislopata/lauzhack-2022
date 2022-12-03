@@ -1,237 +1,126 @@
-
-// Java program for different tree traversals 
+// Java program for different tree traversals
 
 /* Class containing left and right child of current 
 
 node and key value*/
-class
-Node 
-{ 
+class Node {
 
-int
-key; 
+  int key;
 
-Node left, right; 
+  Node left, right;
 
+  public Node(int item) {
+    key = item;
 
-public
-Node(
-int
-item) 
+    left = right = null;
+  }
+}
 
-{ 
+class BinaryTree {
 
-key = item; 
+  // Root of Binary Tree
 
-left = right = 
-null
-; 
+  Node root;
 
-} 
-} 
+  BinaryTree() {
+    root = null;
+  }
 
-class
-BinaryTree 
-{ 
-
-// Root of Binary Tree 
-
-Node root; 
-
-
-BinaryTree() 
-
-{ 
-
-root = 
-null
-; 
-
-} 
-
-
-/* Given a binary tree, print its nodes according to the 
+  /* Given a binary tree, print its nodes according to the 
 
 "bottom-up" postorder traversal. */
 
-void
-printPostorder(Node node) 
+  void printPostorder(Node node) {
+    if (node == null) return;
 
-{ 
+    // first recur on left subtree
 
-if
-(node == 
-null
-) 
+    printPostorder(node.left);
 
-return
-; 
+    // then recur on right subtree
 
+    printPostorder(node.right);
 
-// first recur on left subtree 
+    // now deal with the node
 
-printPostorder(node.left); 
+    System.out.print(node.key + " ");
+  }
 
+  /* Given a binary tree, print its nodes in inorder*/
 
-// then recur on right subtree 
+  void printInorder(Node node) {
+    if (node == null) return;
 
-printPostorder(node.right); 
+    /* first recur on left child */
 
+    printInorder(node.left);
 
-// now deal with the node 
+    /* then print the data of node */
 
-System.out.print(node.key + 
-" "
-); 
+    System.out.print(node.key + " ");
 
-} 
+    /* now recur on right child */
 
+    printInorder(node.right);
+  }
 
-/* Given a binary tree, print its nodes in inorder*/
+  /* Given a binary tree, print its nodes in preorder*/
 
-void
-printInorder(Node node) 
+  void printPreorder(Node node) {
+    if (node == null) return;
 
-{ 
+    /* first print data of node */
 
-if
-(node == 
-null
-) 
+    System.out.print(node.key + " ");
 
-return
-; 
+    /* then recur on left sutree */
 
+    printPreorder(node.left);
 
-/* first recur on left child */
+    /* now recur on right subtree */
 
-printInorder(node.left); 
+    printPreorder(node.right);
+  }
 
+  // Wrappers over above recursive functions
 
-/* then print the data of node */
+  void printPostorder() {
+    printPostorder(root);
+  }
 
-System.out.print(node.key + 
-" "
-); 
+  void printInorder() {
+    printInorder(root);
+  }
 
+  void printPreorder() {
+    printPreorder(root);
+  }
 
-/* now recur on right child */
+  // Driver method
 
-printInorder(node.right); 
+  public static void main(String[] args) {
+    BinaryTree tree = new BinaryTree();
 
-} 
+    tree.root = new Node(1);
 
+    tree.root.left = new Node(2);
 
-/* Given a binary tree, print its nodes in preorder*/
+    tree.root.right = new Node(3);
 
-void
-printPreorder(Node node) 
+    tree.root.left.left = new Node(4);
 
-{ 
+    tree.root.left.right = new Node(5);
 
-if
-(node == 
-null
-) 
+    System.out.println("Preorder traversal of binary tree is ");
 
-return
-; 
+    tree.printPreorder();
 
+    System.out.println("\nInorder traversal of binary tree is ");
 
-/* first print data of node */
+    tree.printInorder();
 
-System.out.print(node.key + 
-" "
-); 
+    System.out.println("\nPostorder traversal of binary tree is ");
 
-
-/* then recur on left sutree */
-
-printPreorder(node.left); 
-
-
-/* now recur on right subtree */
-
-printPreorder(node.right); 
-
-} 
-
-
-// Wrappers over above recursive functions 
-
-void
-printPostorder() { printPostorder(root); } 
-
-void
-printInorder() { printInorder(root); } 
-
-void
-printPreorder() { printPreorder(root); } 
-
-
-// Driver method 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-tree.root = 
-new
-Node(
-1
-); 
-
-tree.root.left = 
-new
-Node(
-2
-); 
-
-tree.root.right = 
-new
-Node(
-3
-); 
-
-tree.root.left.left = 
-new
-Node(
-4
-); 
-
-tree.root.left.right = 
-new
-Node(
-5
-); 
-
-
-System.out.println(
-"Preorder traversal of binary tree is "
-); 
-
-tree.printPreorder(); 
-
-
-System.out.println(
-"\nInorder traversal of binary tree is "
-); 
-
-tree.printInorder(); 
-
-
-System.out.println(
-"\nPostorder traversal of binary tree is "
-); 
-
-tree.printPostorder(); 
-
-} 
-} 
+    tree.printPostorder();
+  }
+}

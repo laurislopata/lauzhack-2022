@@ -1,172 +1,88 @@
+// Java program to covert a ternary
+// expreesion to a tree.
+import java.util.LinkedList;
+import java.util.Queue;
 
-// Java program to covert a ternary 
-// expreesion to a tree. 
-import
-java.util.Queue; 
-import
-java.util.LinkedList; 
+// Class to represent Tree node
+class Node {
 
-// Class to represent Tree node 
-class
-Node 
-{ 
+  char data;
 
-char
-data; 
+  Node left, right;
 
-Node left, right; 
+  public Node(char item) {
+    data = item;
 
+    left = null;
 
-public
-Node(
-char
-item) 
+    right = null;
+  }
+}
 
-{ 
+// Class to covert a ternary expression to a Tree
+class BinaryTree {
 
-data = item; 
+  // Function to convert Ternary Expression to a Binary
 
-left = 
-null
-; 
+  // Tree. It return the root of tree
 
-right = 
-null
-; 
+  Node convertExpression(char[] expression, int i) {
+    // Base case
 
-} 
-} 
+    if (i >= expression.length) return null;
 
-// Class to covert a ternary expression to a Tree 
-class
-BinaryTree 
-{ 
+    // store current character of expression_string
 
-// Function to convert Ternary Expression to a Binary 
+    // [ 'a' to 'z']
 
-// Tree. It return the root of tree 
+    Node root = new Node(expression[i]);
 
-Node convertExpression(
-char
-[] expression, 
-int
-i) 
+    // Move ahead in str
 
-{ 
+    ++i;
 
-// Base case 
+    // if current character of ternary expression is '?'
 
-if
-(i >= expression.length) 
+    // then we add next character as a left child of
 
-return
-null
-; 
+    // current node
 
+    if (i < expression.length && expression[i] == '?') root.left =
+      convertExpression(expression, i + 1);
+    // else we have to add it as a right child of
 
-// store current character of expression_string 
+    // current node expression.at(0) == ':'
 
-// [ 'a' to 'z'] 
+    else if (i < expression.length) root.right =
+      convertExpression(expression, i + 1);
 
-Node root = 
-new
-Node(expression[i]); 
+    return root;
+  }
 
+  // function print tree
 
-// Move ahead in str 
+  public void printTree(Node root) {
+    if (root == null) return;
 
-++i; 
+    System.out.print(root.data + " ");
 
+    printTree(root.left);
 
-// if current character of ternary expression is '?' 
+    printTree(root.right);
+  }
 
-// then we add next character as a left child of 
+  // Driver program to test above function
 
-// current node 
+  public static void main(String args[]) {
+    String exp = "a?b?c:d:e";
 
-if
-(i < expression.length && expression[i]==
-'?'
-) 
+    BinaryTree tree = new BinaryTree();
 
-root.left = convertExpression(expression, i+
-1
-); 
+    char[] expression = exp.toCharArray();
 
+    Node root = tree.convertExpression(expression, 0);
 
-// else we have to add it as a right child of 
-
-// current node expression.at(0) == ':' 
-
-else
-if
-(i < expression.length) 
-
-root.right = convertExpression(expression, i+
-1
-); 
-
-
-return
-root; 
-
-} 
-
-
-// function print tree 
-
-public
-void
-printTree( Node root) 
-
-{ 
-
-if
-(root == 
-null
-) 
-
-return
-; 
-
-
-System.out.print(root.data +
-" "
-); 
-
-printTree(root.left); 
-
-printTree(root.right); 
-
-} 
-
-// Driver program to test above function 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-String exp = 
-"a?b?c:d:e"
-; 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-char
-[] expression=exp.toCharArray(); 
-
-Node root = tree.convertExpression(expression, 
-0
-); 
-
-tree.printTree(root) ; 
-
-} 
-} 
-
+    tree.printTree(root);
+  }
+}
 /* This code is contributed by Mr. Somesh Awasthi */

@@ -1,125 +1,59 @@
+// Java program to make GCD
+// of array a mutiple of k.
+import java.io.*;
 
-// Java program to make GCD 
-// of array a mutiple of k. 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG 
-{ 
-static
-int
-MinOperation(
-int
-a[], 
+  static int MinOperation(int a[], int n, int k) {
+    int result = 0;
 
-int
-n, 
-int
-k) 
-{ 
+    for (int i = 0; i < n; ++i) {
+      // If array value is not 1
 
+      // and it is greater than k
 
-int
-result = 
-0
-; 
+      // then we can increase the
 
+      // or decrease the remainder
 
-for
-(
-int
-i = 
-0
-; i < n; ++i) 
+      // obtained by dividing k
 
-{ 
+      // from the ith value of array
 
+      // so that we get the number
 
-// If array value is not 1 
+      // which is either closer to k
 
-// and it is greater than k 
+      // or its multiple
 
-// then we can increase the 
+      if (a[i] != 1 && a[i] > k) {
+        result = result + Math.min(a[i] % k, k - a[i] % k);
+      } else {
+        // Else we only have one
 
-// or decrease the remainder 
+        // choice which is to
 
-// obtained by dividing k 
+        // increment the value
 
-// from the ith value of array 
+        // to make equal to k
 
-// so that we get the number 
+        result = result + k - a[i];
+      }
+    }
 
-// which is either closer to k 
+    return result;
+  }
 
-// or its multiple 
+  // Driver code
+  public static void main(String[] args) {
+    int arr[] = { 4, 5, 6 };
 
-if
-(a[i] != 
-1
-&& a[i] > k) 
+    int n = arr.length;
 
-{ 
+    int k = 5;
 
-result = result + 
-
-Math.min(a[i] % k, 
-
-k - a[i] % k); 
-
-} 
-
-else
-
-{ 
-
-
-// Else we only have one 
-
-// choice which is to 
-
-// increment the value 
-
-// to make equal to k 
-
-result = result + k - a[i]; 
-
-} 
-
-} 
-
-
-return
-result; 
-} 
-
-// Driver code 
-public
-static
-void
-main (String[] args) 
-{ 
-
-int
-arr[] = {
-4
-, 
-5
-, 
-6
-}; 
-
-int
-n = arr.length; 
-
-int
-k = 
-5
-; 
-
-System.out.println(MinOperation(arr, n, k)); 
-} 
-} 
-
-// This code is contributed 
-// by akt_mit 
+    System.out.println(MinOperation(arr, n, k));
+  }
+}
+// This code is contributed
+// by akt_mit

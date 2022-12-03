@@ -1,219 +1,104 @@
+// Java program to find
+// lexicographically
+// maximum value after
+// k swaps.
+import java.io.*;
 
-// Java program to find 
-// lexicographically 
-// maximum value after 
-// k swaps. 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  static void SwapInts(int array[], int position1, int position2) {
+    // Swaps elements
 
-static
-void
-SwapInts(
-int
-array[], 
+    // in an array.
 
-int
-position1, 
+    // Copy the first
 
-int
-position2) 
+    // position's element
 
-{ 
+    int temp = array[position1];
 
-// Swaps elements 
+    // Assign to the
 
-// in an array. 
+    // second element
 
+    array[position1] = array[position2];
 
-// Copy the first 
+    // Assign to the
 
-// position's element 
+    // first element
 
-int
-temp = array[position1]; 
+    array[position2] = temp;
+  }
 
+  // Function which
 
-// Assign to the 
+  // modifies the array
 
-// second element 
+  static void KSwapMaximum(int[] arr, int n, int k) {
+    for (int i = 0; i < n - 1 && k > 0; ++i) {
+      // Here, indexPositionition
 
-array[position1] = array[position2]; 
+      // is set where we want to
 
+      // put the current largest
 
-// Assign to the 
+      // integer
 
-// first element 
+      int indexPosition = i;
 
-array[position2] = temp; 
+      for (int j = i + 1; j < n; ++j) {
+        // If we exceed the
 
-} 
+        // Max swaps then
 
+        // break the loop
 
-// Function which 
+        if (k <= j - i) break;
 
-// modifies the array 
+        // Find the maximum value
 
-static
-void
-KSwapMaximum(
-int
-[]arr, 
+        // from i+1 to max k or n
 
-int
-n, 
-int
-k) 
+        // which will replace
 
-{ 
+        // arr[indexPosition]
 
-for
-(
-int
-i = 
-0
-; 
+        if (arr[j] > arr[indexPosition]) indexPosition = j;
+      }
 
-i < n - 
-1
-&& k > 
-0
-; ++i) 
+      // Swap the elements from
 
-{ 
+      // Maximum indexPosition
 
+      // we found till now to
 
-// Here, indexPositionition 
+      // the ith index
 
-// is set where we want to 
+      for (int j = indexPosition; j > i; --j) SwapInts(arr, j, j - 1);
 
-// put the current largest 
+      // Updates k after swapping
 
-// integer 
+      // indexPosition-i elements
 
-int
-indexPosition = i; 
+      k -= indexPosition - i;
+    }
+  }
 
-for
-(
-int
-j = i + 
-1
-; j < n; ++j) 
+  // Driver code
 
-{ 
+  public static void main(String args[]) {
+    int[] arr = { 3, 5, 4, 1, 2 };
 
+    int n = arr.length;
 
-// If we exceed the 
+    int k = 3;
 
-// Max swaps then 
+    KSwapMaximum(arr, n, k);
 
-// break the loop 
+    // Print the final Array
 
-if
-(k <= j - i) 
-
-break
-; 
-
-
-// Find the maximum value 
-
-// from i+1 to max k or n 
-
-// which will replace 
-
-// arr[indexPosition] 
-
-if
-(arr[j] > arr[indexPosition]) 
-
-indexPosition = j; 
-
-} 
-
-
-// Swap the elements from 
-
-// Maximum indexPosition 
-
-// we found till now to 
-
-// the ith index 
-
-for
-(
-int
-j = indexPosition; j > i; --j) 
-
-SwapInts(arr, j, j - 
-1
-); 
-
-
-// Updates k after swapping 
-
-// indexPosition-i elements 
-
-k -= indexPosition - i; 
-
-} 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-[]arr = { 
-3
-, 
-5
-, 
-4
-, 
-1
-, 
-2
-}; 
-
-int
-n = arr.length; 
-
-int
-k = 
-3
-; 
-
-
-KSwapMaximum(arr, n, k); 
-
-
-// Print the final Array 
-
-for
-(
-int
-i = 
-0
-; i < n; ++i) 
-
-System.out.print(arr[i] + 
-" "
-); 
-
-} 
-} 
-
-// This code is contributed by 
-// Manish Shaw(manishshaw1) 
+    for (int i = 0; i < n; ++i) System.out.print(arr[i] + " ");
+  }
+}
+// This code is contributed by
+// Manish Shaw(manishshaw1)

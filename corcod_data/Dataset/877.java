@@ -1,26 +1,22 @@
 import java.io.*;
 import java.util.*;
-public class Codechef{
-      
 
-    public static void main(String []args){
-       Scanner sc = new Scanner(System.in);
-        int n=sc.nextInt();
-		Set<HashSet> s3 = new HashSet<>();
+public class Codechef {
 
-      
-         for(int j=0;j<n;j++){
-         	String a=sc.next();
-         HashSet<Character> t = new HashSet<Character>();
-			for(char c:a.toCharArray()){
-			t.add(c);
-			}
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    Set<HashSet> s3 = new HashSet<>();
 
-        s3.add(t);
-    
-          
+    for (int j = 0; j < n; j++) {
+      String a = sc.next();
+      HashSet<Character> t = new HashSet<Character>();
+      for (char c : a.toCharArray()) {
+        t.add(c);
+      }
 
-         }
-         System.out.println(s3.size());
+      s3.add(t);
     }
+    System.out.println(s3.size());
+  }
 }

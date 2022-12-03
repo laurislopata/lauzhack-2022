@@ -1,163 +1,88 @@
-
 /* Java program to convert left-right to 
 down-right representation of binary tree */
-class
-GFG 
-{ 
+class GFG {
 
-// A Binary Tree Node 
-static
-class
-node 
-{ 
+  // A Binary Tree Node
+  static class node {
 
-int
-key; 
+    int key;
 
-node left, right; 
+    node left, right;
 
-node(
-int
-key) 
+    node(int key) {
+      this.key = key;
 
-{ 
+      this.left = null;
 
-this
-.key = key; 
+      this.right = null;
+    }
+  }
 
-this
-.left = 
-null
-; 
+  // An Iterative level order traversal
+  // based function to convert left-right
+  // to down-right representation.
+  static void convert(node root) {
+    // Base Case
 
-this
-.right = 
-null
-; 
+    if (root == null) return;
 
-} 
-} 
+    // Recursively convert left
 
-// An Iterative level order traversal 
-// based function to convert left-right 
-// to down-right representation. 
-static
-void
-convert(node root) 
-{ 
+    // an right subtrees
 
-// Base Case 
+    convert(root.left);
 
-if
-(root == 
-null
-) 
-return
-; 
+    convert(root.right);
 
+    // If left child is NULL, make right
 
-// Recursively convert left 
+    // child as left as it is the first child.
 
-// an right subtrees 
+    if (root.left == null) root.left = root.right;
+    // If left child is NOT NULL, then make
 
-convert(root.left); 
+    // right child as right of left child
 
-convert(root.right); 
+    else root.left.right = root.right;
 
+    // Set root's right as NULL
 
-// If left child is NULL, make right 
+    root.right = null;
+  }
 
-// child as left as it is the first child. 
+  // A utility function to traverse a
+  // tree stored in down-right form.
+  static void downRightTraversal(node root) {
+    if (root != null) {
+      System.out.print(root.key + " ");
 
-if
-(root.left == 
-null
-) 
+      downRightTraversal(root.right);
 
-root.left = root.right; 
+      downRightTraversal(root.left);
+    }
+  }
 
+  // Utility function to create
+  // a new tree node
+  static node newNode(int key) {
+    node temp = new node(0);
 
-// If left child is NOT NULL, then make 
+    temp.key = key;
 
-// right child as right of left child 
+    temp.left = null;
 
-else
+    temp.right = null;
 
-root.left.right = root.right; 
+    return temp;
+  }
 
+  // Driver Code
+  public static void main(String[] args) {
+    // Let us create binary tree
 
-// Set root's right as NULL 
+    // shown in above diagram
 
-root.right = 
-null
-; 
-} 
-
-// A utility function to traverse a 
-// tree stored in down-right form. 
-static
-void
-downRightTraversal(node root) 
-{ 
-
-if
-(root != 
-null
-) 
-
-{ 
-
-System.out.print(root.key + 
-" "
-); 
-
-downRightTraversal(root.right); 
-
-downRightTraversal(root.left); 
-
-} 
-} 
-
-// Utility function to create 
-// a new tree node 
-static
-node newNode(
-int
-key) 
-{ 
-
-node temp = 
-new
-node(
-0
-); 
-
-temp.key = key; 
-
-temp.left = 
-null
-; 
-
-temp.right = 
-null
-; 
-
-return
-temp; 
-} 
-
-// Driver Code 
-public
-static
-void
-main(String[] args) 
-{ 
-
-// Let us create binary tree 
-
-// shown in above diagram 
-
-/* 
+    /* 
 
 1 
 
@@ -175,54 +100,30 @@ main(String[] args)
 
 */
 
-node root = 
-new
-node(
-1
-); 
+    node root = new node(1);
 
-root.left = newNode(
-2
-); 
+    root.left = newNode(2);
 
-root.right = newNode(
-3
-); 
+    root.right = newNode(3);
 
-root.right.left = newNode(
-4
-); 
+    root.right.left = newNode(4);
 
-root.right.right = newNode(
-5
-); 
+    root.right.right = newNode(5);
 
-root.right.left.left = newNode(
-6
-); 
+    root.right.left.left = newNode(6);
 
-root.right.right.left = newNode(
-7
-); 
+    root.right.right.left = newNode(7);
 
-root.right.right.right = newNode(
-8
-); 
+    root.right.right.right = newNode(8);
 
+    convert(root);
 
-convert(root); 
+    System.out.println(
+      "Traversal of the tree " + "converted to down-right form"
+    );
 
-
-System.out.println(
-"Traversal of the tree "
-+ 
-
-"converted to down-right form"
-); 
-
-downRightTraversal(root); 
-} 
-} 
-
-// This code is contributed 
-// by Prerna Saini 
+    downRightTraversal(root);
+  }
+}
+// This code is contributed
+// by Prerna Saini

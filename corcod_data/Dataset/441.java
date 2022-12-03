@@ -1,188 +1,108 @@
+// Java program to convert BST to binary tree such that sum of
+// all greater keys is added to every key
 
-// Java program to convert BST to binary tree such that sum of 
-// all greater keys is added to every key 
+class Node {
 
-class
-Node { 
+  int data;
 
+  Node left, right;
 
-int
-data; 
+  Node(int d) {
+    data = d;
 
-Node left, right; 
+    left = right = null;
+  }
+}
 
+class Sum {
 
-Node(
-int
-d) { 
+  int sum = 0;
+}
 
-data = d; 
+class BinaryTree {
 
-left = right = 
-null
-; 
+  static Node root;
 
-} 
-} 
+  Sum summ = new Sum();
 
-class
-Sum { 
+  // A recursive function that traverses the given BST in reverse inorder and
 
+  // for every key, adds all greater keys to it
 
-int
-sum = 
-0
-; 
-} 
+  void addGreaterUtil(Node node, Sum sum_ptr) {
+    // Base Case
 
-class
-BinaryTree { 
+    if (node == null) {
+      return;
+    }
 
+    // Recur for right subtree first so that sum of all greater
 
-static
-Node root; 
+    // nodes is stored at sum_ptr
 
-Sum summ = 
-new
-Sum(); 
+    addGreaterUtil(node.right, sum_ptr);
 
+    // Update the value at sum_ptr
 
-// A recursive function that traverses the given BST in reverse inorder and 
+    sum_ptr.sum = sum_ptr.sum + node.data;
 
-// for every key, adds all greater keys to it 
+    // Update key of this node
 
-void
-addGreaterUtil(Node node, Sum sum_ptr) { 
+    node.data = sum_ptr.sum;
 
+    // Recur for left subtree so that the updated sum is added
 
-// Base Case 
+    // to smaller nodes
 
-if
-(node == 
-null
-) { 
+    addGreaterUtil(node.left, sum_ptr);
+  }
 
-return
-; 
+  // A wrapper over addGreaterUtil(). It initializes sum and calls
 
-} 
+  // addGreaterUtil() to recursivel upodate and use value of sum
 
+  Node addGreater(Node node) {
+    addGreaterUtil(node, summ);
 
-// Recur for right subtree first so that sum of all greater 
+    return node;
+  }
 
-// nodes is stored at sum_ptr 
+  // A utility function to print inorder traversal of Binary Tree
 
-addGreaterUtil(node.right, sum_ptr); 
+  void printInorder(Node node) {
+    if (node == null) {
+      return;
+    }
 
+    printInorder(node.left);
 
-// Update the value at sum_ptr 
+    System.out.print(node.data + " ");
 
-sum_ptr.sum = sum_ptr.sum + node.data; 
+    printInorder(node.right);
+  }
 
+  // Driver program to test the above functions
 
-// Update key of this node 
+  public static void main(String[] args) {
+    BinaryTree tree = new BinaryTree();
 
-node.data = sum_ptr.sum; 
+    tree.root = new Node(5);
 
+    tree.root.left = new Node(2);
 
-// Recur for left subtree so that the updated sum is added 
+    tree.root.right = new Node(13);
 
-// to smaller nodes 
+    System.out.println("Inorder traversal of given tree ");
 
-addGreaterUtil(node.left, sum_ptr); 
+    tree.printInorder(root);
 
-} 
+    Node node = tree.addGreater(root);
 
+    System.out.println("");
 
-// A wrapper over addGreaterUtil(). It initializes sum and calls 
+    System.out.println("Inorder traversal of modified tree ");
 
-// addGreaterUtil() to recursivel upodate and use value of sum 
-
-Node addGreater(Node node) { 
-
-addGreaterUtil(node, summ); 
-
-return
-node; 
-
-} 
-
-
-// A utility function to print inorder traversal of Binary Tree 
-
-void
-printInorder(Node node) { 
-
-if
-(node == 
-null
-) { 
-
-return
-; 
-
-} 
-
-printInorder(node.left); 
-
-System.out.print(node.data + 
-" "
-); 
-
-printInorder(node.right); 
-
-} 
-
-
-// Driver program to test the above functions 
-
-public
-static
-void
-main(String[] args) { 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-tree.root = 
-new
-Node(
-5
-); 
-
-tree.root.left = 
-new
-Node(
-2
-); 
-
-tree.root.right = 
-new
-Node(
-13
-); 
-
-
-System.out.println(
-"Inorder traversal of given tree "
-); 
-
-tree.printInorder(root); 
-
-Node node = tree.addGreater(root); 
-
-System.out.println(
-""
-); 
-
-System.out.println(
-"Inorder traversal of modified tree "
-); 
-
-tree.printInorder(node); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    tree.printInorder(node);
+  }
+}
+// This code has been contributed by Mayank Jaiswal

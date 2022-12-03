@@ -1,87 +1,25 @@
+// Java program to count occurrences
+// of an element
 
-// Java program to count occurrences 
-// of an element 
+class Main {
 
-class
-Main 
-{ 
+  // Returns number of times x occurs in arr[0..n-1]
 
-// Returns number of times x occurs in arr[0..n-1] 
+  static int countOccurrences(int arr[], int n, int x) {
+    int res = 0;
 
-static
-int
-countOccurrences(
-int
-arr[], 
-int
-n, 
-int
-x) 
+    for (int i = 0; i < n; i++) if (x == arr[i]) res++;
 
-{ 
+    return res;
+  }
 
-int
-res = 
-0
-; 
+  public static void main(String args[]) {
+    int arr[] = { 1, 2, 2, 2, 2, 3, 4, 7, 8, 8 };
 
-for
-(
-int
-i=
-0
-; i<n; i++) 
+    int n = arr.length;
 
-if
-(x == arr[i]) 
+    int x = 2;
 
-res++; 
-
-return
-res; 
-
-} 
-
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-arr[] = {
-1
-, 
-2
-, 
-2
-, 
-2
-, 
-2
-, 
-3
-, 
-4
-, 
-7
-,
-8
-,
-8
-}; 
-
-int
-n = arr.length; 
-
-int
-x = 
-2
-; 
-
-System.out.println(countOccurrences(arr, n, x)); 
-
-} 
-} 
+    System.out.println(countOccurrences(arr, n, x));
+  }
+}

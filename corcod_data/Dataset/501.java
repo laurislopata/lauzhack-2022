@@ -1,123 +1,44 @@
+// Java program to acquire
+// all n coins
+import java.util.Arrays;
 
-// Java program to acquire 
-// all n coins 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG 
-{ 
+  // function to calculate min cost
 
+  static int minCost(int coin[], int n, int k) {
+    // sort the coins value
 
-// function to calculate min cost 
+    Arrays.sort(coin);
 
-static
-int
-minCost(
-int
-coin[], 
+    // calculate no. of
 
-int
-n, 
-int
-k) 
+    // coins needed
 
-{ 
+    int coins_needed = (int) Math.ceil(1.0 * n / (k + 1));
 
+    // calculate sum of
 
-// sort the coins value 
+    // all selected coins
 
-Arrays.sort(coin); 
+    int ans = 0;
 
+    for (int i = 0; i <= coins_needed - 1; i++) ans += coin[i];
 
-// calculate no. of 
+    return ans;
+  }
 
-// coins needed 
+  // Driver code
 
-int
-coins_needed = (
-int
-)Math.ceil(
-1.0
-* 
+  public static void main(String arg[]) {
+    int coin[] = { 8, 5, 3, 10, 2, 1, 15, 25 };
 
-n / (k + 
-1
-)); 
+    int n = coin.length;
 
+    int k = 3;
 
-// calculate sum of 
-
-// all selected coins 
-
-int
-ans = 
-0
-; 
-
-
-for
-(
-int
-i = 
-0
-; i <= coins_needed - 
-1
-; 
-
-i++) 
-
-ans += coin[i]; 
-
-
-return
-ans; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String arg[]) 
-
-{ 
-
-int
-coin[] = { 
-8
-, 
-5
-, 
-3
-, 
-10
-, 
-
-2
-, 
-1
-, 
-15
-, 
-25
-}; 
-
-int
-n = coin.length; 
-
-int
-k = 
-3
-; 
-
-
-System.out.print(minCost(coin, n, k)); 
-
-} 
-} 
-
-// This code is contributed 
-// by Anant Agarwal. 
+    System.out.print(minCost(coin, n, k));
+  }
+}
+// This code is contributed
+// by Anant Agarwal.

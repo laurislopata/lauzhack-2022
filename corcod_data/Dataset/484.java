@@ -1,127 +1,61 @@
+// Java program to find minimum
+// increment/decrement operations
+// to make array elements same.
+import java.io.*;
+import java.util.Arrays;
 
-// Java program to find minimum 
-// increment/decrement operations 
-// to make array elements same. 
-import
-java.util.Arrays; 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG 
-{ 
-static
-int
-MinOperation(
-int
-a[], 
+  static int MinOperation(int a[], int b[], int n) {
+    // sorting both arrays
 
-int
-b[], 
+    // in ascending order
 
-int
-n) 
-{ 
+    Arrays.sort(a);
 
-// sorting both arrays 
+    Arrays.sort(b);
 
-// in ascending order 
+    // variable to store
 
-Arrays.sort(a); 
+    // the final result
 
-Arrays.sort(b); 
+    int result = 0;
 
+    // After sorting both arrays
 
+    // Now each array is in non-
 
-// variable to store 
+    // decreasing order. Thus,
 
-// the final result 
+    // we will now compare each
 
-int
-result = 
-0
-; 
+    // element of the array and
 
+    // do the increment or decrement
 
-// After sorting both arrays 
+    // operation depending upon the
 
-// Now each array is in non- 
+    // value of array b[].
 
-// decreasing order. Thus, 
+    for (int i = 0; i < n; ++i) {
+      if (a[i] > b[i]) result = result + Math.abs(a[i] - b[i]); else if (
+        a[i] < b[i]
+      ) result = result + Math.abs(a[i] - b[i]);
+    }
 
-// we will now compare each 
+    return result;
+  }
 
-// element of the array and 
+  // Driver code
+  public static void main(String[] args) {
+    int a[] = { 3, 1, 1 };
 
-// do the increment or decrement 
+    int b[] = { 1, 2, 2 };
 
-// operation depending upon the 
+    int n = a.length;
 
-// value of array b[]. 
-
-for
-(
-int
-i = 
-0
-; i < n; ++i) 
-
-{ 
-
-if
-(a[i] > b[i]) 
-
-result = result + 
-
-Math.abs(a[i] - b[i]); 
-
-
-else
-if
-(a[i] < b[i]) 
-
-result = result + 
-
-Math.abs(a[i] - b[i]); 
-
-} 
-
-
-return
-result; 
-} 
-
-// Driver code 
-public
-static
-void
-main (String[] args) 
-{ 
-
-int
-a[] = {
-3
-, 
-1
-, 
-1
-}; 
-
-int
-b[] = {
-1
-, 
-2
-, 
-2
-}; 
-
-int
-n = a.length; 
-
-System.out.println(MinOperation(a, b, n)); 
-} 
-} 
-
-// This code is contributed 
-// by akt_mit 
+    System.out.println(MinOperation(a, b, n));
+  }
+}
+// This code is contributed
+// by akt_mit

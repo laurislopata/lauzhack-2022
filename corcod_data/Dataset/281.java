@@ -1,67 +1,38 @@
+// Java program to count subsequences of the
+// form a^i b^j c^k
+public class No_of_subsequence {
 
-// Java program to count subsequences of the 
-// form a^i b^j c^k 
-public
-class
-No_of_subsequence { 
+  // Returns count of subsequences of the form
 
+  // a^i b^j c^k
 
-// Returns count of subsequences of the form 
+  static int countSubsequences(String s) {
+    // Initialize counts of different subsequences
 
-// a^i b^j c^k 
+    // caused by different combination of 'a'
 
-static
-int
-countSubsequences(String s) 
+    int aCount = 0;
 
-{ 
+    // Initialize counts of different subsequences
 
-// Initialize counts of different subsequences 
+    // caused by different combination of 'a' and
 
-// caused by different combination of 'a' 
+    // different combination of 'b'
 
-int
-aCount = 
-0
-; 
+    int bCount = 0;
 
+    // Initialize counts of different subsequences
 
-// Initialize counts of different subsequences 
+    // caused by different combination of 'a', 'b'
 
-// caused by different combination of 'a' and 
+    // and 'c'.
 
-// different combination of 'b' 
+    int cCount = 0;
 
-int
-bCount = 
-0
-; 
+    // Traverse all characters of given string
 
-
-// Initialize counts of different subsequences 
-
-// caused by different combination of 'a', 'b' 
-
-// and 'c'. 
-
-int
-cCount = 
-0
-; 
-
-
-// Traverse all characters of given string 
-
-for
-(
-int
-i=
-0
-; i< s.length(); i++) 
-
-{ 
-
-/* If current character is 'a', then 
+    for (int i = 0; i < s.length(); i++) {
+      /* If current character is 'a', then 
 
 there are following possibilities : 
 
@@ -77,19 +48,8 @@ c) Current character is not part of
 
 aCount subsequences. */
 
-if
-(s.charAt(i) == 
-'a'
-) 
-
-aCount = (
-1
-+ 
-2
-* aCount); 
-
-
-/* If current character is 'b', then 
+      if (s.charAt(i) == 'a') aCount =
+        (1 + 2 * aCount); /* If current character is 'b', then 
 
 there are following possibilities : 
 
@@ -107,18 +67,8 @@ c) Current character is not part of
 
 bCount subsequences. */
 
-else
-if
-(s.charAt(i) == 
-'b'
-) 
-
-bCount = (aCount + 
-2
-* bCount); 
-
-
-/* If current character is 'c', then 
+      else if (s.charAt(i) == 'b') bCount =
+        (aCount + 2 * bCount); /* If current character is 'c', then 
 
 there are following possibilities : 
 
@@ -136,40 +86,18 @@ c) Current character is not part of
 
 cCount subsequences. */
 
-else
-if
-(s.charAt(i) == 
-'c'
-) 
+      else if (s.charAt(i) == 'c') cCount = (bCount + 2 * cCount);
+    }
 
-cCount = (bCount + 
-2
-* cCount); 
+    return cCount;
+  }
 
-} 
+  // Driver code
 
+  public static void main(String args[]) {
+    String s = "abbc";
 
-return
-cCount; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-String s = 
-"abbc"
-; 
-
-System.out.println(countSubsequences(s)); 
-
-} 
-} 
-// This code is contributed by Sumit Ghosh 
+    System.out.println(countSubsequences(s));
+  }
+}
+// This code is contributed by Sumit Ghosh

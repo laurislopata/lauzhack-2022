@@ -1,255 +1,132 @@
+// Java code to find sum of
+// all area rectangle possible
+import java.io.*;
+import java.util.Arrays;
 
-// Java code to find sum of 
-// all area rectangle possible 
-import
-java.io.*; 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG 
-{ 
+  // Function to find
 
-// Function to find 
+  // area of rectangles
 
-// area of rectangles 
+  static int MaxTotalRectangleArea(int[] a, int n) {
+    // sorting the array in
 
-static
-int
-MaxTotalRectangleArea(
-int
-[]a, 
+    // descending order
 
-int
-n) 
+    Arrays.sort(a);
 
-{ 
+    // store the final sum of
 
+    // all the rectangles area
 
-// sorting the array in 
+    // possible
 
-// descending order 
+    int sum = 0;
 
-Arrays.sort(a); 
+    boolean flag = false;
 
+    // temporary variable to
 
-// store the final sum of 
+    // store the length of rectangle
 
-// all the rectangles area 
+    int len = 0;
 
-// possible 
+    for (int i = 0; i < n; i++) {
+      // Selecting the length of
 
-int
-sum = 
-0
-; 
+      // rectangle so that difference
 
-boolean
-flag = 
-false
-; 
+      // between any two number is 1
 
+      // only. Here length is selected
 
-// temporary variable to 
+      // so flag is set
 
-// store the length of rectangle 
+      if ((a[i] == a[i + 1] || a[i] - a[i + 1] == 1) && !flag) {
+        // flag is set means
 
-int
-len = 
-0
-; 
+        // we have got length of
 
+        // rectangle
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+        flag = true;
 
-{ 
+        // length is set to
 
+        // a[i+1] so that if
 
-// Selecting the length of 
+        // a[i] a[i+1] is less
 
-// rectangle so that difference 
+        // than by 1 then also
 
-// between any two number is 1 
+        // we have the correct
 
-// only. Here length is selected 
+        // choice for length
 
-// so flag is set 
+        len = a[i + 1];
 
-if
-((a[i] == a[i + 
-1
-] || 
+        // incrementing the counter
 
-a[i] - a[i + 
-1
-] == 
-1
-) && 
+        // one time more as we have
 
-!flag) 
+        // considered a[i+1] element
 
-{ 
+        // also so.
 
-// flag is set means 
+        i++;
+      }
+      // Selecting the width of rectangle
 
-// we have got length of 
+      // so that difference between any
 
-// rectangle 
+      // two number is 1 only. Here width
 
-flag = 
-true
-; 
+      // is selected so now flag is again
 
+      // unset for next rectangle
 
-// length is set to 
+      else if ((a[i] == a[i + 1] || a[i] - a[i + 1] == 1) && (flag)) {
+        // area is calculated for
 
-// a[i+1] so that if 
+        // rectangle
 
-// a[i] a[i+1] is less 
+        sum = sum + a[i + 1] * len;
 
-// than by 1 then also 
+        // flag is set false
 
-// we have the correct 
+        // for another rectangle
 
-// choice for length 
+        // which we can get from
 
-len = a[i + 
-1
-]; 
+        // elements in array
 
+        flag = false;
 
-// incrementing the counter 
+        // incrementing the counter
 
-// one time more as we have 
+        // one time more as we have
 
-// considered a[i+1] element 
+        // considered a[i+1] element
 
-// also so. 
+        // also so.
 
-i++; 
+        i++;
+      }
+    }
 
-} 
+    return sum;
+  }
 
+  // Driver code
 
-// Selecting the width of rectangle 
+  public static void main(String args[]) {
+    int[] a = { 10, 10, 10, 10, 11, 10, 11, 10, 9, 9, 8, 8 };
 
-// so that difference between any 
+    int n = a.length;
 
-// two number is 1 only. Here width 
-
-// is selected so now flag is again 
-
-// unset for next rectangle 
-
-else
-if
-((a[i] == a[i + 
-1
-] || 
-
-a[i] - a[i + 
-1
-] == 
-1
-) && 
-
-(flag)) 
-
-{ 
-
-// area is calculated for 
-
-// rectangle 
-
-sum = sum + a[i + 
-1
-] * len; 
-
-
-// flag is set false 
-
-// for another rectangle 
-
-// which we can get from 
-
-// elements in array 
-
-flag = 
-false
-; 
-
-
-// incrementing the counter 
-
-// one time more as we have 
-
-// considered a[i+1] element 
-
-// also so. 
-
-i++; 
-
-} 
-
-} 
-
-
-return
-sum; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main (String args[]) 
-
-{ 
-
-int
-[]a = { 
-10
-, 
-10
-, 
-10
-, 
-10
-, 
-
-11
-, 
-10
-, 
-11
-, 
-10
-, 
-
-9
-, 
-9
-, 
-8
-, 
-8
-}; 
-
-int
-n = a.length; 
-
-
-System.out.print(MaxTotalRectangleArea(a, n)); 
-
-} 
-} 
-// This code is contributed by 
-// Manish Shaw(manishshaw1) 
+    System.out.print(MaxTotalRectangleArea(a, n));
+  }
+}
+// This code is contributed by
+// Manish Shaw(manishshaw1)

@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
@@ -40,7 +39,6 @@ public class EhabAndAnotherAnotherXorProblem implements Closeable {
             b |= (1 << i);
           }
         }
-        
       }
     }
     answer(a, b);
@@ -64,6 +62,7 @@ public class EhabAndAnotherAnotherXorProblem implements Closeable {
   }
 
   static class InputReader {
+
     public BufferedReader reader;
     public StringTokenizer tokenizer;
 
@@ -97,7 +96,9 @@ public class EhabAndAnotherAnotherXorProblem implements Closeable {
   }
 
   public static void main(String[] args) throws IOException {
-    try (EhabAndAnotherAnotherXorProblem instance = new EhabAndAnotherAnotherXorProblem()) {
+    try (
+      EhabAndAnotherAnotherXorProblem instance = new EhabAndAnotherAnotherXorProblem()
+    ) {
       instance.solve();
     }
   }

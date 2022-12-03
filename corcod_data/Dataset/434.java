@@ -1,234 +1,110 @@
+// Java implementation to print the path from root
+// to a given node in a binary tree
+import java.util.ArrayList;
 
-// Java implementation to print the path from root 
-// to a given node in a binary tree 
-import
-java.util.ArrayList; 
-public
-class
-PrintPath { 
+public class PrintPath {
 
+  // Returns true if there is a path from root
 
-// Returns true if there is a path from root 
+  // to the given node. It also populates
 
-// to the given node. It also populates 
+  // 'arr' with the given path
 
-// 'arr' with the given path 
+  public static boolean hasPath(Node root, ArrayList<Integer> arr, int x) {
+    // if root is NULL
 
-public
-static
-boolean
-hasPath(Node root, ArrayList<Integer> arr, 
-int
-x) 
+    // there is no path
 
-{ 
+    if (root == null) return false;
 
-// if root is NULL 
+    // push the node's value in 'arr'
 
-// there is no path 
+    arr.add(root.data);
 
-if
-(root==
-null
-) 
+    // if it is the required node
 
-return
-false
-; 
+    // return true
 
+    if (root.data == x) return true;
 
-// push the node's value in 'arr' 
+    // else check whether the required node lies
 
-arr.add(root.data); 
+    // in the left subtree or right subtree of
 
+    // the current node
 
-// if it is the required node 
+    if (hasPath(root.left, arr, x) || hasPath(root.right, arr, x)) return true;
 
-// return true 
+    // required node does not lie either in the
 
-if
-(root.data == x) 
+    // left or right subtree of the current node
 
-return
-true
-; 
+    // Thus, remove current node's value from
 
+    // 'arr'and then return false
 
-// else check whether the required node lies 
+    arr.remove(arr.size() - 1);
 
-// in the left subtree or right subtree of 
+    return false;
+  }
 
-// the current node 
+  // function to print the path from root to the
 
-if
-(hasPath(root.left, arr, x) || 
+  // given node if the node lies in the binary tree
 
-hasPath(root.right, arr, x)) 
+  public static void printPath(Node root, int x) {
+    // ArrayList to store the path
 
-return
-true
-; 
+    ArrayList<Integer> arr = new ArrayList<>();
 
+    // if required node 'x' is present
 
-// required node does not lie either in the 
+    // then print the path
 
-// left or right subtree of the current node 
+    if (hasPath(root, arr, x)) {
+      for (int i = 0; i < arr.size() - 1; i++) System.out.print(
+        arr.get(i) + "->"
+      );
 
-// Thus, remove current node's value from 
+      System.out.print(arr.get(arr.size() - 1));
+    }
+    // 'x' is not present in the binary tree
 
-// 'arr'and then return false 
+    else System.out.print("No Path");
+  }
 
-arr.remove(arr.size()-
-1
-); 
+  public static void main(String args[]) {
+    Node root = new Node(1);
 
-return
-false
-; 
+    root.left = new Node(2);
 
-} 
+    root.right = new Node(3);
 
+    root.left.left = new Node(4);
 
-// function to print the path from root to the 
+    root.left.right = new Node(5);
 
-// given node if the node lies in the binary tree 
+    root.right.left = new Node(6);
 
-public
-static
-void
-printPath(Node root, 
-int
-x) 
+    root.right.right = new Node(7);
 
-{ 
+    int x = 5;
 
-// ArrayList to store the path 
+    printPath(root, x);
+  }
+}
 
-ArrayList<Integer> arr=
-new
-ArrayList<>(); 
+// A node of binary tree
+class Node {
 
+  int data;
 
-// if required node 'x' is present 
+  Node left, right;
 
-// then print the path 
+  Node(int data) {
+    this.data = data;
 
-if
-(hasPath(root, arr, x)) 
-
-{ 
-
-for
-(
-int
-i=
-0
-; i<arr.size()-
-1
-; i++) 
-
-System.out.print(arr.get(i)+
-"->"
-); 
-
-System.out.print(arr.get(arr.size() - 
-1
-)); 
-
-} 
-
-
-// 'x' is not present in the binary tree 
-
-else
-
-System.out.print(
-"No Path"
-); 
-
-} 
-
-
-public
-static
-void
-main(String args[]) { 
-
-Node root=
-new
-Node(
-1
-); 
-
-root.left = 
-new
-Node(
-2
-); 
-
-root.right = 
-new
-Node(
-3
-); 
-
-root.left.left = 
-new
-Node(
-4
-); 
-
-root.left.right = 
-new
-Node(
-5
-); 
-
-root.right.left = 
-new
-Node(
-6
-); 
-
-root.right.right = 
-new
-Node(
-7
-); 
-
-int
-x=
-5
-; 
-
-printPath(root, x); 
-
-} 
-} 
-
-// A node of binary tree 
-class
-Node 
-{ 
-
-int
-data; 
-
-Node left, right; 
-
-Node(
-int
-data) 
-
-{ 
-
-this
-.data=data; 
-
-left=right=
-null
-; 
-
-} 
-}; 
-//This code is contributed by Gaurav Tiwari 
+    left = right = null;
+  }
+}
+//This code is contributed by Gaurav Tiwari

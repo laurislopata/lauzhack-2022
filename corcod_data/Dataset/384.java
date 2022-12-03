@@ -1,263 +1,107 @@
-
-// Java program for recursive level order traversal in spiral form 
+// Java program for recursive level order traversal in spiral form
 
 /* A binary tree node has data, pointer to left child 
 
 and a pointer to right child */
-class
-Node { 
+class Node {
 
-int
-data; 
+  int data;
 
-Node left, right; 
+  Node left, right;
 
+  public Node(int d) {
+    data = d;
 
-public
-Node(
-int
-d) 
+    left = right = null;
+  }
+}
 
-{ 
+class BinaryTree {
 
-data = d; 
+  Node root;
 
-left = right = 
-null
-; 
+  // Function to print the spiral traversal of tree
 
-} 
-} 
+  void printSpiral(Node node) {
+    int h = height(node);
 
-class
-BinaryTree { 
+    int i;
 
-Node root; 
-
-
-// Function to print the spiral traversal of tree 
-
-void
-printSpiral(Node node) 
-
-{ 
-
-int
-h = height(node); 
-
-int
-i; 
-
-
-/* ltr -> left to right. If this variable is set then the 
+    /* ltr -> left to right. If this variable is set then the 
 
 given label is traversed from left to right */
 
-boolean
-ltr = 
-false
-; 
+    boolean ltr = false;
 
-for
-(i = 
-1
-; i <= h; i++) { 
+    for (i = 1; i <= h; i++) {
+      printGivenLevel(node, i, ltr);
 
-printGivenLevel(node, i, ltr); 
+      /*Revert ltr to traverse next level in opposite order*/
 
+      ltr = !ltr;
+    }
+  }
 
-/*Revert ltr to traverse next level in opposite order*/
-
-ltr = !ltr; 
-
-} 
-
-} 
-
-
-/* Compute the "height" of a tree -- the number of 
+  /* Compute the "height" of a tree -- the number of 
 
 nodes along the longest path from the root node 
 
 down to the farthest leaf node.*/
 
-int
-height(Node node) 
+  int height(Node node) {
+    if (node == null) return 0; else {
+      /* compute the height of each subtree */
 
-{ 
+      int lheight = height(node.left);
 
-if
-(node == 
-null
-) 
+      int rheight = height(node.right);
 
-return
-0
-; 
+      /* use the larger one */
 
-else
-{ 
+      if (lheight > rheight) return (lheight + 1); else return (rheight + 1);
+    }
+  }
 
+  /* Print nodes at a given level */
 
-/* compute the height of each subtree */
+  void printGivenLevel(Node node, int level, boolean ltr) {
+    if (node == null) return;
 
-int
-lheight = height(node.left); 
+    if (level == 1) System.out.print(node.data + " "); else if (level > 1) {
+      if (ltr != false) {
+        printGivenLevel(node.left, level - 1, ltr);
 
-int
-rheight = height(node.right); 
+        printGivenLevel(node.right, level - 1, ltr);
+      } else {
+        printGivenLevel(node.right, level - 1, ltr);
 
+        printGivenLevel(node.left, level - 1, ltr);
+      }
+    }
+  }
 
-/* use the larger one */
+  /* Driver program to test the above functions */
 
-if
-(lheight > rheight) 
+  public static void main(String[] args) {
+    BinaryTree tree = new BinaryTree();
 
-return
-(lheight + 
-1
-); 
+    tree.root = new Node(1);
 
-else
+    tree.root.left = new Node(2);
 
-return
-(rheight + 
-1
-); 
+    tree.root.right = new Node(3);
 
-} 
+    tree.root.left.left = new Node(7);
 
-} 
+    tree.root.left.right = new Node(6);
 
+    tree.root.right.left = new Node(5);
 
-/* Print nodes at a given level */
+    tree.root.right.right = new Node(4);
 
-void
-printGivenLevel(Node node, 
-int
-level, 
-boolean
-ltr) 
+    System.out.println("Spiral order traversal of Binary Tree is ");
 
-{ 
-
-if
-(node == 
-null
-) 
-
-return
-; 
-
-if
-(level == 
-1
-) 
-
-System.out.print(node.data + 
-" "
-); 
-
-else
-if
-(level > 
-1
-) { 
-
-if
-(ltr != 
-false
-) { 
-
-printGivenLevel(node.left, level - 
-1
-, ltr); 
-
-printGivenLevel(node.right, level - 
-1
-, ltr); 
-
-} 
-
-else
-{ 
-
-printGivenLevel(node.right, level - 
-1
-, ltr); 
-
-printGivenLevel(node.left, level - 
-1
-, ltr); 
-
-} 
-
-} 
-
-} 
-
-/* Driver program to test the above functions */
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-tree.root = 
-new
-Node(
-1
-); 
-
-tree.root.left = 
-new
-Node(
-2
-); 
-
-tree.root.right = 
-new
-Node(
-3
-); 
-
-tree.root.left.left = 
-new
-Node(
-7
-); 
-
-tree.root.left.right = 
-new
-Node(
-6
-); 
-
-tree.root.right.left = 
-new
-Node(
-5
-); 
-
-tree.root.right.right = 
-new
-Node(
-4
-); 
-
-System.out.println(
-"Spiral order traversal of Binary Tree is "
-); 
-
-tree.printSpiral(tree.root); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal(mayank_24) 
+    tree.printSpiral(tree.root);
+  }
+}
+// This code has been contributed by Mayank Jaiswal(mayank_24)

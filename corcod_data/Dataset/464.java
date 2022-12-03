@@ -1,353 +1,178 @@
+// Java program for Kruskal's algorithm to find Minimum
+// Spanning Tree of a given connected, undirected and
+// weighted graph
+import java.io.*;
+import java.lang.*;
+import java.util.*;
 
-// Java program for Kruskal's algorithm to find Minimum 
-// Spanning Tree of a given connected, undirected and 
-// weighted graph 
-import
-java.util.*; 
-import
-java.lang.*; 
-import
-java.io.*; 
+class Graph {
 
-class
-Graph 
-{ 
+  // A class to represent a graph edge
 
-// A class to represent a graph edge 
+  class Edge implements Comparable<Edge> {
 
-class
-Edge 
-implements
-Comparable<Edge> 
+    int src, dest, weight;
 
-{ 
+    // Comparator function used for sorting edges
 
-int
-src, dest, weight; 
+    // based on their weight
 
+    public int compareTo(Edge compareEdge) {
+      return this.weight - compareEdge.weight;
+    }
+  }
 
-// Comparator function used for sorting edges 
+  // A class to represent a subset for union-find
 
-// based on their weight 
+  class subset {
 
-public
-int
-compareTo(Edge compareEdge) 
+    int parent, rank;
+  }
 
-{ 
+  int V, E;
+  // V-> no. of vertices & E->no.of edges
 
-return
-this
-.weight-compareEdge.weight; 
+  Edge edge[];
 
-} 
+  // collection of all edges
 
-}; 
+  // Creates a graph with V vertices and E edges
 
+  Graph(int v, int e) {
+    V = v;
 
-// A class to represent a subset for union-find 
+    E = e;
 
-class
-subset 
+    edge = new Edge[E];
 
-{ 
+    for (int i = 0; i < e; ++i) edge[i] = new Edge();
+  }
 
-int
-parent, rank; 
+  // A utility function to find set of an element i
 
-}; 
+  // (uses path compression technique)
 
+  int find(subset subsets[], int i) {
+    // find root and make root as parent of i (path compression)
 
-int
-V, E; 
-// V-> no. of vertices & E->no.of edges 
+    if (subsets[i].parent != i) subsets[i].parent =
+      find(subsets, subsets[i].parent);
 
-Edge edge[]; 
-// collection of all edges 
+    return subsets[i].parent;
+  }
 
+  // A function that does union of two sets of x and y
 
-// Creates a graph with V vertices and E edges 
+  // (uses union by rank)
 
-Graph(
-int
-v, 
-int
-e) 
+  void Union(subset subsets[], int x, int y) {
+    int xroot = find(subsets, x);
 
-{ 
+    int yroot = find(subsets, y);
 
-V = v; 
+    // Attach smaller rank tree under root of high rank tree
 
-E = e; 
+    // (Union by Rank)
 
-edge = 
-new
-Edge[E]; 
+    if (subsets[xroot].rank < subsets[yroot].rank) subsets[xroot].parent =
+      yroot; else if (
+      subsets[xroot].rank > subsets[yroot].rank
+    ) subsets[yroot].parent = xroot;
+    // If ranks are same, then make one as root and increment
 
-for
-(
-int
-i=
-0
-; i<e; ++i) 
+    // its rank by one
 
-edge[i] = 
-new
-Edge(); 
+    else {
+      subsets[yroot].parent = xroot;
 
-} 
+      subsets[xroot].rank++;
+    }
+  }
 
+  // The main function to construct MST using Kruskal's algorithm
 
-// A utility function to find set of an element i 
+  void KruskalMST() {
+    Edge result[] = new Edge[V];
+    // Tnis will store the resultant MST
 
-// (uses path compression technique) 
+    int e = 0;
+    // An index variable, used for result[]
 
-int
-find(subset subsets[], 
-int
-i) 
+    int i = 0;
+    // An index variable, used for sorted edges
 
-{ 
+    for (i = 0; i < V; ++i) result[i] = new Edge();
 
-// find root and make root as parent of i (path compression) 
+    // Step 1: Sort all the edges in non-decreasing order of their
 
-if
-(subsets[i].parent != i) 
+    // weight. If we are not allowed to change the given graph, we
 
-subsets[i].parent = find(subsets, subsets[i].parent); 
+    // can create a copy of array of edges
 
+    Arrays.sort(edge);
 
-return
-subsets[i].parent; 
+    // Allocate memory for creating V ssubsets
 
-} 
+    subset subsets[] = new subset[V];
 
+    for (i = 0; i < V; ++i) subsets[i] = new subset();
 
-// A function that does union of two sets of x and y 
+    // Create V subsets with single elements
 
-// (uses union by rank) 
+    for (int v = 0; v < V; ++v) {
+      subsets[v].parent = v;
 
-void
-Union(subset subsets[], 
-int
-x, 
-int
-y) 
+      subsets[v].rank = 0;
+    }
 
-{ 
+    i = 0;
+    // Index used to pick next edge
 
-int
-xroot = find(subsets, x); 
+    // Number of edges to be taken is equal to V-1
 
-int
-yroot = find(subsets, y); 
+    while (e < V - 1) {
+      // Step 2: Pick the smallest edge. And increment
 
+      // the index for next iteration
 
-// Attach smaller rank tree under root of high rank tree 
+      Edge next_edge = new Edge();
 
-// (Union by Rank) 
+      next_edge = edge[i++];
 
-if
-(subsets[xroot].rank < subsets[yroot].rank) 
+      int x = find(subsets, next_edge.src);
 
-subsets[xroot].parent = yroot; 
+      int y = find(subsets, next_edge.dest);
 
-else
-if
-(subsets[xroot].rank > subsets[yroot].rank) 
+      // If including this edge does't cause cycle,
 
-subsets[yroot].parent = xroot; 
+      // include it in result and increment the index
 
+      // of result for next edge
 
-// If ranks are same, then make one as root and increment 
+      if (x != y) {
+        result[e++] = next_edge;
 
-// its rank by one 
+        Union(subsets, x, y);
+      }
+      // Else discard the next_edge
 
-else
+    }
 
-{ 
+    // print the contents of result[] to display
 
-subsets[yroot].parent = xroot; 
+    // the built MST
 
-subsets[xroot].rank++; 
+    System.out.println("Following are the edges in " + "the constructed MST");
 
-} 
+    for (i = 0; i < e; ++i) System.out.println(
+      result[i].src + " -- " + result[i].dest + " == " + result[i].weight
+    );
+  }
 
-} 
+  // Driver Program
 
-
-// The main function to construct MST using Kruskal's algorithm 
-
-void
-KruskalMST() 
-
-{ 
-
-Edge result[] = 
-new
-Edge[V]; 
-// Tnis will store the resultant MST 
-
-int
-e = 
-0
-; 
-// An index variable, used for result[] 
-
-int
-i = 
-0
-; 
-// An index variable, used for sorted edges 
-
-for
-(i=
-0
-; i<V; ++i) 
-
-result[i] = 
-new
-Edge(); 
-
-
-// Step 1: Sort all the edges in non-decreasing order of their 
-
-// weight. If we are not allowed to change the given graph, we 
-
-// can create a copy of array of edges 
-
-Arrays.sort(edge); 
-
-
-// Allocate memory for creating V ssubsets 
-
-subset subsets[] = 
-new
-subset[V]; 
-
-for
-(i=
-0
-; i<V; ++i) 
-
-subsets[i]=
-new
-subset(); 
-
-
-// Create V subsets with single elements 
-
-for
-(
-int
-v = 
-0
-; v < V; ++v) 
-
-{ 
-
-subsets[v].parent = v; 
-
-subsets[v].rank = 
-0
-; 
-
-} 
-
-
-i = 
-0
-; 
-// Index used to pick next edge 
-
-
-// Number of edges to be taken is equal to V-1 
-
-while
-(e < V - 
-1
-) 
-
-{ 
-
-// Step 2: Pick the smallest edge. And increment 
-
-// the index for next iteration 
-
-Edge next_edge = 
-new
-Edge(); 
-
-next_edge = edge[i++]; 
-
-
-int
-x = find(subsets, next_edge.src); 
-
-int
-y = find(subsets, next_edge.dest); 
-
-
-// If including this edge does't cause cycle, 
-
-// include it in result and increment the index 
-
-// of result for next edge 
-
-if
-(x != y) 
-
-{ 
-
-result[e++] = next_edge; 
-
-Union(subsets, x, y); 
-
-} 
-
-// Else discard the next_edge 
-
-} 
-
-
-// print the contents of result[] to display 
-
-// the built MST 
-
-System.out.println(
-"Following are the edges in "
-+ 
-
-"the constructed MST"
-); 
-
-for
-(i = 
-0
-; i < e; ++i) 
-
-System.out.println(result[i].src+
-" -- "
-+ 
-
-result[i].dest+
-" == "
-+ result[i].weight); 
-
-} 
-
-
-// Driver Program 
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-
-/* Let us create following weighted graph 
+  public static void main(String[] args) {
+    /* Let us create following weighted graph 
 
 10 
 
@@ -363,130 +188,55 @@ main (String[] args)
 
 4 */
 
-int
-V = 
-4
-; 
-// Number of vertices in graph 
+    int V = 4;
+    // Number of vertices in graph
 
-int
-E = 
-5
-; 
-// Number of edges in graph 
+    int E = 5;
+    // Number of edges in graph
 
-Graph graph = 
-new
-Graph(V, E); 
+    Graph graph = new Graph(V, E);
 
+    // add edge 0-1
 
-// add edge 0-1 
+    graph.edge[0].src = 0;
 
-graph.edge[
-0
-].src = 
-0
-; 
+    graph.edge[0].dest = 1;
 
-graph.edge[
-0
-].dest = 
-1
-; 
+    graph.edge[0].weight = 10;
 
-graph.edge[
-0
-].weight = 
-10
-; 
+    // add edge 0-2
 
+    graph.edge[1].src = 0;
 
-// add edge 0-2 
+    graph.edge[1].dest = 2;
 
-graph.edge[
-1
-].src = 
-0
-; 
+    graph.edge[1].weight = 6;
 
-graph.edge[
-1
-].dest = 
-2
-; 
+    // add edge 0-3
 
-graph.edge[
-1
-].weight = 
-6
-; 
+    graph.edge[2].src = 0;
 
+    graph.edge[2].dest = 3;
 
-// add edge 0-3 
+    graph.edge[2].weight = 5;
 
-graph.edge[
-2
-].src = 
-0
-; 
+    // add edge 1-3
 
-graph.edge[
-2
-].dest = 
-3
-; 
+    graph.edge[3].src = 1;
 
-graph.edge[
-2
-].weight = 
-5
-; 
+    graph.edge[3].dest = 3;
 
+    graph.edge[3].weight = 15;
 
-// add edge 1-3 
+    // add edge 2-3
 
-graph.edge[
-3
-].src = 
-1
-; 
+    graph.edge[4].src = 2;
 
-graph.edge[
-3
-].dest = 
-3
-; 
+    graph.edge[4].dest = 3;
 
-graph.edge[
-3
-].weight = 
-15
-; 
+    graph.edge[4].weight = 4;
 
-
-// add edge 2-3 
-
-graph.edge[
-4
-].src = 
-2
-; 
-
-graph.edge[
-4
-].dest = 
-3
-; 
-
-graph.edge[
-4
-].weight = 
-4
-; 
-
-
-graph.KruskalMST(); 
-
-} 
-} 
-//This code is contributed by Aakash Hasija 
+    graph.KruskalMST();
+  }
+}
+//This code is contributed by Aakash Hasija

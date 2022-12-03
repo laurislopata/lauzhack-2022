@@ -1,78 +1,38 @@
+// Java program to count number of triangles that can be
+// formed from given array
+import java.io.*;
+import java.util.*;
 
-// Java program to count number of triangles that can be 
-// formed from given array 
-import
-java.io.*; 
-import
-java.util.*; 
+class CountTriangles {
 
-class
-CountTriangles 
-{ 
+  // Function to count all possible triangles with arr[]
 
-// Function to count all possible triangles with arr[] 
+  // elements
 
-// elements 
+  static int findNumberOfTriangles(int arr[]) {
+    int n = arr.length;
 
-static
-int
-findNumberOfTriangles(
-int
-arr[]) 
+    // Sort the array elements in non-decreasing order
 
-{ 
+    Arrays.sort(arr);
 
-int
-n = arr.length; 
+    // Initialize count of triangles
 
-// Sort the array elements in non-decreasing order 
+    int count = 0;
 
-Arrays.sort(arr); 
+    // Fix the first element. We need to run till n-3 as
 
+    // the other two elements are selected from arr[i+1...n-1]
 
-// Initialize count of triangles 
+    for (int i = 0; i < n - 2; ++i) {
+      // Initialize index of the rightmost third element
 
-int
-count = 
-0
-; 
+      int k = i + 2;
 
+      // Fix the second element
 
-// Fix the first element. We need to run till n-3 as 
-
-// the other two elements are selected from arr[i+1...n-1] 
-
-for
-(
-int
-i = 
-0
-; i < n-
-2
-; ++i) 
-
-{ 
-
-// Initialize index of the rightmost third element 
-
-int
-k = i + 
-2
-; 
-
-
-// Fix the second element 
-
-for
-(
-int
-j = i+
-1
-; j < n; ++j) 
-
-{ 
-
-/* Find the rightmost element which is smaller 
+      for (int j = i + 1; j < n; ++j) {
+        /* Find the rightmost element which is smaller 
 
 than the sum of two fixed elements 
 
@@ -86,13 +46,9 @@ arr[j] must be greater than k, because the
 
 array is sorted. */
 
-while
-(k < n && arr[i] + arr[j] > arr[k]) 
+        while (k < n && arr[i] + arr[j] > arr[k]) ++k;
 
-++k; 
-
-
-/* Total number of possible triangles that can be 
+        /* Total number of possible triangles that can be 
 
 formed with the two fixed elements is k - j - 1. 
 
@@ -112,53 +68,19 @@ k, because arr[k] + arr[i] is always/ greater than
 
 arr[k] */
 
-if
-(k>j) 
+        if (k > j) count += k - j - 1;
+      }
+    }
 
-count += k - j - 
-1
-; 
+    return count;
+  }
 
-} 
+  public static void main(String[] args) {
+    int arr[] = { 10, 21, 22, 100, 101, 200, 300 };
 
-} 
-
-return
-count; 
-
-} 
-
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-int
-arr[] = {
-10
-, 
-21
-, 
-22
-, 
-100
-, 
-101
-, 
-200
-, 
-300
-}; 
-
-System.out.println(
-"Total number of triangles is "
-+ 
-
-findNumberOfTriangles(arr)); 
-
-} 
-} 
+    System.out.println(
+      "Total number of triangles is " + findNumberOfTriangles(arr)
+    );
+  }
+}
 /*This code is contributed by Devesh Agrawal*/

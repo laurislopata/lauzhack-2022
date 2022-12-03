@@ -1,120 +1,40 @@
+// Java program to find a pair with the given difference
+import java.io.*;
 
-// Java program to find a pair with the given difference 
-import
-java.io.*; 
+class PairDifference {
 
-class
-PairDifference 
-{ 
+  // The function assumes that the array is sorted
 
-// The function assumes that the array is sorted 
+  static boolean findPair(int arr[], int n) {
+    int size = arr.length;
 
-static
-boolean
-findPair(
-int
-arr[],
-int
-n) 
+    // Initialize positions of two elements
 
-{ 
+    int i = 0, j = 1;
 
-int
-size = arr.length; 
+    // Search for a pair
 
+    while (i < size && j < size) {
+      if (i != j && arr[j] - arr[i] == n) {
+        System.out.print("Pair Found: " + "( " + arr[i] + ", " + arr[j] + " )");
 
-// Initialize positions of two elements 
+        return true;
+      } else if (arr[j] - arr[i] < n) j++; else i++;
+    }
 
-int
-i = 
-0
-, j = 
-1
-; 
+    System.out.print("No such pair");
 
+    return false;
+  }
 
-// Search for a pair 
+  // Driver program to test above function
 
-while
-(i < size && j < size) 
+  public static void main(String[] args) {
+    int arr[] = { 1, 8, 30, 40, 100 };
 
-{ 
+    int n = 60;
 
-if
-(i != j && arr[j]-arr[i] == n) 
-
-{ 
-
-System.out.print(
-"Pair Found: "
-+ 
-
-"( "
-+arr[i]+
-", "
-+ arr[j]+
-" )"
-); 
-
-return
-true
-; 
-
-} 
-
-else
-if
-(arr[j] - arr[i] < n) 
-
-j++; 
-
-else
-
-i++; 
-
-} 
-
-
-System.out.print(
-"No such pair"
-); 
-
-return
-false
-; 
-
-} 
-
-
-// Driver program to test above function 
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-int
-arr[] = {
-1
-, 
-8
-, 
-30
-, 
-40
-, 
-100
-}; 
-
-int
-n = 
-60
-; 
-
-findPair(arr,n); 
-
-} 
-} 
+    findPair(arr, n);
+  }
+}
 /*This code is contributed by Devesh Agrawal*/

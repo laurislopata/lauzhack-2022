@@ -33,139 +33,160 @@ import java.util.stream.IntStream;
 
 public class Test {
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String[] line = reader.readLine().split(" ");
-        int w = Integer.valueOf(line[0]);
-        int h = Integer.valueOf(line[1]);
-        int n = Integer.valueOf(line[2]);
+  public static void main(String[] args) throws IOException {
+    BufferedReader reader = new BufferedReader(
+      new InputStreamReader(System.in)
+    );
+    String[] line = reader.readLine().split(" ");
+    int w = Integer.valueOf(line[0]);
+    int h = Integer.valueOf(line[1]);
+    int n = Integer.valueOf(line[2]);
 
-        Request[] requests = new Request[n];
+    Request[] requests = new Request[n];
 
-        for (int i = 0; i < n; i++) {
-            line = reader.readLine().split(" ");
-            requests[i] = new Request(line[0], Integer.valueOf(line[1]));
-        }
-
-        for (long e : solve(h, w, requests))
-            System.out.println(e);
-
-//        int w = 200000, h = 200000, n = 400000;
-//        Request[] requests = generate(w, h, n);
-//
-//        long start = System.currentTimeMillis();
-//        solve(h, w, requests);
-//        long end = System.currentTimeMillis();
-//
-//        System.out.println("Time: " + (end - start) + " ms");
+    for (int i = 0; i < n; i++) {
+      line = reader.readLine().split(" ");
+      requests[i] = new Request(line[0], Integer.valueOf(line[1]));
     }
 
-    private static Request[] generate(int w, int h, int n) {
-        Request[] requests = new Request[n];
-        Random rnd = new Random();
+    for (long e : solve(h, w, requests)) System.out.println(e);
+    //        int w = 200000, h = 200000, n = 400000;
+    //        Request[] requests = generate(w, h, n);
+    //
+    //        long start = System.currentTimeMillis();
+    //        solve(h, w, requests);
+    //        long end = System.currentTimeMillis();
+    //
+    //        System.out.println("Time: " + (end - start) + " ms");
+  }
 
-        for (int i = 0; i < n; i++) {
-            requests[i] = rnd.nextBoolean() ? new Request("V", rnd.nextInt(w)) : new Request("H", rnd.nextInt(h));
-        }
+  private static Request[] generate(int w, int h, int n) {
+    Request[] requests = new Request[n];
+    Random rnd = new Random();
 
-        return requests;
+    for (int i = 0; i < n; i++) {
+      requests[i] =
+        rnd.nextBoolean()
+          ? new Request("V", rnd.nextInt(w))
+          : new Request("H", rnd.nextInt(h));
     }
 
-    private static long[] solve(int h, int w, Request[] requests) {
-        TreeSet<Integer> hTree = new TreeSet<>();
-        TreeSet<Integer> wTree = new TreeSet<>();
+    return requests;
+  }
 
-        Queue<CoordinateWithSize> hHeap = new PriorityQueue<>();
-        Queue<CoordinateWithSize> wHeap = new PriorityQueue<>();
+  private static long[] solve(int h, int w, Request[] requests) {
+    TreeSet<Integer> hTree = new TreeSet<>();
+    TreeSet<Integer> wTree = new TreeSet<>();
 
-        hTree.add(0);
-        hTree.add(h);
-        wTree.add(0);
-        wTree.add(w);
+    Queue<CoordinateWithSize> hHeap = new PriorityQueue<>();
+    Queue<CoordinateWithSize> wHeap = new PriorityQueue<>();
 
-        hHeap.add(new CoordinateWithSize(0, h));
-        wHeap.add(new CoordinateWithSize(0, w));
+    hTree.add(0);
+    hTree.add(h);
+    wTree.add(0);
+    wTree.add(w);
 
-        long[] res = new long[requests.length];
-        for (int i = 0; i < requests.length; i++) {
-            Request request = requests[i];
+    hHeap.add(new CoordinateWithSize(0, h));
+    wHeap.add(new CoordinateWithSize(0, w));
 
-            switch (request.type) {
-                case "H": {
-                    if (!hTree.contains(request.coordinate)) {
-                        int higher = hTree.higher(request.coordinate);
-                        int lower = hTree.lower(request.coordinate);
+    long[] res = new long[requests.length];
+    for (int i = 0; i < requests.length; i++) {
+      Request request = requests[i];
 
-                        hHeap.add(new CoordinateWithSize(lower, request.coordinate - lower));
-                        hHeap.add(new CoordinateWithSize(request.coordinate, higher - request.coordinate));
+      switch (request.type) {
+        case "H":
+          {
+            if (!hTree.contains(request.coordinate)) {
+              int higher = hTree.higher(request.coordinate);
+              int lower = hTree.lower(request.coordinate);
 
-                        hTree.add(request.coordinate);
-                    }
+              hHeap.add(
+                new CoordinateWithSize(lower, request.coordinate - lower)
+              );
+              hHeap.add(
+                new CoordinateWithSize(
+                  request.coordinate,
+                  higher - request.coordinate
+                )
+              );
 
-                    break;
-                }
-                case "V": {
-                    if (!wTree.contains(request.coordinate)) {
-                        int higher = wTree.higher(request.coordinate);
-                        int lower = wTree.lower(request.coordinate);
-
-                        wHeap.add(new CoordinateWithSize(lower, request.coordinate - lower));
-                        wHeap.add(new CoordinateWithSize(request.coordinate, higher - request.coordinate));
-
-                        wTree.add(request.coordinate);
-                    }
-
-                    break;
-                }
-                default:
-                    throw new IllegalStateException("Unknown type [type=" + request.type + "]");
+              hTree.add(request.coordinate);
             }
 
-            while (true) {
-                CoordinateWithSize c = hHeap.peek();
-                if (hTree.higher(c.coordinate) - c.coordinate == c.size)
-                    break;
-                hHeap.remove();
+            break;
+          }
+        case "V":
+          {
+            if (!wTree.contains(request.coordinate)) {
+              int higher = wTree.higher(request.coordinate);
+              int lower = wTree.lower(request.coordinate);
+
+              wHeap.add(
+                new CoordinateWithSize(lower, request.coordinate - lower)
+              );
+              wHeap.add(
+                new CoordinateWithSize(
+                  request.coordinate,
+                  higher - request.coordinate
+                )
+              );
+
+              wTree.add(request.coordinate);
             }
 
-            while (true) {
-                CoordinateWithSize c = wHeap.peek();
-                if (wTree.higher(c.coordinate) - c.coordinate == c.size)
-                    break;
-                wHeap.remove();
-            }
+            break;
+          }
+        default:
+          throw new IllegalStateException(
+            "Unknown type [type=" + request.type + "]"
+          );
+      }
 
-            res[i] = 1L * hHeap.peek().size * wHeap.peek().size;
-        }
+      while (true) {
+        CoordinateWithSize c = hHeap.peek();
+        if (hTree.higher(c.coordinate) - c.coordinate == c.size) break;
+        hHeap.remove();
+      }
 
-        return res;
+      while (true) {
+        CoordinateWithSize c = wHeap.peek();
+        if (wTree.higher(c.coordinate) - c.coordinate == c.size) break;
+        wHeap.remove();
+      }
+
+      res[i] = 1L * hHeap.peek().size * wHeap.peek().size;
     }
 
-    private static class CoordinateWithSize implements Comparable<CoordinateWithSize> {
+    return res;
+  }
 
-        private final int coordinate;
+  private static class CoordinateWithSize
+    implements Comparable<CoordinateWithSize> {
 
-        private final int size;
+    private final int coordinate;
 
-        public CoordinateWithSize(int coordinate, int size) {
-            this.coordinate = coordinate;
-            this.size = size;
-        }
+    private final int size;
 
-        @Override public int compareTo(CoordinateWithSize o) {
-            return Integer.compare(o.size, size);
-        }
+    public CoordinateWithSize(int coordinate, int size) {
+      this.coordinate = coordinate;
+      this.size = size;
     }
 
-    private static class Request {
-
-        private final String type;
-
-        private final int coordinate;
-
-        public Request(String type, int coordinate) {
-            this.type = type;
-            this.coordinate = coordinate;
-        }
+    @Override
+    public int compareTo(CoordinateWithSize o) {
+      return Integer.compare(o.size, size);
     }
+  }
+
+  private static class Request {
+
+    private final String type;
+
+    private final int coordinate;
+
+    public Request(String type, int coordinate) {
+      this.type = type;
+      this.coordinate = coordinate;
+    }
+  }
 }

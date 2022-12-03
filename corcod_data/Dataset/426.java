@@ -1,210 +1,107 @@
+//A Java program to check if a given binary tree is complete or not
 
-//A Java program to check if a given binary tree is complete or not 
+import java.util.LinkedList;
+import java.util.Queue;
 
-import
-java.util.LinkedList; 
-import
-java.util.Queue; 
+public class CompleteBTree {
 
-public
-class
-CompleteBTree 
-{ 
-
-/* A binary tree node has data, a pointer to left child 
+  /* A binary tree node has data, a pointer to left child 
 
 and a pointer to right child */
 
-static
-class
-Node 
+  static class Node {
 
-{ 
+    int data;
 
-int
-data; 
+    Node left;
 
-Node left; 
+    Node right;
 
-Node right; 
+    // Constructor
 
+    Node(int d) {
+      data = d;
 
-// Constructor 
+      left = null;
 
-Node(
-int
-d) 
+      right = null;
+    }
+  }
 
-{ 
-
-data = d; 
-
-left = 
-null
-; 
-
-right = 
-null
-; 
-
-} 
-
-} 
-
-
-/* Given a binary tree, return true if the tree is complete 
+  /* Given a binary tree, return true if the tree is complete 
 
 else false */
 
-static
-boolean
-isCompleteBT(Node root) 
+  static boolean isCompleteBT(Node root) {
+    // Base Case: An empty tree is complete Binary Tree
 
-{ 
+    if (root == null) return true;
 
-// Base Case: An empty tree is complete Binary Tree 
+    // Create an empty queue
 
-if
-(root == 
-null
-) 
+    Queue<Node> queue = new LinkedList<>();
 
-return
-true
-; 
+    // Create a flag variable which will be set true
 
+    // when a non full node is seen
 
-// Create an empty queue 
+    boolean flag = false;
 
-Queue<Node> queue =
-new
-LinkedList<>(); 
+    // Do level order traversal using queue.
 
+    queue.add(root);
 
-// Create a flag variable which will be set true 
+    while (!queue.isEmpty()) {
+      Node temp_node = queue.remove();
 
-// when a non full node is seen 
+      /* Check if left child is present*/
 
-boolean
-flag = 
-false
-; 
+      if (temp_node.left != null) {
+        // If we have seen a non full node, and we see a node
 
+        // with non-empty left child, then the given tree is not
 
-// Do level order traversal using queue. 
+        // a complete Binary Tree
 
-queue.add(root); 
+        if (flag == true) return false;
 
-while
-(!queue.isEmpty()) 
+        // Enqueue Left Child
 
-{ 
+        queue.add(temp_node.left);
+      }
+      // If this a non-full node, set the flag as true
 
-Node temp_node = queue.remove(); 
+      else flag = true;
 
+      /* Check if right child is present*/
 
-/* Check if left child is present*/
+      if (temp_node.right != null) {
+        // If we have seen a non full node, and we see a node
 
-if
-(temp_node.left != 
-null
-) 
+        // with non-empty right child, then the given tree is not
 
-{ 
+        // a complete Binary Tree
 
-// If we have seen a non full node, and we see a node 
+        if (flag == true) return false;
 
-// with non-empty left child, then the given tree is not 
+        // Enqueue Right Child
 
-// a complete Binary Tree 
+        queue.add(temp_node.right);
+      }
+      // If this a non-full node, set the flag as true
 
-if
-(flag == 
-true
-) 
+      else flag = true;
+    }
 
-return
-false
-; 
+    // If we reach here, then the tree is complete Binary Tree
 
+    return true;
+  }
 
-// Enqueue Left Child 
+  /* Driver program to test above functions*/
 
-queue.add(temp_node.left); 
-
-} 
-
-// If this a non-full node, set the flag as true 
-
-else
-
-flag = 
-true
-; 
-
-
-/* Check if right child is present*/
-
-if
-(temp_node.right != 
-null
-) 
-
-{ 
-
-// If we have seen a non full node, and we see a node 
-
-// with non-empty right child, then the given tree is not 
-
-// a complete Binary Tree 
-
-if
-(flag == 
-true
-) 
-
-return
-false
-; 
-
-
-// Enqueue Right Child 
-
-queue.add(temp_node.right); 
-
-
-} 
-
-// If this a non-full node, set the flag as true 
-
-else
-
-flag = 
-true
-; 
-
-} 
-
-// If we reach here, then the tree is complete Binary Tree 
-
-return
-true
-; 
-
-} 
-
-
-/* Driver program to test above functions*/
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-
-/* Let us construct the following Binary Tree which 
+  public static void main(String[] args) {
+    /* Let us construct the following Binary Tree which 
 
 is not a complete Binary Tree 
 
@@ -220,60 +117,21 @@ is not a complete Binary Tree
 
 */
 
+    Node root = new Node(1);
 
-Node root = 
-new
-Node(
-1
-); 
+    root.left = new Node(2);
 
-root.left = 
-new
-Node(
-2
-); 
+    root.right = new Node(3);
 
-root.right = 
-new
-Node(
-3
-); 
+    root.left.left = new Node(4);
 
-root.left.left = 
-new
-Node(
-4
-); 
+    root.left.right = new Node(5);
 
-root.left.right = 
-new
-Node(
-5
-); 
+    root.right.right = new Node(6);
 
-root.right.right = 
-new
-Node(
-6
-); 
-
-
-if
-(isCompleteBT(root) == 
-true
-) 
-
-System.out.println(
-"Complete Binary Tree"
-); 
-
-else
-
-System.out.println(
-"NOT Complete Binary Tree"
-); 
-
-} 
-
-} 
-//This code is contributed by Sumit Ghosh 
+    if (isCompleteBT(root) == true) System.out.println(
+      "Complete Binary Tree"
+    ); else System.out.println("NOT Complete Binary Tree");
+  }
+}
+//This code is contributed by Sumit Ghosh

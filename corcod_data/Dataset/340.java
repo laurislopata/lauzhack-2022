@@ -1,213 +1,104 @@
+// Java program to find Minimum
+// number of jumps to reach end
+class GFG {
 
-// Java program to find Minimum 
-// number of jumps to reach end 
-class
-GFG 
-{ 
-// Returns Minimum number 
-// of jumps to reach end 
-static
-int
-minJumps(
-int
-arr[], 
+  // Returns Minimum number
+  // of jumps to reach end
+  static int minJumps(int arr[], int n) {
+    // jumps[0] will
 
-int
-n) 
-{ 
+    // hold the result
 
-// jumps[0] will 
+    int[] jumps = new int[n];
 
-// hold the result 
+    int min;
 
-int
-[] jumps = 
-new
-int
-[n]; 
+    // Minimum number of jumps
 
-int
-min; 
+    // needed to reach last
 
+    // element from last elements
 
-// Minimum number of jumps 
+    // itself is always 0
 
-// needed to reach last 
+    jumps[n - 1] = 0;
 
-// element from last elements 
+    // Start from the second
 
-// itself is always 0 
+    // element, move from right
 
-jumps[n - 
-1
-] = 
-0
-; 
+    // to left and construct the
 
+    // jumps[] array where jumps[i]
 
+    // represents minimum number of
 
-// Start from the second 
+    // jumps needed to reach arr[m-1]
 
-// element, move from right 
+    // from arr[i]
 
-// to left and construct the 
+    for (int i = n - 2; i >= 0; i--) {
+      // If arr[i] is 0 then arr[n-1]
 
-// jumps[] array where jumps[i] 
+      // can't be reached from here
 
-// represents minimum number of 
+      if (arr[i] == 0) jumps[i] = Integer.MAX_VALUE;
+      // If we can direcly reach to
 
-// jumps needed to reach arr[m-1] 
+      // the end point from here then
 
-// from arr[i] 
+      // jumps[i] is 1
 
-for
-(
-int
-i = n - 
-2
-; i >= 
-0
-; i--) 
+      else if (arr[i] >= n - i - 1) jumps[i] = 1;
+      // Otherwise, to find out
 
-{ 
+      // the minimum number of
 
-// If arr[i] is 0 then arr[n-1] 
+      // jumps needed to reach
 
-// can't be reached from here 
+      // arr[n-1], check all the
 
-if
-(arr[i] == 
-0
-) 
+      // points reachable from
 
-jumps[i] = Integer.MAX_VALUE; 
+      // here and jumps[] value
 
+      // for those points
 
-// If we can direcly reach to 
+      else {
+        // initialize min value
 
-// the end point from here then 
+        min = Integer.MAX_VALUE;
 
-// jumps[i] is 1 
+        // following loop checks
 
-else
-if
-(arr[i] >= n - i - 
-1
-) 
+        // with all reachable points
 
-jumps[i] = 
-1
-; 
+        // and takes the minimum
 
+        for (int j = i + 1; j < n && j <= arr[i] + i; j++) {
+          if (min > jumps[j]) min = jumps[j];
+        }
 
-// Otherwise, to find out 
+        // Handle overflow
 
-// the minimum number of 
+        if (min != Integer.MAX_VALUE) jumps[i] = min + 1; else jumps[i] = min;
+        // or Integer.MAX_VALUE
 
-// jumps needed to reach 
+      }
+    }
 
-// arr[n-1], check all the 
+    return jumps[0];
+  }
 
-// points reachable from 
+  // Driver Code
+  public static void main(String[] args) {
+    int[] arr = { 1, 3, 6, 1, 0, 9 };
 
-// here and jumps[] value 
+    int size = arr.length;
 
-// for those points 
-
-else
-
-{ 
-
-// initialize min value 
-
-min = Integer.MAX_VALUE; 
-
-
-// following loop checks 
-
-// with all reachable points 
-
-// and takes the minimum 
-
-for
-(
-int
-j = i + 
-1
-; j < n && 
-
-j <= arr[i] + i; j++) 
-
-{ 
-
-if
-(min > jumps[j]) 
-
-min = jumps[j]; 
-
-} 
-
-
-// Handle overflow 
-
-if
-(min != Integer.MAX_VALUE) 
-
-jumps[i] = min + 
-1
-; 
-
-else
-
-jumps[i] = min; 
-// or Integer.MAX_VALUE 
-
-} 
-
-} 
-
-
-return
-jumps[
-0
-]; 
-} 
-
-// Driver Code 
-public
-static
-void
-main(String[] args) 
-{ 
-
-int
-[] arr = {
-1
-, 
-3
-, 
-6
-, 
-1
-, 
-0
-, 
-9
-}; 
-
-int
-size = arr.length; 
-
-System.out.println(
-"Minimum number of"
-+ 
-
-" jumps to reach end is "
-+ 
-
-minJumps(arr, size)); 
-
-} 
-} 
-
-// This code is contributed by mits. 
+    System.out.println(
+      "Minimum number of" + " jumps to reach end is " + minJumps(arr, size)
+    );
+  }
+}
+// This code is contributed by mits.

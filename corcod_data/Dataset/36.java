@@ -1,155 +1,58 @@
+// Java program to rearrange an
+// array in minimum maximum form
 
-// Java program to rearrange an 
-// array in minimum maximum form 
+public class Main {
 
-public
-class
-Main { 
+  // Prints max at first position, min at second
 
+  // position second max at third position, second
 
-// Prints max at first position, min at second 
+  // min at fourth position and so on.
 
-// position second max at third position, second 
+  public static void rearrange(int arr[], int n) {
+    // initialize index of first minimum and first
 
-// min at fourth position and so on. 
+    // maximum element
 
-public
-static
-void
-rearrange(
-int
-arr[], 
-int
-n) 
+    int max_ele = arr[n - 1];
 
-{ 
+    int min_ele = arr[0];
 
-// initialize index of first minimum and first 
+    // traverse array elements
 
-// maximum element 
+    for (int i = 0; i < n; i++) {
+      // at even index : we have to put maximum element
 
-int
-max_ele = arr[n - 
-1
-]; 
+      if (i % 2 == 0) {
+        arr[i] = max_ele;
 
-int
-min_ele = arr[
-0
-]; 
+        max_ele -= 1;
+      }
+      // at odd index : we have to put minimum element
 
-// traverse array elements 
+      else {
+        arr[i] = min_ele;
 
-for
-(
-int
-i = 
-0
-; i < n; i++) { 
+        min_ele += 1;
+      }
+    }
+  }
 
-// at even index : we have to put maximum element 
+  // Driver code
 
-if
-(i % 
-2
-== 
-0
-) { 
+  public static void main(String args[]) {
+    int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-arr[i] = max_ele; 
+    int n = arr.length;
 
-max_ele -= 
-1
-; 
+    System.out.println("Original Array");
 
-} 
+    for (int i = 0; i < n; i++) System.out.print(arr[i] + " ");
 
+    rearrange(arr, n);
 
-// at odd index : we have to put minimum element 
+    System.out.print("\nModified Array\n");
 
-else
-{ 
-
-arr[i] = min_ele; 
-
-min_ele += 
-1
-; 
-
-} 
-
-} 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-arr[] = { 
-1
-, 
-2
-, 
-3
-, 
-4
-, 
-5
-, 
-6
-, 
-7
-, 
-8
-, 
-9
-}; 
-
-int
-n = arr.length; 
-
-
-System.out.println(
-"Original Array"
-); 
-
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-System.out.print(arr[i] + 
-" "
-); 
-
-
-rearrange(arr, n); 
-
-
-System.out.print(
-"\nModified Array\n"
-); 
-
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-System.out.print(arr[i] + 
-" "
-); 
-
-} 
-} 
+    for (int i = 0; i < n; i++) System.out.print(arr[i] + " ");
+  }
+}

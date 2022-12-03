@@ -1,169 +1,96 @@
+// Java program for finding postorder
+// traversal of BST from preorder traversal
 
-// Java program for finding postorder 
-// traversal of BST from preorder traversal 
+import java.util.*;
 
-import
-java.util.* ; 
+class Solution {
 
-class
-Solution 
-{ 
-static
-class
-INT 
-{ 
+  static class INT {
 
-int
-data; 
+    int data;
 
-INT(
-int
-d) 
+    INT(int d) {
+      data = d;
+    }
+  }
 
-{ 
+  // Function to find postorder traversal from
+  // preorder traversal.
+  static void findPostOrderUtil(
+    int pre[],
+    int n,
+    int minval,
+    int maxval,
+    INT preIndex
+  ) {
+    // If entire preorder array is traversed then
 
-data=d; 
+    // return as no more element is left to be
 
-} 
-} 
+    // added to post order array.
 
-// Function to find postorder traversal from 
-// preorder traversal. 
-static
-void
-findPostOrderUtil(
-int
-pre[], 
-int
-n, 
-int
-minval, 
+    if (preIndex.data == n) return;
 
-int
-maxval, INT preIndex) 
-{ 
+    // If array element does not lie in range specified,
 
+    // then it is not part of current subtree.
 
-// If entire preorder array is traversed then 
+    if (pre[preIndex.data] < minval || pre[preIndex.data] > maxval) {
+      return;
+    }
 
-// return as no more element is left to be 
+    // Store current value, to be printed later, after
 
-// added to post order array. 
+    // printing left and right subtrees. Increment
 
-if
-(preIndex.data == n) 
+    // preIndex to find left and right subtrees,
 
-return
-; 
+    // and pass this updated value to recursive calls.
 
+    int val = pre[preIndex.data];
 
-// If array element does not lie in range specified, 
+    preIndex.data++;
 
-// then it is not part of current subtree. 
+    // All elements with value between minval and val
 
-if
-(pre[preIndex.data] < minval || pre[preIndex.data] > maxval) { 
+    // lie in left subtree.
 
-return
-; 
+    findPostOrderUtil(pre, n, minval, val, preIndex);
 
-} 
+    // All elements with value between val and maxval
 
+    // lie in right subtree.
 
-// Store current value, to be printed later, after 
+    findPostOrderUtil(pre, n, val, maxval, preIndex);
 
-// printing left and right subtrees. Increment 
+    System.out.print(val + " ");
+  }
 
-// preIndex to find left and right subtrees, 
+  // Function to find postorder traversal.
+  static void findPostOrder(int pre[], int n) {
+    // To store index of element to be
 
-// and pass this updated value to recursive calls. 
+    // traversed next in preorder array.
 
-int
-val = pre[preIndex.data]; 
+    // This is passed by reference to
 
-preIndex.data++; 
+    // utility function.
 
+    INT preIndex = new INT(0);
 
-// All elements with value between minval and val 
+    findPostOrderUtil(pre, n, Integer.MIN_VALUE, Integer.MAX_VALUE, preIndex);
+  }
 
-// lie in left subtree. 
+  // Driver code
+  public static void main(String args[]) {
+    int pre[] = { 40, 30, 35, 80, 100 };
 
-findPostOrderUtil(pre, n, minval, val, preIndex); 
+    int n = pre.length;
 
+    // Calling function
 
-// All elements with value between val and maxval 
-
-// lie in right subtree. 
-
-findPostOrderUtil(pre, n, val, maxval, preIndex); 
-
-
-System.out.print( val + 
-" "
-); 
-} 
-
-// Function to find postorder traversal. 
-static
-void
-findPostOrder(
-int
-pre[], 
-int
-n) 
-{ 
-
-
-// To store index of element to be 
-
-// traversed next in preorder array. 
-
-// This is passed by reference to 
-
-// utility function. 
-
-INT preIndex = 
-new
-INT(
-0
-); 
-
-
-findPostOrderUtil(pre, n, Integer.MIN_VALUE, 
-
-Integer.MAX_VALUE, preIndex); 
-} 
-
-// Driver code 
-public
-static
-void
-main(String args[]) 
-{ 
-
-int
-pre[] = { 
-40
-, 
-30
-, 
-35
-, 
-80
-, 
-100
-}; 
-
-
-int
-n = pre.length; 
-
-
-// Calling function 
-
-findPostOrder(pre, n); 
-} 
-} 
-
-// This code is contributed 
-// by Arnab Kundu 
+    findPostOrder(pre, n);
+  }
+}
+// This code is contributed
+// by Arnab Kundu

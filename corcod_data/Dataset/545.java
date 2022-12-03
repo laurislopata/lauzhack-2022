@@ -1,163 +1,74 @@
+// Java program to find closest pair in an array
+class ClosestPair {
 
-// Java program to find closest pair in an array 
-class
-ClosestPair 
-{ 
+  // ar1[0..m-1] and ar2[0..n-1] are two given sorted
 
-// ar1[0..m-1] and ar2[0..n-1] are two given sorted 
+  // arrays/ and x is given number. This function prints
 
-// arrays/ and x is given number. This function prints 
+  // the pair from both arrays such that the sum of the
 
-// the pair from both arrays such that the sum of the 
+  // pair is closest to x.
 
-// pair is closest to x. 
+  void printClosest(int ar1[], int ar2[], int m, int n, int x) {
+    // Initialize the diff between pair sum and x.
 
-void
-printClosest(
-int
-ar1[], 
-int
-ar2[], 
-int
-m, 
-int
-n, 
-int
-x) 
+    int diff = Integer.MAX_VALUE;
 
-{ 
+    // res_l and res_r are result indexes from ar1[] and ar2[]
 
-// Initialize the diff between pair sum and x. 
+    // respectively
 
-int
-diff = Integer.MAX_VALUE; 
+    int res_l = 0, res_r = 0;
 
+    // Start from left side of ar1[] and right side of ar2[]
 
-// res_l and res_r are result indexes from ar1[] and ar2[] 
+    int l = 0, r = n - 1;
 
-// respectively 
+    while (l < m && r >= 0) {
+      // If this pair is closer to x than the previously
 
-int
-res_l = 
-0
-, res_r = 
-0
-; 
+      // found closest, then update res_l, res_r and diff
 
+      if (Math.abs(ar1[l] + ar2[r] - x) < diff) {
+        res_l = l;
 
-// Start from left side of ar1[] and right side of ar2[] 
+        res_r = r;
 
-int
-l = 
-0
-, r = n-
-1
-; 
+        diff = Math.abs(ar1[l] + ar2[r] - x);
+      }
 
-while
-(l<m && r>=
-0
-) 
+      // If sum of this pair is more than x, move to smaller
 
-{ 
+      // side
 
-// If this pair is closer to x than the previously 
+      if (ar1[l] + ar2[r] > x) r--; else // move to the greater side
 
-// found closest, then update res_l, res_r and diff 
+      l++;
+    }
 
-if
-(Math.abs(ar1[l] + ar2[r] - x) < diff) 
+    // Print the result
 
-{ 
+    System.out.print(
+      "The closest pair is [" + ar1[res_l] + ", " + ar2[res_r] + "]"
+    );
+  }
 
-res_l = l; 
+  // Driver program to test above functions
 
-res_r = r; 
+  public static void main(String args[]) {
+    ClosestPair ob = new ClosestPair();
 
-diff = Math.abs(ar1[l] + ar2[r] - x); 
+    int ar1[] = { 1, 4, 5, 7 };
 
-} 
+    int ar2[] = { 10, 20, 30, 40 };
 
+    int m = ar1.length;
 
-// If sum of this pair is more than x, move to smaller 
+    int n = ar2.length;
 
-// side 
+    int x = 38;
 
-if
-(ar1[l] + ar2[r] > x) 
-
-r--; 
-
-else
-// move to the greater side 
-
-l++; 
-
-} 
-
-
-// Print the result 
-
-System.out.print(
-"The closest pair is ["
-+ ar1[res_l] + 
-
-", "
-+ ar2[res_r] + 
-"]"
-); 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-ClosestPair ob = 
-new
-ClosestPair(); 
-
-int
-ar1[] = {
-1
-, 
-4
-, 
-5
-, 
-7
-}; 
-
-int
-ar2[] = {
-10
-, 
-20
-, 
-30
-, 
-40
-}; 
-
-int
-m = ar1.length; 
-
-int
-n = ar2.length; 
-
-int
-x = 
-38
-; 
-
-ob.printClosest(ar1, ar2, m, n, x); 
-
-} 
-} 
+    ob.printClosest(ar1, ar2, m, n, x);
+  }
+}
 /*This code is contributed by Rajat Mishra */

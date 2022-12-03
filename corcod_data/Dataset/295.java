@@ -1,146 +1,52 @@
+// Java code for Dynamic Programming based
+// solution that uses table P[][] to
+// calculate the Permutation Coefficient
+import java.io.*;
+import java.math.*;
 
-// Java code for Dynamic Programming based 
-// solution that uses table P[][] to 
-// calculate the Permutation Coefficient 
-import
-java.io.*; 
-import
-java.math.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  // Returns value of Permutation
 
+  // Coefficient P(n, k)
 
-// Returns value of Permutation 
+  static int permutationCoeff(int n, int k) {
+    int P[][] = new int[n + 2][k + 2];
 
-// Coefficient P(n, k) 
+    // Caculate value of Permutation
 
-static
-int
-permutationCoeff(
-int
-n, 
+    // Coefficient in bottom up manner
 
-int
-k) 
+    for (int i = 0; i <= n; i++) {
+      for (int j = 0; j <= Math.min(i, k); j++) {
+        // Base Cases
 
-{ 
+        if (j == 0) P[i][j] = 1;
+        // Calculate value using previosly
 
-int
-P[][] = 
-new
-int
-[n + 
-2
-][k + 
-2
-]; 
+        // stored values
 
+        else P[i][j] = P[i - 1][j] + (j * P[i - 1][j - 1]);
 
-// Caculate value of Permutation 
+        // This step is important
 
-// Coefficient in bottom up manner 
+        // as P(i,j)=0 for j>i
 
-for
-(
-int
-i = 
-0
-; i <= n; i++) 
+        P[i][j + 1] = 0;
+      }
+    }
 
-{ 
+    return P[n][k];
+  }
 
-for
-(
-int
-j = 
-0
-; 
+  // Driver Code
 
-j <= Math.min(i, k); 
+  public static void main(String args[]) {
+    int n = 10, k = 2;
 
-j++) 
-
-{ 
-
-// Base Cases 
-
-if
-(j == 
-0
-) 
-
-P[i][j] = 
-1
-; 
-
-
-// Calculate value using previosly 
-
-// stored values 
-
-else
-
-P[i][j] = P[i - 
-1
-][j] + 
-
-(j * P[i - 
-1
-][j - 
-1
-]); 
-
-
-// This step is important 
-
-// as P(i,j)=0 for j>i 
-
-P[i][j + 
-1
-] = 
-0
-; 
-
-} 
-
-} 
-
-return
-P[n][k]; 
-
-} 
-
-
-// Driver Code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-n = 
-10
-, k = 
-2
-; 
-
-System.out.println(
-"Value of P( "
-+ n + 
-","
-+ k +
-")"
-+ 
-
-" is "
-+ permutationCoeff(n, k) ); 
-
-} 
-} 
-
-// This code is contributed by Nikita Tiwari. 
+    System.out.println(
+      "Value of P( " + n + "," + k + ")" + " is " + permutationCoeff(n, k)
+    );
+  }
+}
+// This code is contributed by Nikita Tiwari.

@@ -1,85 +1,30 @@
+import java.util.Arrays;
 
-import
-java.util.Arrays; 
+public class Test {
 
-public
-class
-Test 
-{ 
+  static int arr[] = new int[] { 1, 2, 3, 4, 5 };
 
-static
-int
-arr[] = 
-new
-int
-[]{
-1
-, 
-2
-, 
-3
-, 
-4
-, 
-5
-}; 
+  // Method for rotation
 
+  static void rotate() {
+    int x = arr[arr.length - 1], i;
 
-// Method for rotation 
+    for (i = arr.length - 1; i > 0; i--) arr[i] = arr[i - 1];
 
-static
-void
-rotate() 
+    arr[0] = x;
+  }
 
-{ 
+  /* Driver program */
 
-int
-x = arr[arr.length-
-1
-], i; 
+  public static void main(String[] args) {
+    System.out.println("Given Array is");
 
-for
-(i = arr.length-
-1
-; i > 
-0
-; i--) 
+    System.out.println(Arrays.toString(arr));
 
-arr[i] = arr[i-
-1
-]; 
+    rotate();
 
-arr[
-0
-] = x; 
+    System.out.println("Rotated Array is");
 
-} 
-
-
-/* Driver program */
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-System.out.println(
-"Given Array is"
-); 
-
-System.out.println(Arrays.toString(arr)); 
-
-
-rotate(); 
-
-
-System.out.println(
-"Rotated Array is"
-); 
-
-System.out.println(Arrays.toString(arr)); 
-
-} 
-} 
+    System.out.println(Arrays.toString(arr));
+  }
+}

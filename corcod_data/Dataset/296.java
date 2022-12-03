@@ -1,101 +1,40 @@
+// A O(n) solution that uses
+// table fact[] to calculate
+// the Permutation Coefficient
+import java.io.*;
 
-// A O(n) solution that uses 
-// table fact[] to calculate 
-// the Permutation Coefficient 
-import
-java .io.*; 
+public class GFG {
 
-public
-class
-GFG { 
+  // Returns value of Permutation
 
+  // Coefficient P(n, k)
 
-// Returns value of Permutation 
+  static int permutationCoeff(int n, int k) {
+    int[] fact = new int[n + 1];
 
-// Coefficient P(n, k) 
+    // base case
 
-static
-int
-permutationCoeff(
-int
-n, 
+    fact[0] = 1;
 
-int
-k) 
+    // Caculate value
 
-{ 
+    // factorials up to n
 
-int
-[]fact = 
-new
-int
-[n+
-1
-]; 
+    for (int i = 1; i <= n; i++) fact[i] = i * fact[i - 1];
 
+    // P(n,k) = n! / (n - k)!
 
-// base case 
+    return fact[n] / fact[n - k];
+  }
 
-fact[
-0
-] = 
-1
-; 
+  // Driver Code
 
+  public static void main(String[] args) {
+    int n = 10, k = 2;
 
-// Caculate value 
-
-// factorials up to n 
-
-for
-(
-int
-i = 
-1
-; i <= n; i++) 
-
-fact[i] = i * fact[i - 
-1
-]; 
-
-
-// P(n,k) = n! / (n - k)! 
-
-return
-fact[n] / fact[n - k]; 
-
-} 
-
-
-// Driver Code 
-
-static
-public
-void
-main (String[] args) 
-
-{ 
-
-int
-n = 
-10
-, k = 
-2
-; 
-
-System.out.println(
-"Value of"
-
-+ 
-" P( "
-+ n + 
-", "
-+ k + 
-") is "
-
-+ permutationCoeff(n, k) ); 
-
-} 
-} 
-
-// This code is contributed by anuj_67. 
+    System.out.println(
+      "Value of" + " P( " + n + ", " + k + ") is " + permutationCoeff(n, k)
+    );
+  }
+}
+// This code is contributed by anuj_67.

@@ -1,187 +1,101 @@
+// Java program to find maximum height pyramid
+// from the given object width.
+import java.io.*;
+import java.util.Arrays;
 
-// Java program to find maximum height pyramid 
-// from the given object width. 
-import
-java.io.*; 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG { 
+  // Returns maximum number of pyramidcal
 
+  // levels n boxes of given widths.
 
-// Returns maximum number of pyramidcal 
+  static int maxLevel(int[] boxes, int n) {
+    // Sort objects in increasing order
 
-// levels n boxes of given widths. 
+    // of widths
 
-static
-int
-maxLevel(
-int
-[]boxes, 
-int
-n) 
+    Arrays.sort(boxes);
 
-{ 
+    int ans = 1;
+    // Initialize result
 
+    // Total width of previous level
 
-// Sort objects in increasing order 
+    // and total number of objects in
 
-// of widths 
+    // previous level
 
-Arrays.sort(boxes); 
+    int prev_width = boxes[0];
 
+    int prev_count = 1;
 
-int
-ans = 
-1
-; 
-// Initialize result 
+    // Number of object in current
 
+    // level.
 
-// Total width of previous level 
+    int curr_count = 0;
 
-// and total number of objects in 
+    // Width of current level.
 
-// previous level 
+    int curr_width = 0;
 
-int
-prev_width = boxes[
-0
-]; 
+    for (int i = 1; i < n; i++) {
+      // Picking the object. So
 
-int
-prev_count = 
-1
-; 
+      // increase current width
 
+      // and number of object.
 
-// Number of object in current 
+      curr_width += boxes[i];
 
-// level. 
+      curr_count += 1;
 
-int
-curr_count = 
-0
-; 
+      // If current width and
 
+      // number of object
 
-// Width of current level. 
+      // are greater than previous.
 
-int
-curr_width = 
-0
-; 
+      if (curr_width > prev_width && curr_count > prev_count) {
+        // Update previous width,
 
-for
-(
-int
-i = 
-1
-; i < n; i++) 
+        // number of object on
 
-{ 
+        // previous level.
 
-// Picking the object. So 
+        prev_width = curr_width;
 
-// increase current width 
+        prev_count = curr_count;
 
-// and number of object. 
+        // Reset width of current
 
-curr_width += boxes[i]; 
+        // level, number of object
 
-curr_count += 
-1
-; 
+        // on current level.
 
+        curr_count = 0;
 
-// If current width and 
+        curr_width = 0;
 
-// number of object 
+        // Increment number of
 
-// are greater than previous. 
+        // level.
 
-if
-(curr_width > prev_width && 
+        ans++;
+      }
+    }
 
-curr_count > prev_count) 
+    return ans;
+  }
 
-{ 
+  // Driver Program
 
+  public static void main(String[] args) {
+    int[] boxes = { 10, 20, 30, 50, 60, 70 };
 
-// Update previous width, 
+    int n = boxes.length;
 
-// number of object on 
-
-// previous level. 
-
-prev_width = curr_width; 
-
-prev_count = curr_count; 
-
-
-// Reset width of current 
-
-// level, number of object 
-
-// on current level. 
-
-curr_count = 
-0
-; 
-
-curr_width = 
-0
-; 
-
-
-// Increment number of 
-
-// level. 
-
-ans++; 
-
-} 
-
-} 
-
-
-return
-ans; 
-
-} 
-
-
-// Driver Program 
-
-static
-public
-void
-main (String[] args) 
-
-{ 
-
-int
-[]boxes = {
-10
-, 
-20
-, 
-30
-, 
-50
-, 
-60
-, 
-70
-}; 
-
-int
-n = boxes.length; 
-
-System.out.println(maxLevel(boxes, n)); 
-
-} 
-} 
-
-// This code is contributed by anuj_67. 
+    System.out.println(maxLevel(boxes, n));
+  }
+}
+// This code is contributed by anuj_67.

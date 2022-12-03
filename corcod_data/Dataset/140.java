@@ -1,177 +1,81 @@
+// Java program to find a triplet
+class FindTriplet {
 
-// Java program to find a triplet 
-class
-FindTriplet { 
+  // returns true if there is triplet with sum equal
 
+  // to 'sum' present in A[]. Also, prints the triplet
 
-// returns true if there is triplet with sum equal 
+  boolean find3Numbers(int A[], int arr_size, int sum) {
+    int l, r;
 
-// to 'sum' present in A[]. Also, prints the triplet 
+    /* Sort the elements */
 
-boolean
-find3Numbers(
-int
-A[], 
-int
-arr_size, 
-int
-sum) 
+    quickSort(A, 0, arr_size - 1);
 
-{ 
-
-int
-l, r; 
-
-
-/* Sort the elements */
-
-quickSort(A, 
-0
-, arr_size - 
-1
-); 
-
-
-/* Now fix the first element one by one and find the 
+    /* Now fix the first element one by one and find the 
 
 other two elements */
 
-for
-(
-int
-i = 
-0
-; i < arr_size - 
-2
-; i++) { 
+    for (int i = 0; i < arr_size - 2; i++) {
+      // To find the other two elements, start two index variables
 
+      // from two corners of the array and move them toward each
 
-// To find the other two elements, start two index variables 
+      // other
 
-// from two corners of the array and move them toward each 
+      l = i + 1;
+      // index of the first element in the remaining elements
 
-// other 
+      r = arr_size - 1;
+      // index of the last element
 
-l = i + 
-1
-; 
-// index of the first element in the remaining elements 
+      while (l < r) {
+        if (A[i] + A[l] + A[r] == sum) {
+          System.out.print("Triplet is " + A[i] + ", " + A[l] + ", " + A[r]);
 
-r = arr_size - 
-1
-; 
-// index of the last element 
+          return true;
+        } else if (
+          A[i] + A[l] + A[r] < sum
+        ) l++; else // A[i] + A[l] + A[r] > sum
 
-while
-(l < r) { 
+        r--;
+      }
+    }
 
-if
-(A[i] + A[l] + A[r] == sum) { 
+    // If we reach here, then no triplet was found
 
-System.out.print(
-"Triplet is "
-+ A[i] + 
-", "
-+ A[l] + 
-", "
-+ A[r]); 
+    return false;
+  }
 
-return
-true
-; 
+  int partition(int A[], int si, int ei) {
+    int x = A[ei];
 
-} 
+    int i = (si - 1);
 
-else
-if
-(A[i] + A[l] + A[r] < sum) 
+    int j;
 
-l++; 
+    for (j = si; j <= ei - 1; j++) {
+      if (A[j] <= x) {
+        i++;
 
+        int temp = A[i];
 
-else
-// A[i] + A[l] + A[r] > sum 
+        A[i] = A[j];
 
-r--; 
+        A[j] = temp;
+      }
+    }
 
-} 
+    int temp = A[i + 1];
 
-} 
+    A[i + 1] = A[ei];
 
+    A[ei] = temp;
 
-// If we reach here, then no triplet was found 
+    return (i + 1);
+  }
 
-return
-false
-; 
-
-} 
-
-
-int
-partition(
-int
-A[], 
-int
-si, 
-int
-ei) 
-
-{ 
-
-int
-x = A[ei]; 
-
-int
-i = (si - 
-1
-); 
-
-int
-j; 
-
-
-for
-(j = si; j <= ei - 
-1
-; j++) { 
-
-if
-(A[j] <= x) { 
-
-i++; 
-
-int
-temp = A[i]; 
-
-A[i] = A[j]; 
-
-A[j] = temp; 
-
-} 
-
-} 
-
-int
-temp = A[i + 
-1
-]; 
-
-A[i + 
-1
-] = A[ei]; 
-
-A[ei] = temp; 
-
-return
-(i + 
-1
-); 
-
-} 
-
-
-/* Implementation of Quick Sort 
+  /* Implementation of Quick Sort 
 
 A[] --> Array to be sorted 
 
@@ -181,79 +85,31 @@ ei --> Ending index
 
 */
 
-void
-quickSort(
-int
-A[], 
-int
-si, 
-int
-ei) 
+  void quickSort(int A[], int si, int ei) {
+    int pi;
 
-{ 
+    /* Partitioning index */
 
-int
-pi; 
+    if (si < ei) {
+      pi = partition(A, si, ei);
 
+      quickSort(A, si, pi - 1);
 
-/* Partitioning index */
+      quickSort(A, pi + 1, ei);
+    }
+  }
 
-if
-(si < ei) { 
+  // Driver program to test above functions
 
-pi = partition(A, si, ei); 
+  public static void main(String[] args) {
+    FindTriplet triplet = new FindTriplet();
 
-quickSort(A, si, pi - 
-1
-); 
+    int A[] = { 1, 4, 45, 6, 10, 8 };
 
-quickSort(A, pi + 
-1
-, ei); 
+    int sum = 22;
 
-} 
+    int arr_size = A.length;
 
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-FindTriplet triplet = 
-new
-FindTriplet(); 
-
-int
-A[] = { 
-1
-, 
-4
-, 
-45
-, 
-6
-, 
-10
-, 
-8
-}; 
-
-int
-sum = 
-22
-; 
-
-int
-arr_size = A.length; 
-
-
-triplet.find3Numbers(A, arr_size, sum); 
-
-} 
-} 
+    triplet.find3Numbers(A, arr_size, sum);
+  }
+}

@@ -1,136 +1,52 @@
+// Java program to find the smallest positive value that cannot be
+// represented as sum of subsets of a given sorted array
+class FindSmallestInteger {
 
-// Java program to find the smallest positive value that cannot be 
-// represented as sum of subsets of a given sorted array 
-class
-FindSmallestInteger 
-{ 
+  // Returns the smallest number that cannot be represented as sum
 
-// Returns the smallest number that cannot be represented as sum 
+  // of subset of elements from set represented by sorted array arr[0..n-1]
 
-// of subset of elements from set represented by sorted array arr[0..n-1] 
+  int findSmallest(int arr[], int n) {
+    int res = 1;
+    // Initialize result
 
-int
-findSmallest(
-int
-arr[], 
-int
-n) 
+    // Traverse the array and increment 'res' if arr[i] is
 
-{ 
+    // smaller than or equal to 'res'.
 
-int
-res = 
-1
-; 
-// Initialize result 
+    for (int i = 0; i < n && arr[i] <= res; i++) res = res + arr[i];
 
+    return res;
+  }
 
-// Traverse the array and increment 'res' if arr[i] is 
+  // Driver program to test above functions
 
-// smaller than or equal to 'res'. 
+  public static void main(String[] args) {
+    FindSmallestInteger small = new FindSmallestInteger();
 
-for
-(
-int
-i = 
-0
-; i < n && arr[i] <= res; i++) 
+    int arr1[] = { 1, 3, 4, 5 };
 
-res = res + arr[i]; 
+    int n1 = arr1.length;
 
+    System.out.println(small.findSmallest(arr1, n1));
 
-return
-res; 
+    int arr2[] = { 1, 2, 6, 10, 11, 15 };
 
-} 
+    int n2 = arr2.length;
 
+    System.out.println(small.findSmallest(arr2, n2));
 
-// Driver program to test above functions 
+    int arr3[] = { 1, 1, 1, 1 };
 
-public
-static
-void
-main(String[] args) 
+    int n3 = arr3.length;
 
-{ 
+    System.out.println(small.findSmallest(arr3, n3));
 
-FindSmallestInteger small = 
-new
-FindSmallestInteger(); 
+    int arr4[] = { 1, 1, 3, 4 };
 
-int
-arr1[] = {
-1
-, 
-3
-, 
-4
-, 
-5
-}; 
+    int n4 = arr4.length;
 
-int
-n1 = arr1.length; 
-
-System.out.println(small.findSmallest(arr1, n1)); 
-
-
-int
-arr2[] = {
-1
-, 
-2
-, 
-6
-, 
-10
-, 
-11
-, 
-15
-}; 
-
-int
-n2 = arr2.length; 
-
-System.out.println(small.findSmallest(arr2, n2)); 
-
-
-int
-arr3[] = {
-1
-, 
-1
-, 
-1
-, 
-1
-}; 
-
-int
-n3 = arr3.length; 
-
-System.out.println(small.findSmallest(arr3, n3)); 
-
-
-int
-arr4[] = {
-1
-, 
-1
-, 
-3
-, 
-4
-}; 
-
-int
-n4 = arr4.length; 
-
-System.out.println(small.findSmallest(arr4, n4)); 
-
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal(mayank_24) 
+    System.out.println(small.findSmallest(arr4, n4));
+  }
+}
+// This code has been contributed by Mayank Jaiswal(mayank_24)

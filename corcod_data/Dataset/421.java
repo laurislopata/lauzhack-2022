@@ -1,197 +1,83 @@
+// Java program to check if there exist an edge whose
+// removal creates two trees of same size
 
-// Java program to check if there exist an edge whose 
-// removal creates two trees of same size 
+class Node {
 
-class
-Node 
-{ 
+  int key;
 
-int
-key; 
+  Node left, right;
 
-Node left, right; 
+  public Node(int key) {
+    this.key = key;
 
+    left = right = null;
+  }
+}
 
-public
-Node(
-int
-key) 
+class BinaryTree {
 
-{ 
+  Node root;
 
-this
-.key = key; 
+  // To calculate size of tree with given root
 
-left = right = 
-null
-; 
+  int count(Node node) {
+    if (node == null) return 0;
 
-} 
-} 
+    return count(node.left) + count(node.right) + 1;
+  }
 
-class
-BinaryTree 
-{ 
+  // This function returns true if there is an edge
 
-Node root; 
+  // whose removal can divide the tree in two halves
 
+  // n is size of tree
 
-// To calculate size of tree with given root 
+  boolean checkRec(Node node, int n) {
+    // Base cases
 
-int
-count(Node node) 
+    if (node == null) return false;
 
-{ 
+    // Check for root
 
-if
-(node == 
-null
-) 
+    if (count(node) == n - count(node)) return true;
 
-return
-0
-; 
+    // Check for rest of the nodes
 
+    return checkRec(node.left, n) || checkRec(node.right, n);
+  }
 
-return
-count(node.left) + count(node.right) + 
-1
-; 
+  // This function mainly uses checkRec()
 
-} 
+  boolean check(Node node) {
+    // Count total nodes in given tree
 
+    int n = count(node);
 
-// This function returns true if there is an edge 
+    // Now recursively check all nodes
 
-// whose removal can divide the tree in two halves 
+    return checkRec(node, n);
+  }
 
-// n is size of tree 
+  // Driver code
 
-boolean
-checkRec(Node node, 
-int
-n) 
+  public static void main(String[] args) {
+    BinaryTree tree = new BinaryTree();
 
-{ 
+    tree.root = new Node(5);
 
-// Base cases 
+    tree.root.left = new Node(1);
 
-if
-(node == 
-null
-) 
+    tree.root.right = new Node(6);
 
-return
-false
-; 
+    tree.root.left.left = new Node(3);
 
+    tree.root.right.left = new Node(7);
 
-// Check for root 
+    tree.root.right.right = new Node(4);
 
-if
-(count(node) == n - count(node)) 
-
-return
-true
-; 
-
-
-// Check for rest of the nodes 
-
-return
-checkRec(node.left, n) 
-
-|| checkRec(node.right, n); 
-
-} 
-
-
-// This function mainly uses checkRec() 
-
-boolean
-check(Node node) 
-
-{ 
-
-// Count total nodes in given tree 
-
-int
-n = count(node); 
-
-
-// Now recursively check all nodes 
-
-return
-checkRec(node, n); 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-tree.root = 
-new
-Node(
-5
-); 
-
-tree.root.left = 
-new
-Node(
-1
-); 
-
-tree.root.right = 
-new
-Node(
-6
-); 
-
-tree.root.left.left = 
-new
-Node(
-3
-); 
-
-tree.root.right.left = 
-new
-Node(
-7
-); 
-
-tree.root.right.right = 
-new
-Node(
-4
-); 
-
-if
-(tree.check(tree.root)==
-true
-) 
-
-System.out.println(
-"YES"
-); 
-
-else
-
-System.out.println(
-"NO"
-); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal(mayank_24) 
+    if (tree.check(tree.root) == true) System.out.println(
+      "YES"
+    ); else System.out.println("NO");
+  }
+}
+// This code has been contributed by Mayank Jaiswal(mayank_24)

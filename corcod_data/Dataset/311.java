@@ -1,197 +1,84 @@
+// A memoization based Java program to
+// count even length binary sequences
+// such that the sum of first and
+// second half bits is same
+import java.io.*;
 
-// A memoization based Java program to 
-// count even length binary sequences 
-// such that the sum of first and 
-// second half bits is same 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG { 
+  // A lookup table to store the results of
+  // subproblems
+  static int lookup[][] = new int[1000][1000];
 
-// A lookup table to store the results of 
-// subproblems 
-static
-int
-lookup[][] = 
-new
-int
-[
-1000
-][
-1000
-]; 
+  // dif is diference between sums of first
+  // n bits and last n bits i.e.,
+  // dif = (Sum of first n bits) - (Sum of last n bits)
+  static int countSeqUtil(int n, int dif) {
+    // We can't cover diference of
 
-// dif is diference between sums of first 
-// n bits and last n bits i.e., 
-// dif = (Sum of first n bits) - (Sum of last n bits) 
-static
-int
-countSeqUtil(
-int
-n, 
-int
-dif) 
-{ 
+    // more than n with 2n bits
 
-// We can't cover diference of 
+    if (Math.abs(dif) > n) return 0;
 
-// more than n with 2n bits 
+    // n == 1, i.e., 2 bit long sequences
 
-if
-(Math.abs(dif) > n) 
+    if (n == 1 && dif == 0) return 2;
 
-return
-0
-; 
+    if (n == 1 && Math.abs(dif) == 1) return 1;
 
+    // Check if this subbproblem is already
 
-// n == 1, i.e., 2 bit long sequences 
+    // solved n is added to dif to make
 
-if
-(n == 
-1
-&& dif == 
-0
-) 
+    // sure index becomes positive
 
-return
-2
-; 
+    if (lookup[n][n + dif] != -1) return lookup[n][n + dif];
 
-if
-(n == 
-1
-&& Math.abs(dif) == 
-1
-) 
+    int res =
+      // First bit is 0 & last bit is 1
 
-return
-1
-; 
+      countSeqUtil(n - 1, dif + 1) +
+      // First and last bits are same
 
+      2 *
+      countSeqUtil(n - 1, dif) +
+      // First bit is 1 & last bit is 0
 
-// Check if this subbproblem is already 
+      countSeqUtil(n - 1, dif - 1);
 
-// solved n is added to dif to make 
+    // Store result in lookup table
 
-// sure index becomes positive 
+    // and return the result
 
-if
-(lookup[n][n+dif] != -
-1
-) 
+    return lookup[n][n + dif] = res;
+  }
 
-return
-lookup[n][n+dif]; 
+  // A Wrapper over countSeqUtil(). It mainly
+  // initializes lookup table, then calls
+  // countSeqUtil()
+  static int countSeq(int n) {
+    // Initialize all entries of lookup
 
+    // table as not filled
 
-int
-res = 
-// First bit is 0 & last bit is 1 
+    // memset(lookup, -1, sizeof(lookup));
 
-countSeqUtil(n-
-1
-, dif+
-1
-) + 
+    for (int k = 0; k < lookup.length; k++) {
+      for (int j = 0; j < lookup.length; j++) {
+        lookup[k][j] = -1;
+      }
+    }
 
+    // call countSeqUtil()
 
-// First and last bits are same 
+    return countSeqUtil(n, 0);
+  }
 
-2
-*countSeqUtil(n-
-1
-, dif) + 
+  // Driver program
+  public static void main(String[] args) {
+    int n = 2;
 
-
-// First bit is 1 & last bit is 0 
-
-countSeqUtil(n-
-1
-, dif-
-1
-); 
-
-
-// Store result in lookup table 
-
-// and return the result 
-
-return
-lookup[n][n+dif] = res; 
-} 
-
-// A Wrapper over countSeqUtil(). It mainly 
-// initializes lookup table, then calls 
-// countSeqUtil() 
-static
-int
-countSeq(
-int
-n) 
-{ 
-
-// Initialize all entries of lookup 
-
-// table as not filled 
-
-// memset(lookup, -1, sizeof(lookup)); 
-
-for
-(
-int
-k = 
-0
-; k < lookup.length; k++) 
-
-{ 
-
-for
-(
-int
-j = 
-0
-; j < lookup.length; j++) 
-
-{ 
-
-lookup[k][j] = -
-1
-; 
-
-} 
-
-} 
-
-
-// call countSeqUtil() 
-
-return
-countSeqUtil(n, 
-0
-); 
-} 
-
-// Driver program 
-public
-static
-void
-main(String[] args) 
-{ 
-
-int
-n = 
-2
-; 
-
-System.out.println(
-"Count of sequences is "
-
-+ countSeq(
-2
-)); 
-} 
-} 
-
-// This code is contributed by Prerna Saini 
+    System.out.println("Count of sequences is " + countSeq(2));
+  }
+}
+// This code is contributed by Prerna Saini

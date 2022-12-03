@@ -1,170 +1,81 @@
+// Java program to print BST in given range
 
-// Java program to print BST in given range 
+// A binary tree node
+class Node {
 
-// A binary tree node 
-class
-Node { 
+  int data;
 
+  Node left, right;
 
-int
-data; 
+  Node(int d) {
+    data = d;
 
-Node left, right; 
+    left = right = null;
+  }
+}
 
+class BinaryTree {
 
-Node(
-int
-d) { 
+  static Node root;
 
-data = d; 
-
-left = right = 
-null
-; 
-
-} 
-} 
-
-class
-BinaryTree { 
-
-
-static
-Node root; 
-
-
-/* A function that constructs Balanced Binary Search Tree 
+  /* A function that constructs Balanced Binary Search Tree 
 
 from a sorted array */
 
-Node sortedArrayToBST(
-int
-arr[], 
-int
-start, 
-int
-end) { 
+  Node sortedArrayToBST(int arr[], int start, int end) {
+    /* Base Case */
 
+    if (start > end) {
+      return null;
+    }
 
-/* Base Case */
+    /* Get the middle element and make it root */
 
-if
-(start > end) { 
+    int mid = (start + end) / 2;
 
-return
-null
-; 
+    Node node = new Node(arr[mid]);
 
-} 
-
-
-/* Get the middle element and make it root */
-
-int
-mid = (start + end) / 
-2
-; 
-
-Node node = 
-new
-Node(arr[mid]); 
-
-
-/* Recursively construct the left subtree and make it 
+    /* Recursively construct the left subtree and make it 
 
 left child of root */
 
-node.left = sortedArrayToBST(arr, start, mid - 
-1
-); 
+    node.left = sortedArrayToBST(arr, start, mid - 1);
 
-
-/* Recursively construct the right subtree and make it 
+    /* Recursively construct the right subtree and make it 
 
 right child of root */
 
-node.right = sortedArrayToBST(arr, mid + 
-1
-, end); 
+    node.right = sortedArrayToBST(arr, mid + 1, end);
 
+    return node;
+  }
 
-return
-node; 
+  /* A utility function to print preorder traversal of BST */
 
-} 
+  void preOrder(Node node) {
+    if (node == null) {
+      return;
+    }
 
+    System.out.print(node.data + " ");
 
-/* A utility function to print preorder traversal of BST */
+    preOrder(node.left);
 
-void
-preOrder(Node node) { 
+    preOrder(node.right);
+  }
 
-if
-(node == 
-null
-) { 
+  public static void main(String[] args) {
+    BinaryTree tree = new BinaryTree();
 
-return
-; 
+    int arr[] = new int[] { 1, 2, 3, 4, 5, 6, 7 };
 
-} 
+    int n = arr.length;
 
-System.out.print(node.data + 
-" "
-); 
+    root = tree.sortedArrayToBST(arr, 0, n - 1);
 
-preOrder(node.left); 
+    System.out.println("Preorder traversal of constructed BST");
 
-preOrder(node.right); 
-
-} 
-
-
-public
-static
-void
-main(String[] args) { 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-int
-arr[] = 
-new
-int
-[]{
-1
-, 
-2
-, 
-3
-, 
-4
-, 
-5
-, 
-6
-, 
-7
-}; 
-
-int
-n = arr.length; 
-
-root = tree.sortedArrayToBST(arr, 
-0
-, n - 
-1
-); 
-
-System.out.println(
-"Preorder traversal of constructed BST"
-); 
-
-tree.preOrder(root); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    tree.preOrder(root);
+  }
+}
+// This code has been contributed by Mayank Jaiswal

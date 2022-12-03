@@ -1,119 +1,57 @@
+// Java code to count the change required to
+// convert the array into non-increasing array
+import java.util.PriorityQueue;
 
-// Java code to count the change required to 
-// convert the array into non-increasing array 
-import
-java.util.PriorityQueue; 
+class GFG {
 
-class
-GFG 
-{ 
+  public static int DecreasingArray(int a[], int n) {
+    int sum = 0, dif = 0;
 
-public
-static
-int
-DecreasingArray(
-int
-a[], 
-int
-n) 
+    PriorityQueue<Integer> pq = new PriorityQueue<>();
 
-{ 
+    // Here in the loop we will
 
-int
-sum = 
-0
-, dif = 
-0
-; 
+    // check that whether the upcoming
 
+    // element of array is less than top
 
-PriorityQueue<Integer> pq = 
-new
-PriorityQueue<>(); 
+    // of priority queue. If yes then we
 
+    // calculate the difference. After
 
-// Here in the loop we will 
+    // that we will remove that element
 
-// check that whether the upcoming 
+    // and push the current element in
 
-// element of array is less than top 
+    // queue. And the sum is incremented
 
-// of priority queue. If yes then we 
+    // by the value of difference
 
-// calculate the difference. After 
+    for (int i = 0; i < n; i++) {
+      if (!pq.isEmpty() && pq.element() < a[i]) {
+        dif = a[i] - pq.element();
 
-// that we will remove that element 
+        sum += dif;
 
-// and push the current element in 
+        pq.remove();
 
-// queue. And the sum is incremented 
+        pq.add(a[i]);
+      }
 
-// by the value of difference 
+      pq.add(a[i]);
+    }
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+    return sum;
+  }
 
-{ 
+  // Driver Code
 
-if
-(!pq.isEmpty() && pq.element() < a[i]) 
+  public static void main(String[] args) {
+    int[] a = { 3, 1, 2, 1 };
 
-{ 
+    int n = a.length;
 
-dif = a[i] - pq.element(); 
-
-sum += dif; 
-
-pq.remove(); 
-
-pq.add(a[i]); 
-
-} 
-
-pq.add(a[i]); 
-
-} 
-
-
-return
-sum; 
-
-} 
-
-
-// Driver Code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-
-int
-[] a = {
-3
-, 
-1
-, 
-2
-, 
-1
-}; 
-
-
-int
-n = a.length; 
-
-
-System.out.println(DecreasingArray(a, n)); 
-
-} 
-} 
-
-// This Code is contributed by sanjeev2552 
+    System.out.println(DecreasingArray(a, n));
+  }
+}
+// This Code is contributed by sanjeev2552

@@ -1,448 +1,203 @@
+// Java program to check if binary tree
+// is subtree of another binary tree
+class Node {
 
-// Java program to check if binary tree 
-// is subtree of another binary tree 
-class
-Node { 
+  char data;
 
+  Node left, right;
 
-char
-data; 
+  Node(char item) {
+    data = item;
 
-Node left, right; 
+    left = right = null;
+  }
+}
 
+class Passing {
 
-Node(
-char
-item) 
+  int i;
 
-{ 
+  int m = 0;
 
-data = item; 
+  int n = 0;
+}
 
-left = right = 
-null
-; 
+class BinaryTree {
 
-} 
-} 
+  static Node root;
 
-class
-Passing { 
+  Passing p = new Passing();
 
+  String strstr(String haystack, String needle) {
+    if (haystack == null || needle == null) {
+      return null;
+    }
 
-int
-i; 
+    int hLength = haystack.length();
 
-int
-m = 
-0
-; 
+    int nLength = needle.length();
 
-int
-n = 
-0
-; 
-} 
+    if (hLength < nLength) {
+      return null;
+    }
 
-class
-BinaryTree { 
+    if (nLength == 0) {
+      return haystack;
+    }
 
+    for (int i = 0; i <= hLength - nLength; i++) {
+      if (haystack.charAt(i) == needle.charAt(0)) {
+        int j = 0;
 
-static
-Node root; 
+        for (; j < nLength; j++) {
+          if (haystack.charAt(i + j) != needle.charAt(j)) {
+            break;
+          }
+        }
 
-Passing p = 
-new
-Passing(); 
+        if (j == nLength) {
+          return haystack.substring(i);
+        }
+      }
+    }
 
+    return null;
+  }
 
-String strstr(String haystack, String needle) 
+  // A utility function to store inorder traversal of tree rooted
 
-{ 
+  // with root in an array arr[]. Note that i is passed as reference
 
-if
-(haystack == 
-null
-|| needle == 
-null
-) { 
+  void storeInorder(Node node, char arr[], Passing i) {
+    if (node == null) {
+      arr[i.i++] = '$';
 
-return
-null
-; 
+      return;
+    }
 
-} 
+    storeInorder(node.left, arr, i);
 
-int
-hLength = haystack.length(); 
+    arr[i.i++] = node.data;
 
-int
-nLength = needle.length(); 
+    storeInorder(node.right, arr, i);
+  }
 
-if
-(hLength < nLength) { 
+  // A utility function to store preorder traversal of tree rooted
 
-return
-null
-; 
+  // with root in an array arr[]. Note that i is passed as reference
 
-} 
+  void storePreOrder(Node node, char arr[], Passing i) {
+    if (node == null) {
+      arr[i.i++] = '$';
 
-if
-(nLength == 
-0
-) { 
+      return;
+    }
 
-return
-haystack; 
+    arr[i.i++] = node.data;
 
-} 
+    storePreOrder(node.left, arr, i);
 
-for
-(
-int
-i = 
-0
-; i <= hLength - nLength; i++) { 
+    storePreOrder(node.right, arr, i);
+  }
 
-if
-(haystack.charAt(i) == needle.charAt(
-0
-)) { 
+  /* This function returns true if S is a subtree of T, otherwise false */
 
-int
-j = 
-0
-; 
+  boolean isSubtree(Node T, Node S) {
+    /* base cases */
 
-for
-(; j < nLength; j++) { 
+    if (S == null) {
+      return true;
+    }
 
-if
-(haystack.charAt(i + j) != needle.charAt(j)) { 
+    if (T == null) {
+      return false;
+    }
 
-break
-; 
+    // Store Inorder traversals of T and S in inT[0..m-1]
 
-} 
+    // and inS[0..n-1] respectively
 
-} 
+    char inT[] = new char[100];
 
-if
-(j == nLength) { 
+    String op1 = String.valueOf(inT);
 
-return
-haystack.substring(i); 
+    char inS[] = new char[100];
 
-} 
+    String op2 = String.valueOf(inS);
 
-} 
+    storeInorder(T, inT, p);
 
-} 
+    storeInorder(S, inS, p);
 
-return
-null
-; 
+    inT[p.m] = '\0';
 
-} 
+    inS[p.m] = '\0';
 
+    // If inS[] is not a substring of preS[], return false
 
-// A utility function to store inorder traversal of tree rooted 
+    if (strstr(op1, op2) != null) {
+      return false;
+    }
 
-// with root in an array arr[]. Note that i is passed as reference 
+    // Store Preorder traversals of T and S in inT[0..m-1]
 
-void
-storeInorder(Node node, 
-char
-arr[], Passing i) 
+    // and inS[0..n-1] respectively
 
-{ 
+    p.m = 0;
 
-if
-(node == 
-null
-) { 
+    p.n = 0;
 
-arr[i.i++] = 
-'$'
-; 
+    char preT[] = new char[100];
 
-return
-; 
+    char preS[] = new char[100];
 
-} 
+    String op3 = String.valueOf(preT);
 
-storeInorder(node.left, arr, i); 
+    String op4 = String.valueOf(preS);
 
-arr[i.i++] = node.data; 
+    storePreOrder(T, preT, p);
 
-storeInorder(node.right, arr, i); 
+    storePreOrder(S, preS, p);
 
-} 
+    preT[p.m] = '\0';
 
+    preS[p.n] = '\0';
 
-// A utility function to store preorder traversal of tree rooted 
+    // If inS[] is not a substring of preS[], return false
 
-// with root in an array arr[]. Note that i is passed as reference 
+    // Else return true
 
-void
-storePreOrder(Node node, 
-char
-arr[], Passing i) 
+    return (strstr(op3, op4) != null);
+  }
 
-{ 
+  // Driver program to test above functions
 
-if
-(node == 
-null
-) { 
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
 
-arr[i.i++] = 
-'$'
-; 
+    Node T = new Node('a');
 
-return
-; 
+    T.left = new Node('b');
 
-} 
+    T.right = new Node('d');
 
-arr[i.i++] = node.data; 
+    T.left.left = new Node('c');
 
-storePreOrder(node.left, arr, i); 
+    T.right.right = new Node('e');
 
-storePreOrder(node.right, arr, i); 
+    Node S = new Node('a');
 
-} 
+    S.left = new Node('b');
 
+    S.right = new Node('d');
 
-/* This function returns true if S is a subtree of T, otherwise false */
+    S.left.left = new Node('c');
 
-boolean
-isSubtree(Node T, Node S) 
-
-{ 
-
-/* base cases */
-
-if
-(S == 
-null
-) { 
-
-return
-true
-; 
-
-} 
-
-if
-(T == 
-null
-) { 
-
-return
-false
-; 
-
-} 
-
-
-// Store Inorder traversals of T and S in inT[0..m-1] 
-
-// and inS[0..n-1] respectively 
-
-char
-inT[] = 
-new
-char
-[
-100
-]; 
-
-String op1 = String.valueOf(inT); 
-
-char
-inS[] = 
-new
-char
-[
-100
-]; 
-
-String op2 = String.valueOf(inS); 
-
-storeInorder(T, inT, p); 
-
-storeInorder(S, inS, p); 
-
-inT[p.m] = 
-'\0'
-; 
-
-inS[p.m] = 
-'\0'
-; 
-
-
-// If inS[] is not a substring of preS[], return false 
-
-if
-(strstr(op1, op2) != 
-null
-) { 
-
-return
-false
-; 
-
-} 
-
-
-// Store Preorder traversals of T and S in inT[0..m-1] 
-
-// and inS[0..n-1] respectively 
-
-p.m = 
-0
-; 
-
-p.n = 
-0
-; 
-
-char
-preT[] = 
-new
-char
-[
-100
-]; 
-
-char
-preS[] = 
-new
-char
-[
-100
-]; 
-
-String op3 = String.valueOf(preT); 
-
-String op4 = String.valueOf(preS); 
-
-storePreOrder(T, preT, p); 
-
-storePreOrder(S, preS, p); 
-
-preT[p.m] = 
-'\0'
-; 
-
-preS[p.n] = 
-'\0'
-; 
-
-
-// If inS[] is not a substring of preS[], return false 
-
-// Else return true 
-
-return
-(strstr(op3, op4) != 
-null
-); 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-Node T = 
-new
-Node(
-'a'
-); 
-
-T.left = 
-new
-Node(
-'b'
-); 
-
-T.right = 
-new
-Node(
-'d'
-); 
-
-T.left.left = 
-new
-Node(
-'c'
-); 
-
-T.right.right = 
-new
-Node(
-'e'
-); 
-
-
-Node S = 
-new
-Node(
-'a'
-); 
-
-S.left = 
-new
-Node(
-'b'
-); 
-
-S.right = 
-new
-Node(
-'d'
-); 
-
-S.left.left = 
-new
-Node(
-'c'
-); 
-
-
-if
-(tree.isSubtree(T, S)) { 
-
-System.out.println(
-"Yes, S is a subtree of T"
-); 
-
-} 
-
-else
-{ 
-
-System.out.println(
-"No, S is not a subtree of T"
-); 
-
-} 
-
-} 
-} 
-
-// This code is contributed by Mayank Jaiswal 
+    if (tree.isSubtree(T, S)) {
+      System.out.println("Yes, S is a subtree of T");
+    } else {
+      System.out.println("No, S is not a subtree of T");
+    }
+  }
+}
+// This code is contributed by Mayank Jaiswal

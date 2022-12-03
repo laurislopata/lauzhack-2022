@@ -1,147 +1,48 @@
+// JAVA Code for Maximum length subsequence
+// with difference between adjacent elements
+// as either 0 or 1
+import java.util.*;
 
-// JAVA Code for Maximum length subsequence 
-// with difference between adjacent elements 
-// as either 0 or 1 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG { 
+  // function to find maximum length subsequence
 
+  // with difference between adjacent elements as
 
-// function to find maximum length subsequence 
+  // either 0 or 1
 
-// with difference between adjacent elements as 
+  public static int maxLenSub(int arr[], int n) {
+    int mls[] = new int[n], max = 0;
 
-// either 0 or 1 
+    // Initialize mls[] values for all indexes
 
-public
-static
-int
-maxLenSub(
-int
-arr[], 
-int
-n) 
+    for (int i = 0; i < n; i++) mls[i] = 1;
 
-{ 
+    // Compute optimized maximum length
 
-int
-mls[] = 
-new
-int
-[n], max = 
-0
-; 
+    // subsequence values in bottom up manner
 
+    for (int i = 1; i < n; i++) for (int j = 0; j < i; j++) if (
+      Math.abs(arr[i] - arr[j]) <= 1 && mls[i] < mls[j] + 1
+    ) mls[i] = mls[j] + 1;
 
-// Initialize mls[] values for all indexes 
+    // Store maximum of all 'mls' values in 'max'
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+    for (int i = 0; i < n; i++) if (max < mls[i]) max = mls[i];
 
-mls[i] = 
-1
-; 
+    // required maximum length subsequence
 
+    return max;
+  }
 
-// Compute optimized maximum length 
+  /* Driver program to test above function */
 
-// subsequence values in bottom up manner 
+  public static void main(String[] args) {
+    int arr[] = { 2, 5, 6, 3, 7, 6, 5, 8 };
 
-for
-(
-int
-i = 
-1
-; i < n; i++) 
+    int n = arr.length;
 
-for
-(
-int
-j = 
-0
-; j < i; j++) 
-
-if
-(Math.abs(arr[i] - arr[j]) <= 
-1
-
-&& mls[i] < mls[j] + 
-1
-) 
-
-mls[i] = mls[j] + 
-1
-; 
-
-
-// Store maximum of all 'mls' values in 'max' 
-
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-if
-(max < mls[i]) 
-
-max = mls[i]; 
-
-
-// required maximum length subsequence 
-
-return
-max; 
-
-} 
-
-
-/* Driver program to test above function */
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = {
-2
-, 
-5
-, 
-6
-, 
-3
-, 
-7
-, 
-6
-, 
-5
-, 
-8
-}; 
-
-int
-n = arr.length; 
-
-System.out.println(
-"Maximum length subsequence = "
-+ 
-
-maxLenSub(arr, n)); 
-
-
-} 
-} 
-
-// This code is contributed by Arnav Kr. Mandal. 
+    System.out.println("Maximum length subsequence = " + maxLenSub(arr, n));
+  }
+}
+// This code is contributed by Arnav Kr. Mandal.

@@ -1,189 +1,80 @@
+// Java program for Binary Search
+import java.util.*;
 
-// Java program for Binary Search 
-import
-java.util.*; 
+class Binary {
 
-class
-Binary 
-{ 
+  public static int f(int x) {
+    return (x * x - 10 * x - 20);
+  }
 
-public
-static
-int
-f(
-int
-x) 
+  // Returns the value x where above
 
-{ 
-return
-(x*x - 
-10
-*x - 
-20
-); } 
+  // function f() becomes positive
 
+  // first time.
 
-// Returns the value x where above 
+  public static int findFirstPositive() {
+    // When first value itself is positive
 
-// function f() becomes positive 
+    if (f(0) > 0) return 0;
 
-// first time. 
+    // Find 'high' for binary search
 
-public
-static
-int
-findFirstPositive() 
+    // by repeated doubling
 
-{ 
+    int i = 1;
 
-// When first value itself is positive 
+    while (f(i) <= 0) i = i * 2;
 
-if
-(f(
-0
-) > 
-0
-) 
+    // Call binary search
 
-return
-0
-; 
+    return binarySearch(i / 2, i);
+  }
 
+  // Searches first positive value of
 
-// Find 'high' for binary search 
+  // f(i) where low <= i <= high
 
-// by repeated doubling 
+  public static int binarySearch(int low, int high) {
+    if (high >= low) {
+      /* mid = (low + high)/2 */
 
-int
-i = 
-1
-; 
+      int mid = low + (high - low) / 2;
 
-while
-(f(i) <= 
-0
-) 
+      // If f(mid) is greater than 0 and
 
-i = i * 
-2
-; 
+      // one of the following two
 
+      // conditions is true:
 
-// Call binary search 
+      // a) mid is equal to low
 
-return
-binarySearch(i / 
-2
-, i); 
+      // b) f(mid-1) is negative
 
-} 
+      if (f(mid) > 0 && (mid == low || f(mid - 1) <= 0)) return mid;
 
+      // If f(mid) is smaller than or equal to 0
 
-// Searches first positive value of 
+      if (f(mid) <= 0) return binarySearch((mid + 1), high); else // f(mid) > 0
 
-// f(i) where low <= i <= high 
+      return binarySearch(low, (mid - 1));
+    }
 
-public
-static
-int
-binarySearch(
-int
-low, 
-int
-high) 
-
-{ 
-
-if
-(high >= low) 
-
-{ 
-
-/* mid = (low + high)/2 */
-
-int
-mid = low + (high - low)/
-2
-; 
-
-
-// If f(mid) is greater than 0 and 
-
-// one of the following two 
-
-// conditions is true: 
-
-// a) mid is equal to low 
-
-// b) f(mid-1) is negative 
-
-if
-(f(mid) > 
-0
-&& (mid == low || f(mid-
-1
-) <= 
-0
-)) 
-
-return
-mid; 
-
-
-// If f(mid) is smaller than or equal to 0 
-
-if
-(f(mid) <= 
-0
-) 
-
-return
-binarySearch((mid + 
-1
-), high); 
-
-else
-// f(mid) > 0 
-
-return
-binarySearch(low, (mid -
-1
-)); 
-
-} 
-
-
-/* Return -1 if there is no positive 
+    /* Return -1 if there is no positive 
 
 value in given range */
 
-return
--
-1
-; 
+    return -1;
+  }
 
-} 
+  // driver code
 
-
-// driver code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-System.out.print (
-"The value n where f() "
-+ 
-
-"becomes positive first is "
-+ 
-
-findFirstPositive()); 
-
-} 
-} 
-
-// This code is contributed by rishabh_jain 
+  public static void main(String[] args) {
+    System.out.print(
+      "The value n where f() " +
+      "becomes positive first is " +
+      findFirstPositive()
+    );
+  }
+}
+// This code is contributed by rishabh_jain

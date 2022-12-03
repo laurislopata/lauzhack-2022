@@ -1,296 +1,125 @@
-
 /* Java program to check if all three given 
 traversals are of the same tree */
-import
-java.util.*; 
-class
-GfG { 
+import java.util.*;
 
-static
-int
-preIndex = 
-0
-; 
+class GfG {
 
-// A Binary Tree Node 
-static
-class
-Node 
-{ 
+  static int preIndex = 0;
 
-int
-data; 
+  // A Binary Tree Node
+  static class Node {
 
-Node left, right; 
-} 
+    int data;
 
-// Utility function to create a new tree node 
-static
-Node newNode(
-int
-data) 
-{ 
+    Node left, right;
+  }
 
-Node temp = 
-new
-Node(); 
+  // Utility function to create a new tree node
+  static Node newNode(int data) {
+    Node temp = new Node();
 
-temp.data = data; 
+    temp.data = data;
 
-temp.left = 
-null
-; 
+    temp.left = null;
 
-temp.right = 
-null
-; 
+    temp.right = null;
 
-return
-temp; 
-} 
+    return temp;
+  }
 
-/* Function to find index of value in arr[start...end] 
+  /* Function to find index of value in arr[start...end] 
 The function assumes that value is present in in[] */
-static
-int
-search(
-int
-arr[], 
-int
-strt, 
-int
-end, 
-int
-value) 
-{ 
+  static int search(int arr[], int strt, int end, int value) {
+    for (int i = strt; i <= end; i++) {
+      if (arr[i] == value) return i;
+    }
 
-for
-(
-int
-i = strt; i <= end; i++) 
+    return -1;
+  }
 
-{ 
-
-if
-(arr[i] == value) 
-
-return
-i; 
-
-} 
-
-return
--
-1
-; 
-} 
-
-/* Recursive function to construct binary tree 
+  /* Recursive function to construct binary tree 
 of size len from Inorder traversal in[] and 
 Preorder traversal pre[]. Initial values 
 of inStrt and inEnd should be 0 and len -1. 
 The function doesn't do any error checking for 
 cases where inorder and preorder do not form a 
 tree */
-static
-Node buildTree(
-int
-in[], 
-int
-pre[], 
-int
-inStrt, 
-int
-inEnd) 
-{ 
+  static Node buildTree(int in[], int pre[], int inStrt, int inEnd) {
+    if (inStrt > inEnd) return null;
 
-
-if
-(inStrt > inEnd) 
-
-return
-null
-; 
-
-
-/* Pick current node from Preorder traversal 
+    /* Pick current node from Preorder traversal 
 
 using preIndex and increment preIndex */
 
-Node tNode = newNode(pre[preIndex++]); 
+    Node tNode = newNode(pre[preIndex++]);
 
+    /* If this node has no children then return */
 
-/* If this node has no children then return */
+    if (inStrt == inEnd) return tNode;
 
-if
-(inStrt == inEnd) 
-
-return
-tNode; 
-
-
-/* Else find the index of this node in 
+    /* Else find the index of this node in 
 
 Inorder traversal */
 
-int
-inIndex = search(in, inStrt, inEnd, tNode.data); 
+    int inIndex = search(in, inStrt, inEnd, tNode.data);
 
-
-/* Using index in Inorder traversal, 
+    /* Using index in Inorder traversal, 
 
 construct left and right subtress */
 
-tNode.left = buildTree(in, pre, inStrt, inIndex-
-1
-); 
+    tNode.left = buildTree(in, pre, inStrt, inIndex - 1);
 
-tNode.right = buildTree(in, pre, inIndex+
-1
-, inEnd); 
+    tNode.right = buildTree(in, pre, inIndex + 1, inEnd);
 
+    return tNode;
+  }
 
-return
-tNode; 
-} 
-
-/* function to compare Postorder traversal 
+  /* function to compare Postorder traversal 
 on constructed tree and given Postorder */
-static
-int
-checkPostorder(Node node, 
-int
-postOrder[], 
-int
-index) 
-{ 
+  static int checkPostorder(Node node, int postOrder[], int index) {
+    if (node == null) return index;
 
-if
-(node == 
-null
-) 
+    /* first recur on left child */
 
-return
-index; 
+    index = checkPostorder(node.left, postOrder, index);
 
+    /* now recur on right child */
 
-/* first recur on left child */
+    index = checkPostorder(node.right, postOrder, index);
 
-index = checkPostorder(node.left,postOrder,index); 
-
-
-/* now recur on right child */
-
-index = checkPostorder(node.right,postOrder,index); 
-
-
-/* Compare if data at current index in 
+    /* Compare if data at current index in 
 
 both Postorder traversals are same */
 
-if
-(node.data == postOrder[index]) 
+    if (node.data == postOrder[index]) index++; else return -1;
 
-index++; 
+    return index;
+  }
 
-else
+  // Driver program to test above functions
+  public static void main(String[] args) {
+    int inOrder[] = { 4, 2, 5, 1, 3 };
 
-return
--
-1
-; 
+    int preOrder[] = { 1, 2, 4, 5, 3 };
 
+    int postOrder[] = { 4, 5, 2, 3, 1 };
 
-return
-index; 
-} 
+    int len = inOrder.length;
 
-// Driver program to test above functions 
-public
-static
-void
-main(String[] args) 
-{ 
+    // build tree from given
 
-int
-inOrder[] = {
-4
-, 
-2
-, 
-5
-, 
-1
-, 
-3
-}; 
+    // Inorder and Preorder traversals
 
-int
-preOrder[] = {
-1
-, 
-2
-, 
-4
-, 
-5
-, 
-3
-}; 
+    Node root = buildTree(inOrder, preOrder, 0, len - 1);
 
-int
-postOrder[] = {
-4
-, 
-5
-, 
-2
-, 
-3
-, 
-1
-}; 
+    // compare postorder traversal on constructed
 
+    // tree with given Postorder traversal
 
-int
-len = inOrder.length; 
+    int index = checkPostorder(root, postOrder, 0);
 
+    // If both postorder traversals are same
 
-// build tree from given 
-
-// Inorder and Preorder traversals 
-
-Node root = buildTree(inOrder, preOrder, 
-0
-, len - 
-1
-); 
-
-
-// compare postorder traversal on constructed 
-
-// tree with given Postorder traversal 
-
-int
-index = checkPostorder(root,postOrder,
-0
-); 
-
-
-// If both postorder traversals are same 
-
-if
-(index == len) 
-
-System.out.println(
-"Yes"
-); 
-
-else
-
-System.out.println(
-"No"
-); 
-
-} 
-} 
+    if (index == len) System.out.println("Yes"); else System.out.println("No");
+  }
+}

@@ -1,113 +1,48 @@
+// Java program to find all elements
+// in array which have atleast
+// two greater elements itself.
+import java.io.*;
+import java.util.*;
 
-// Java program to find all elements 
-// in array which have atleast 
-// two greater elements itself. 
-import
-java.util.*; 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  static void findElements(int arr[], int n) {
+    int first = Integer.MIN_VALUE;
 
-static
-void
-findElements(
-int
-arr[], 
-int
-n) 
-{ 
+    int second = Integer.MAX_VALUE;
 
-int
-first = Integer.MIN_VALUE; 
+    for (int i = 0; i < n; i++) {
+      // If current element is smaller
 
-int
-second = Integer.MAX_VALUE; 
+      // than first then update both
 
+      // first and second
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+      if (arr[i] > first) {
+        second = first;
 
-{ 
-
-// If current element is smaller 
-
-// than first then update both 
-
-// first and second 
-
-if
-(arr[i] > first) 
-
-{ 
-
-second = first; 
-
-first = arr[i]; 
-
-} 
-
-
-/* If arr[i] is in between 
+        first = arr[i];
+      } /* If arr[i] is in between 
 
 first and second 
 
 then update second */
 
-else
-if
-(arr[i] > second) 
+      else if (arr[i] > second) second = arr[i];
+    }
 
-second = arr[i]; 
+    for (int i = 0; i < n; i++) if (arr[i] < second) System.out.print(
+      arr[i] + " "
+    );
+  }
 
-} 
+  // Driver code
+  public static void main(String args[]) {
+    int arr[] = { 2, -6, 3, 5, 1 };
 
+    int n = arr.length;
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
-
-if
-(arr[i] < second) 
-
-System.out.print(arr[i] + 
-" "
-) ; 
-} 
-// Driver code 
-public
-static
-void
-main(String args[]) 
-{ 
-
-int
-arr[] = { 
-2
-, -
-6
-, 
-3
-, 
-5
-, 
-1
-}; 
-
-int
-n = arr.length; 
-
-findElements(arr, n); 
-} 
-} 
-
-// This code is contributed by Sahil_Bansall 
+    findElements(arr, n);
+  }
+}
+// This code is contributed by Sahil_Bansall

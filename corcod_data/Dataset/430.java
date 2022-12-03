@@ -1,238 +1,138 @@
+// Java implementation to check whether the two
+// binary tress are mirrors of each other or not
+import java.util.*;
 
-// Java implementation to check whether the two 
-// binary tress are mirrors of each other or not 
-import
-java.util.*; 
-class
-GfG { 
+class GfG {
 
-// structure of a node in binary tree 
-static
-class
-Node 
-{ 
+  // structure of a node in binary tree
+  static class Node {
 
-int
-data; 
+    int data;
 
-Node left, right; 
-} 
+    Node left, right;
+  }
 
-// Utility function to create and return 
-// a new node for a binary tree 
-static
-Node newNode(
-int
-data) 
-{ 
+  // Utility function to create and return
+  // a new node for a binary tree
+  static Node newNode(int data) {
+    Node temp = new Node();
 
-Node temp = 
-new
-Node(); 
+    temp.data = data;
 
-temp.data = data; 
+    temp.left = null;
 
-temp.left = 
-null
-; 
+    temp.right = null;
 
-temp.right = 
-null
-; 
+    return temp;
+  }
 
-return
-temp; 
-} 
+  // function to check whether the two binary trees
+  // are mirrors of each other or not
+  static String areMirrors(Node root1, Node root2) {
+    Stack<Node> st1 = new Stack<Node>();
 
-// function to check whether the two binary trees 
-// are mirrors of each other or not 
-static
-String areMirrors(Node root1, Node root2) 
-{ 
+    Stack<Node> st2 = new Stack<Node>();
 
-Stack<Node> st1 = 
-new
-Stack<Node> (); 
+    while (true) {
+      // iterative inorder traversal of 1st tree and
 
-Stack<Node> st2 = 
-new
-Stack<Node> (); 
+      // reverse inoder traversal of 2nd tree
 
-while
-(
-true
-) 
+      while (root1 != null && root2 != null) {
+        // if the corresponding nodes in the two traversal
 
-{ 
+        // have different data values, then they are not
 
-// iterative inorder traversal of 1st tree and 
+        // mirrors of each other.
 
-// reverse inoder traversal of 2nd tree 
+        if (root1.data != root2.data) return "No";
 
-while
-(root1 != 
-null
-&& root2 != 
-null
-) 
+        st1.push(root1);
 
-{ 
+        st2.push(root2);
 
-// if the corresponding nodes in the two traversal 
+        root1 = root1.left;
 
-// have different data values, then they are not 
+        root2 = root2.right;
+      }
 
-// mirrors of each other. 
+      // if at any point one root becomes null and
 
-if
-(root1.data != root2.data) 
+      // the other root is not null, then they are
 
-return
-"No"
-; 
+      // not mirrors. This condition verifies that
 
+      // structures of tree are mirrors of each other.
 
-st1.push(root1); 
+      if (!(root1 == null && root2 == null)) return "No";
 
-st2.push(root2); 
+      if (!st1.isEmpty() && !st2.isEmpty()) {
+        root1 = st1.peek();
 
-root1 = root1.left; 
+        root2 = st2.peek();
 
-root2 = root2.right; 
+        st1.pop();
 
-} 
+        st2.pop();
 
-
-// if at any point one root becomes null and 
-
-// the other root is not null, then they are 
-
-// not mirrors. This condition verifies that 
-
-// structures of tree are mirrors of each other. 
-
-if
-(!(root1 == 
-null
-&& root2 == 
-null
-)) 
-
-return
-"No"
-; 
-
-
-if
-(!st1.isEmpty() && !st2.isEmpty()) 
-
-{ 
-
-root1 = st1.peek(); 
-
-root2 = st2.peek(); 
-
-st1.pop(); 
-
-st2.pop(); 
-
-
-/* we have visited the node and its left subtree. 
+        /* we have visited the node and its left subtree. 
 
 Now, it's right subtree's turn */
 
-root1 = root1.right; 
+        root1 = root1.right;
 
-
-/* we have visited the node and its right subtree. 
+        /* we have visited the node and its right subtree. 
 
 Now, it's left subtree's turn */
 
-root2 = root2.left; 
+        root2 = root2.left;
+      }
+      // both the trees have been completely traversed
 
-} 
+      else break;
+    }
 
+    // tress are mirrors of each other
 
-// both the trees have been completely traversed 
+    return "Yes";
+  }
 
-else
+  // Driver program to test above
+  public static void main(String[] args) {
+    // 1st binary tree formation
 
-break
-; 
+    Node root1 = newNode(1);
+    /* 1 */
 
-} 
+    root1.left = newNode(3);
+    /* / \ */
 
+    root1.right = newNode(2);
+    /* 3 2 */
 
-// tress are mirrors of each other 
+    root1.right.left = newNode(5);
+    /* / \ */
 
-return
-"Yes"
-; 
-} 
+    root1.right.right = newNode(4);
+    /* 5 4 */
 
-// Driver program to test above 
-public
-static
-void
-main(String[] args) 
-{ 
+    // 2nd binary tree formation
 
-// 1st binary tree formation 
+    Node root2 = newNode(1);
+    /* 1 */
 
-Node root1 = newNode(
-1
-); 
-/* 1 */
+    root2.left = newNode(2);
+    /* / \ */
 
-root1.left = newNode(
-3
-); 
-/* / \ */
+    root2.right = newNode(3);
+    /* 2 3 */
 
-root1.right = newNode(
-2
-); 
-/* 3 2 */
+    root2.left.left = newNode(4);
+    /* / \ */
 
-root1.right.left = newNode(
-5
-); 
-/* / \ */
+    root2.left.right = newNode(5);
+    /* 4 5 */
 
-root1.right.right = newNode(
-4
-); 
-/* 5 4 */
-
-
-// 2nd binary tree formation 
-
-Node root2 = newNode(
-1
-); 
-/* 1 */
-
-root2.left = newNode(
-2
-); 
-/* / \ */
-
-root2.right = newNode(
-3
-); 
-/* 2 3 */
-
-root2.left.left = newNode(
-4
-); 
-/* / \ */
-
-root2.left.right = newNode(
-5
-); 
-/* 4 5 */
-
-
-System.out.println(areMirrors(root1, root2)); 
-} 
-} 
+    System.out.println(areMirrors(root1, root2));
+  }
+}

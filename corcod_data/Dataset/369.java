@@ -1,217 +1,97 @@
+// Java Solution
+public class LongestPalinSubstring {
 
-// Java Solution 
-public
-class
-LongestPalinSubstring 
-{ 
+  // A utility function to print a substring str[low..high]
 
-// A utility function to print a substring str[low..high] 
+  static void printSubStr(String str, int low, int high) {
+    System.out.println(str.substring(low, high + 1));
+  }
 
-static
-void
-printSubStr(String str, 
-int
-low, 
-int
-high) { 
+  // This function prints the longest palindrome substring
 
-System.out.println(str.substring(low, high + 
-1
-)); 
+  // of str[].
 
-} 
+  // It also returns the length of the longest palindrome
 
+  static int longestPalSubstr(String str) {
+    int n = str.length();
+    // get length of input string
 
-// This function prints the longest palindrome substring 
+    // table[i][j] will be false if substring str[i..j]
 
-// of str[]. 
+    // is not palindrome.
 
-// It also returns the length of the longest palindrome 
+    // Else table[i][j] will be true
 
-static
-int
-longestPalSubstr(String str) { 
+    boolean table[][] = new boolean[n][n];
 
-int
-n = str.length(); 
-// get length of input string 
+    // All substrings of length 1 are palindromes
 
+    int maxLength = 1;
 
-// table[i][j] will be false if substring str[i..j] 
+    for (int i = 0; i < n; ++i) table[i][i] = true;
 
-// is not palindrome. 
+    // check for sub-string of length 2.
 
-// Else table[i][j] will be true 
+    int start = 0;
 
-boolean
-table[][] = 
-new
-boolean
-[n][n]; 
+    for (int i = 0; i < n - 1; ++i) {
+      if (str.charAt(i) == str.charAt(i + 1)) {
+        table[i][i + 1] = true;
 
+        start = i;
 
-// All substrings of length 1 are palindromes 
+        maxLength = 2;
+      }
+    }
 
-int
-maxLength = 
-1
-; 
+    // Check for lengths greater than 2. k is length
 
-for
-(
-int
-i = 
-0
-; i < n; ++i) 
+    // of substring
 
-table[i][i] = 
-true
-; 
+    for (int k = 3; k <= n; ++k) {
+      // Fix the starting index
 
+      for (int i = 0; i < n - k + 1; ++i) {
+        // Get the ending index of substring from
 
-// check for sub-string of length 2. 
+        // starting index i and length k
 
-int
-start = 
-0
-; 
+        int j = i + k - 1;
 
-for
-(
-int
-i = 
-0
-; i < n - 
-1
-; ++i) { 
+        // checking for sub-string from ith index to
 
-if
-(str.charAt(i) == str.charAt(i + 
-1
-)) { 
+        // jth index iff str.charAt(i+1) to
 
-table[i][i + 
-1
-] = 
-true
-; 
+        // str.charAt(j-1) is a palindrome
 
-start = i; 
+        if (table[i + 1][j - 1] && str.charAt(i) == str.charAt(j)) {
+          table[i][j] = true;
 
-maxLength = 
-2
-; 
+          if (k > maxLength) {
+            start = i;
 
-} 
+            maxLength = k;
+          }
+        }
+      }
+    }
 
-} 
+    System.out.print("Longest palindrome substring is; ");
 
+    printSubStr(str, start, start + maxLength - 1);
 
-// Check for lengths greater than 2. k is length 
+    return maxLength;
+    // return length of LPS
 
-// of substring 
+  }
 
-for
-(
-int
-k = 
-3
-; k <= n; ++k) { 
+  // Driver program to test above functions
 
+  public static void main(String[] args) {
+    String str = "forgeeksskeegfor";
 
-// Fix the starting index 
-
-for
-(
-int
-i = 
-0
-; i < n - k + 
-1
-; ++i) 
-
-{ 
-
-// Get the ending index of substring from 
-
-// starting index i and length k 
-
-int
-j = i + k - 
-1
-; 
-
-
-// checking for sub-string from ith index to 
-
-// jth index iff str.charAt(i+1) to 
-
-// str.charAt(j-1) is a palindrome 
-
-if
-(table[i + 
-1
-][j - 
-1
-] && str.charAt(i) == 
-
-str.charAt(j)) { 
-
-table[i][j] = 
-true
-; 
-
-
-if
-(k > maxLength) { 
-
-start = i; 
-
-maxLength = k; 
-
-} 
-
-} 
-
-} 
-
-} 
-
-System.out.print(
-"Longest palindrome substring is; "
-); 
-
-printSubStr(str, start, start + maxLength - 
-1
-); 
-
-
-return
-maxLength; 
-// return length of LPS 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String[] args) { 
-
-
-String str = 
-"forgeeksskeegfor"
-; 
-
-System.out.println(
-"Length is: "
-+ 
-
-longestPalSubstr(str)); 
-
-} 
-} 
-
-// This code is contributed by Sumit Ghosh 
+    System.out.println("Length is: " + longestPalSubstr(str));
+  }
+}
+// This code is contributed by Sumit Ghosh

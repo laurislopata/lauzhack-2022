@@ -1,73 +1,32 @@
+// A Simple Java program to find pairs with distance
+// equal to English alphabet distance
+class Test {
 
-// A Simple Java program to find pairs with distance 
-// equal to English alphabet distance 
-class
-Test { 
+  // Method to count pairs
 
+  static int countPairs(String str) {
+    int result = 0;
 
-// Method to count pairs 
+    int n = str.length();
 
-static
-int
-countPairs(String str) 
+    for (int i = 0; i < n; i++) for (
+      int j = i + 1;
+      j < n;
+      j++
+    ) // Increment count if characters
 
-{ 
+    // are at same distance
 
-int
-result = 
-0
-; 
+    if (Math.abs(str.charAt(i) - str.charAt(j)) == Math.abs(i - j)) result++;
 
-int
-n = str.length(); 
+    return result;
+  }
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+  // Driver method
 
-for
-(
-int
-j = i + 
-1
-; j < n; j++) 
+  public static void main(String args[]) {
+    String str = "geeksforgeeks";
 
-
-// Increment count if characters 
-
-// are at same distance 
-
-if
-(Math.abs(str.charAt(i) - str.charAt(j)) == 
-
-Math.abs(i - j)) 
-
-result++; 
-
-
-return
-result; 
-
-} 
-
-
-// Driver method 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-String str = 
-"geeksforgeeks"
-; 
-
-System.out.println(countPairs(str)); 
-
-} 
-} 
+    System.out.println(countPairs(str));
+  }
+}

@@ -1,259 +1,111 @@
+// Java program to Rearrange positive
+// and negative numbers in a array
+import java.io.*;
 
-// Java program to Rearrange positive 
-// and negative numbers in a array 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG { 
+  /* Function to print an array */
 
-/* Function to print an array */
+  static void printArray(int A[], int size) {
+    for (int i = 0; i < size; i++) System.out.print(A[i] + " ");
 
-static
-void
-printArray(
-int
-A[], 
-int
-size) 
+    System.out.println();
+  }
 
-{ 
+  // Merges two subarrays of arr[].
 
-for
-(
-int
-i = 
-0
-; i < size; i++) 
+  // First subarray is arr[l..m]
 
-System.out.print(A[i] + 
-" "
-); 
+  // Second subarray is arr[m+1..r]
 
-System.out.println(); 
+  static void merge(int arr[], int l, int m, int r) {
+    int i, j, k;
 
-} 
+    int n1 = m - l + 1;
 
+    int n2 = r - m;
 
-// Merges two subarrays of arr[]. 
+    /* create temp arrays */
 
-// First subarray is arr[l..m] 
+    int L[] = new int[n1];
 
-// Second subarray is arr[m+1..r] 
+    int R[] = new int[n2];
 
-static
-void
-merge(
-int
-arr[], 
-int
-l, 
-int
-m, 
-int
-r) 
+    /* Copy data to temp arrays L[] and R[] */
 
-{ 
+    for (i = 0; i < n1; i++) L[i] = arr[l + i];
 
-int
-i, j, k; 
+    for (j = 0; j < n2; j++) R[j] = arr[m + 1 + j];
 
-int
-n1 = m - l + 
-1
-; 
+    /* Merge the temp arrays back into arr[l..r]*/
 
-int
-n2 = r - m; 
+    // Initial index of first subarray
 
+    i = 0;
 
-/* create temp arrays */
+    // Initial index of second subarray
 
-int
-L[] = 
-new
-int
-[n1]; 
+    j = 0;
 
-int
-R[] = 
-new
-int
-[n2]; 
+    // Initial index of merged subarray
 
+    k = l;
 
-/* Copy data to temp arrays L[] and R[] */
+    // Note the order of appearance of elements should
 
-for
-(i = 
-0
-; i < n1; i++) 
+    // be maintained - we copy elements of left subarray
 
-L[i] = arr[l + i]; 
+    // first followed by that of right subarray
 
-for
-(j = 
-0
-; j < n2; j++) 
+    // copy negative elements of left subarray
 
-R[j] = arr[m + 
-1
-+ j]; 
+    while (i < n1 && L[i] < 0) arr[k++] = L[i++];
 
+    // copy negative elements of right subarray
 
-/* Merge the temp arrays back into arr[l..r]*/
+    while (j < n2 && R[j] < 0) arr[k++] = R[j++];
 
-// Initial index of first subarray 
+    // copy positive elements of left subarray
 
-i = 
-0
-; 
+    while (i < n1) arr[k++] = L[i++];
 
+    // copy positive elements of right subarray
 
-// Initial index of second subarray 
+    while (j < n2) arr[k++] = R[j++];
+  }
 
-j = 
-0
-; 
+  // Function to Rearrange positive and negative
 
+  // numbers in a array
 
-// Initial index of merged subarray 
+  static void RearrangePosNeg(int arr[], int l, int r) {
+    if (l < r) {
+      // Same as (l + r)/2, but avoids overflow for
 
-k = l; 
+      // large l and h
 
+      int m = l + (r - l) / 2;
 
-// Note the order of appearance of elements should 
+      // Sort first and second halves
 
-// be maintained - we copy elements of left subarray 
+      RearrangePosNeg(arr, l, m);
 
-// first followed by that of right subarray 
+      RearrangePosNeg(arr, m + 1, r);
 
+      merge(arr, l, m, r);
+    }
+  }
 
-// copy negative elements of left subarray 
+  // Driver program
 
-while
-(i < n1 && L[i] < 
-0
-) 
+  public static void main(String[] args) {
+    int arr[] = { -12, 11, -13, -5, 6, -7, 5, -3, -6 };
 
-arr[k++] = L[i++]; 
+    int arr_size = arr.length;
 
+    RearrangePosNeg(arr, 0, arr_size - 1);
 
-// copy negative elements of right subarray 
-
-while
-(j < n2 && R[j] < 
-0
-) 
-
-arr[k++] = R[j++]; 
-
-
-// copy positive elements of left subarray 
-
-while
-(i < n1) 
-
-arr[k++] = L[i++]; 
-
-
-// copy positive elements of right subarray 
-
-while
-(j < n2) 
-
-arr[k++] = R[j++]; 
-
-} 
-
-
-// Function to Rearrange positive and negative 
-
-// numbers in a array 
-
-static
-void
-RearrangePosNeg(
-int
-arr[], 
-int
-l, 
-int
-r) 
-
-{ 
-
-if
-(l < r) { 
-
-// Same as (l + r)/2, but avoids overflow for 
-
-// large l and h 
-
-int
-m = l + (r - l) / 
-2
-; 
-
-
-// Sort first and second halves 
-
-RearrangePosNeg(arr, l, m); 
-
-RearrangePosNeg(arr, m + 
-1
-, r); 
-
-
-merge(arr, l, m, r); 
-
-} 
-
-} 
-
-
-// Driver program 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = { -
-12
-, 
-11
-, -
-13
-, -
-5
-, 
-6
-, -
-7
-, 
-5
-, -
-3
-, -
-6
-}; 
-
-int
-arr_size = arr.length; 
-
-RearrangePosNeg(arr, 
-0
-, arr_size - 
-1
-); 
-
-printArray(arr, arr_size); 
-
-} 
-} 
-
-// This code is contributed by vt_m. 
+    printArray(arr, arr_size);
+  }
+}
+// This code is contributed by vt_m.

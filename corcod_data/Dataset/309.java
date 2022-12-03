@@ -1,93 +1,34 @@
+// JAVA Code for Newman-Conway Sequence
+import java.util.*;
 
-// JAVA Code for Newman-Conway Sequence 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG { 
+  // Function to find the n-th element
 
+  static int sequence(int n) {
+    // Declare array to store sequence
 
-// Function to find the n-th element 
+    int f[] = new int[n + 1];
 
-static
-int
-sequence(
-int
-n) 
+    f[0] = 0;
 
-{ 
+    f[1] = 1;
 
-// Declare array to store sequence 
+    f[2] = 1;
 
-int
-f[] = 
-new
-int
-[n + 
-1
-]; 
+    int i;
 
-f[
-0
-] = 
-0
-; 
+    for (i = 3; i <= n; i++) f[i] = f[f[i - 1]] + f[i - f[i - 1]];
 
-f[
-1
-] = 
-1
-; 
+    return f[n];
+  }
 
-f[
-2
-] = 
-1
-; 
+  /* Driver program to test above function */
 
+  public static void main(String[] args) {
+    int n = 10;
 
-int
-i; 
-
-
-for
-(i = 
-3
-; i <= n; i++) 
-
-f[i] = f[f[i - 
-1
-]] + 
-
-f[i - f[i - 
-1
-]]; 
-
-
-return
-f[n]; 
-
-} 
-
-
-/* Driver program to test above function */
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-n = 
-10
-; 
-
-System.out.println(sequence(n)); 
-
-
-} 
-} 
-
-// This code is contributed by Arnav Kr. Mandal. 
+    System.out.println(sequence(n));
+  }
+}
+// This code is contributed by Arnav Kr. Mandal.

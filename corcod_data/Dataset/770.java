@@ -1,10 +1,10 @@
-import java.io.OutputStream;
+import java.io.IOException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.InputMismatchException;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Built using CHelper plug-in Actual solution is at the top
@@ -65,7 +65,6 @@ public class Main {
         }
       }
     }
-
   }
 
   static class InputReader implements FastIO {
@@ -105,8 +104,7 @@ public class Main {
 
     public int nextInt() {
       int c;
-      for (c = this.read(); isSpaceChar(c); c = this.read()) {
-      }
+      for (c = this.read(); isSpaceChar(c); c = this.read()) {}
 
       byte sgn = 1;
       if (c == 45) {
@@ -130,8 +128,7 @@ public class Main {
 
     public String next() {
       int c;
-      while (isSpaceChar(c = this.read())) {
-      }
+      while (isSpaceChar(c = this.read())) {}
 
       StringBuilder result = new StringBuilder();
       result.appendCodePoint(c);
@@ -150,11 +147,7 @@ public class Main {
     public char[] nextCharArray() {
       return next().toCharArray();
     }
-
   }
 
-  static interface FastIO {
-
-  }
+  static interface FastIO {}
 }
-

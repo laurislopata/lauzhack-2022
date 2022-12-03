@@ -1,14 +1,14 @@
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.io.BufferedWriter;
-import java.io.Writer;
-import java.io.OutputStreamWriter;
-import java.util.InputMismatchException;
+import java.io.IOException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.util.InputMismatchException;
 
 /**
  * Built using CHelper plug-in Actual solution is at the top
@@ -16,6 +16,7 @@ import java.io.InputStream;
  * @author @Ziklon
  */
 public class Main {
+
   public static void main(String[] args) {
     InputStream inputStream = System.in;
     OutputStream outputStream = System.out;
@@ -27,20 +28,26 @@ public class Main {
   }
 
   static class ABirthday {
+
     public void solve(int testNumber, InputReader in, OutputWriter out) {
       long N = in.readLong(), M = in.readLong(), K = in.readLong(), L = in.readLong();
 
       long ans = ((L + K) - 1) / M + 1;
-      if (ans * M > N || ans * M - K < L) out.printLine(-1);
-      else out.printLine(ans);
+      if (ans * M > N || ans * M - K < L) out.printLine(-1); else out.printLine(
+        ans
+      );
     }
   }
 
   static class OutputWriter {
+
     private final PrintWriter writer;
 
     public OutputWriter(OutputStream outputStream) {
-      writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)));
+      writer =
+        new PrintWriter(
+          new BufferedWriter(new OutputStreamWriter(outputStream))
+        );
     }
 
     public OutputWriter(Writer writer) {
@@ -61,6 +68,7 @@ public class Main {
   }
 
   static class InputReader {
+
     private InputStream stream;
     private byte[] buf = new byte[1024];
     private int curChar;

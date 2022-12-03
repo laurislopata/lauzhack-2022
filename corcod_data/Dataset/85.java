@@ -1,223 +1,94 @@
+// A O(n) and O(n) extra space Java program to find
+// longest common subarray of two binary arrays with
+// same sum
 
-// A O(n) and O(n) extra space Java program to find 
-// longest common subarray of two binary arrays with 
-// same sum 
-
-class
-Test 
-{ 
-
-static
-int
-arr1[] = 
-new
-int
-[]{
-0
-, 
-1
-, 
-0
-, 
-1
-, 
-1
-, 
-1
-, 
-1
-}; 
-
-static
-int
-arr2[] = 
-new
-int
-[]{
-1
-, 
-1
-, 
-1
-, 
-1
-, 
-1
-, 
-0
-, 
-1
-}; 
+class Test {
 
+  static int arr1[] = new int[] { 0, 1, 0, 1, 1, 1, 1 };
 
-// Returns length of the longest common sum in arr1[] 
+  static int arr2[] = new int[] { 1, 1, 1, 1, 1, 0, 1 };
 
-// and arr2[]. Both are of same size n. 
+  // Returns length of the longest common sum in arr1[]
 
-static
-int
-longestCommonSum(
-int
-n) 
+  // and arr2[]. Both are of same size n.
 
-{ 
+  static int longestCommonSum(int n) {
+    // Initialize result
 
-// Initialize result 
+    int maxLen = 0;
 
-int
-maxLen = 
-0
-; 
+    // Initialize prefix sums of two arrays
 
+    int preSum1 = 0, preSum2 = 0;
 
-// Initialize prefix sums of two arrays 
+    // Create an array to store staring and ending
 
-int
-preSum1 = 
-0
-, preSum2 = 
-0
-; 
+    // indexes of all possible diff values. diff[i]
 
+    // would store starting and ending points for
 
-// Create an array to store staring and ending 
+    // difference "i-n"
 
-// indexes of all possible diff values. diff[i] 
+    int diff[] = new int[2 * n + 1];
 
-// would store starting and ending points for 
+    // Initialize all starting and ending values as -1.
 
-// difference "i-n" 
+    for (int i = 0; i < diff.length; i++) {
+      diff[i] = -1;
+    }
 
-int
-diff[] = 
-new
-int
-[
-2
-*n+
-1
-]; 
+    // Traverse both arrays
 
+    for (int i = 0; i < n; i++) {
+      // Update prefix sums
 
-// Initialize all starting and ending values as -1. 
+      preSum1 += arr1[i];
 
-for
-(
-int
-i = 
-0
-; i < diff.length; i++) { 
+      preSum2 += arr2[i];
 
-diff[i] = -
-1
-; 
+      // Comput current diff and index to be used
 
-} 
+      // in diff array. Note that diff can be negative
 
+      // and can have minimum value as -1.
 
-// Traverse both arrays 
+      int curr_diff = preSum1 - preSum2;
 
-for
-(
-int
-i=
-0
-; i<n; i++) 
+      int diffIndex = n + curr_diff;
 
-{ 
+      // If current diff is 0, then there are same number
 
-// Update prefix sums 
+      // of 1's so far in both arrays, i.e., (i+1) is
 
-preSum1 += arr1[i]; 
+      // maximum length.
 
-preSum2 += arr2[i]; 
+      if (curr_diff == 0) maxLen = i + 1;
+      // If current diff is seen first time, then update
 
+      // starting index of diff.
 
-// Comput current diff and index to be used 
+      else if (diff[diffIndex] == -1) diff[diffIndex] = i;
+      // Current diff is already seen
 
-// in diff array. Note that diff can be negative 
+      else {
+        // Find length of this same sum common span
 
-// and can have minimum value as -1. 
+        int len = i - diff[diffIndex];
 
-int
-curr_diff = preSum1 - preSum2; 
+        // Update max len if needed
 
-int
-diffIndex = n + curr_diff; 
+        if (len > maxLen) maxLen = len;
+      }
+    }
 
+    return maxLen;
+  }
 
-// If current diff is 0, then there are same number 
+  // Driver method to test the above function
 
-// of 1's so far in both arrays, i.e., (i+1) is 
+  public static void main(String[] args) {
+    System.out.print("Length of the longest common span with same sum is ");
 
-// maximum length. 
-
-if
-(curr_diff == 
-0
-) 
-
-maxLen = i+
-1
-; 
-
-
-// If current diff is seen first time, then update 
-
-// starting index of diff. 
-
-else
-if
-( diff[diffIndex] == -
-1
-) 
-
-diff[diffIndex] = i; 
-
-
-// Current diff is already seen 
-
-else
-
-{ 
-
-// Find length of this same sum common span 
-
-int
-len = i - diff[diffIndex]; 
-
-
-// Update max len if needed 
-
-if
-(len > maxLen) 
-
-maxLen = len; 
-
-} 
-
-} 
-
-return
-maxLen; 
-
-} 
-
-
-// Driver method to test the above function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-System.out.print(
-"Length of the longest common span with same sum is "
-); 
-
-System.out.println(longestCommonSum(arr1.length)); 
-
-} 
-} 
+    System.out.println(longestCommonSum(arr1.length));
+  }
+}

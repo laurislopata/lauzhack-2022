@@ -1,225 +1,55 @@
+// Java prorgam for finding max path in matrix
 
-// Java prorgam for finding max path in matrix 
+import static java.lang.Math.max;
 
-import
-static
-java.lang.Math.max; 
+class GFG {
 
-class
-GFG 
-{ 
+  public static int N = 4, M = 6;
 
-public
-static
-int
-N = 
-4
-, M = 
-6
-; 
+  // Function to calculate max path in matrix
 
+  static int findMaxPath(int mat[][]) {
+    // To find max val in first row
 
-// Function to calculate max path in matrix 
+    int res = -1;
 
-static
-int
-findMaxPath(
-int
-mat[][]) 
+    for (int i = 0; i < M; i++) res = max(res, mat[0][i]);
 
-{ 
+    for (int i = 1; i < N; i++) {
+      res = -1;
 
-// To find max val in first row 
+      for (int j = 0; j < M; j++) {
+        // When all paths are possible
 
-int
-res = -
-1
-; 
+        if (j > 0 && j < M - 1) mat[i][j] +=
+          max(mat[i - 1][j], max(mat[i - 1][j - 1], mat[i - 1][j + 1]));
+        // When diagonal right is not possible
 
-for
-(
-int
-i = 
-0
-; i < M; i++) 
+        else if (j > 0) mat[i][j] += max(mat[i - 1][j], mat[i - 1][j - 1]);
+        // When diagonal left is not possible
 
-res = max(res, mat[
-0
-][i]); 
+        else if (j < M - 1) mat[i][j] += max(mat[i - 1][j], mat[i - 1][j + 1]);
 
+        // Store max path sum
 
-for
-(
-int
-i = 
-1
-; i < N; i++) 
+        res = max(mat[i][j], res);
+      }
+    }
 
-{ 
+    return res;
+  }
 
-res = -
-1
-; 
+  // driver program
 
-for
-(
-int
-j = 
-0
-; j < M; j++) 
+  public static void main(String[] args) {
+    int mat[][] = {
+      { 10, 10, 2, 0, 20, 4 },
+      { 1, 0, 0, 30, 2, 5 },
+      { 0, 10, 4, 0, 2, 0 },
+      { 1, 0, 2, 20, 0, 4 },
+    };
 
-{ 
-
-// When all paths are possible 
-
-if
-(j > 
-0
-&& j < M - 
-1
-) 
-
-mat[i][j] += max(mat[i - 
-1
-][j], 
-
-max(mat[i - 
-1
-][j - 
-1
-], 
-
-mat[i - 
-1
-][j + 
-1
-])); 
-
-
-// When diagonal right is not possible 
-
-else
-if
-(j > 
-0
-) 
-
-mat[i][j] += max(mat[i - 
-1
-][j], 
-
-mat[i - 
-1
-][j - 
-1
-]); 
-
-
-// When diagonal left is not possible 
-
-else
-if
-(j < M - 
-1
-) 
-
-mat[i][j] += max(mat[i - 
-1
-][j], 
-
-mat[i - 
-1
-][j + 
-1
-]); 
-
-
-// Store max path sum 
-
-res = max(mat[i][j], res); 
-
-} 
-
-} 
-
-return
-res; 
-
-} 
-
-
-// driver program 
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-int
-mat[][] = { { 
-10
-, 
-10
-, 
-2
-, 
-0
-, 
-20
-, 
-4
-}, 
-
-{ 
-1
-, 
-0
-, 
-0
-, 
-30
-, 
-2
-, 
-5
-}, 
-
-{ 
-0
-, 
-10
-, 
-4
-, 
-0
-, 
-2
-, 
-0
-}, 
-
-{ 
-1
-, 
-0
-, 
-2
-, 
-20
-, 
-0
-, 
-4
-} 
-
-}; 
-
-
-System.out.println(findMaxPath(mat)); 
-
-} 
-} 
-
-// Contributed by Pramod Kumar 
+    System.out.println(findMaxPath(mat));
+  }
+}
+// Contributed by Pramod Kumar

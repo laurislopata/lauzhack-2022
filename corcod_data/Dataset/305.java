@@ -1,138 +1,60 @@
+import java.util.Arrays;
 
-import
-java.util.Arrays; 
+// Java program to find the largest
+// subset which where each pair
+// is divisible.
+class GFG {
 
-// Java program to find the largest 
-// subset which where each pair 
-// is divisible. 
-class
-GFG { 
+  // function to find the longest Subsequence
 
+  static int largestSubset(int[] a, int n) {
+    // Sort array in increasing order
 
-// function to find the longest Subsequence 
+    Arrays.sort(a);
 
-static
-int
-largestSubset(
-int
-[] a, 
-int
-n) 
+    // dp[i] is going to store size of largest
 
-{ 
+    // divisible subset beginning with a[i].
 
-// Sort array in increasing order 
+    int[] dp = new int[n];
 
-Arrays.sort(a); 
+    // Since last element is largest, d[n-1] is 1
 
+    dp[n - 1] = 1;
 
-// dp[i] is going to store size of largest 
+    // Fill values for smaller elements.
 
-// divisible subset beginning with a[i]. 
+    for (int i = n - 2; i >= 0; i--) {
+      // Find all multiples of a[i] and consider
 
-int
-[] dp = 
-new
-int
-[n]; 
+      // the multiple that has largest subset
 
+      // beginning with it.
 
-// Since last element is largest, d[n-1] is 1 
+      int mxm = 0;
 
-dp[n - 
-1
-] = 
-1
-; 
+      for (int j = i + 1; j < n; j++) {
+        if (a[j] % a[i] == 0) {
+          mxm = Math.max(mxm, dp[j]);
+        }
+      }
 
+      dp[i] = 1 + mxm;
+    }
 
-// Fill values for smaller elements. 
+    // Return maximum value from dp[]
 
-for
-(
-int
-i = n - 
-2
-; i >= 
-0
-; i--) { 
+    return Arrays.stream(dp).max().getAsInt();
+  }
 
+  // driver code to check the above function
 
-// Find all multiples of a[i] and consider 
+  public static void main(String[] args) {
+    int[] a = { 1, 3, 6, 13, 17, 18 };
 
-// the multiple that has largest subset 
+    int n = a.length;
 
-// beginning with it. 
-
-int
-mxm = 
-0
-; 
-
-for
-(
-int
-j = i + 
-1
-; j < n; j++) { 
-
-if
-(a[j] % a[i] == 
-0
-) { 
-
-mxm = Math.max(mxm, dp[j]); 
-
-} 
-
-} 
-
-
-dp[i] = 
-1
-+ mxm; 
-
-} 
-
-
-// Return maximum value from dp[] 
-
-return
-Arrays.stream(dp).max().getAsInt(); 
-
-} 
-
-
-// driver code to check the above function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-[] a = { 
-1
-, 
-3
-, 
-6
-, 
-13
-, 
-17
-, 
-18
-}; 
-
-int
-n = a.length; 
-
-System.out.println(largestSubset(a, n)); 
-
-} 
-} 
-
+    System.out.println(largestSubset(a, n));
+  }
+}
 /* This JAVA code is contributed by Rajput-Ji*/

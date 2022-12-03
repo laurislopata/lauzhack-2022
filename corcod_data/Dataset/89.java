@@ -1,96 +1,38 @@
+class MergeArrays {
 
-class
-MergeArrays 
-{ 
+  /* Function to move m elements at the end of array mPlusN[] */
 
-/* Function to move m elements at the end of array mPlusN[] */
+  void moveToEnd(int mPlusN[], int size) {
+    int i, j = size - 1;
 
-void
-moveToEnd(
-int
-mPlusN[], 
-int
-size) 
+    for (i = size - 1; i >= 0; i--) {
+      if (mPlusN[i] != -1) {
+        mPlusN[j] = mPlusN[i];
 
-{ 
+        j--;
+      }
+    }
+  }
 
-int
-i, j = size - 
-1
-; 
-
-for
-(i = size - 
-1
-; i >= 
-0
-; i--) 
-
-{ 
-
-if
-(mPlusN[i] != -
-1
-) 
-
-{ 
-
-mPlusN[j] = mPlusN[i]; 
-
-j--; 
-
-} 
-
-} 
-
-} 
-
-
-/* Merges array N[] of size n into array mPlusN[] 
+  /* Merges array N[] of size n into array mPlusN[] 
 
 of size m+n*/
 
-void
-merge(
-int
-mPlusN[], 
-int
-N[], 
-int
-m, 
-int
-n) 
+  void merge(int mPlusN[], int N[], int m, int n) {
+    int i = n;
 
-{ 
+    /* Current index of i/p part of mPlusN[]*/
 
-int
-i = n; 
+    int j = 0;
 
+    /* Current index of N[]*/
 
-/* Current index of i/p part of mPlusN[]*/
+    int k = 0;
 
-int
-j = 
-0
-; 
+    /* Current index of output mPlusN[]*/
 
-
-/* Current index of N[]*/
-
-int
-k = 
-0
-; 
-
-
-/* Current index of output mPlusN[]*/
-
-while
-(k < (m + n)) 
-
-{ 
-
-/* Take an element from mPlusN[] if 
+    while (k < (m + n)) {
+      /* Take an element from mPlusN[] if 
 
 a) value of the picked element is smaller and we have 
 
@@ -98,136 +40,58 @@ not reached end of it
 
 b) We have reached end of N[] */
 
-if
-((i < (m + n) && mPlusN[i] <= N[j]) || (j == n)) 
+      if ((i < (m + n) && mPlusN[i] <= N[j]) || (j == n)) {
+        mPlusN[k] = mPlusN[i];
 
-{ 
+        k++;
 
-mPlusN[k] = mPlusN[i]; 
+        i++;
+      } else // Otherwise take element from N[]
 
-k++; 
+      {
+        mPlusN[k] = N[j];
 
-i++; 
+        k++;
 
-} 
+        j++;
+      }
+    }
+  }
 
-else
-// Otherwise take element from N[] 
+  /* Utility that prints out an array on a line */
 
-{ 
+  void printArray(int arr[], int size) {
+    int i;
 
-mPlusN[k] = N[j]; 
+    for (i = 0; i < size; i++) System.out.print(arr[i] + " ");
 
-k++; 
+    System.out.println("");
+  }
 
-j++; 
+  public static void main(String[] args) {
+    MergeArrays mergearray = new MergeArrays();
 
-} 
+    /* Initialize arrays */
 
-} 
+    int mPlusN[] = { 2, 8, -1, -1, -1, 13, -1, 15, 20 };
 
-} 
+    int N[] = { 5, 7, 9, 25 };
 
+    int n = N.length;
 
-/* Utility that prints out an array on a line */
+    int m = mPlusN.length - n;
 
-void
-printArray(
-int
-arr[], 
-int
-size) 
+    /*Move the m elements at the end of mPlusN*/
 
-{ 
+    mergearray.moveToEnd(mPlusN, m + n);
 
-int
-i; 
+    /*Merge N[] into mPlusN[] */
 
-for
-(i = 
-0
-; i < size; i++) 
+    mergearray.merge(mPlusN, N, m, n);
 
-System.out.print(arr[i] + 
-" "
-); 
+    /* Print the resultant mPlusN */
 
-
-System.out.println(
-""
-); 
-
-} 
-
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-MergeArrays mergearray = 
-new
-MergeArrays(); 
-
-
-/* Initialize arrays */
-
-int
-mPlusN[] = {
-2
-, 
-8
-, -
-1
-, -
-1
-, -
-1
-, 
-13
-, -
-1
-, 
-15
-, 
-20
-}; 
-
-int
-N[] = {
-5
-, 
-7
-, 
-9
-, 
-25
-}; 
-
-int
-n = N.length; 
-
-int
-m = mPlusN.length - n; 
-
-
-/*Move the m elements at the end of mPlusN*/
-
-mergearray.moveToEnd(mPlusN, m + n); 
-
-
-/*Merge N[] into mPlusN[] */
-
-mergearray.merge(mPlusN, N, m, n); 
-
-
-/* Print the resultant mPlusN */
-
-mergearray.printArray(mPlusN, m + n); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    mergearray.printArray(mPlusN, m + n);
+  }
+}
+// This code has been contributed by Mayank Jaiswal

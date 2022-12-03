@@ -1,233 +1,102 @@
+// Java implementation of alternate vowel and
+// consonant string
+import java.util.*;
 
-// Java implementation of alternate vowel and 
-// consonant string 
-import
-java.util.*; 
-
-class
-GFG 
-{ 
-
-// 'ch' is vowel or not 
-static
-boolean
-isVowel(
-char
-ch) 
-{ 
-
-if
-(ch == 
-'a'
-|| ch == 
-'e'
-|| ch == 
-'i'
-|| 
+class GFG {
 
-ch == 
-'o'
-|| ch ==
-'u'
-) 
+  // 'ch' is vowel or not
+  static boolean isVowel(char ch) {
+    if (
+      ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'
+    ) return true;
 
-return
-true
-; 
+    return false;
+  }
 
-return
-false
-; 
-} 
+  // create alternate vowel and consonant string
+  // str1[0...l1-1] and str2[start...l2-1]
+  static String createAltStr(String str1, String str2, int start, int l) {
+    String finalStr = "";
 
-// create alternate vowel and consonant string 
-// str1[0...l1-1] and str2[start...l2-1] 
-static
-String createAltStr(String str1, String str2, 
+    // first adding character of vowel/consonant
 
-int
-start, 
-int
-l) 
-{ 
+    // then adding character of consonant/vowel
 
-String finalStr = 
-""
-; 
+    for (int i = 0, j = start; j < l; i++, j++) finalStr =
+      (finalStr + str1.charAt(i)) + str2.charAt(j);
 
+    return finalStr;
+  }
 
-// first adding character of vowel/consonant 
+  // function to find the required
+  // alternate vowel and consonant string
+  static String findAltStr(String str) {
+    int nv = 0, nc = 0;
 
-// then adding character of consonant/vowel 
+    String vstr = "", cstr = "";
 
-for
-(
-int
-i = 
-0
-, j = start; j < l; i++, j++) 
+    int l = str.length();
 
-finalStr = (finalStr + str1.charAt(i)) + 
+    for (int i = 0; i < l; i++) {
+      char ch = str.charAt(i);
 
-str2.charAt(j); 
+      // count vowels and updaye vowel string
 
-return
-finalStr; 
-} 
+      if (isVowel(ch)) {
+        nv++;
 
-// function to find the required 
-// alternate vowel and consonant string 
-static
-String findAltStr(String str) 
-{ 
+        vstr = vstr + ch;
+      }
+      // count consonants and update consonant
 
-int
-nv = 
-0
-, nc = 
-0
-; 
+      // string
 
-String vstr = 
-""
-, cstr = 
-""
-; 
+      else {
+        nc++;
 
-int
-l = str.length(); 
+        cstr = cstr + ch;
+      }
+    }
 
-for
-(
-int
-i = 
-0
-; i < l; i++) 
+    // no such string can be formed
 
-{ 
+    if (Math.abs(nv - nc) >= 2) return "no such string";
 
-char
-ch = str.charAt(i); 
+    // remove first character of vowel string
 
+    // then create alternate string with
 
-// count vowels and updaye vowel string 
+    // cstr[0...nc-1] and vstr[1...nv-1]
 
-if
-(isVowel(ch)) 
+    if (nv > nc) return (vstr.charAt(0) + createAltStr(cstr, vstr, 1, nv));
 
-{ 
+    // remove first character of consonant string
 
-nv++; 
+    // then create alternate string with
 
-vstr = vstr + ch; 
+    // vstr[0...nv-1] and cstr[1...nc-1]
 
-} 
+    if (nc > nv) return (cstr.charAt(0) + createAltStr(vstr, cstr, 1, nc));
 
+    // if both vowel and consonant
 
-// count consonants and update consonant 
+    // strings are of equal length
 
-// string 
+    // start creating string with consonant
 
-else
+    if (cstr.charAt(0) < vstr.charAt(0)) return createAltStr(cstr, vstr, 0, nv);
 
-{ 
+    // start creating string with vowel
 
-nc++; 
+    return createAltStr(vstr, cstr, 0, nc);
+  }
 
-cstr = cstr + ch; 
+  // Driver code
+  public static void main(String args[]) {
+    String str = "geeks";
 
-} 
-
-} 
-
-
-// no such string can be formed 
-
-if
-(Math.abs(nv - nc) >= 
-2
-) 
-
-return
-"no such string"
-; 
-
-
-// remove first character of vowel string 
-
-// then create alternate string with 
-
-// cstr[0...nc-1] and vstr[1...nv-1] 
-
-if
-(nv > nc) 
-
-return
-(vstr.charAt(
-0
-) + createAltStr(cstr, vstr, 
-1
-, nv)); 
-
-
-// remove first character of consonant string 
-
-// then create alternate string with 
-
-// vstr[0...nv-1] and cstr[1...nc-1] 
-
-if
-(nc > nv) 
-
-return
-(cstr.charAt(
-0
-) + createAltStr(vstr, cstr, 
-1
-, nc)); 
-
-
-// if both vowel and consonant 
-
-// strings are of equal length 
-
-// start creating string with consonant 
-
-if
-(cstr.charAt(
-0
-) < vstr.charAt(
-0
-)) 
-
-return
-createAltStr(cstr, vstr, 
-0
-, nv); 
-
-
-// start creating string with vowel 
-
-return
-createAltStr(vstr, cstr, 
-0
-, nc); 
-} 
-
-// Driver code 
-public
-static
-void
-main(String args[]) 
-{ 
-
-String str = 
-"geeks"
-; 
-
-System.out.println(findAltStr(str)); 
-} 
-} 
-
-// This code is contributed by 
-// Shashank_Sharma 
+    System.out.println(findAltStr(str));
+  }
+}
+// This code is contributed by
+// Shashank_Sharma

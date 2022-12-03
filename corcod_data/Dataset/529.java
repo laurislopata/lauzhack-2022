@@ -1,233 +1,92 @@
+// Java program to count
+// occurrences of an element
+class GFG {
 
-// Java program to count 
-// occurrences of an element 
-class
-GFG 
-{ 
+  // A recursive binary search
 
+  // function. It returns location
 
-// A recursive binary search 
+  // of x in given array arr[l..r]
 
-// function. It returns location 
+  // is present, otherwise -1
 
-// of x in given array arr[l..r] 
+  static int binarySearch(int arr[], int l, int r, int x) {
+    if (r < l) return -1;
 
-// is present, otherwise -1 
+    int mid = l + (r - l) / 2;
 
-static
-int
-binarySearch(
-int
-arr[], 
-int
-l, 
+    // If the element is present
 
-int
-r, 
-int
-x) 
+    // at the middle itself
 
-{ 
+    if (arr[mid] == x) return mid;
 
-if
-(r < l) 
+    // If element is smaller than
 
-return
--
-1
-; 
+    // mid, then it can only be
 
+    // present in left subarray
 
-int
-mid = l + (r - l) / 
-2
-; 
+    if (arr[mid] > x) return binarySearch(arr, l, mid - 1, x);
 
+    // Else the element can
 
-// If the element is present 
+    // only be present in
 
-// at the middle itself 
+    // right subarray
 
-if
-(arr[mid] == x) 
+    return binarySearch(arr, mid + 1, r, x);
+  }
 
-return
-mid; 
+  // Returns number of times x
 
+  // occurs in arr[0..n-1]
 
-// If element is smaller than 
+  static int countOccurrences(int arr[], int n, int x) {
+    int ind = binarySearch(arr, 0, n - 1, x);
 
-// mid, then it can only be 
+    // If element is not present
 
-// present in left subarray 
+    if (ind == -1) return 0;
 
-if
-(arr[mid] > x) 
+    // Count elements on left side.
 
-return
-binarySearch(arr, l, 
+    int count = 1;
 
-mid - 
-1
-, x); 
+    int left = ind - 1;
 
+    while (left >= 0 && arr[left] == x) {
+      count++;
 
-// Else the element can 
+      left--;
+    }
 
-// only be present in 
+    // Count elements
 
-// right subarray 
+    // on right side.
 
-return
-binarySearch(arr, mid + 
-1
-, r, x); 
+    int right = ind + 1;
 
-} 
+    while (right < n && arr[right] == x) {
+      count++;
 
+      right++;
+    }
 
-// Returns number of times x 
+    return count;
+  }
 
-// occurs in arr[0..n-1] 
+  // Driver code
 
-static
-int
-countOccurrences(
-int
-arr[], 
+  public static void main(String[] args) {
+    int arr[] = { 1, 2, 2, 2, 2, 3, 4, 7, 8, 8 };
 
-int
-n, 
-int
-x) 
+    int n = arr.length;
 
-{ 
+    int x = 2;
 
-int
-ind = binarySearch(arr, 
-0
-, 
-
-n - 
-1
-, x); 
-
-
-// If element is not present 
-
-if
-(ind == -
-1
-) 
-
-return
-0
-; 
-
-
-// Count elements on left side. 
-
-int
-count = 
-1
-; 
-
-int
-left = ind - 
-1
-; 
-
-while
-(left >= 
-0
-&& 
-
-arr[left] == x) 
-
-{ 
-
-count++; 
-
-left--; 
-
-} 
-
-
-// Count elements 
-
-// on right side. 
-
-int
-right = ind + 
-1
-; 
-
-while
-(right < n && 
-
-arr[right] == x) 
-
-{ 
-
-count++; 
-
-right++; 
-
-} 
-
-
-return
-count; 
-
-} 
-
-
-
-// Driver code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = {
-1
-, 
-2
-, 
-2
-, 
-2
-, 
-2
-, 
-
-3
-, 
-4
-, 
-7
-, 
-8
-, 
-8
-}; 
-
-int
-n = arr.length; 
-
-int
-x = 
-2
-; 
-
-System.out.print(countOccurrences(arr, n, x)); 
-
-} 
-} 
-
-// This code is contributed 
-// by ChitraNayal 
+    System.out.print(countOccurrences(arr, n, x));
+  }
+}
+// This code is contributed
+// by ChitraNayal

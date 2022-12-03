@@ -1,129 +1,65 @@
+// Java Program to find the "GFG" subsequence
+// in the given string
 
-// Java Program to find the "GFG" subsequence 
-// in the given string 
+public class GFG {
 
-public
-class
-GFG { 
+  static int max = 100;
 
+  // Print the count of "GFG" subsequence
 
-static
-int
-max = 
-100
-; 
+  // in the string
 
+  static void countSubsequence(String s, int n) {
+    int cntG = 0, cntF = 0, result = 0, C = 0;
 
-// Print the count of "GFG" subsequence 
+    // Traversing the given string
 
-// in the string 
+    for (int i = 0; i < n; i++) {
+      switch (s.charAt(i)) {
+        // If the character is 'G',
 
-static
-void
-countSubsequence(String s, 
-int
-n) 
+        // increment the count of 'G',
 
-{ 
+        // increase the result and
 
-int
-cntG = 
-0
-, cntF = 
-0
-, result = 
-0
-, C=
-0
-; 
+        // update the array.
 
+        case 'G':
+          cntG++;
 
-// Traversing the given string 
+          result += C;
 
-for
-(
-int
-i = 
-0
-; i < n; i++) { 
+          break;
+        // If the character is 'F',
 
-switch
-(s.charAt(i)) { 
+        // increment the count of 'F'
 
+        // and update the array.
 
-// If the character is 'G', 
+        case 'F':
+          cntF++;
 
-// increment the count of 'G', 
+          C += cntG;
 
-// increase the result and 
+          break;
+        // Ignore other character.
 
-// update the array. 
+        default:
+          continue;
+      }
+    }
 
-case
-'G'
-: 
+    System.out.println(result);
+  }
 
-cntG++; 
+  // Driver code
 
-result+=C; 
+  public static void main(String args[]) {
+    String s = "GFGFG";
 
-break
-; 
+    int n = s.length();
 
-
-// If the character is 'F', 
-
-// increment the count of 'F' 
-
-// and update the array. 
-
-case
-'F'
-: 
-
-cntF++; 
-
-C+=cntG; 
-
-break
-; 
-
-
-// Ignore other character. 
-
-default
-: 
-
-continue
-; 
-
-} 
-
-} 
-
-
-System.out.println(result); 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String args[]) { 
-
-String s= 
-"GFGFG"
-; 
-
-int
-n = s.length(); 
-
-countSubsequence(s, n); 
-
-} 
-} 
-
-// This code is contributed by Sam007 
+    countSubsequence(s, n);
+  }
+}
+// This code is contributed by Sam007

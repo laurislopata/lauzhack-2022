@@ -1,247 +1,131 @@
+// Java implementation to check if the given array
+// can represent Level Order Traversal of Binary
+// Search Tree
+import java.util.*;
 
-// Java implementation to check if the given array 
-// can represent Level Order Traversal of Binary 
-// Search Tree 
-import
-java.util.*; 
+class Solution {
 
-class
-Solution 
-{ 
+  // to store details of a node like
+  // node's data, 'min' and 'max' to obtain the
+  // range of values where node's left and
+  // right child's should lie
+  static class NodeDetails {
 
-// to store details of a node like 
-// node's data, 'min' and 'max' to obtain the 
-// range of values where node's left and 
-// right child's should lie 
-static
-class
-NodeDetails 
-{ 
+    int data;
 
-int
-data; 
+    int min, max;
+  }
 
-int
-min, max; 
-}; 
+  // function to check if the given array
+  // can represent Level Order Traversal
+  // of Binary Search Tree
+  static boolean levelOrderIsOfBST(int arr[], int n) {
+    // if tree is empty
 
-// function to check if the given array 
-// can represent Level Order Traversal 
-// of Binary Search Tree 
-static
-boolean
-levelOrderIsOfBST(
-int
-arr[], 
-int
-n) 
-{ 
+    if (n == 0) return true;
 
-// if tree is empty 
+    // queue to store NodeDetails
 
-if
-(n == 
-0
-) 
+    Queue<NodeDetails> q = new LinkedList<NodeDetails>();
 
-return
-true
-; 
+    // index variable to access array elements
 
+    int i = 0;
 
-// queue to store NodeDetails 
+    // node details for the
 
-Queue<NodeDetails> q = 
-new
-LinkedList<NodeDetails>(); 
+    // root of the BST
 
+    NodeDetails newNode = new NodeDetails();
 
-// index variable to access array elements 
+    newNode.data = arr[i++];
 
-int
-i = 
-0
-; 
+    newNode.min = Integer.MIN_VALUE;
 
+    newNode.max = Integer.MAX_VALUE;
 
-// node details for the 
+    q.add(newNode);
 
-// root of the BST 
+    // until there are no more elements
 
-NodeDetails newNode=
-new
-NodeDetails(); 
+    // in arr[] or queue is not empty
 
-newNode.data = arr[i++]; 
+    while (i != n && q.size() > 0) {
+      // extracting NodeDetails of a
 
-newNode.min = Integer.MIN_VALUE; 
+      // node from the queue
 
-newNode.max = Integer.MAX_VALUE; 
+      NodeDetails temp = q.peek();
 
-q.add(newNode); 
+      q.remove();
 
+      newNode = new NodeDetails();
 
-// until there are no more elements 
+      // check whether there are more elements
 
-// in arr[] or queue is not empty 
+      // in the arr[] and arr[i] can be left child
 
-while
-(i != n && q.size() > 
-0
-) 
+      // of 'temp.data' or not
 
-{ 
+      if (i < n && (arr[i] < (int) temp.data && arr[i] > (int) temp.min)) {
+        // Create NodeDetails for newNode
 
-// extracting NodeDetails of a 
+        /// and add it to the queue
 
-// node from the queue 
+        newNode.data = arr[i++];
 
-NodeDetails temp = q.peek(); 
+        newNode.min = temp.min;
 
-q.remove(); 
+        newNode.max = temp.data;
 
-newNode = 
-new
-NodeDetails(); 
+        q.add(newNode);
+      }
 
+      newNode = new NodeDetails();
 
-// check whether there are more elements 
+      // check whether there are more elements
 
-// in the arr[] and arr[i] can be left child 
+      // in the arr[] and arr[i] can be right child
 
-// of 'temp.data' or not 
+      // of 'temp.data' or not
 
-if
-(i < n && (arr[i] < (
-int
-)temp.data && 
+      if (i < n && (arr[i] > (int) temp.data && arr[i] < (int) temp.max)) {
+        // Create NodeDetails for newNode
 
-arr[i] > (
-int
-)temp.min)) 
+        /// and add it to the queue
 
-{ 
+        newNode.data = arr[i++];
 
-// Create NodeDetails for newNode 
+        newNode.min = temp.data;
 
-/// and add it to the queue 
+        newNode.max = temp.max;
 
-newNode.data = arr[i++]; 
+        q.add(newNode);
+      }
+    }
 
-newNode.min = temp.min; 
+    // given array represents level
 
-newNode.max = temp.data; 
+    // order traversal of BST
 
-q.add(newNode); 
+    if (i == n) return true;
 
-} 
+    // given array do not represent
 
+    // level order traversal of BST
 
-newNode=
-new
-NodeDetails(); 
+    return false;
+  }
 
+  // Driver code
+  public static void main(String args[]) {
+    int arr[] = { 7, 4, 12, 3, 6, 8, 1, 5, 10 };
 
-// check whether there are more elements 
+    int n = arr.length;
 
-// in the arr[] and arr[i] can be right child 
-
-// of 'temp.data' or not 
-
-if
-(i < n && (arr[i] > (
-int
-)temp.data && 
-
-arr[i] < (
-int
-)temp.max)) 
-
-{ 
-
-// Create NodeDetails for newNode 
-
-/// and add it to the queue 
-
-newNode.data = arr[i++]; 
-
-newNode.min = temp.data; 
-
-newNode.max = temp.max; 
-
-q.add(newNode); 
-
-} 
-
-} 
-
-
-// given array represents level 
-
-// order traversal of BST 
-
-if
-(i == n) 
-
-return
-true
-; 
-
-
-// given array do not represent 
-
-// level order traversal of BST 
-
-return
-false
-; 
-} 
-
-// Driver code 
-public
-static
-void
-main(String args[]) 
-{ 
-
-int
-arr[] = {
-7
-, 
-4
-, 
-12
-, 
-3
-, 
-6
-, 
-8
-, 
-1
-, 
-5
-, 
-10
-}; 
-
-int
-n = arr.length; 
-
-if
-(levelOrderIsOfBST(arr, n)) 
-
-System.out.print( 
-"Yes"
-); 
-
-else
-
-System.out.print( 
-"No"
-); 
-
-} 
-} 
-
-// This code is contributed by Arnab Kundu 
+    if (levelOrderIsOfBST(arr, n)) System.out.print(
+      "Yes"
+    ); else System.out.print("No");
+  }
+}
+// This code is contributed by Arnab Kundu

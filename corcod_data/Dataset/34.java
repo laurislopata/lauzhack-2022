@@ -1,140 +1,59 @@
+// A simple JAVA program to rearrange
+// contents of arr[] such that arr[j]
+// becomes j if arr[i] is j
 
-// A simple JAVA program to rearrange 
-// contents of arr[] such that arr[j] 
-// becomes j if arr[i] is j 
+class GFG {
 
-class
-GFG { 
+  // A simple method to rearrange
 
+  // 'arr[0..n-1]' so that 'arr[j]'
 
-// A simple method to rearrange 
+  // becomes 'i' if 'arr[i]' is 'j'
 
-// 'arr[0..n-1]' so that 'arr[j]' 
+  static void rearrange(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+      // retrieving old value and
 
-// becomes 'i' if 'arr[i]' is 'j' 
+      // storing with the new one
 
-static
-void
-rearrange(
-int
-arr[], 
-int
-n) 
+      arr[arr[i] % n] += i * n;
+    }
 
-{ 
+    for (int i = 0; i < n; i++) {
+      // retrieving new value
 
-for
-(
-int
-i = 
-0
-; i < n; i++) { 
+      arr[i] /= n;
+    }
+  }
 
+  // A utility function to print
 
-// retrieving old value and 
+  // contents of arr[0..n-1]
 
-// storing with the new one 
+  static void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+      System.out.print(arr[i] + " ");
+    }
 
-arr[arr[i] % n] += i * n; 
+    System.out.println();
+  }
 
-} 
+  // Drive code
 
+  public static void main(String[] args) {
+    int arr[] = { 2, 0, 1, 4, 5, 3 };
 
-for
-(
-int
-i = 
-0
-; i < n; i++) { 
+    int n = arr.length;
 
+    System.out.println("Given array is : ");
 
-// retrieving new value 
+    printArray(arr, n);
 
-arr[i] /= n; 
+    rearrange(arr, n);
 
-} 
+    System.out.println("Modified array is :");
 
-} 
-
-
-// A utility function to print 
-
-// contents of arr[0..n-1] 
-
-static
-void
-printArray(
-int
-arr[], 
-int
-n) 
-
-{ 
-
-for
-(
-int
-i = 
-0
-; i < n; i++) { 
-
-System.out.print(arr[i] + 
-" "
-); 
-
-} 
-
-
-System.out.println(); 
-
-} 
-
-
-// Drive code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = { 
-2
-, 
-0
-, 
-1
-, 
-4
-, 
-5
-, 
-3
-}; 
-
-int
-n = arr.length; 
-
-
-System.out.println(
-"Given array is : "
-); 
-
-printArray(arr, n); 
-
-
-rearrange(arr, n); 
-
-
-System.out.println(
-"Modified array is :"
-); 
-
-printArray(arr, n); 
-
-} 
-} 
-
-// This code has been contributed by 29AjayKumar 
+    printArray(arr, n);
+  }
+}
+// This code has been contributed by 29AjayKumar

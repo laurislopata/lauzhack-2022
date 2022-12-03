@@ -1,160 +1,71 @@
+import java.lang.*;
+import java.util.*;
 
-import
-java.util.*; 
-import
-java.lang.*; 
-class
-Main 
-{ 
+class Main {
 
-static
-void
-minAbsSumPair(
-int
-arr[], 
-int
-n) 
+  static void minAbsSumPair(int arr[], int n) {
+    // Variables to keep track of current sum and minimum sum
 
-{ 
+    int sum, min_sum = 999999;
 
-// Variables to keep track of current sum and minimum sum 
+    // left and right index variables
 
-int
-sum, min_sum = 
-999999
-; 
+    int l = 0, r = n - 1;
 
+    // variable to keep track of the left and right pair for min_sum
 
-// left and right index variables 
+    int min_l = l, min_r = n - 1;
 
-int
-l = 
-0
-, r = n-
-1
-; 
+    /* Array should have at least two elements*/
 
+    if (n < 2) {
+      System.out.println("Invalid Input");
 
-// variable to keep track of the left and right pair for min_sum 
+      return;
+    }
 
-int
-min_l = l, min_r = n-
-1
-; 
+    /* Sort the elements */
 
+    sort(arr, l, r);
 
-/* Array should have at least two elements*/
+    while (l < r) {
+      sum = arr[l] + arr[r];
 
-if
-(n < 
-2
-) 
+      /*If abs(sum) is less then update the result items*/
 
-{ 
+      if (Math.abs(sum) < Math.abs(min_sum)) {
+        min_sum = sum;
 
-System.out.println(
-"Invalid Input"
-); 
+        min_l = l;
 
-return
-; 
+        min_r = r;
+      }
 
-} 
+      if (sum < 0) l++; else r--;
+    }
 
+    System.out.println(
+      " The two elements whose " +
+      "sum is minimum are " +
+      arr[min_l] +
+      " and " +
+      arr[min_r]
+    );
+  }
 
-/* Sort the elements */
+  // main function
 
-sort(arr, l, r); 
+  public static void main(String[] args) {
+    int arr[] = { 1, 60, -10, 70, -80, 85 };
 
+    int n = arr.length;
 
-while
-(l < r) 
+    minAbsSumPair(arr, n);
+  }
 
-{ 
+  /* Functions for QuickSort */
 
-sum = arr[l] + arr[r]; 
-
-
-/*If abs(sum) is less then update the result items*/
-
-if
-(Math.abs(sum) < Math.abs(min_sum)) 
-
-{ 
-
-min_sum = sum; 
-
-min_l = l; 
-
-min_r = r; 
-
-} 
-
-if
-(sum < 
-0
-) 
-
-l++; 
-
-else
-
-r--; 
-
-} 
-
-
-
-System.out.println(
-" The two elements whose "
-+ 
-
-"sum is minimum are "
-+ 
-
-arr[min_l]+ 
-" and "
-+arr[min_r]); 
-
-} 
-
-
-// main function 
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-int
-arr[] = {
-1
-, 
-60
-, -
-10
-, 
-70
-, -
-80
-, 
-85
-}; 
-
-int
-n = arr.length; 
-
-minAbsSumPair(arr, n); 
-
-} 
-
-
-/* Functions for QuickSort */
-
-
-/* This function takes last element as pivot, 
+  /* This function takes last element as pivot, 
 
 places the pivot element at its correct 
 
@@ -166,84 +77,42 @@ pivot and all greater elements to right
 
 of pivot */
 
-static
-int
-partition(
-int
-arr[], 
-int
-low, 
-int
-high) 
+  static int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
 
-{ 
+    int i = (low - 1);
+    // index of smaller element
 
-int
-pivot = arr[high]; 
+    for (int j = low; j < high; j++) {
+      // If current element is smaller than or
 
-int
-i = (low-
-1
-); 
-// index of smaller element 
+      // equal to pivot
 
-for
-(
-int
-j=low; j<high; j++) 
+      if (arr[j] <= pivot) {
+        i++;
 
-{ 
+        // swap arr[i] and arr[j]
 
-// If current element is smaller than or 
+        int temp = arr[i];
 
-// equal to pivot 
+        arr[i] = arr[j];
 
-if
-(arr[j] <= pivot) 
+        arr[j] = temp;
+      }
+    }
 
-{ 
+    // swap arr[i+1] and arr[high] (or pivot)
 
-i++; 
+    int temp = arr[i + 1];
 
+    arr[i + 1] = arr[high];
 
-// swap arr[i] and arr[j] 
+    arr[high] = temp;
 
-int
-temp = arr[i]; 
+    return i + 1;
+  }
 
-arr[i] = arr[j]; 
-
-arr[j] = temp; 
-
-} 
-
-} 
-
-
-// swap arr[i+1] and arr[high] (or pivot) 
-
-int
-temp = arr[i+
-1
-]; 
-
-arr[i+
-1
-] = arr[high]; 
-
-arr[high] = temp; 
-
-
-return
-i+
-1
-; 
-
-} 
-
-
-
-/* The main function that implements QuickSort() 
+  /* The main function that implements QuickSort() 
 
 arr[] --> Array to be sorted, 
 
@@ -251,44 +120,21 @@ low --> Starting index,
 
 high --> Ending index */
 
-static
-void
-sort(
-int
-arr[], 
-int
-low, 
-int
-high) 
-
-{ 
-
-if
-(low < high) 
-
-{ 
-
-/* pi is partitioning index, arr[pi] is 
+  static void sort(int arr[], int low, int high) {
+    if (low < high) {
+      /* pi is partitioning index, arr[pi] is 
 
 now at right place */
 
-int
-pi = partition(arr, low, high); 
+      int pi = partition(arr, low, high);
 
+      // Recursively sort elements before
 
-// Recursively sort elements before 
+      // partition and after partition
 
-// partition and after partition 
+      sort(arr, low, pi - 1);
 
-sort(arr, low, pi-
-1
-); 
-
-sort(arr, pi+
-1
-, high); 
-
-} 
-
-} 
-} 
+      sort(arr, pi + 1, high);
+    }
+  }
+}

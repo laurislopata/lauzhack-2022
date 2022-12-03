@@ -1,122 +1,52 @@
+// Java program to find equilibrium
+// index of an array
 
-// Java program to find equilibrium 
-// index of an array 
+class EquilibriumIndex {
 
-class
-EquilibriumIndex { 
+  int equilibrium(int arr[], int n) {
+    int i, j;
 
-int
-equilibrium(
-int
-arr[], 
-int
-n) 
+    int leftsum, rightsum;
 
-{ 
-
-int
-i, j; 
-
-int
-leftsum, rightsum; 
-
-
-/* Check for indexes one by one until 
+    /* Check for indexes one by one until 
 
 an equilibrium index is found */
 
-for
-(i = 
-0
-; i < n; ++i) { 
+    for (i = 0; i < n; ++i) {
+      /* get left sum */
 
+      leftsum = 0;
 
-/* get left sum */
+      for (j = 0; j < i; j++) leftsum += arr[j];
 
-leftsum = 
-0
-; 
+      /* get right sum */
 
-for
-(j = 
-0
-; j < i; j++) 
+      rightsum = 0;
 
-leftsum += arr[j]; 
+      for (j = i + 1; j < n; j++) rightsum += arr[j];
 
-
-/* get right sum */
-
-rightsum = 
-0
-; 
-
-for
-(j = i + 
-1
-; j < n; j++) 
-
-rightsum += arr[j]; 
-
-
-/* if leftsum and rightsum are same, 
+      /* if leftsum and rightsum are same, 
 
 then we are done */
 
-if
-(leftsum == rightsum) 
+      if (leftsum == rightsum) return i;
+    }
 
-return
-i; 
+    /* return -1 if no equilibrium index is found */
 
-} 
+    return -1;
+  }
 
+  // Driver code
 
-/* return -1 if no equilibrium index is found */
+  public static void main(String[] args) {
+    EquilibriumIndex equi = new EquilibriumIndex();
 
-return
--
-1
-; 
+    int arr[] = { -7, 1, 5, 2, -4, 3, 0 };
 
-} 
+    int arr_size = arr.length;
 
-// Driver code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-EquilibriumIndex equi = 
-new
-EquilibriumIndex(); 
-
-int
-arr[] = { -
-7
-, 
-1
-, 
-5
-, 
-2
-, -
-4
-, 
-3
-, 
-0
-}; 
-
-int
-arr_size = arr.length; 
-
-System.out.println(equi.equilibrium(arr, arr_size)); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    System.out.println(equi.equilibrium(arr, arr_size));
+  }
+}
+// This code has been contributed by Mayank Jaiswal

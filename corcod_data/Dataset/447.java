@@ -1,242 +1,134 @@
+// Java program to find k'th largest element in BST
+import java.util.*;
 
-// Java program to find k'th largest element in BST 
-import
-java.util.*; 
-class
-GfG { 
+class GfG {
 
-// A BST node 
-static
-class
-Node 
-{ 
+  // A BST node
+  static class Node {
 
-int
-key; 
+    int key;
 
-Node left, right; 
-} 
+    Node left, right;
+  }
 
-// A function to find 
-static
-int
-KSmallestUsingMorris(Node root, 
-int
-k) 
-{ 
+  // A function to find
+  static int KSmallestUsingMorris(Node root, int k) {
+    // Count to iterate over elements till we
 
-// Count to iterate over elements till we 
+    // get the kth smallest number
 
-// get the kth smallest number 
+    int count = 0;
 
-int
-count = 
-0
-; 
+    int ksmall = Integer.MIN_VALUE;
+    // store the Kth smallest
 
+    Node curr = root;
+    // to store the current node
 
-int
-ksmall = Integer.MIN_VALUE; 
-// store the Kth smallest 
+    while (curr != null) {
+      // Like Morris traversal if current does
 
-Node curr = root; 
-// to store the current node 
+      // not have left child rather than printing
 
+      // as we did in inorder, we will just
 
-while
-(curr != 
-null
-) 
+      // increment the count as the number will
 
-{ 
+      // be in an increasing order
 
-// Like Morris traversal if current does 
+      if (curr.left == null) {
+        count++;
 
-// not have left child rather than printing 
+        // if count is equal to K then we found the
 
-// as we did in inorder, we will just 
+        // kth smallest, so store it in ksmall
 
-// increment the count as the number will 
+        if (count == k) ksmall = curr.key;
 
-// be in an increasing order 
+        // go to current's right child
 
-if
-(curr.left == 
-null
-) 
+        curr = curr.right;
+      } else {
+        // we create links to Inorder Successor and
 
-{ 
+        // count using these links
 
-count++; 
+        Node pre = curr.left;
 
+        while (pre.right != null && pre.right != curr) pre = pre.right;
 
-// if count is equal to K then we found the 
+        // building links
 
-// kth smallest, so store it in ksmall 
+        if (pre.right == null) {
+          //link made to Inorder Successor
 
-if
-(count==k) 
+          pre.right = curr;
 
-ksmall = curr.key; 
+          curr = curr.left;
+        }
+        // While breaking the links in so made temporary
 
+        // threaded tree we will check for the K smallest
 
-// go to current's right child 
+        // condition
 
-curr = curr.right; 
+        else {
+          // Revert the changes made in if part (break link
 
-} 
+          // from the Inorder Successor)
 
-else
+          pre.right = null;
 
-{ 
+          count++;
 
-// we create links to Inorder Successor and 
+          // If count is equal to K then we found
 
-// count using these links 
+          // the kth smallest and so store it in ksmall
 
-Node pre = curr.left; 
+          if (count == k) ksmall = curr.key;
 
-while
-(pre.right != 
-null
-&& pre.right != curr) 
+          curr = curr.right;
+        }
+      }
+    }
 
-pre = pre.right; 
+    return ksmall;
+    //return the found value
+  }
 
+  // A utility function to create a new BST node
+  static Node newNode(int item) {
+    Node temp = new Node();
 
-// building links 
+    temp.key = item;
 
-if
-(pre.right== 
-null
-) 
+    temp.left = null;
 
-{ 
+    temp.right = null;
 
-//link made to Inorder Successor 
+    return temp;
+  }
 
-pre.right = curr; 
+  /* A utility function to insert a new node with given key in BST */
+  static Node insert(Node node, int key) {
+    /* If the tree is empty, return a new node */
 
-curr = curr.left; 
+    if (node == null) return newNode(key);
 
-} 
+    /* Otherwise, recur down the tree */
 
+    if (key < node.key) node.left = insert(node.left, key); else if (
+      key > node.key
+    ) node.right = insert(node.right, key);
 
-// While breaking the links in so made temporary 
+    /* return the (unchanged) node pointer */
 
-// threaded tree we will check for the K smallest 
+    return node;
+  }
 
-// condition 
-
-else
-
-{ 
-
-// Revert the changes made in if part (break link 
-
-// from the Inorder Successor) 
-
-pre.right = 
-null
-; 
-
-
-count++; 
-
-
-// If count is equal to K then we found 
-
-// the kth smallest and so store it in ksmall 
-
-if
-(count==k) 
-
-ksmall = curr.key; 
-
-
-curr = curr.right; 
-
-} 
-
-} 
-
-} 
-
-return
-ksmall; 
-//return the found value 
-} 
-
-// A utility function to create a new BST node 
-static
-Node newNode(
-int
-item) 
-{ 
-
-Node temp = 
-new
-Node(); 
-
-temp.key = item; 
-
-temp.left = 
-null
-; 
-
-temp.right = 
-null
-; 
-
-return
-temp; 
-} 
-
-/* A utility function to insert a new node with given key in BST */
-static
-Node insert(Node node, 
-int
-key) 
-{ 
-
-/* If the tree is empty, return a new node */
-
-if
-(node == 
-null
-) 
-return
-newNode(key); 
-
-
-/* Otherwise, recur down the tree */
-
-if
-(key < node.key) 
-
-node.left = insert(node.left, key); 
-
-else
-if
-(key > node.key) 
-
-node.right = insert(node.right, key); 
-
-
-/* return the (unchanged) node pointer */
-
-return
-node; 
-} 
-
-// Driver Program to test above functions 
-public
-static
-void
-main(String[] args) 
-{ 
-
-/* Let us create following BST 
+  // Driver Program to test above functions
+  public static void main(String[] args) {
+    /* Let us create following BST 
 
 50 
 
@@ -248,51 +140,24 @@ main(String[] args)
 
 20 40 60 80 */
 
-Node root = 
-null
-; 
+    Node root = null;
 
-root = insert(root, 
-50
-); 
+    root = insert(root, 50);
 
-insert(root, 
-30
-); 
+    insert(root, 30);
 
-insert(root, 
-20
-); 
+    insert(root, 20);
 
-insert(root, 
-40
-); 
+    insert(root, 40);
 
-insert(root, 
-70
-); 
+    insert(root, 70);
 
-insert(root, 
-60
-); 
+    insert(root, 60);
 
-insert(root, 
-80
-); 
+    insert(root, 80);
 
-
-for
-(
-int
-k=
-1
-; k<=
-7
-; k++) 
-
-System.out.print(KSmallestUsingMorris(root, k) + 
-" "
-); 
-
-} 
-} 
+    for (int k = 1; k <= 7; k++) System.out.print(
+      KSmallestUsingMorris(root, k) + " "
+    );
+  }
+}

@@ -1,153 +1,66 @@
+// Java program to find number of
+// rotations in a sorted and rotated
+// array.
+import java.io.*;
+import java.lang.*;
+import java.util.*;
 
-// Java program to find number of 
-// rotations in a sorted and rotated 
-// array. 
-import
-java.util.*; 
-import
-java.lang.*; 
-import
-java.io.*; 
+class BinarySearch {
 
-class
-BinarySearch 
-{ 
+  // Returns count of rotations for an array
 
-// Returns count of rotations for an array 
+  // which is first sorted in ascending order,
 
-// which is first sorted in ascending order, 
+  // then rotated
 
-// then rotated 
+  static int countRotations(int arr[], int low, int high) {
+    // This condition is needed to handle
 
-static
-int
-countRotations(
-int
-arr[], 
-int
-low, 
+    // the case when array is not rotated
 
-int
-high) 
+    // at all
 
-{ 
+    if (high < low) return 0;
 
-// This condition is needed to handle 
+    // If there is only one element left
 
-// the case when array is not rotated 
+    if (high == low) return low;
 
-// at all 
+    // Find mid
 
-if
-(high < low) 
+    // /*(low + high)/2;*/
 
-return
-0
-; 
+    int mid = low + (high - low) / 2;
 
+    // Check if element (mid+1) is minimum
 
-// If there is only one element left 
+    // element. Consider the cases like
 
-if
-(high == low) 
+    // {3, 4, 5, 1, 2}
 
-return
-low; 
+    if (mid < high && arr[mid + 1] < arr[mid]) return (mid + 1);
 
+    // Check if mid itself is minimum element
 
-// Find mid 
+    if (mid > low && arr[mid] < arr[mid - 1]) return mid;
 
-// /*(low + high)/2;*/ 
+    // Decide whether we need to go to left
 
-int
-mid = low + (high - low)/
-2
-; 
+    // half or right half
 
+    if (arr[high] > arr[mid]) return countRotations(arr, low, mid - 1);
 
-// Check if element (mid+1) is minimum 
+    return countRotations(arr, mid + 1, high);
+  }
 
-// element. Consider the cases like 
+  // Driver program to test above functions
 
-// {3, 4, 5, 1, 2} 
+  public static void main(String[] args) {
+    int arr[] = { 15, 18, 2, 3, 6, 12 };
 
-if
-(mid < high && arr[mid+
-1
-] < arr[mid]) 
+    int n = arr.length;
 
-return
-(mid + 
-1
-); 
-
-
-// Check if mid itself is minimum element 
-
-if
-(mid > low && arr[mid] < arr[mid - 
-1
-]) 
-
-return
-mid; 
-
-
-// Decide whether we need to go to left 
-
-// half or right half 
-
-if
-(arr[high] > arr[mid]) 
-
-return
-countRotations(arr, low, mid - 
-1
-); 
-
-
-return
-countRotations(arr, mid + 
-1
-, high); 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-int
-arr[] = {
-15
-, 
-18
-, 
-2
-, 
-3
-, 
-6
-, 
-12
-}; 
-
-int
-n = arr.length; 
-
-
-System.out.println(countRotations(arr, 
-0
-, n-
-1
-)); 
-
-} 
-} 
-// This code is contributed by Chhavi 
+    System.out.println(countRotations(arr, 0, n - 1));
+  }
+}
+// This code is contributed by Chhavi

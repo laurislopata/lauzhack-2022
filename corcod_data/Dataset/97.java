@@ -1,137 +1,47 @@
+// Java program to find union of
+// two sorted arrays
 
-// Java program to find union of 
-// two sorted arrays 
+class FindUnion {
 
-class
-FindUnion 
-{ 
-
-/* Function prints union of arr1[] and arr2[] 
+  /* Function prints union of arr1[] and arr2[] 
 
 m is the number of elements in arr1[] 
 
 n is the number of elements in arr2[] */
 
-static
-int
-printUnion(
-int
-arr1[], 
-int
-arr2[], 
-int
-m, 
-int
-n) 
+  static int printUnion(int arr1[], int arr2[], int m, int n) {
+    int i = 0, j = 0;
 
-{ 
+    while (i < m && j < n) {
+      if (arr1[i] < arr2[j]) System.out.print(arr1[i++] + " "); else if (
+        arr2[j] < arr1[i]
+      ) System.out.print(arr2[j++] + " "); else {
+        System.out.print(arr2[j++] + " ");
 
-int
-i = 
-0
-, j = 
-0
-; 
+        i++;
+      }
+    }
 
-while
-(i < m && j < n) 
-
-{ 
-
-if
-(arr1[i] < arr2[j]) 
-
-System.out.print(arr1[i++]+
-" "
-); 
-
-else
-if
-(arr2[j] < arr1[i]) 
-
-System.out.print(arr2[j++]+
-" "
-); 
-
-else
-
-{ 
-
-System.out.print(arr2[j++]+
-" "
-); 
-
-i++; 
-
-} 
-
-} 
-
-
-/* Print remaining elements of 
+    /* Print remaining elements of 
 
 the larger array */
 
-while
-(i < m) 
+    while (i < m) System.out.print(arr1[i++] + " ");
 
-System.out.print(arr1[i++]+
-" "
-); 
+    while (j < n) System.out.print(arr2[j++] + " ");
 
-while
-(j < n) 
+    return 0;
+  }
 
-System.out.print(arr2[j++]+
-" "
-); 
+  public static void main(String args[]) {
+    int arr1[] = { 1, 2, 4, 5, 6 };
 
+    int arr2[] = { 2, 3, 5, 7 };
 
-return
-0
-; 
+    int m = arr1.length;
 
-} 
+    int n = arr2.length;
 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-arr1[] = {
-1
-, 
-2
-, 
-4
-, 
-5
-, 
-6
-}; 
-
-int
-arr2[] = {
-2
-, 
-3
-, 
-5
-, 
-7
-}; 
-
-int
-m = arr1.length; 
-
-int
-n = arr2.length; 
-
-printUnion(arr1, arr2, m, n); 
-
-} 
-} 
+    printUnion(arr1, arr2, m, n);
+  }
+}

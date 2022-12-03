@@ -1,151 +1,65 @@
+// Java implementation to find the
+// minimum and maximum amount
+import java.util.*;
 
-// Java implementation to find the 
-// minimum and maximum amount 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG { 
+  // Function to find the minimum
 
+  // amount to buy all candies
 
-// Function to find the minimum 
+  static int findMinimum(int arr[], int n, int k) {
+    int res = 0;
 
-// amount to buy all candies 
+    for (int i = 0; i < n; i++) {
+      // Buy current candy
 
-static
-int
-findMinimum(
-int
-arr[], 
-int
-n, 
-int
-k) 
+      res += arr[i];
 
-{ 
+      // And take k candies for free
 
-int
-res = 
-0
-; 
+      // from the last
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+      n = n - k;
+    }
 
-{ 
+    return res;
+  }
 
-// Buy current candy 
+  // Function to find the maximum
 
-res += arr[i]; 
+  // amount to buy all candies
 
+  static int findMaximum(int arr[], int n, int k) {
+    int res = 0, index = 0;
 
-// And take k candies for free 
+    for (int i = n - 1; i >= index; i--) {
+      // Buy candy with maximum amount
 
-// from the last 
+      res += arr[i];
 
-n = n - k; 
+      // And get k candies for free from
 
-} 
+      // the starting
 
-return
-res; 
+      index += k;
+    }
 
-} 
+    return res;
+  }
 
+  // Driver code
 
-// Function to find the maximum 
+  public static void main(String[] args) {
+    int arr[] = { 3, 2, 1, 4 };
 
-// amount to buy all candies 
+    int n = arr.length;
 
-static
-int
-findMaximum(
-int
-arr[], 
-int
-n, 
-int
-k) 
+    int k = 2;
 
-{ 
+    Arrays.sort(arr);
 
-int
-res = 
-0
-, index = 
-0
-; 
-
-
-for
-(
-int
-i = n - 
-1
-; i >= index; i--) 
-
-{ 
-
-// Buy candy with maximum amount 
-
-res += arr[i]; 
-
-
-// And get k candies for free from 
-
-// the starting 
-
-index += k; 
-
-} 
-
-return
-res; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = { 
-3
-, 
-2
-, 
-1
-, 
-4
-}; 
-
-int
-n = arr.length; 
-
-int
-k = 
-2
-; 
-
-Arrays.sort(arr); 
-
-
-System.out.println(findMinimum(arr, n, k) + 
-
-" "
-+ findMaximum(arr, n, k)); 
-
-} 
-} 
-
-// This code is contributed by prerna saini 
+    System.out.println(findMinimum(arr, n, k) + " " + findMaximum(arr, n, k));
+  }
+}
+// This code is contributed by prerna saini

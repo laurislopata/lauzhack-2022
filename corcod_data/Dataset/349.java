@@ -1,110 +1,47 @@
+// Java program to print sum of all substring of
+// a number represented as a string
+import java.util.Arrays;
 
-// Java program to print sum of all substring of 
-// a number represented as a string 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG{ 
+  // Returns sum of all substring of num
 
+  public static int sumOfSubstrings(String num) {
+    int n = num.length();
 
-// Returns sum of all substring of num 
+    // allocate memory equal to length of string
 
-public
-static
-int
-sumOfSubstrings(String num) 
+    int sumofdigit[] = new int[n];
 
-{ 
+    // initialize first value with first digit
 
-int
-n = num.length(); 
+    sumofdigit[0] = num.charAt(0) - '0';
 
+    int res = sumofdigit[0];
 
-// allocate memory equal to length of string 
+    // loop over all digits of string
 
-int
-sumofdigit[] = 
-new
-int
-[n]; 
+    for (int i = 1; i < n; i++) {
+      int numi = num.charAt(i) - '0';
 
+      // update each sumofdigit from previous value
 
-// initialize first value with first digit 
+      sumofdigit[i] = (i + 1) * numi + 10 * sumofdigit[i - 1];
 
-sumofdigit[
-0
-] = num.charAt(
-0
-)-
-'0'
-; 
+      // add current value to the result
 
-int
-res = sumofdigit[
-0
-]; 
+      res += sumofdigit[i];
+    }
 
+    return res;
+  }
 
-// loop over all digits of string 
+  // Driver code to test above methods
 
-for
-(
-int
-i = 
-1
-; i < n; i++) 
+  public static void main(String[] args) {
+    String num = "1234";
 
-{ 
-
-int
-numi = num.charAt(i)-
-'0'
-; 
-
-
-// update each sumofdigit from previous value 
-
-sumofdigit[i] = (i+
-1
-) * numi + 
-
-10
-* sumofdigit[i-
-1
-]; 
-
-
-// add current value to the result 
-
-res += sumofdigit[i]; 
-
-} 
-
-
-return
-res; 
-
-} 
-
-
-// Driver code to test above methods 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-String num = 
-"1234"
-; 
-
-
-System.out.println(sumOfSubstrings(num)); 
-
-
-} 
-} 
-// This code is contributed by Arnav Kr. Mandal. 
+    System.out.println(sumOfSubstrings(num));
+  }
+}
+// This code is contributed by Arnav Kr. Mandal.

@@ -1,106 +1,47 @@
+// Java program for nth Catalan Number
 
-// Java program for nth Catalan Number 
+class GFG {
 
-class
-GFG { 
+  // Returns value of Binomial Coefficient C(n, k)
 
-// Returns value of Binomial Coefficient C(n, k) 
+  static long binomialCoeff(int n, int k) {
+    long res = 1;
 
-static
-long
-binomialCoeff(
-int
-n, 
-int
-k) { 
+    // Since C(n, k) = C(n, n-k)
 
-long
-res = 
-1
-; 
+    if (k > n - k) {
+      k = n - k;
+    }
 
+    // Calculate value of [n*(n-1)*---*(n-k+1)] / [k*(k-1)*---*1]
 
-// Since C(n, k) = C(n, n-k) 
+    for (int i = 0; i < k; ++i) {
+      res *= (n - i);
 
-if
-(k > n - k) { 
+      res /= (i + 1);
+    }
 
-k = n - k; 
+    return res;
+  }
 
-} 
+  // A Binomial coefficient based function to find nth catalan
+  // number in O(n) time
 
+  static long catalan(int n) {
+    // Calculate value of 2nCn
 
-// Calculate value of [n*(n-1)*---*(n-k+1)] / [k*(k-1)*---*1] 
+    long c = binomialCoeff(2 * n, n);
 
-for
-(
-int
-i = 
-0
-; i < k; ++i) { 
+    // return 2nCn/(n+1)
 
-res *= (n - i); 
+    return c / (n + 1);
+  }
 
-res /= (i + 
-1
-); 
+  // Driver program to test above function
 
-} 
-
-
-return
-res; 
-
-} 
-
-// A Binomial coefficient based function to find nth catalan 
-// number in O(n) time 
-
-static
-long
-catalan(
-int
-n) { 
-
-// Calculate value of 2nCn 
-
-long
-c = binomialCoeff(
-2
-* n, n); 
-
-
-// return 2nCn/(n+1) 
-
-return
-c / (n + 
-1
-); 
-
-} 
-
-// Driver program to test above function 
-
-public
-static
-void
-main(String[] args) { 
-
-for
-(
-int
-i = 
-0
-; i < 
-10
-; i++) { 
-
-System.out.print(catalan(i) + 
-" "
-); 
-
-} 
-
-
-} 
-} 
+  public static void main(String[] args) {
+    for (int i = 0; i < 10; i++) {
+      System.out.print(catalan(i) + " ");
+    }
+  }
+}

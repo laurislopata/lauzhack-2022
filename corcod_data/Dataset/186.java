@@ -1,130 +1,54 @@
+// Java implementation for brute force method to calculate stock span values
 
-// Java implementation for brute force method to calculate stock span values 
+import java.util.Arrays;
 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG { 
+  // method to calculate stock span values
 
-// method to calculate stock span values 
+  static void calculateSpan(int price[], int n, int S[]) {
+    // Span value of first day is always 1
 
-static
-void
-calculateSpan(
-int
-price[], 
-int
-n, 
-int
-S[]) 
+    S[0] = 1;
 
-{ 
+    // Calculate span value of remaining days by linearly checking
 
-// Span value of first day is always 1 
+    // previous days
 
-S[
-0
-] = 
-1
-; 
+    for (int i = 1; i < n; i++) {
+      S[i] = 1;
+      // Initialize span value
 
+      // Traverse left while the next element on left is smaller
 
-// Calculate span value of remaining days by linearly checking 
+      // than price[i]
 
-// previous days 
+      for (int j = i - 1; (j >= 0) && (price[i] >= price[j]); j--) S[i]++;
+    }
+  }
 
-for
-(
-int
-i = 
-1
-; i < n; i++) { 
+  // A utility function to print elements of array
 
-S[i] = 
-1
-; 
-// Initialize span value 
+  static void printArray(int arr[]) {
+    System.out.print(Arrays.toString(arr));
+  }
 
+  // Driver program to test above functions
 
-// Traverse left while the next element on left is smaller 
+  public static void main(String[] args) {
+    int price[] = { 10, 4, 5, 90, 120, 80 };
 
-// than price[i] 
+    int n = price.length;
 
-for
-(
-int
-j = i - 
-1
-; (j >= 
-0
-) && (price[i] >= price[j]); j--) 
+    int S[] = new int[n];
 
-S[i]++; 
+    // Fill the span values in array S[]
 
-} 
+    calculateSpan(price, n, S);
 
-} 
+    // print the calculated span values
 
-
-// A utility function to print elements of array 
-
-static
-void
-printArray(
-int
-arr[]) 
-
-{ 
-
-System.out.print(Arrays.toString(arr)); 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-price[] = { 
-10
-, 
-4
-, 
-5
-, 
-90
-, 
-120
-, 
-80
-}; 
-
-int
-n = price.length; 
-
-int
-S[] = 
-new
-int
-[n]; 
-
-
-// Fill the span values in array S[] 
-
-calculateSpan(price, n, S); 
-
-
-// print the calculated span values 
-
-printArray(S); 
-
-} 
-} 
-// This code is contributed by Sumit Ghosh 
+    printArray(S);
+  }
+}
+// This code is contributed by Sumit Ghosh

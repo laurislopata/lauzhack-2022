@@ -1,220 +1,104 @@
+// Java program to implement sorting a
+// queue data structure
+import java.util.LinkedList;
+import java.util.Queue;
 
-// Java program to implement sorting a 
-// queue data structure 
-import
-java.util.LinkedList; 
-import
-java.util.Queue; 
-class
-GFG 
-{ 
+class GFG {
 
-// Queue elements after sortIndex are 
+  // Queue elements after sortIndex are
 
-// already sorted. This function returns 
+  // already sorted. This function returns
 
-// index of minimum element from front to 
+  // index of minimum element from front to
 
-// sortIndex 
+  // sortIndex
 
-public
-static
-int
-minIndex(Queue<Integer> list, 
+  public static int minIndex(Queue<Integer> list, int sortIndex) {
+    int min_index = -1;
 
-int
-sortIndex) 
+    int min_value = Integer.MAX_VALUE;
 
-{ 
+    int s = list.size();
 
-int
-min_index = -
-1
-; 
+    for (int i = 0; i < s; i++) {
+      int current = list.peek();
 
-int
-min_value = Integer.MAX_VALUE; 
+      // This is dequeue() in Java STL
 
-int
-s = list.size(); 
+      list.poll();
 
-for
-(
-int
-i = 
-0
-; i < s; i++) 
+      // we add the condition i <= sortIndex
 
-{ 
+      // because we don't want to traverse
 
-int
-current = list.peek(); 
+      // on the sorted part of the queue,
 
+      // which is the right part.
 
-// This is dequeue() in Java STL 
+      if (current <= min_value && i <= sortIndex) {
+        min_index = i;
 
-list.poll(); 
+        min_value = current;
+      }
 
+      list.add(current);
+    }
 
-// we add the condition i <= sortIndex 
+    return min_index;
+  }
 
-// because we don't want to traverse 
+  // Moves given minimum element
 
-// on the sorted part of the queue, 
+  // to rear of queue
 
-// which is the right part. 
+  public static void insertMinToRear(Queue<Integer> list, int min_index) {
+    int min_value = 0;
 
-if
-(current <= min_value && i <= sortIndex) 
+    int s = list.size();
 
-{ 
+    for (int i = 0; i < s; i++) {
+      int current = list.peek();
 
-min_index = i; 
+      list.poll();
 
-min_value = current; 
+      if (i != min_index) list.add(current); else min_value = current;
+    }
 
-} 
+    list.add(min_value);
+  }
 
-list.add(current); 
+  public static void sortQueue(Queue<Integer> list) {
+    for (int i = 1; i <= list.size(); i++) {
+      int min_index = minIndex(list, list.size() - i);
 
-} 
+      insertMinToRear(list, min_index);
+    }
+  }
 
-return
-min_index; 
-} 
+  //Driver function
 
+  public static void main(String[] args) {
+    Queue<Integer> list = new LinkedList<Integer>();
 
-// Moves given minimum element 
+    list.add(30);
 
-// to rear of queue 
+    list.add(11);
 
-public
-static
-void
-insertMinToRear(Queue<Integer> list, 
+    list.add(15);
 
-int
-min_index) 
+    list.add(4);
 
-{ 
+    //Sort Queue
 
-int
-min_value = 
-0
-; 
+    sortQueue(list);
 
-int
-s = list.size(); 
+    //print sorted Queue
 
-for
-(
-int
-i = 
-0
-; i < s; i++) 
+    while (list.isEmpty() == false) {
+      System.out.print(list.peek() + " ");
 
-{ 
-
-int
-current = list.peek(); 
-
-list.poll(); 
-
-if
-(i != min_index) 
-
-list.add(current); 
-
-else
-
-min_value = current; 
-
-} 
-
-list.add(min_value); 
-
-} 
-
-
-public
-static
-void
-sortQueue(Queue<Integer> list) 
-
-{ 
-
-for
-(
-int
-i = 
-1
-; i <= list.size(); i++) 
-
-{ 
-
-int
-min_index = minIndex(list,list.size() - i); 
-
-insertMinToRear(list, min_index); 
-
-} 
-
-} 
-
-
-//Driver function 
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-Queue<Integer> list = 
-new
-LinkedList<Integer>(); 
-
-list.add(
-30
-); 
-
-list.add(
-11
-); 
-
-list.add(
-15
-); 
-
-list.add(
-4
-); 
-
-
-//Sort Queue 
-
-sortQueue(list); 
-
-
-//print sorted Queue 
-
-while
-(list.isEmpty()== 
-false
-) 
-
-{ 
-
-System.out.print(list.peek() + 
-" "
-); 
-
-list.poll(); 
-
-} 
-
-} 
-} 
-
-// This code is contributed by akash1295 
+      list.poll();
+    }
+  }
+}
+// This code is contributed by akash1295

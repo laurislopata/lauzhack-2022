@@ -1,79 +1,40 @@
+// Java program to find remaining
+// chocolates after k iterations
+class GFG {
 
-// Java program to find remaining 
-// chocolates after k iterations 
-class
-GFG 
-{ 
-// A O(n) C++ program to count 
-// even length binary sequences 
-// such that the sum of first 
-// and second half bits is same 
+  // A O(n) C++ program to count
+  // even length binary sequences
+  // such that the sum of first
+  // and second half bits is same
 
-// Returns the count of 
-// even length sequences 
-static
-int
-countSeq(
-int
-n) 
-{ 
+  // Returns the count of
+  // even length sequences
+  static int countSeq(int n) {
+    int nCr = 1, res = 1;
 
-int
-nCr = 
-1
-, res = 
-1
-; 
+    // Calculate SUM ((nCr)^2)
 
+    for (int r = 1; r <= n; r++) {
+      // Compute nCr using nC(r-1)
 
-// Calculate SUM ((nCr)^2) 
+      // nCr/nC(r-1) = (n+1-r)/r;
 
-for
-(
-int
-r = 
-1
-; r <= n ; r++) 
+      nCr = (nCr * (n + 1 - r)) / r;
 
-{ 
+      res += nCr * nCr;
+    }
 
-// Compute nCr using nC(r-1) 
+    return res;
+  }
 
-// nCr/nC(r-1) = (n+1-r)/r; 
+  // Driver code
+  public static void main(String args[]) {
+    int n = 2;
 
-nCr = (nCr * (n + 
-1
-- r)) / r; 
+    System.out.print("Count of sequences is ");
 
-
-res += nCr * nCr; 
-
-} 
-
-
-return
-res; 
-} 
-
-// Driver code 
-public
-static
-void
-main(String args[]) 
-{ 
-
-int
-n = 
-2
-; 
-
-System.out.print(
-"Count of sequences is "
-); 
-
-System.out.println(countSeq(n)); 
-} 
-} 
-
-// This code is contributed 
-// by Shivi_Aggarwal 
+    System.out.println(countSeq(n));
+  }
+}
+// This code is contributed
+// by Shivi_Aggarwal

@@ -1,231 +1,95 @@
+// Java program to get same frequency character
+// string by removal of at most one char
+public class GFG {
 
-// Java program to get same frequency character 
-// string by removal of at most one char 
-public
-class
-GFG { 
+  static final int M = 26;
 
+  // Utility method to get index of character ch
 
-static
-final
-int
-M = 
-26
-; 
+  // in lower alphabet characters
 
+  static int getIdx(char ch) {
+    return (ch - 'a');
+  }
 
-// Utility method to get index of character ch 
+  // Returns true if all non-zero elements
 
-// in lower alphabet characters 
+  // values are same
 
-static
-int
-getIdx(
-char
-ch) 
+  static boolean allSame(int freq[], int N) {
+    int same = 0;
 
-{ 
+    // get first non-zero element
 
-return
-(ch - 
-'a'
-); 
+    int i;
 
-} 
+    for (i = 0; i < N; i++) {
+      if (freq[i] > 0) {
+        same = freq[i];
 
+        break;
+      }
+    }
 
-// Returns true if all non-zero elements 
+    // check equality of each element with
 
-// values are same 
+    // variable same
 
-static
-boolean
-allSame(
-int
-freq[], 
-int
-N) 
+    for (int j = i + 1; j < N; j++) if (
+      freq[j] > 0 && freq[j] != same
+    ) return false;
 
-{ 
+    return true;
+  }
 
-int
-same = 
-0
-; 
+  // Returns true if we can make all character
 
+  // frequencies same
 
-// get first non-zero element 
+  static boolean possibleSameCharFreqByOneRemoval(String str) {
+    int l = str.length();
 
-int
-i; 
+    // fill frequency array
 
-for
-(i = 
-0
-; i < N; i++) { 
+    int[] freq = new int[M];
 
-if
-(freq[i] > 
-0
-) { 
+    for (int i = 0; i < l; i++) freq[getIdx(str.charAt(i))]++;
 
-same = freq[i]; 
+    // if all frequencies are same, then return true
 
-break
-; 
+    if (allSame(freq, M)) return true;
 
-} 
-
-} 
-
-
-// check equality of each element with 
-
-// variable same 
-
-for
-(
-int
-j = i + 
-1
-; j < N; j++) 
-
-if
-(freq[j] > 
-0
-&& freq[j] != same) 
-
-return
-false
-; 
-
-
-return
-true
-; 
-
-} 
-
-
-// Returns true if we can make all character 
-
-// frequencies same 
-
-static
-boolean
-possibleSameCharFreqByOneRemoval(String str) 
-
-{ 
-
-int
-l = str.length(); 
-
-
-// fill frequency array 
-
-int
-[] freq = 
-new
-int
-[M]; 
-
-
-for
-(
-int
-i = 
-0
-; i < l; i++) 
-
-freq[getIdx(str.charAt(i))]++; 
-
-
-// if all frequencies are same, then return true 
-
-if
-(allSame(freq, M)) 
-
-return
-true
-; 
-
-
-/* Try decreasing frequency of all character 
+    /* Try decreasing frequency of all character 
 
 by one and then check all equality of all 
 
 non-zero frequencies */
 
-for
-(
-char
-c = 
-'a'
-; c <= 
-'z'
-; c++) { 
+    for (char c = 'a'; c <= 'z'; c++) {
+      int i = getIdx(c);
 
-int
-i = getIdx(c); 
+      // Check character only if it occurs in str
 
+      if (freq[i] > 0) {
+        freq[i]--;
 
-// Check character only if it occurs in str 
+        if (allSame(freq, M)) return true;
 
-if
-(freq[i] > 
-0
-) { 
+        freq[i]++;
+      }
+    }
 
-freq[i]--; 
+    return false;
+  }
 
+  // Driver code to test above methods
 
-if
-(allSame(freq, M)) 
+  public static void main(String args[]) {
+    String str = "xyyzz";
 
-return
-true
-; 
-
-freq[i]++; 
-
-} 
-
-} 
-
-
-return
-false
-; 
-
-} 
-
-
-// Driver code to test above methods 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-String str = 
-"xyyzz"
-; 
-
-if
-(possibleSameCharFreqByOneRemoval(str)) 
-
-System.out.println(
-"Yes"
-); 
-
-else
-
-System.out.println(
-"No"
-); 
-
-} 
-} 
-// This code is contributed by Sumit Ghosh 
+    if (possibleSameCharFreqByOneRemoval(str)) System.out.println(
+      "Yes"
+    ); else System.out.println("No");
+  }
+}
+// This code is contributed by Sumit Ghosh

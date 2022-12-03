@@ -1,203 +1,98 @@
+// Java program to remove duplicates from unsorted
+// linked list
 
-// Java program to remove duplicates from unsorted 
-// linked list 
+class LinkedList {
 
-class
-LinkedList { 
+  static Node head;
 
+  static class Node {
 
-static
-Node head; 
+    int data;
 
+    Node next;
 
-static
-class
-Node { 
+    Node(int d) {
+      data = d;
 
+      next = null;
+    }
+  }
 
-int
-data; 
-
-Node next; 
-
-
-Node(
-int
-d) { 
-
-data = d; 
-
-next = 
-null
-; 
-
-} 
-
-} 
-
-
-/* Function to remove duplicates from an 
+  /* Function to remove duplicates from an 
 
 unsorted linked list */
 
-void
-remove_duplicates() { 
+  void remove_duplicates() {
+    Node ptr1 = null, ptr2 = null, dup = null;
 
-Node ptr1 = 
-null
-, ptr2 = 
-null
-, dup = 
-null
-; 
+    ptr1 = head;
 
-ptr1 = head; 
+    /* Pick elements one by one */
 
+    while (ptr1 != null && ptr1.next != null) {
+      ptr2 = ptr1;
 
-/* Pick elements one by one */
-
-while
-(ptr1 != 
-null
-&& ptr1.next != 
-null
-) { 
-
-ptr2 = ptr1; 
-
-
-/* Compare the picked element with rest 
+      /* Compare the picked element with rest 
 
 of the elements */
 
-while
-(ptr2.next != 
-null
-) { 
+      while (ptr2.next != null) {
+        /* If duplicate then delete it */
 
+        if (ptr1.data == ptr2.next.data) {
+          /* sequence of steps is important here */
 
-/* If duplicate then delete it */
+          dup = ptr2.next;
 
-if
-(ptr1.data == ptr2.next.data) { 
+          ptr2.next = ptr2.next.next;
 
+          System.gc();
+        } else /* This is tricky */
+        {
+          ptr2 = ptr2.next;
+        }
+      }
 
-/* sequence of steps is important here */
+      ptr1 = ptr1.next;
+    }
+  }
 
-dup = ptr2.next; 
+  void printList(Node node) {
+    while (node != null) {
+      System.out.print(node.data + " ");
 
-ptr2.next = ptr2.next.next; 
+      node = node.next;
+    }
+  }
 
-System.gc(); 
+  public static void main(String[] args) {
+    LinkedList list = new LinkedList();
 
-} 
-else
-/* This is tricky */
-{ 
+    list.head = new Node(10);
 
-ptr2 = ptr2.next; 
+    list.head.next = new Node(12);
 
-} 
+    list.head.next.next = new Node(11);
 
-} 
+    list.head.next.next.next = new Node(11);
 
-ptr1 = ptr1.next; 
+    list.head.next.next.next.next = new Node(12);
 
-} 
+    list.head.next.next.next.next.next = new Node(11);
 
-} 
+    list.head.next.next.next.next.next.next = new Node(10);
 
+    System.out.println("Linked List before removing duplicates : \n ");
 
-void
-printList(Node node) { 
+    list.printList(head);
 
-while
-(node != 
-null
-) { 
+    list.remove_duplicates();
 
-System.out.print(node.data + 
-" "
-); 
+    System.out.println("");
 
-node = node.next; 
+    System.out.println("Linked List after removing duplicates : \n ");
 
-} 
-
-} 
-
-
-public
-static
-void
-main(String[] args) { 
-
-LinkedList list = 
-new
-LinkedList(); 
-
-list.head = 
-new
-Node(
-10
-); 
-
-list.head.next = 
-new
-Node(
-12
-); 
-
-list.head.next.next = 
-new
-Node(
-11
-); 
-
-list.head.next.next.next = 
-new
-Node(
-11
-); 
-
-list.head.next.next.next.next = 
-new
-Node(
-12
-); 
-
-list.head.next.next.next.next.next = 
-new
-Node(
-11
-); 
-
-list.head.next.next.next.next.next.next = 
-new
-Node(
-10
-); 
-
-
-System.out.println(
-"Linked List before removing duplicates : \n "
-); 
-
-list.printList(head); 
-
-
-list.remove_duplicates(); 
-
-System.out.println(
-""
-); 
-
-System.out.println(
-"Linked List after removing duplicates : \n "
-); 
-
-list.printList(head); 
-
-} 
-} 
-// This code has been contributed by Mayank Jaiswal 
+    list.printList(head);
+  }
+}
+// This code has been contributed by Mayank Jaiswal

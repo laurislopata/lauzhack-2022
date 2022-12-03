@@ -1,284 +1,136 @@
-
-// Java program to print boundary traversal of binary tree 
+// Java program to print boundary traversal of binary tree
 
 /* A binary tree node has data, pointer to left child 
 
 and a pointer to right child */
-class
-Node { 
+class Node {
 
-int
-data; 
+  int data;
 
-Node left, right; 
+  Node left, right;
 
+  Node(int item) {
+    data = item;
 
-Node(
-int
-item) 
+    left = right = null;
+  }
+}
 
-{ 
+class BinaryTree {
 
-data = item; 
+  Node root;
 
-left = right = 
-null
-; 
+  // A simple function to print leaf nodes of a binary tree
 
-} 
-} 
+  void printLeaves(Node node) {
+    if (node != null) {
+      printLeaves(node.left);
 
-class
-BinaryTree { 
+      // Print it if it is a leaf node
 
-Node root; 
+      if (node.left == null && node.right == null) System.out.print(
+        node.data + " "
+      );
 
+      printLeaves(node.right);
+    }
+  }
 
-// A simple function to print leaf nodes of a binary tree 
+  // A function to print all left boundary nodes, except a leaf node.
 
-void
-printLeaves(Node node) 
+  // Print the nodes in TOP DOWN manner
 
-{ 
+  void printBoundaryLeft(Node node) {
+    if (node != null) {
+      if (node.left != null) {
+        // to ensure top down order, print the node
 
-if
-(node != 
-null
-) { 
+        // before calling itself for left subtree
 
-printLeaves(node.left); 
+        System.out.print(node.data + " ");
 
+        printBoundaryLeft(node.left);
+      } else if (node.right != null) {
+        System.out.print(node.data + " ");
 
-// Print it if it is a leaf node 
+        printBoundaryLeft(node.right);
+      }
+      // do nothing if it is a leaf node, this way we avoid
 
-if
-(node.left == 
-null
-&& node.right == 
-null
-) 
+      // duplicates in output
 
-System.out.print(node.data + 
-" "
-); 
+    }
+  }
 
-printLeaves(node.right); 
+  // A function to print all right boundary nodes, except a leaf node
 
-} 
+  // Print the nodes in BOTTOM UP manner
 
-} 
+  void printBoundaryRight(Node node) {
+    if (node != null) {
+      if (node.right != null) {
+        // to ensure bottom up order, first call for right
 
+        // subtree, then print this node
 
-// A function to print all left boundary nodes, except a leaf node. 
+        printBoundaryRight(node.right);
 
-// Print the nodes in TOP DOWN manner 
+        System.out.print(node.data + " ");
+      } else if (node.left != null) {
+        printBoundaryRight(node.left);
 
-void
-printBoundaryLeft(Node node) 
+        System.out.print(node.data + " ");
+      }
+      // do nothing if it is a leaf node, this way we avoid
 
-{ 
+      // duplicates in output
 
-if
-(node != 
-null
-) { 
+    }
+  }
 
-if
-(node.left != 
-null
-) { 
+  // A function to do boundary traversal of a given binary tree
 
+  void printBoundary(Node node) {
+    if (node != null) {
+      System.out.print(node.data + " ");
 
-// to ensure top down order, print the node 
+      // Print the left boundary in top-down manner.
 
-// before calling itself for left subtree 
+      printBoundaryLeft(node.left);
 
-System.out.print(node.data + 
-" "
-); 
+      // Print all leaf nodes
 
-printBoundaryLeft(node.left); 
+      printLeaves(node.left);
 
-} 
+      printLeaves(node.right);
 
-else
-if
-(node.right != 
-null
-) { 
+      // Print the right boundary in bottom-up manner
 
-System.out.print(node.data + 
-" "
-); 
+      printBoundaryRight(node.right);
+    }
+  }
 
-printBoundaryLeft(node.right); 
+  // Driver program to test above functions
 
-} 
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
 
+    tree.root = new Node(20);
 
-// do nothing if it is a leaf node, this way we avoid 
+    tree.root.left = new Node(8);
 
-// duplicates in output 
+    tree.root.left.left = new Node(4);
 
-} 
+    tree.root.left.right = new Node(12);
 
-} 
+    tree.root.left.right.left = new Node(10);
 
+    tree.root.left.right.right = new Node(14);
 
-// A function to print all right boundary nodes, except a leaf node 
+    tree.root.right = new Node(22);
 
-// Print the nodes in BOTTOM UP manner 
+    tree.root.right.right = new Node(25);
 
-void
-printBoundaryRight(Node node) 
-
-{ 
-
-if
-(node != 
-null
-) { 
-
-if
-(node.right != 
-null
-) { 
-
-// to ensure bottom up order, first call for right 
-
-// subtree, then print this node 
-
-printBoundaryRight(node.right); 
-
-System.out.print(node.data + 
-" "
-); 
-
-} 
-
-else
-if
-(node.left != 
-null
-) { 
-
-printBoundaryRight(node.left); 
-
-System.out.print(node.data + 
-" "
-); 
-
-} 
-
-// do nothing if it is a leaf node, this way we avoid 
-
-// duplicates in output 
-
-} 
-
-} 
-
-
-// A function to do boundary traversal of a given binary tree 
-
-void
-printBoundary(Node node) 
-
-{ 
-
-if
-(node != 
-null
-) { 
-
-System.out.print(node.data + 
-" "
-); 
-
-
-// Print the left boundary in top-down manner. 
-
-printBoundaryLeft(node.left); 
-
-
-// Print all leaf nodes 
-
-printLeaves(node.left); 
-
-printLeaves(node.right); 
-
-
-// Print the right boundary in bottom-up manner 
-
-printBoundaryRight(node.right); 
-
-} 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-tree.root = 
-new
-Node(
-20
-); 
-
-tree.root.left = 
-new
-Node(
-8
-); 
-
-tree.root.left.left = 
-new
-Node(
-4
-); 
-
-tree.root.left.right = 
-new
-Node(
-12
-); 
-
-tree.root.left.right.left = 
-new
-Node(
-10
-); 
-
-tree.root.left.right.right = 
-new
-Node(
-14
-); 
-
-tree.root.right = 
-new
-Node(
-22
-); 
-
-tree.root.right.right = 
-new
-Node(
-25
-); 
-
-tree.printBoundary(tree.root); 
-
-} 
-} 
+    tree.printBoundary(tree.root);
+  }
+}

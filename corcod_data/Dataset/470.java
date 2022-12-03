@@ -1,185 +1,88 @@
+// Java program to find maximum product of
+// a subset.
 
-// Java program to find maximum product of 
-// a subset. 
+class GFG {
 
-class
-GFG { 
+  static int maxProductSubset(int a[], int n) {
+    if (n == 1) {
+      return a[0];
+    }
 
+    // Find count of negative numbers, count
 
-static
-int
-maxProductSubset(
-int
-a[], 
-int
-n) { 
+    // of zeros, maximum valued negative number
 
-if
-(n == 
-1
-) { 
+    // and product of non-zero numbers
 
-return
-a[
-0
-]; 
+    int max_neg = Integer.MIN_VALUE;
 
-} 
+    int count_neg = 0, count_zero = 0;
 
+    int prod = 1;
 
-// Find count of negative numbers, count 
+    for (int i = 0; i < n; i++) {
+      // If number is 0, we don't
 
-// of zeros, maximum valued negative number 
+      // multiply it with product.
 
-// and product of non-zero numbers 
+      if (a[i] == 0) {
+        count_zero++;
 
-int
-max_neg = Integer.MIN_VALUE; 
+        continue;
+      }
 
-int
-count_neg = 
-0
-, count_zero = 
-0
-; 
+      // Count negatives and keep
 
-int
-prod = 
-1
-; 
+      // track of maximum valued negative.
 
-for
-(
-int
-i = 
-0
-; i < n; i++) { 
+      if (a[i] < 0) {
+        count_neg++;
 
+        max_neg = Math.max(max_neg, a[i]);
+      }
 
-// If number is 0, we don't 
+      prod = prod * a[i];
+    }
 
-// multiply it with product. 
+    // If there are all zeros
 
-if
-(a[i] == 
-0
-) { 
+    if (count_zero == n) {
+      return 0;
+    }
 
-count_zero++; 
+    // If there are odd number of
 
-continue
-; 
+    // negative numbers
 
-} 
+    if (count_neg % 2 == 1) {
+      // Exceptional case: There is only
 
+      // negative and all other are zeros
 
-// Count negatives and keep 
+      if (count_neg == 1 && count_zero > 0 && count_zero + count_neg == n) {
+        return 0;
+      }
 
-// track of maximum valued negative. 
+      // Otherwise result is product of
 
-if
-(a[i] < 
-0
-) { 
+      // all non-zeros divided by maximum
 
-count_neg++; 
+      // valued negative.
 
-max_neg = Math.max(max_neg, a[i]); 
+      prod = prod / max_neg;
+    }
 
-} 
+    return prod;
+  }
 
+  // Driver code
 
-prod = prod * a[i]; 
+  public static void main(String[] args) {
+    int a[] = { -1, -1, -2, 4, 3 };
 
-} 
+    int n = a.length;
 
-
-// If there are all zeros 
-
-if
-(count_zero == n) { 
-
-return
-0
-; 
-
-} 
-
-
-// If there are odd number of 
-
-// negative numbers 
-
-if
-(count_neg % 
-2
-== 
-1
-) { 
-
-
-// Exceptional case: There is only 
-
-// negative and all other are zeros 
-
-if
-(count_neg == 
-1
-
-&& count_zero > 
-0
-
-&& count_zero + count_neg == n) { 
-
-return
-0
-; 
-
-} 
-
-
-// Otherwise result is product of 
-
-// all non-zeros divided by maximum 
-
-// valued negative. 
-
-prod = prod / max_neg; 
-
-} 
-
-
-return
-prod; 
-
-} 
-
-// Driver code 
-
-public
-static
-void
-main(String[] args) { 
-
-int
-a[] = {-
-1
-, -
-1
-, -
-2
-, 
-4
-, 
-3
-}; 
-
-int
-n = a.length; 
-
-System.out.println(maxProductSubset(a, n)); 
-
-
-} 
-} 
+    System.out.println(maxProductSubset(a, n));
+  }
+}
 /* This JAVA code is contributed by Rajput-Ji*/

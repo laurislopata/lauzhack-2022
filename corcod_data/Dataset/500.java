@@ -1,95 +1,41 @@
+// Java program to find minimum cost
+// to reduce array size to 1,
+import java.lang.*;
 
-// Java program to find minimum cost 
-// to reduce array size to 1, 
-import
-java.lang.*; 
+public class GFG {
 
-public
-class
-GFG { 
+  // function to calculate the
 
+  // minimum cost
 
-// function to calculate the 
+  static int cost(int[] a, int n) {
+    int min = a[0];
 
-// minimum cost 
+    // find the minimum using
 
-static
-int
-cost(
-int
-[]a, 
-int
-n) 
+    // for loop
 
-{ 
+    for (int i = 1; i < a.length; i++) {
+      if (a[i] < min) min = a[i];
+    }
 
-int
-min = a[
-0
-]; 
+    // Minimum cost is n-1 multiplied
 
+    // with minimum element.
 
-// find the minimum using 
+    return (n - 1) * min;
+  }
 
-// for loop 
+  // driver program to test the
 
-for
-(
-int
-i = 
-1
-; i< a.length; i++) 
+  // above function.
 
-{ 
+  public static void main(String[] args) {
+    int[] a = { 4, 3, 2 };
 
-if
-(a[i] < min) 
+    int n = a.length;
 
-min = a[i]; 
-
-} 
-
-
-// Minimum cost is n-1 multiplied 
-
-// with minimum element. 
-
-return
-(n - 
-1
-) * min; 
-
-} 
-
-
-// driver program to test the 
-
-// above function. 
-
-static
-public
-void
-main (String[] args) 
-
-{ 
-
-
-int
-[]a = { 
-4
-, 
-3
-, 
-2
-}; 
-
-int
-n = a.length; 
-
-
-System.out.println(cost(a, n)); 
-
-} 
-} 
-
-// This code is contributed by parashar. 
+    System.out.println(cost(a, n));
+  }
+}
+// This code is contributed by parashar.

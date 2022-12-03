@@ -1,205 +1,72 @@
+// Java program to find minimum removals
+// to make max-min <= K
+import java.util.Arrays;
 
-// Java program to find minimum removals 
-// to make max-min <= K 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG 
-{ 
+  static int MAX = 100;
 
-static
-int
-MAX=
-100
-; 
+  static int dp[][] = new int[MAX][MAX];
 
-static
-int
-dp[][]=
-new
-int
-[MAX][MAX]; 
+  // function to check all possible combinations
 
+  // of removal and return the minimum one
 
-// function to check all possible combinations 
+  static int countRemovals(int a[], int i, int j, int k) {
+    // base case when all elements are removed
 
-// of removal and return the minimum one 
+    if (i >= j) return 0;
+    // if condition is satisfied, no more
 
-static
-int
-countRemovals(
-int
-a[], 
-int
-i, 
-int
-j, 
-int
-k) 
+    // removals are required
 
-{ 
+    else if ((a[j] - a[i]) <= k) return 0;
+    // if the state has already been visited
 
-// base case when all elements are removed 
+    else if (dp[i][j] != -1) return dp[i][j];
+    // when Amax-Amin>d
 
-if
-(i >= j) 
+    else if ((a[j] - a[i]) > k) {
+      // minimum is taken of the removal
 
-return
-0
-; 
+      // of minimum element or removal
 
+      // of the maximum element
 
-// if condition is satisfied, no more 
+      dp[i][j] =
+        1 +
+        Math.min(countRemovals(a, i + 1, j, k), countRemovals(a, i, j - 1, k));
+    }
 
-// removals are required 
+    return dp[i][j];
+  }
 
-else
-if
-((a[j] - a[i]) <= k) 
+  // To sort the array and return the answer
 
-return
-0
-; 
+  static int removals(int a[], int n, int k) {
+    // sort the array
 
+    Arrays.sort(a);
 
-// if the state has already been visited 
+    // fill all stated with -1
 
-else
-if
-(dp[i][j] != -
-1
-) 
+    // when only one element
 
-return
-dp[i][j]; 
+    for (int[] rows : dp) Arrays.fill(rows, -1);
 
+    if (n == 1) return 0; else return countRemovals(a, 0, n - 1, k);
+  }
 
-// when Amax-Amin>d 
+  // Driver code
 
-else
-if
-((a[j] - a[i]) > k) { 
+  public static void main(String[] args) {
+    int a[] = { 1, 3, 4, 9, 10, 11, 12, 17, 20 };
 
+    int n = a.length;
 
-// minimum is taken of the removal 
+    int k = 4;
 
-// of minimum element or removal 
-
-// of the maximum element 
-
-dp[i][j] = 
-1
-+ Math.min(countRemovals(a, i + 
-1
-, j, k), 
-
-countRemovals(a, i, j - 
-1
-, k)); 
-
-} 
-
-return
-dp[i][j]; 
-
-} 
-
-
-// To sort the array and return the answer 
-
-static
-int
-removals(
-int
-a[], 
-int
-n, 
-int
-k) 
-
-{ 
-
-// sort the array 
-
-Arrays.sort(a); 
-
-
-// fill all stated with -1 
-
-// when only one element 
-
-for
-(
-int
-[] rows:dp) 
-
-Arrays.fill(rows,-
-1
-); 
-
-if
-(n == 
-1
-) 
-
-return
-0
-; 
-
-else
-
-return
-countRemovals(a, 
-0
-, n - 
-1
-, k); 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-int
-a[] = { 
-1
-, 
-3
-, 
-4
-, 
-9
-, 
-10
-, 
-11
-, 
-12
-, 
-17
-, 
-20
-}; 
-
-int
-n = a.length; 
-
-int
-k = 
-4
-; 
-
-System.out.print(removals(a, n, k)); 
-
-} 
-} 
-
-// This code is contributed by Anant Agarwal. 
+    System.out.print(removals(a, n, k));
+  }
+}
+// This code is contributed by Anant Agarwal.

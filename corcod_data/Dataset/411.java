@@ -1,302 +1,110 @@
+// Java program to find maximum number to be removed
+// to convert a tree into forest containg trees of
+// even number of nodes
+import java.util.*;
 
-// Java program to find maximum number to be removed 
-// to convert a tree into forest containg trees of 
-// even number of nodes 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  static int N = 12, ans;
 
-static
-int
-N = 
-12
-,ans; 
+  static Vector<Vector<Integer>> tree = new Vector<Vector<Integer>>();
 
+  // Return the number of nodes of subtree having
 
-static
-Vector<Vector<Integer>> tree=
-new
-Vector<Vector<Integer>>(); 
+  // node as a root.
 
+  static int dfs(int visit[], int node) {
+    int num = 0, temp = 0;
 
-// Return the number of nodes of subtree having 
+    // Mark node as visited.
 
-// node as a root. 
+    visit[node] = 1;
 
-static
-int
-dfs( 
-int
-visit[], 
-int
-node) 
+    // Traverse the adjacency list to find non-
 
-{ 
+    // visited node.
 
-int
-num = 
-0
-, temp = 
-0
-; 
+    for (int i = 0; i < tree.get(node).size(); i++) {
+      if (visit[tree.get(node).get(i)] == 0) {
+        // Finding number of nodes of the subtree
 
+        // of a subtree.
 
-// Mark node as visited. 
+        temp = dfs(visit, tree.get(node).get(i));
 
-visit[node] = 
-1
-; 
+        // If nodes are even, increment number of
 
+        // edges to removed.
 
-// Traverse the adjacency list to find non- 
+        // Else leave the node as child of subtree.
 
-// visited node. 
+        if (temp % 2 != 0) num += temp; else ans++;
+      }
+    }
 
-for
-(
-int
-i = 
-0
-; i < tree.get(node).size(); i++) 
+    return num + 1;
+  }
 
-{ 
+  // Return the maxium number of edge to remove
 
-if
-(visit[tree.get(node).get(i)] == 
-0
-) 
+  // to make forest.
 
-{ 
+  static int minEdge(int n) {
+    int visit[] = new int[n + 2];
 
-// Finding number of nodes of the subtree 
+    ans = 0;
 
-// of a subtree. 
+    dfs(visit, 1);
 
-temp = dfs( visit, tree.get(node).get(i)); 
+    return ans;
+  }
 
+  // Driven Program
 
-// If nodes are even, increment number of 
+  public static void main(String args[]) {
+    int n = 10;
 
-// edges to removed. 
+    //set the size of vector
 
-// Else leave the node as child of subtree. 
+    for (int i = 0; i < n + 2; i++) tree.add(new Vector<Integer>());
 
-if
-(temp%
-2
-!=
-0
-) 
+    tree.get(1).add(3);
 
-num += temp; 
+    tree.get(3).add(1);
 
-else
+    tree.get(1).add(6);
 
-ans++; 
+    tree.get(6).add(1);
 
-} 
+    tree.get(1).add(2);
 
-} 
+    tree.get(2).add(1);
 
+    tree.get(3).add(4);
 
-return
-num+
-1
-; 
+    tree.get(4).add(3);
 
-} 
+    tree.get(6).add(8);
 
+    tree.get(8).add(6);
 
-// Return the maxium number of edge to remove 
+    tree.get(2).add(7);
 
-// to make forest. 
+    tree.get(7).add(2);
 
-static
-int
-minEdge( 
-int
-n) 
+    tree.get(2).add(5);
 
-{ 
+    tree.get(5).add(2);
 
-int
-visit[] = 
-new
-int
-[n+
-2
-]; 
+    tree.get(4).add(9);
 
-ans = 
-0
-; 
+    tree.get(9).add(4);
 
+    tree.get(4).add(10);
 
-dfs( visit, 
-1
-); 
+    tree.get(10).add(4);
 
-
-return
-ans; 
-
-} 
-
-
-// Driven Program 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-n = 
-10
-; 
-
-
-//set the size of vector 
-
-for
-(
-int
-i = 
-0
-; i < n + 
-2
-;i++) 
-
-tree.add(
-new
-Vector<Integer>()); 
-
-
-tree.get(
-1
-).add(
-3
-); 
-
-tree.get(
-3
-).add(
-1
-); 
-
-
-tree.get(
-1
-).add(
-6
-); 
-
-tree.get(
-6
-).add(
-1
-); 
-
-
-tree.get(
-1
-).add(
-2
-); 
-
-tree.get(
-2
-).add(
-1
-); 
-
-
-tree.get(
-3
-).add(
-4
-); 
-
-tree.get(
-4
-).add(
-3
-); 
-
-
-tree.get(
-6
-).add(
-8
-); 
-
-tree.get(
-8
-).add(
-6
-); 
-
-
-tree.get(
-2
-).add(
-7
-); 
-
-tree.get(
-7
-).add(
-2
-); 
-
-
-tree.get(
-2
-).add(
-5
-); 
-
-tree.get(
-5
-).add(
-2
-); 
-
-
-tree.get(
-4
-).add(
-9
-); 
-
-tree.get(
-9
-).add(
-4
-); 
-
-
-tree.get(
-4
-).add(
-10
-); 
-
-tree.get(
-10
-).add(
-4
-); 
-
-
-System.out.println( minEdge( n)); 
-
-} 
-} 
-
-// This code is contributed by Arnab Kundu 
+    System.out.println(minEdge(n));
+  }
+}
+// This code is contributed by Arnab Kundu

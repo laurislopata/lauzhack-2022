@@ -1,84 +1,39 @@
+// Java program to find minimum
+// difference between groups of
+// highest and lowest sums.
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Vector;
 
-// Java program to find minimum 
-// difference between groups of 
-// highest and lowest sums. 
-import
-java.util.Arrays; 
-import
-java.util.Collections; 
-import
-java.util.Vector; 
+class GFG {
 
+  static long calculate(long a[], int n) {
+    // Sorting the whole array.
 
-class
-GFG { 
+    Arrays.sort(a);
 
-static
-long
-calculate(
-long
-a[], 
-int
-n) 
-{ 
+    int i, j;
 
-// Sorting the whole array. 
+    // Generating sum groups.
 
-Arrays.sort(a); 
+    Vector<Long> s = new Vector<>();
 
-int
-i,j; 
+    for (i = 0, j = n - 1; i < j; i++, j--) s.add((a[i] + a[j]));
 
+    long mini = Collections.min(s);
 
-// Generating sum groups. 
+    long maxi = Collections.max(s);
 
-Vector<Long> s = 
-new
-Vector<>(); 
+    return Math.abs(maxi - mini);
+  }
 
-for
-(i = 
-0
-, j = n - 
-1
-; i < j; i++, j--) 
+  // Driver code
+  public static void main(String[] args) {
+    long a[] = { 2, 6, 4, 3 };
 
-s.add((a[i] + a[j])); 
+    int n = a.length;
 
-
-long
-mini = Collections.min(s); 
-
-long
-maxi = Collections.max(s); 
-
-return
-Math.abs(maxi - mini); 
-} 
-
-// Driver code 
-public
-static
-void
-main(String[] args) 
-{ 
-
-long
-a[] = { 
-2
-, 
-6
-, 
-4
-, 
-3
-}; 
-
-int
-n = a.length; 
-
-System.out.println(calculate(a, n)); 
-
-} 
-} 
-// This code is contributed by 29AjayKumar 
+    System.out.println(calculate(a, n));
+  }
+}
+// This code is contributed by 29AjayKumar

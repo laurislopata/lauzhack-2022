@@ -1,12 +1,12 @@
 #Scraping a csv file from a website and tokenizing it using NLP
 
-import nltk
+# import nltk
 #nltk.download('punkt') #uncomment this line if you are running this for the first time
 #nltk.download('stopwords') #uncomment this line if you are running this for the first time
 
 
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
+# from nltk.tokenize import word_tokenize
+# from nltk.corpus import stopwords
 
 #Reading the file
 import pandas as pd
@@ -25,94 +25,94 @@ print(data_points[0][1])
 #java_code = java_code.read()
 
 
-java_code = open('corcod_data/Dataset/' + data_points[0][1])
+java_code = open('corcod_data/Dataset/' + '1.java')
 java_code = java_code.read()
-#print(java_code)
+print(java_code)
 
 
-words = word_tokenize(java_code)
-#print(words)
+# words = word_tokenize(java_code)
+# #print(words)
 
-stop_words = set(stopwords.words("english"))
-added_stop_words = ["{","}",
-                    "(",")",";","=","<",">","[","]",".",",","/","*","&","%","$","#","@","!","?","|","\"","\'","\\","`","~","^","-","+","_","0","1","2","3","4","5","6","7","8","9"]
+# stop_words = set(stopwords.words("english"))
+# added_stop_words = ["{","}",
+#                     "(",")",";","=","<",">","[","]",".",",","/","*","&","%","$","#","@","!","?","|","\"","\'","\\","`","~","^","-","+","_","0","1","2","3","4","5","6","7","8","9"]
 
-print(stop_words)
+# print(stop_words)
 
-filtered_sentence = [w for w in words if not w in stop_words]
+# filtered_sentence = [w for w in words if not w in stop_words]
 
-#print(filtered_sentence)
+# #print(filtered_sentence)
 
     
-"""
+# """
 
-filtered_sentence = []
+# filtered_sentence = []
 
-for w in words:
-    if w not in stop_words:
-        filtered_sentence.append(w)
+# for w in words:
+#     if w not in stop_words:
+#         filtered_sentence.append(w)
 
-print(filtered_sentence)
+# print(filtered_sentence)
 
-filtered_sentence = [w for w in words if not w in stop_words]
+# filtered_sentence = [w for w in words if not w in stop_words]
 
-print(filtered_sentence)
+# print(filtered_sentence)
 
-filtered_sentence = []
+# filtered_sentence = []
 
-for w in words:
-    if w not in stop_words:
-        filtered_sentence.append(w)
+# for w in words:
+#     if w not in stop_words:
+#         filtered_sentence.append(w)
 
-print(filtered_sentence)
+# print(filtered_sentence)
 
-filtered_sentence = [w for w in words if not w in stop_words]
+# filtered_sentence = [w for w in words if not w in stop_words]
 
-print(filtered_sentence)
+# print(filtered_sentence)
 
-filtered_sentence = []
+# filtered_sentence = []
 
-for w in words:
-    if w not in stop_words:
-        filtered_sentence.append(w)
+# for w in words:
+#     if w not in stop_words:
+#         filtered_sentence.append(w)
 
-print(filtered_sentence)
+# print(filtered_sentence)
 
-filtered_sentence = [w for w in words if not w in stop_words]
+# filtered_sentence = [w for w in words if not w in stop_words]
 
-print(filtered_sentence)
+# print(filtered_sentence)
 
-filtered_sentence = []
+# filtered_sentence = []
 
-for w in words:
-    if w not in stop_words:
-        filtered_sentence.append(w)
+# for w in words:
+#     if w not in stop_words:
+#         filtered_sentence.append(w)
 
-print(filtered_sentence)
+# print(filtered_sentence)
 
-filtered_sentence = [w for w in words if not w in stop_words]
+# filtered_sentence = [w for w in words if not w in stop_words]
 
-print(filtered_sentence)
+# print(filtered_sentence)
 
-filtered_sentence = []
+# filtered_sentence = []
 
-for w in words:
-    if w not in stop_words:
-        filtered_sentence.append(w)
+# for w in words:
+#     if w not in stop_words:
+#         filtered_sentence.append(w)
 
-print(filtered_sentence)
+# print(filtered_sentence)
 
-filtered_sentence = [w for w in words if not w in stop_words]
+# filtered_sentence = [w for w in words if not w in stop_words]
 
-print(filtered_sentence)
+# print(filtered_sentence)
 
-filtered_sentence = []
+# filtered_sentence = []
 
-for w in words:
-    if w not in stop_words:
-        filtered_sentence.append(w)
+# for w in words:
+#     if w not in stop_words:
+#         filtered_sentence.append(w)
 
-print(filtered_sentence)
-"""
+# print(filtered_sentence)
+# """
 
 

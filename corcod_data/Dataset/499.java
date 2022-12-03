@@ -1,391 +1,200 @@
+// Java program to connect n ropes with minimum cost
 
-// Java program to connect n ropes with minimum cost 
+// A class for Min Heap
+class MinHeap {
 
-// A class for Min Heap 
-class
-MinHeap { 
+  int[] harr;
+  // Array of elements in heap
 
-int
-[] harr; 
-// Array of elements in heap 
+  int heap_size;
+  // Current number of elements in min heap
 
-int
-heap_size; 
-// Current number of elements in min heap 
+  int capacity;
 
-int
-capacity; 
-// maximum possible size of min heap 
+  // maximum possible size of min heap
 
+  // Constructor: Builds a heap from
 
-// Constructor: Builds a heap from 
+  // a given array a[] of given size
 
-// a given array a[] of given size 
+  public MinHeap(int a[], int size) {
+    heap_size = size;
 
-public
-MinHeap(
-int
-a[], 
-int
-size) 
+    capacity = size;
 
-{ 
+    harr = a;
 
-heap_size = size; 
+    int i = (heap_size - 1) / 2;
 
-capacity = size; 
+    while (i >= 0) {
+      MinHeapify(i);
 
-harr = a; 
+      i--;
+    }
+  }
 
-int
-i = (heap_size - 
-1
-) / 
-2
-; 
+  // A recursive method to heapify a subtree
 
-while
-(i >= 
-0
-) { 
+  // with the root at given index
 
-MinHeapify(i); 
+  // This method assumes that the subtrees
 
-i--; 
+  // are already heapified
 
-} 
+  void MinHeapify(int i) {
+    int l = left(i);
 
-} 
+    int r = right(i);
 
+    int smallest = i;
 
-// A recursive method to heapify a subtree 
+    if (l < heap_size && harr[l] < harr[i]) smallest = l;
 
-// with the root at given index 
+    if (r < heap_size && harr[r] < harr[smallest]) smallest = r;
 
-// This method assumes that the subtrees 
+    if (smallest != i) {
+      swap(i, smallest);
 
-// are already heapified 
+      MinHeapify(smallest);
+    }
+  }
 
-void
-MinHeapify(
-int
-i) 
+  int parent(int i) {
+    return (i - 1) / 2;
+  }
 
-{ 
+  // to get index of left child of node at index i
 
-int
-l = left(i); 
+  int left(int i) {
+    return (2 * i + 1);
+  }
 
-int
-r = right(i); 
+  // to get index of right child of node at index i
 
-int
-smallest = i; 
+  int right(int i) {
+    return (2 * i + 2);
+  }
 
-if
-(l < heap_size && harr[l] < harr[i]) 
+  // Method to remove minimum element (or root) from min heap
 
-smallest = l; 
+  int extractMin() {
+    if (heap_size <= 0) return Integer.MAX_VALUE;
 
-if
-(r < heap_size && harr[r] < harr[smallest]) 
+    if (heap_size == 1) {
+      heap_size--;
 
-smallest = r; 
+      return harr[0];
+    }
 
-if
-(smallest != i) { 
+    // Store the minimum value, and remove it from heap
 
-swap(i, smallest); 
+    int root = harr[0];
 
-MinHeapify(smallest); 
+    harr[0] = harr[heap_size - 1];
 
-} 
+    heap_size--;
 
-} 
+    MinHeapify(0);
 
+    return root;
+  }
 
-int
-parent(
-int
-i) { 
-return
-(i - 
-1
-) / 
-2
-; } 
+  // Inserts a new key 'k'
 
+  void insertKey(int k) {
+    if (heap_size == capacity) {
+      System.out.println("Overflow: Could not insertKey");
 
-// to get index of left child of node at index i 
+      return;
+    }
 
-int
-left(
-int
-i) { 
-return
-(
-2
-* i + 
-1
-); } 
+    // First insert the new key at the end
 
+    heap_size++;
 
-// to get index of right child of node at index i 
+    int i = heap_size - 1;
 
-int
-right(
-int
-i) { 
-return
-(
-2
-* i + 
-2
-); } 
+    harr[i] = k;
 
+    // Fix the min heap property if it is violated
 
-// Method to remove minimum element (or root) from min heap 
+    while (i != 0 && harr[parent(i)] > harr[i]) {
+      swap(i, parent(i));
 
-int
-extractMin() 
+      i = parent(i);
+    }
+  }
 
-{ 
+  // A utility function to check
 
-if
-(heap_size <= 
-0
-) 
+  // if size of heap is 1 or not
 
-return
-Integer.MAX_VALUE; 
+  boolean isSizeOne() {
+    return (heap_size == 1);
+  }
 
-if
-(heap_size == 
-1
-) { 
+  // A utility function to swap two elements
 
-heap_size--; 
+  void swap(int x, int y) {
+    int temp = harr[x];
 
-return
-harr[
-0
-]; 
+    harr[x] = harr[y];
 
-} 
+    harr[y] = temp;
+  }
 
+  // The main function that returns the
 
-// Store the minimum value, and remove it from heap 
+  // minimum cost to connect n ropes of
 
-int
-root = harr[
-0
-]; 
+  // lengths stored in len[0..n-1]
 
-harr[
-0
-] = harr[heap_size - 
-1
-]; 
+  static int minCost(int len[], int n) {
+    int cost = 0;
+    // Initialize result
 
-heap_size--; 
+    // Create a min heap of capacity equal
 
-MinHeapify(
-0
-); 
+    // to n and put all ropes in it
 
+    MinHeap minHeap = new MinHeap(len, n);
 
-return
-root; 
+    // Iterate while size of heap doesn't become 1
 
-} 
+    while (!minHeap.isSizeOne()) {
+      // Extract two minimum length ropes from min heap
 
+      int min = minHeap.extractMin();
 
-// Inserts a new key 'k' 
+      int sec_min = minHeap.extractMin();
 
-void
-insertKey(
-int
-k) 
+      cost += (min + sec_min);
+      // Update total cost
 
-{ 
+      // Insert a new rope in min heap with length equal to sum
 
-if
-(heap_size == capacity) { 
+      // of two extracted minimum lengths
 
-System.out.println(
-"Overflow: Could not insertKey"
-); 
+      minHeap.insertKey(min + sec_min);
+    }
 
-return
-; 
+    // Finally return total minimum
 
-} 
+    // cost for connecting all ropes
 
+    return cost;
+  }
 
-// First insert the new key at the end 
+  // Driver code
 
-heap_size++; 
+  public static void main(String args[]) {
+    int len[] = { 4, 3, 2, 6 };
 
-int
-i = heap_size - 
-1
-; 
+    int size = len.length;
 
-harr[i] = k; 
-
-
-// Fix the min heap property if it is violated 
-
-while
-(i != 
-0
-&& harr[parent(i)] > harr[i]) { 
-
-swap(i, parent(i)); 
-
-i = parent(i); 
-
-} 
-
-} 
-
-
-// A utility function to check 
-
-// if size of heap is 1 or not 
-
-boolean
-isSizeOne() 
-
-{ 
-
-return
-(heap_size == 
-1
-); 
-
-} 
-
-
-// A utility function to swap two elements 
-
-void
-swap(
-int
-x, 
-int
-y) 
-
-{ 
-
-int
-temp = harr[x]; 
-
-harr[x] = harr[y]; 
-
-harr[y] = temp; 
-
-} 
-
-
-// The main function that returns the 
-
-// minimum cost to connect n ropes of 
-
-// lengths stored in len[0..n-1] 
-
-static
-int
-minCost(
-int
-len[], 
-int
-n) 
-
-{ 
-
-int
-cost = 
-0
-; 
-// Initialize result 
-
-
-// Create a min heap of capacity equal 
-
-// to n and put all ropes in it 
-
-MinHeap minHeap = 
-new
-MinHeap(len, n); 
-
-
-// Iterate while size of heap doesn't become 1 
-
-while
-(!minHeap.isSizeOne()) { 
-
-// Extract two minimum length ropes from min heap 
-
-int
-min = minHeap.extractMin(); 
-
-int
-sec_min = minHeap.extractMin(); 
-
-
-cost += (min + sec_min); 
-// Update total cost 
-
-
-// Insert a new rope in min heap with length equal to sum 
-
-// of two extracted minimum lengths 
-
-minHeap.insertKey(min + sec_min); 
-
-} 
-
-
-// Finally return total minimum 
-
-// cost for connecting all ropes 
-
-return
-cost; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-len[] = { 
-4
-, 
-3
-, 
-2
-, 
-6
-}; 
-
-int
-size = len.length; 
-
-
-System.out.println(
-"Total cost for connecting ropes is "
-+ minCost(len, size)); 
-
-} 
-}; 
-
-// This code is contributed by shubham96301 
+    System.out.println(
+      "Total cost for connecting ropes is " + minCost(len, size)
+    );
+  }
+}
+// This code is contributed by shubham96301

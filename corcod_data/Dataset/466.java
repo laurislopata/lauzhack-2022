@@ -1,506 +1,224 @@
+// Java program for Prim's MST for
+// adjacency list representation of graph
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.TreeSet;
 
-// Java program for Prim's MST for 
-// adjacency list representation of graph 
-import
-java.util.LinkedList; 
-import
-java.util.TreeSet; 
-import
-java.util.Comparator; 
+public class prims {
 
-public
-class
-prims { 
+  class node1 {
 
-class
-node1 { 
+    // Stores destination vertex in adjacency list
 
+    int dest;
 
-// Stores destination vertex in adjacency list 
+    // Stores weight of a vertex in the adjacency list
 
-int
-dest; 
+    int weight;
 
+    // Constructor
 
-// Stores weight of a vertex in the adjacency list 
+    node1(int a, int b) {
+      dest = a;
 
-int
-weight; 
+      weight = b;
+    }
+  }
 
+  static class Graph {
 
-// Constructor 
+    // Number of vertices in the graph
 
-node1(
-int
-a, 
-int
-b) 
+    int V;
 
-{ 
+    // List of adjacent nodes of a given vertex
 
-dest = a; 
+    LinkedList<node1>[] adj;
 
-weight = b; 
+    // Constructor
 
-} 
+    Graph(int e) {
+      V = e;
 
-} 
+      adj = new LinkedList[V];
 
-static
-class
-Graph { 
+      for (int o = 0; o < V; o++) adj[o] = new LinkedList<>();
+    }
+  }
 
+  // class to represent a node in PriorityQueue
 
-// Number of vertices in the graph 
+  // Stores a vertex and its corresponding
 
-int
-V; 
+  // key value
 
+  class node {
 
-// List of adjacent nodes of a given vertex 
+    int vertex;
 
-LinkedList<node1>[] adj; 
+    int key;
+  }
 
+  // Comparator class created for PriorityQueue
 
-// Constructor 
+  // returns 1 if node0.key > node1.key
 
-Graph(
-int
-e) 
+  // returns 0 if node0.key < node1.key and
 
-{ 
+  // returns -1 otherwise
 
-V = e; 
+  class comparator implements Comparator<node> {
 
-adj = 
-new
-LinkedList[V]; 
+    @Override
+    public int compare(node node0, node node1) {
+      return node0.key - node1.key;
+    }
+  }
 
-for
-(
-int
-o = 
-0
-; o < V; o++) 
+  // method to add an edge
 
-adj[o] = 
-new
-LinkedList<>(); 
+  // between two vertices
 
-} 
+  void addEdge(Graph graph, int src, int dest, int weight) {
+    node1 node0 = new node1(dest, weight);
 
-} 
+    node1 node = new node1(src, weight);
 
+    graph.adj[src].addLast(node0);
 
-// class to represent a node in PriorityQueue 
+    graph.adj[dest].addLast(node);
+  }
 
-// Stores a vertex and its corresponding 
+  // method used to find the mst
 
-// key value 
+  void prims_mst(Graph graph) {
+    // Whether a vertex is in PriorityQueue or not
 
-class
-node { 
+    Boolean[] mstset = new Boolean[graph.V];
 
-int
-vertex; 
+    node[] e = new node[graph.V];
 
-int
-key; 
+    // Stores the parents of a vertex
 
-} 
+    int[] parent = new int[graph.V];
 
+    for (int o = 0; o < graph.V; o++) e[o] = new node();
 
-// Comparator class created for PriorityQueue 
+    for (int o = 0; o < graph.V; o++) {
+      // Initialize to false
 
-// returns 1 if node0.key > node1.key 
+      mstset[o] = false;
 
-// returns 0 if node0.key < node1.key and 
+      // Initialize key values to infinity
 
-// returns -1 otherwise 
+      e[o].key = Integer.MAX_VALUE;
 
-class
-comparator 
-implements
-Comparator<node> { 
+      e[o].vertex = o;
 
+      parent[o] = -1;
+    }
 
-@Override
+    // Include the source vertex in mstset
 
-public
-int
-compare(node node0, node node1) 
+    mstset[0] = true;
 
-{ 
+    // Set key value to 0
 
-return
-node0.key - node1.key; 
+    // so that it is extracted first
 
-} 
+    // out of PriorityQueue
 
-} 
+    e[0].key = 0;
 
+    // Use TreeSet instead of PriorityQueue as the remove function of the PQ is O(n) in java.
 
-// method to add an edge 
+    TreeSet<node> queue = new TreeSet<node>(new comparator());
 
-// between two vertices 
+    for (int o = 0; o < graph.V; o++) queue.add(e[o]);
 
-void
-addEdge(Graph graph, 
-int
-src, 
-int
-dest, 
-int
-weight) 
+    // Loops until the queue is not empty
 
-{ 
+    while (!queue.isEmpty()) {
+      // Extracts a node with min key value
 
+      node node0 = queue.pollFirst();
 
-node1 node0 = 
-new
-node1(dest, weight); 
+      // Include that node into mstset
 
-node1 node = 
-new
-node1(src, weight); 
+      mstset[node0.vertex] = true;
 
-graph.adj[src].addLast(node0); 
+      // For all adjacent vertex of the extracted vertex V
 
-graph.adj[dest].addLast(node); 
+      for (node1 iterator : graph.adj[node0.vertex]) {
+        // If V is in queue
 
-} 
+        if (mstset[iterator.dest] == false) {
+          // If the key value of the adjacent vertex is
 
+          // more than the extracted key
 
-// method used to find the mst 
+          // update the key value of adjacent vertex
 
-void
-prims_mst(Graph graph) 
+          // to update first remove and add the updated vertex
 
-{ 
+          if (e[iterator.dest].key > iterator.weight) {
+            queue.remove(e[iterator.dest]);
 
+            e[iterator.dest].key = iterator.weight;
 
-// Whether a vertex is in PriorityQueue or not 
+            queue.add(e[iterator.dest]);
 
-Boolean[] mstset = 
-new
-Boolean[graph.V]; 
+            parent[iterator.dest] = node0.vertex;
+          }
+        }
+      }
+    }
 
-node[] e = 
-new
-node[graph.V]; 
+    // Prints the vertex pair of mst
 
+    for (int o = 1; o < graph.V; o++) System.out.println(
+      parent[o] + " " + "-" + " " + o
+    );
+  }
 
-// Stores the parents of a vertex 
+  public static void main(String[] args) {
+    int V = 9;
 
-int
-[] parent = 
-new
-int
-[graph.V]; 
+    Graph graph = new Graph(V);
 
+    prims e = new prims();
 
-for
-(
-int
-o = 
-0
-; o < graph.V; o++) 
+    e.addEdge(graph, 0, 1, 4);
 
-e[o] = 
-new
-node(); 
+    e.addEdge(graph, 0, 7, 8);
 
+    e.addEdge(graph, 1, 2, 8);
 
-for
-(
-int
-o = 
-0
-; o < graph.V; o++) { 
+    e.addEdge(graph, 1, 7, 11);
 
+    e.addEdge(graph, 2, 3, 7);
 
-// Initialize to false 
+    e.addEdge(graph, 2, 8, 2);
 
-mstset[o] = 
-false
-; 
+    e.addEdge(graph, 2, 5, 4);
 
+    e.addEdge(graph, 3, 4, 9);
 
-// Initialize key values to infinity 
+    e.addEdge(graph, 3, 5, 14);
 
-e[o].key = Integer.MAX_VALUE; 
+    e.addEdge(graph, 4, 5, 10);
 
-e[o].vertex = o; 
+    e.addEdge(graph, 5, 6, 2);
 
-parent[o] = -
-1
-; 
+    e.addEdge(graph, 6, 7, 1);
 
-} 
+    e.addEdge(graph, 6, 8, 6);
 
+    e.addEdge(graph, 7, 8, 7);
 
-// Include the source vertex in mstset 
+    // Method invoked
 
-mstset[
-0
-] = 
-true
-; 
-
-
-// Set key value to 0 
-
-// so that it is extracted first 
-
-// out of PriorityQueue 
-
-e[
-0
-].key = 
-0
-; 
-
-
-// Use TreeSet instead of PriorityQueue as the remove function of the PQ is O(n) in java. 
-
-TreeSet<node> queue = 
-new
-TreeSet<node>(
-new
-comparator()); 
-
-
-for
-(
-int
-o = 
-0
-; o < graph.V; o++) 
-
-queue.add(e[o]); 
-
-
-// Loops until the queue is not empty 
-
-while
-(!queue.isEmpty()) { 
-
-
-// Extracts a node with min key value 
-
-node node0 = queue.pollFirst(); 
-
-
-// Include that node into mstset 
-
-mstset[node0.vertex] = 
-true
-; 
-
-
-// For all adjacent vertex of the extracted vertex V 
-
-for
-(node1 iterator : graph.adj[node0.vertex]) { 
-
-
-// If V is in queue 
-
-if
-(mstset[iterator.dest] == 
-false
-) { 
-
-// If the key value of the adjacent vertex is 
-
-// more than the extracted key 
-
-// update the key value of adjacent vertex 
-
-// to update first remove and add the updated vertex 
-
-if
-(e[iterator.dest].key > iterator.weight) { 
-
-queue.remove(e[iterator.dest]); 
-
-e[iterator.dest].key = iterator.weight; 
-
-queue.add(e[iterator.dest]); 
-
-parent[iterator.dest] = node0.vertex; 
-
-} 
-
-} 
-
-} 
-
-} 
-
-
-// Prints the vertex pair of mst 
-
-for
-(
-int
-o = 
-1
-; o < graph.V; o++) 
-
-System.out.println(parent[o] + 
-" "
-
-+ 
-"-"
-
-+ 
-" "
-+ o); 
-
-} 
-
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-V = 
-9
-; 
-
-
-Graph graph = 
-new
-Graph(V); 
-
-
-prims e = 
-new
-prims(); 
-
-
-e.addEdge(graph, 
-0
-, 
-1
-, 
-4
-); 
-
-e.addEdge(graph, 
-0
-, 
-7
-, 
-8
-); 
-
-e.addEdge(graph, 
-1
-, 
-2
-, 
-8
-); 
-
-e.addEdge(graph, 
-1
-, 
-7
-, 
-11
-); 
-
-e.addEdge(graph, 
-2
-, 
-3
-, 
-7
-); 
-
-e.addEdge(graph, 
-2
-, 
-8
-, 
-2
-); 
-
-e.addEdge(graph, 
-2
-, 
-5
-, 
-4
-); 
-
-e.addEdge(graph, 
-3
-, 
-4
-, 
-9
-); 
-
-e.addEdge(graph, 
-3
-, 
-5
-, 
-14
-); 
-
-e.addEdge(graph, 
-4
-, 
-5
-, 
-10
-); 
-
-e.addEdge(graph, 
-5
-, 
-6
-, 
-2
-); 
-
-e.addEdge(graph, 
-6
-, 
-7
-, 
-1
-); 
-
-e.addEdge(graph, 
-6
-, 
-8
-, 
-6
-); 
-
-e.addEdge(graph, 
-7
-, 
-8
-, 
-7
-); 
-
-
-// Method invoked 
-
-e.prims_mst(graph); 
-
-} 
-} 
-// This code is contributed by Vikash Kumar Dubey 
+    e.prims_mst(graph);
+  }
+}
+// This code is contributed by Vikash Kumar Dubey

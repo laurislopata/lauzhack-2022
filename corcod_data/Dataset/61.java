@@ -1,146 +1,61 @@
+// Java program to Count elements which
+// divides all numbers in range L-R
+import java.io.*;
 
-// Java program to Count elements which 
-// divides all numbers in range L-R 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  // function to count element
+  // Time complexity O(n^2) worst case
+  static int answerQuery(int a[], int n, int l, int r) {
+    // answer for query
 
-// function to count element 
-// Time complexity O(n^2) worst case 
-static
-int
-answerQuery(
-int
-a[], 
-int
-n, 
+    int count = 0;
 
-int
-l, 
-int
-r) 
-{ 
+    // 0 based index
 
-// answer for query 
+    l = l - 1;
 
-int
-count = 
-0
-; 
+    // iterate for all elements
 
+    for (int i = l; i < r; i++) {
+      int element = a[i];
 
-// 0 based index 
+      int divisors = 0;
 
-l = l - 
-1
-; 
+      // check if the element divides
 
+      // all numbers in range
 
-// iterate for all elements 
+      for (int j = l; j < r; j++) {
+        // no of elements
 
-for
-(
-int
-i = l; i < r; i++) 
+        if (a[j] % a[i] == 0) divisors++; else break;
+      }
 
-{ 
+      // if all elements are divisible by a[i]
 
-int
-element = a[i]; 
+      if (divisors == (r - l)) count++;
+    }
 
-int
-divisors = 
-0
-; 
+    // answer for every query
 
+    return count;
+  }
 
-// check if the element divides 
+  // Driver Code
+  public static void main(String[] args) {
+    int a[] = { 1, 2, 3, 5 };
 
-// all numbers in range 
+    int n = a.length;
 
-for
-(
-int
-j = l; j < r; j++) 
+    int l = 1, r = 4;
 
-{ 
+    System.out.println(answerQuery(a, n, l, r));
 
-// no of elements 
+    l = 2;
+    r = 4;
 
-if
-(a[j] % a[i] == 
-0
-) 
-
-divisors++; 
-
-else
-
-break
-; 
-
-} 
-
-
-// if all elements are divisible by a[i] 
-
-if
-(divisors == (r - l)) 
-
-count++; 
-
-} 
-
-
-// answer for every query 
-
-return
-count; 
-} 
-
-// Driver Code 
-public
-static
-void
-main (String[] args) 
-{ 
-
-int
-a[] = { 
-1
-, 
-2
-, 
-3
-, 
-5
-}; 
-
-int
-n = a.length; 
-
-
-int
-l = 
-1
-, r = 
-4
-; 
-
-System.out.println( answerQuery(a, n, l, r)); 
-
-
-l = 
-2
-; r = 
-4
-; 
-
-System.out.println( answerQuery(a, n, l, r)); 
-} 
-} 
-
-// This code is contributed by anuj_67.. 
+    System.out.println(answerQuery(a, n, l, r));
+  }
+}
+// This code is contributed by anuj_67..

@@ -1,126 +1,54 @@
+// Java program to find maximum sum
+// of all rotation of i*arr[i] using pivot.
 
-// Java program to find maximum sum 
-// of all rotation of i*arr[i] using pivot. 
+import java.io.*;
+import java.lang.*;
+import java.util.*;
 
-import
-java.util.*; 
-import
-java.lang.*; 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  // function definition
+  static int maxSum(int arr[], int n) {
+    int sum = 0;
 
-// function definition 
-static
-int
-maxSum(
-int
-arr[], 
-int
-n) 
-{ 
+    int i;
 
-int
-sum = 
-0
-; 
+    int pivot = findPivot(arr, n);
 
-int
-i; 
+    // difference in pivot and index of
 
-int
-pivot = findPivot(arr, n); 
+    // last element of array
 
+    int diff = n - 1 - pivot;
 
-// difference in pivot and index of 
+    for (i = 0; i < n; i++) {
+      sum = sum + ((i + diff) % n) * arr[i];
+    }
 
-// last element of array 
+    return sum;
+  }
 
-int
-diff = n - 
-1
-- pivot; 
+  // function to find pivot
+  static int findPivot(int arr[], int n) {
+    int i;
 
-for
-(i = 
-0
-; i < n; i++) 
+    for (i = 0; i < n; i++) {
+      if (arr[i] > arr[(i + 1) % n]) return i;
+    }
 
-{ 
+    return 0;
+  }
 
-sum= sum + ((i + diff) % n) * arr[i]; 
+  // Driver code
+  public static void main(String args[]) {
+    // rotated input array
 
-} 
+    int arr[] = { 8, 3, 1, 2 };
 
-return
-sum; 
-} 
+    int n = arr.length;
 
-// function to find pivot 
-static
-int
-findPivot(
-int
-arr[], 
-int
-n) 
-{ 
+    int max = maxSum(arr, n);
 
-int
-i; 
-
-for
-(i = 
-0
-; i < n; i++) 
-
-{ 
-
-if
-(arr[i] > arr[(i + 
-1
-) % n]) 
-
-return
-i; 
-
-} 
-
-return
-0
-; 
-} 
-
-// Driver code 
-public
-static
-void
-main(String args[]) 
-{ 
-
-// rotated input array 
-
-int
-arr[] = {
-8
-, 
-3
-, 
-1
-, 
-2
-}; 
-
-int
-n = arr.length; 
-
-int
-max = maxSum(arr,n); 
-
-System.out.println(max); 
-
-} 
-} 
+    System.out.println(max);
+  }
+}

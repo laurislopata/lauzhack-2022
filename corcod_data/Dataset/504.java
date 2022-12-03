@@ -1,181 +1,85 @@
+// Java program to find the minimum possible
+// difference between maximum and minimum
+// elements when we have to add/subtract
+// every number by k
+import java.util.*;
 
-// Java program to find the minimum possible 
-// difference between maximum and minimum 
-// elements when we have to add/subtract 
-// every number by k 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG { 
+  // Modifies the array by subtracting/adding
 
+  // k to every element such that the difference
 
-// Modifies the array by subtracting/adding 
+  // between maximum and minimum is minimized
 
-// k to every element such that the difference 
+  static int getMinDiff(int arr[], int n, int k) {
+    if (n == 1) return 0;
 
-// between maximum and minimum is minimized 
+    // Sort all elements
 
-static
-int
-getMinDiff(
-int
-arr[], 
-int
-n, 
-int
-k) 
+    Arrays.sort(arr);
 
-{ 
+    // Initialize result
 
-if
-(n == 
-1
-) 
+    int ans = arr[n - 1] - arr[0];
 
-return
-0
-; 
+    // Handle corner elements
 
+    int small = arr[0] + k;
 
-// Sort all elements 
+    int big = arr[n - 1] - k;
 
-Arrays.sort(arr); 
+    int temp = 0;
 
+    if (small > big) {
+      temp = small;
 
-// Initialize result 
+      small = big;
 
-int
-ans = arr[n-
-1
-] - arr[
-0
-]; 
+      big = temp;
+    }
 
+    // Traverse middle elements
 
-// Handle corner elements 
+    for (int i = 1; i < n - 1; i++) {
+      int subtract = arr[i] - k;
 
-int
-small = arr[
-0
-] + k; 
+      int add = arr[i] + k;
 
-int
-big = arr[n-
-1
-] - k; 
+      // If both subtraction and addition
 
-int
-temp = 
-0
-; 
+      // do not change diff
 
+      if (subtract >= small || add <= big) continue;
 
-if
-(small > big) 
+      // Either subtraction causes a smaller
 
-{ 
+      // number or addition causes a greater
 
-temp = small; 
+      // number. Update small or big using
 
-small = big; 
+      // greedy approach (If big - subtract
 
-big = temp; 
+      // causes smaller diff, update small
 
-} 
+      // Else update big)
 
+      if (big - subtract <= add - small) small = subtract; else big = add;
+    }
 
-// Traverse middle elements 
+    return Math.min(ans, big - small);
+  }
 
-for
-(
-int
-i = 
-1
-; i < n-
-1
-; i ++) 
+  // Driver function to test the above function
 
-{ 
+  public static void main(String[] args) {
+    int arr[] = { 4, 6 };
 
-int
-subtract = arr[i] - k; 
+    int n = arr.length;
 
-int
-add = arr[i] + k; 
+    int k = 10;
 
-
-// If both subtraction and addition 
-
-// do not change diff 
-
-if
-(subtract >= small || add <= big) 
-
-continue
-; 
-
-
-// Either subtraction causes a smaller 
-
-// number or addition causes a greater 
-
-// number. Update small or big using 
-
-// greedy approach (If big - subtract 
-
-// causes smaller diff, update small 
-
-// Else update big) 
-
-if
-(big - subtract <= add - small) 
-
-small = subtract; 
-
-else
-
-big = add; 
-
-} 
-
-
-return
-Math.min(ans, big - small); 
-
-} 
-
-
-// Driver function to test the above function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = {
-4
-, 
-6
-}; 
-
-int
-n = arr.length; 
-
-int
-k = 
-10
-; 
-
-System.out.println(
-"Maximum difference is "
-+ 
-
-getMinDiff(arr, n, k)); 
-
-} 
-} 
-// This code is contributed by Prerna Saini 
+    System.out.println("Maximum difference is " + getMinDiff(arr, n, k));
+  }
+}
+// This code is contributed by Prerna Saini

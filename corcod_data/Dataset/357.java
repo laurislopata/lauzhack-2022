@@ -1,167 +1,56 @@
+// Program to find minimum
+// total offerings required
+import java.io.*;
 
-// Program to find minimum 
-// total offerings required 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  // Returns minimum
+  // offerings required
+  static int offeringNumber(int n, int templeHeight[]) {
+    int sum = 0;
+    // Initialize result
 
-// Returns minimum 
-// offerings required 
-static
-int
-offeringNumber(
-int
-n, 
+    // Go through all
 
-int
-templeHeight[]) 
-{ 
+    // temples one by one
 
-int
-sum = 
-0
-; 
-// Initialize result 
+    for (int i = 0; i < n; ++i) {
+      // Go to left while
 
+      // height keeps increasing
 
-// Go through all 
+      int left = 0, right = 0;
 
-// temples one by one 
+      for (int j = i - 1; j >= 0; --j) {
+        if (templeHeight[j] < templeHeight[j + 1]) ++left; else break;
+      }
 
-for
-(
-int
-i = 
-0
-; i < n; ++i) 
+      // Go to right while
 
-{ 
+      // height keeps increasing
 
-// Go to left while 
+      for (int j = i + 1; j < n; ++j) {
+        if (templeHeight[j] < templeHeight[j - 1]) ++right; else break;
+      }
 
-// height keeps increasing 
+      // This temple should offer
 
-int
-left = 
-0
-, right = 
-0
-; 
+      // maximum of two values
 
-for
-(
-int
-j = i - 
-1
-; j >= 
-0
-; --j) 
+      // to follow the rule.
 
-{ 
+      sum += Math.max(right, left) + 1;
+    }
 
-if
-(templeHeight[j] < 
+    return sum;
+  }
 
-templeHeight[j + 
-1
-]) 
-
-++left; 
-
-else
-
-break
-; 
-
-} 
-
-
-// Go to right while 
-
-// height keeps increasing 
-
-for
-(
-int
-j = i + 
-1
-; j < n; ++j) 
-
-{ 
-
-if
-(templeHeight[j] < 
-
-templeHeight[j - 
-1
-]) 
-
-++right; 
-
-else
-
-break
-; 
-
-} 
-
-
-// This temple should offer 
-
-// maximum of two values 
-
-// to follow the rule. 
-
-sum += Math.max(right, left) + 
-1
-; 
-
-} 
-
-
-return
-sum; 
-} 
-
-// Driver code 
-public
-static
-void
-main (String[] args) 
-{ 
-int
-arr1[] = {
-1
-, 
-2
-, 
-2
-}; 
-System.out.println(offeringNumber(
-3
-, arr1)); 
-int
-arr2[] = {
-1
-, 
-4
-, 
-3
-, 
-
-6
-, 
-2
-, 
-1
-}; 
-System.out.println(offeringNumber(
-6
-, arr2)); 
-} 
-} 
-
-// This code is contributed by akt_mit 
+  // Driver code
+  public static void main(String[] args) {
+    int arr1[] = { 1, 2, 2 };
+    System.out.println(offeringNumber(3, arr1));
+    int arr2[] = { 1, 4, 3, 6, 2, 1 };
+    System.out.println(offeringNumber(6, arr2));
+  }
+}
+// This code is contributed by akt_mit

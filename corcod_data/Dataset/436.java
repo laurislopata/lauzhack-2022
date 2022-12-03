@@ -1,178 +1,89 @@
+// Iterative Java program to print odd level nodes
+import java.util.*;
 
-// Iterative Java program to print odd level nodes 
-import
-java.util.*; 
-class
-GfG { 
+class GfG {
 
-static
-class
-Node { 
+  static class Node {
 
-int
-data; 
+    int data;
 
-Node left, right; 
-} 
+    Node left, right;
+  }
 
-// Iterative method to do level order traversal line by line 
-static
-void
-printOddNodes(Node root) 
-{ 
+  // Iterative method to do level order traversal line by line
+  static void printOddNodes(Node root) {
+    // Base Case
 
-// Base Case 
+    if (root == null) return;
 
-if
-(root == 
-null
-) 
-return
-; 
+    // Create an empty queue for level
 
+    // order tarversal
 
-// Create an empty queue for level 
+    Queue<Node> q = new LinkedList<Node>();
 
-// order tarversal 
+    // Enqueue root and initialize level as odd
 
-Queue<Node> q = 
-new
-LinkedList<Node> (); 
+    q.add(root);
 
+    boolean isOdd = true;
 
-// Enqueue root and initialize level as odd 
+    while (true) {
+      // nodeCount (queue size) indicates
 
-q.add(root); 
+      // number of nodes at current level.
 
-boolean
-isOdd = 
-true
-; 
+      int nodeCount = q.size();
 
+      if (nodeCount == 0) break;
 
-while
-(
-true
-) 
+      // Dequeue all nodes of current level
 
-{ 
+      // and Enqueue all nodes of next level
 
-// nodeCount (queue size) indicates 
+      while (nodeCount > 0) {
+        Node node = q.peek();
 
-// number of nodes at current level. 
+        if (isOdd == true) System.out.print(node.data + " ");
 
-int
-nodeCount = q.size(); 
+        q.remove();
 
-if
-(nodeCount == 
-0
-) 
+        if (node.left != null) q.add(node.left);
 
-break
-; 
+        if (node.right != null) q.add(node.right);
 
+        nodeCount--;
+      }
 
-// Dequeue all nodes of current level 
+      isOdd = !isOdd;
+    }
+  }
 
-// and Enqueue all nodes of next level 
+  // Utility method to create a node
+  static Node newNode(int data) {
+    Node node = new Node();
 
-while
-(nodeCount > 
-0
-) 
+    node.data = data;
 
-{ 
+    node.left = null;
 
-Node node = q.peek(); 
+    node.right = null;
 
-if
-(isOdd == 
-true
-) 
+    return (node);
+  }
 
-System.out.print(node.data + 
-" "
-); 
+  // Driver code
+  public static void main(String[] args) {
+    Node root = newNode(1);
 
-q.remove(); 
+    root.left = newNode(2);
 
-if
-(node.left != 
-null
-) 
+    root.right = newNode(3);
 
-q.add(node.left); 
+    root.left.left = newNode(4);
 
-if
-(node.right != 
-null
-) 
+    root.left.right = newNode(5);
 
-q.add(node.right); 
-
-nodeCount--; 
-
-} 
-
-
-isOdd = !isOdd; 
-
-} 
-} 
-
-// Utility method to create a node 
-static
-Node newNode(
-int
-data) 
-{ 
-
-Node node = 
-new
-Node(); 
-
-node.data = data; 
-
-node.left = 
-null
-; 
-
-node.right = 
-null
-; 
-
-return
-(node); 
-} 
-
-// Driver code 
-public
-static
-void
-main(String[] args) 
-{ 
-
-Node root = newNode(
-1
-); 
-
-root.left = newNode(
-2
-); 
-
-root.right = newNode(
-3
-); 
-
-root.left.left = newNode(
-4
-); 
-
-root.left.right = newNode(
-5
-); 
-
-printOddNodes(root); 
-} 
-} 
+    printOddNodes(root);
+  }
+}

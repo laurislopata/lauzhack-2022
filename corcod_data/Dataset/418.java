@@ -1,243 +1,110 @@
+// Java program to check if two binary tree are cousins
+class Node {
 
-// Java program to check if two binary tree are cousins 
-class
-Node 
-{ 
+  int data;
 
-int
-data; 
+  Node left, right;
 
-Node left, right; 
+  Node(int item) {
+    data = item;
 
+    left = right = null;
+  }
+}
 
-Node(
-int
-item) 
+class BinaryTree {
 
-{ 
+  Node root;
 
-data = item; 
+  // Recursive function to check if two Nodes are
 
-left = right = 
-null
-; 
+  // siblings
 
-} 
-} 
+  boolean isSibling(Node node, Node a, Node b) {
+    // Base case
 
-class
-BinaryTree 
-{ 
+    if (node == null) return false;
 
-Node root; 
+    return (
+      (node.left == a && node.right == b) ||
+      (node.left == b && node.right == a) ||
+      isSibling(node.left, a, b) ||
+      isSibling(node.right, a, b)
+    );
+  }
 
+  // Recursive function to find level of Node 'ptr' in
 
-// Recursive function to check if two Nodes are 
+  // a binary tree
 
-// siblings 
+  int level(Node node, Node ptr, int lev) {
+    // base cases
 
-boolean
-isSibling(Node node, Node a, Node b) 
+    if (node == null) return 0;
 
-{ 
+    if (node == ptr) return lev;
 
-// Base case 
+    // Return level if Node is present in left subtree
 
-if
-(node == 
-null
-) 
+    int l = level(node.left, ptr, lev + 1);
 
-return
-false
-; 
+    if (l != 0) return l;
 
+    // Else search in right subtree
 
-return
-((node.left == a && node.right == b) || 
+    return level(node.right, ptr, lev + 1);
+  }
 
-(node.left == b && node.right == a) || 
+  // Returns 1 if a and b are cousins, otherwise 0
 
-isSibling(node.left, a, b) || 
+  boolean isCousin(Node node, Node a, Node b) {
+    // 1. The two Nodes should be on the same level
 
-isSibling(node.right, a, b)); 
+    // in the binary tree.
 
-} 
+    // 2. The two Nodes should not be siblings (means
 
+    // that they should not have the same parent
 
-// Recursive function to find level of Node 'ptr' in 
+    // Node).
 
-// a binary tree 
+    return (
+      (level(node, a, 1) == level(node, b, 1)) && (!isSibling(node, a, b))
+    );
+  }
 
-int
-level(Node node, Node ptr, 
-int
-lev) 
+  //Driver program to test above functions
 
-{ 
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
 
-// base cases 
+    tree.root = new Node(1);
 
-if
-(node == 
-null
-) 
+    tree.root.left = new Node(2);
 
-return
-0
-; 
+    tree.root.right = new Node(3);
 
+    tree.root.left.left = new Node(4);
 
-if
-(node == ptr) 
+    tree.root.left.right = new Node(5);
 
-return
-lev; 
+    tree.root.left.right.right = new Node(15);
 
+    tree.root.right.left = new Node(6);
 
-// Return level if Node is present in left subtree 
+    tree.root.right.right = new Node(7);
 
-int
-l = level(node.left, ptr, lev + 
-1
-); 
+    tree.root.right.left.right = new Node(8);
 
-if
-(l != 
-0
-) 
+    Node Node1, Node2;
 
-return
-l; 
-
-
-// Else search in right subtree 
-
-return
-level(node.right, ptr, lev + 
-1
-); 
-
-} 
-
-
-// Returns 1 if a and b are cousins, otherwise 0 
-
-boolean
-isCousin(Node node, Node a, Node b) 
-
-{ 
-
-// 1. The two Nodes should be on the same level 
-
-// in the binary tree. 
-
-// 2. The two Nodes should not be siblings (means 
-
-// that they should not have the same parent 
-
-// Node). 
-
-return
-((level(node, a, 
-1
-) == level(node, b, 
-1
-)) && 
-
-(!isSibling(node, a, b))); 
-
-} 
-
-
-//Driver program to test above functions 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-tree.root = 
-new
-Node(
-1
-); 
-
-tree.root.left = 
-new
-Node(
-2
-); 
-
-tree.root.right = 
-new
-Node(
-3
-); 
-
-tree.root.left.left = 
-new
-Node(
-4
-); 
-
-tree.root.left.right = 
-new
-Node(
-5
-); 
-
-tree.root.left.right.right = 
-new
-Node(
-15
-); 
-
-tree.root.right.left = 
-new
-Node(
-6
-); 
-
-tree.root.right.right = 
-new
-Node(
-7
-); 
-
-tree.root.right.left.right = 
-new
-Node(
-8
-); 
-
-
-Node Node1, Node2; 
-
-Node1 = tree.root.left.left; 
-
-Node2 = tree.root.right.right; 
-
-if
-(tree.isCousin(tree.root, Node1, Node2)) 
-
-System.out.println(
-"Yes"
-); 
-
-else
-
-System.out.println(
-"No"
-); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    Node1 = tree.root.left.left;
+
+    Node2 = tree.root.right.right;
+
+    if (tree.isCousin(tree.root, Node1, Node2)) System.out.println(
+      "Yes"
+    ); else System.out.println("No");
+  }
+}
+// This code has been contributed by Mayank Jaiswal

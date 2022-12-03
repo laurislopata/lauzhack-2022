@@ -1,99 +1,38 @@
+// A simple C++ program to count number of
+//substrings starting and ending with 1
 
-// A simple C++ program to count number of 
-//substrings starting and ending with 1 
+class CountSubString {
 
-class
-CountSubString 
-{ 
+  int countSubStr(char str[], int n) {
+    int res = 0;
+    // Initialize result
 
-int
-countSubStr(
-char
-str[],
-int
-n) 
+    // Pick a starting point
 
-{ 
+    for (int i = 0; i < n; i++) {
+      if (str[i] == '1') {
+        // Search for all possible ending point
 
-int
-res = 
-0
-; 
-// Initialize result 
+        for (int j = i + 1; j < n; j++) {
+          if (str[j] == '1') res++;
+        }
+      }
+    }
 
+    return res;
+  }
 
-// Pick a starting point 
+  // Driver program to test the above function
 
-for
-(
-int
-i = 
-0
-; i<n; i++) 
+  public static void main(String[] args) {
+    CountSubString count = new CountSubString();
 
-{ 
+    String string = "00100101";
 
-if
-(str[i] == 
-'1'
-) 
+    char str[] = string.toCharArray();
 
-{ 
+    int n = str.length;
 
-// Search for all possible ending point 
-
-for
-(
-int
-j = i + 
-1
-; j< n; j++) 
-
-{ 
-
-if
-(str[j] == 
-'1'
-) 
-
-res++; 
-
-} 
-
-} 
-
-} 
-
-return
-res; 
-
-} 
-
-
-// Driver program to test the above function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-CountSubString count = 
-new
-CountSubString(); 
-
-String string = 
-"00100101"
-; 
-
-char
-str[] = string.toCharArray(); 
-
-int
-n = str.length; 
-
-System.out.println(count.countSubStr(str,n)); 
-
-} 
-} 
+    System.out.println(count.countSubStr(str, n));
+  }
+}

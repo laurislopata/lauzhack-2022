@@ -1,54 +1,22 @@
+// Java implementation to print
+// the counter clock wise
+// spiral traversal of matrix
+import java.io.*;
 
-// Java implementation to print 
-// the counter clock wise 
-// spiral traversal of matrix 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  static int R = 4;
 
-static
-int
-R = 
-4
-; 
+  static int C = 4;
 
-static
-int
-C = 
-4
-; 
+  // function to print the
 
+  // required traversal
 
-// function to print the 
+  static void counterClockspiralPrint(int m, int n, int arr[][]) {
+    int i, k = 0, l = 0;
 
-// required traversal 
-
-static
-void
-counterClockspiralPrint(
-int
-m, 
-
-int
-n, 
-
-int
-arr[][]) 
-
-{ 
-
-int
-i, k = 
-0
-, l = 
-0
-; 
-
-
-/* k - starting row index 
+    /* k - starting row index 
 
 m - ending row index 
 
@@ -58,214 +26,91 @@ n - ending column index
 
 i - iterator */
 
+    // initialize the count
 
-// initialize the count 
+    int cnt = 0;
 
-int
-cnt = 
-0
-; 
+    // total number of
 
+    // elements in matrix
 
-// total number of 
+    int total = m * n;
 
-// elements in matrix 
+    while (k < m && l < n) {
+      if (cnt == total) break;
 
-int
-total = m * n; 
+      // Print the first column
 
+      // from the remaining columns
 
-while
-(k < m && l < n) 
+      for (i = k; i < m; ++i) {
+        System.out.print(arr[i][l] + " ");
 
-{ 
+        cnt++;
+      }
 
-if
-(cnt == total) 
+      l++;
 
-break
-; 
+      if (cnt == total) break;
 
+      // Print the last row from
 
-// Print the first column 
+      // the remaining rows
 
-// from the remaining columns 
+      for (i = l; i < n; ++i) {
+        System.out.print(arr[m - 1][i] + " ");
 
-for
-(i = k; i < m; ++i) 
+        cnt++;
+      }
 
-{ 
+      m--;
 
-System.out.print(arr[i][l] + 
-" "
-); 
+      if (cnt == total) break;
 
-cnt++; 
+      // Print the last column
 
-} 
+      // from the remaining columns
 
-l++; 
+      if (k < m) {
+        for (i = m - 1; i >= k; --i) {
+          System.out.print(arr[i][n - 1] + " ");
 
+          cnt++;
+        }
 
-if
-(cnt == total) 
+        n--;
+      }
 
-break
-; 
+      if (cnt == total) break;
 
+      // Print the first row
 
-// Print the last row from 
+      // from the remaining rows
 
-// the remaining rows 
+      if (l < n) {
+        for (i = n - 1; i >= l; --i) {
+          System.out.print(arr[k][i] + " ");
 
-for
-(i = l; i < n; ++i) 
+          cnt++;
+        }
 
-{ 
+        k++;
+      }
+    }
+  }
 
-System.out.print(arr[m - 
-1
-][i] + 
-" "
-); 
+  // Driver Code
+  public static void main(String[] args) {
+    int arr[][] = {
+      { 1, 2, 3, 4 },
+      { 5, 6, 7, 8 },
+      { 9, 10, 11, 12 },
+      { 13, 14, 15, 16 },
+    };
 
-cnt++; 
+    // Function calling
 
-} 
-
-m--; 
-
-
-if
-(cnt == total) 
-
-break
-; 
-
-
-// Print the last column 
-
-// from the remaining columns 
-
-if
-(k < m) 
-
-{ 
-
-for
-(i = m - 
-1
-; i >= k; --i) 
-
-{ 
-
-System.out.print(arr[i][n - 
-1
-] + 
-" "
-); 
-
-cnt++; 
-
-} 
-
-n--; 
-
-} 
-
-
-if
-(cnt == total) 
-
-break
-; 
-
-
-// Print the first row 
-
-// from the remaining rows 
-
-if
-(l < n) 
-
-{ 
-
-for
-(i = n - 
-1
-; i >= l; --i) 
-
-{ 
-
-System.out.print(arr[k][i] + 
-" "
-); 
-
-cnt++; 
-
-} 
-
-k++; 
-
-} 
-
-} 
-
-} 
-
-// Driver Code 
-public
-static
-void
-main(String[] args) 
-{ 
-
-int
-arr[][] = { { 
-1
-, 
-2
-, 
-3
-, 
-4
-}, 
-
-{ 
-5
-, 
-6
-, 
-7
-, 
-8
-}, 
-
-{ 
-9
-, 
-10
-, 
-11
-, 
-12
-}, 
-
-{ 
-13
-, 
-14
-, 
-15
-, 
-16
-} }; 
-
-
-// Function calling 
-
-counterClockspiralPrint(R, C, arr); 
-} 
-} 
-
-// This code is contributed by vt_m 
+    counterClockspiralPrint(R, C, arr);
+  }
+}
+// This code is contributed by vt_m

@@ -1,183 +1,89 @@
+// Java Program for finding K-th largest Node using O(1)
+// extra memory and reverse Morris traversal.
+class GfG {
 
-// Java Program for finding K-th largest Node using O(1) 
-// extra memory and reverse Morris traversal. 
-class
-GfG 
-{ 
+  static class Node {
 
-static
-class
-Node 
-{ 
+    int data;
 
-int
-data; 
+    Node left, right;
+  }
 
-Node left, right; 
-} 
+  // helper function to create a new Node
+  static Node newNode(int data) {
+    Node temp = new Node();
 
-// helper function to create a new Node 
-static
-Node newNode(
-int
-data) 
-{ 
+    temp.data = data;
 
-Node temp = 
-new
-Node(); 
+    temp.right = null;
 
-temp.data = data; 
+    temp.left = null;
 
-temp.right = 
-null
-; 
+    return temp;
+  }
 
-temp.left = 
-null
-; 
+  static Node KthLargestUsingMorrisTraversal(Node root, int k) {
+    Node curr = root;
 
-return
-temp; 
-} 
+    Node Klargest = null;
 
-static
-Node KthLargestUsingMorrisTraversal(Node root, 
-int
-k) 
-{ 
+    // count variable to keep count of visited Nodes
 
-Node curr = root; 
+    int count = 0;
 
-Node Klargest = 
-null
-; 
+    while (curr != null) {
+      // if right child is NULL
 
+      if (curr.right == null) {
+        // first increment count and check if count = k
 
-// count variable to keep count of visited Nodes 
+        if (++count == k) Klargest = curr;
 
-int
-count = 
-0
-; 
+        // otherwise move to the left child
 
+        curr = curr.left;
+      } else {
+        // find inorder successor of current Node
 
-while
-(curr != 
-null
-) 
+        Node succ = curr.right;
 
-{ 
+        while (succ.left != null && succ.left != curr) succ = succ.left;
 
-// if right child is NULL 
+        if (succ.left == null) {
+          // set left child of successor to the
 
-if
-(curr.right == 
-null
-) 
+          // current Node
 
-{ 
+          succ.left = curr;
 
+          // move current to its right
 
-// first increment count and check if count = k 
+          curr = curr.right;
+        }
+        // restoring the tree back to original binary
 
-if
-(++count == k) 
+        // search tree removing threaded links
 
-Klargest = curr; 
+        else {
+          succ.left = null;
 
+          if (++count == k) Klargest = curr;
 
-// otherwise move to the left child 
+          // move current to its left child
 
-curr = curr.left; 
+          curr = curr.left;
+        }
+      }
+    }
 
-} 
+    return Klargest;
+  }
 
+  // Driver code
+  public static void main(String[] args) {
+    // Your Java Code
 
-else
-
-{ 
-
-
-// find inorder successor of current Node 
-
-Node succ = curr.right; 
-
-
-while
-(succ.left != 
-null
-&& succ.left != curr) 
-
-succ = succ.left; 
-
-
-if
-(succ.left == 
-null
-) 
-
-{ 
-
-
-// set left child of successor to the 
-
-// current Node 
-
-succ.left = curr; 
-
-
-// move current to its right 
-
-curr = curr.right; 
-
-} 
-
-
-// restoring the tree back to original binary 
-
-// search tree removing threaded links 
-
-else
-
-{ 
-
-
-succ.left = 
-null
-; 
-
-
-if
-(++count == k) 
-
-Klargest = curr; 
-
-
-// move current to its left child 
-
-curr = curr.left; 
-
-} 
-
-} 
-
-} 
-
-return
-Klargest; 
-} 
-
-// Driver code 
-public
-static
-void
-main(String[] args) 
-{ 
-
-// Your Java Code 
-
-/* Constructed binary tree is 
+    /* Constructed binary tree is 
 
 4 
 
@@ -189,42 +95,23 @@ main(String[] args)
 
 1 3 6 10 */
 
+    Node root = newNode(4);
 
-Node root = newNode(
-4
-); 
+    root.left = newNode(2);
 
-root.left = newNode(
-2
-); 
+    root.right = newNode(7);
 
-root.right = newNode(
-7
-); 
+    root.left.left = newNode(1);
 
-root.left.left = newNode(
-1
-); 
+    root.left.right = newNode(3);
 
-root.left.right = newNode(
-3
-); 
+    root.right.left = newNode(6);
 
-root.right.left = newNode(
-6
-); 
+    root.right.right = newNode(10);
 
-root.right.right = newNode(
-10
-); 
-
-
-System.out.println(
-"Finding K-th largest Node in BST : "
-+ 
-
-KthLargestUsingMorrisTraversal(root, 
-2
-).data); 
-} 
-} 
+    System.out.println(
+      "Finding K-th largest Node in BST : " +
+      KthLargestUsingMorrisTraversal(root, 2).data
+    );
+  }
+}

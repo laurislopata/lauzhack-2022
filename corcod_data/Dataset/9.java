@@ -1,129 +1,49 @@
+// Java program to Split the array and
+// add the first part to the end
+class Geeks {
 
-// Java program to Split the array and 
-// add the first part to the end 
-class
-Geeks 
-{ 
+  /* Function to reverse arr[] from index start to end*/
+  static void rvereseArray(int arr[], int start, int end) {
+    while (start < end) {
+      int temp = arr[start];
 
-/* Function to reverse arr[] from index start to end*/
-static
-void
-rvereseArray(
-int
-arr[], 
-int
-start, 
-int
-end) 
-{ 
+      arr[start] = arr[end];
 
-while
-(start < end) { 
+      arr[end] = temp;
 
-int
-temp = arr[start]; 
+      start++;
 
-arr[start] = arr[end]; 
+      end--;
+    }
+  }
 
-arr[end] = temp; 
+  // Function to print an array
+  static void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) System.out.print(arr[i] + " ");
+  }
 
-start++; 
+  /* Function to left rotate arr[] of size n by k */
+  static void splitArr(int arr[], int k, int n) {
+    rvereseArray(arr, 0, n - 1);
 
-end--; 
+    rvereseArray(arr, 0, n - k - 1);
 
-} 
-} 
+    rvereseArray(arr, n - k, n - 1);
+  }
 
-// Function to print an array 
-static
-void
-printArray(
-int
-arr[], 
-int
-size) 
-{ 
+  /* Driver program to test above functions */
+  public static void main(String args[]) {
+    int arr[] = { 12, 10, 5, 6, 52, 36 };
 
-for
-(
-int
-i = 
-0
-; i < size; i++) 
+    int n = arr.length;
 
-System.out.print(arr[i] +
-" "
-); 
-} 
+    int k = 2;
 
-/* Function to left rotate arr[] of size n by k */
-static
-void
-splitArr(
-int
-arr[], 
-int
-k, 
-int
-n) 
-{ 
+    // Function calling
 
-rvereseArray(arr, 
-0
-, n - 
-1
-); 
+    splitArr(arr, k, n);
 
-rvereseArray(arr, 
-0
-, n - k - 
-1
-); 
-
-rvereseArray(arr, n - k, n - 
-1
-); 
-} 
-
-/* Driver program to test above functions */
-public
-static
-void
-main(String args[]) 
-{ 
-
-int
-arr[] = { 
-12
-, 
-10
-, 
-5
-, 
-6
-, 
-52
-, 
-36
-}; 
-
-int
-n = arr.length; 
-
-int
-k = 
-2
-; 
-
-
-// Function calling 
-
-splitArr(arr, k, n); 
-
-printArray(arr, n); 
-
-} 
-
-} 
-
-// This code is contributed by ankita_saini. 
+    printArray(arr, n);
+  }
+}
+// This code is contributed by ankita_saini.

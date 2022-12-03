@@ -1,101 +1,38 @@
+// Java program to find minimum difference between
+// any pair in an unsorted array
 
-// Java program to find minimum difference between 
-// any pair in an unsorted array 
+import java.util.Arrays;
 
-import
-java.util.Arrays; 
+class GFG {
 
-class
-GFG 
-{ 
+  // Returns minimum difference between any pair
 
-// Returns minimum difference between any pair 
+  static int findMinDiff(int[] arr, int n) {
+    // Sort array in non-decreasing order
 
-static
-int
-findMinDiff(
-int
-[] arr, 
-int
-n) 
+    Arrays.sort(arr);
 
-{ 
+    // Initialize difference as infinite
 
-// Sort array in non-decreasing order 
+    int diff = Integer.MAX_VALUE;
 
-Arrays.sort(arr); 
+    // Find the min diff by comparing adjacent
 
+    // pairs in sorted array
 
-// Initialize difference as infinite 
+    for (int i = 0; i < n - 1; i++) if (arr[i + 1] - arr[i] < diff) diff =
+      arr[i + 1] - arr[i];
 
-int
-diff = Integer.MAX_VALUE; 
+    // Return min diff
 
+    return diff;
+  }
 
-// Find the min diff by comparing adjacent 
+  // Driver method to test the above function
 
-// pairs in sorted array 
+  public static void main(String[] args) {
+    int arr[] = new int[] { 1, 5, 3, 19, 18, 25 };
 
-for
-(
-int
-i=
-0
-; i<n-
-1
-; i++) 
-
-if
-(arr[i+
-1
-] - arr[i] < diff) 
-
-diff = arr[i+
-1
-] - arr[i]; 
-
-
-// Return min diff 
-
-return
-diff; 
-
-} 
-
-
-// Driver method to test the above function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = 
-new
-int
-[]{
-1
-, 
-5
-, 
-3
-, 
-19
-, 
-18
-, 
-25
-}; 
-
-System.out.println(
-"Minimum difference is "
-+ 
-
-findMinDiff(arr, arr.length)); 
-
-
-} 
-} 
+    System.out.println("Minimum difference is " + findMinDiff(arr, arr.length));
+  }
+}

@@ -1,203 +1,86 @@
+// Java program to find union of two
+// sorted arrays (Handling Duplicates)
+class FindUnion {
 
-// Java program to find union of two 
-// sorted arrays (Handling Duplicates) 
-class
-FindUnion 
-{ 
+  static void UnionArray(int arr1[], int arr2[]) {
+    // Taking max element present in either array
 
+    int m = arr1[arr1.length - 1];
 
-static
-void
-UnionArray(
-int
-arr1[], 
+    int n = arr2[arr2.length - 1];
 
-int
-arr2[]) 
+    int ans = 0;
 
-{ 
+    if (m > n) {
+      ans = m;
+    } else ans = n;
 
-// Taking max element present in either array 
+    // Finding elements from 1st array
 
-int
-m = arr1[arr1.length - 
-1
-]; 
+    // (non duplicates only). Using
 
-int
-n = arr2[arr2.length - 
-1
-]; 
+    // another array for storing union
 
+    // elements of both arrays
 
-int
-ans = 
-0
-; 
+    // Assuming max element present
 
+    // in array is not more than 10^7
 
-if
-(m > n) 
+    int newtable[] = new int[ans + 1];
 
-{ 
+    // First element is always
 
-ans = m; 
+    // present in final answer
 
-} 
+    System.out.print(arr1[0] + " ");
 
-else
+    // Incrementing the First element's count
 
-ans = n; 
+    // in it's corresponding index in newtable
 
+    ++newtable[arr1[0]];
 
-// Finding elements from 1st array 
+    // Starting traversing the first
 
-// (non duplicates only). Using 
+    // array from 1st index till last
 
-// another array for storing union 
+    for (int i = 1; i < arr1.length; i++) {
+      // Checking whether current element
 
-// elements of both arrays 
+      // is not equal to it's previous element
 
-// Assuming max element present 
+      if (arr1[i] != arr1[i - 1]) {
+        System.out.print(arr1[i] + " ");
 
-// in array is not more than 10^7 
+        ++newtable[arr1[i]];
+      }
+    }
 
-int
-newtable[] = 
-new
-int
-[ans + 
-1
-]; 
+    // Finding only non common
 
+    // elements from 2nd array
 
-// First element is always 
+    for (int j = 0; j < arr2.length; j++) {
+      // By checking whether it's already
 
-// present in final answer 
+      // present in newtable or not
 
-System.out.print(arr1[
-0
-] + 
-" "
-); 
+      if (newtable[arr2[j]] == 0) {
+        System.out.print(arr2[j] + " ");
 
+        ++newtable[arr2[j]];
+      }
+    }
+  }
 
-// Incrementing the First element's count 
+  // Driver Code
 
-// in it's corresponding index in newtable 
+  public static void main(String args[]) {
+    int arr1[] = { 1, 2, 2, 2, 3 };
 
-++newtable[arr1[
-0
-]]; 
+    int arr2[] = { 2, 3, 4, 5 };
 
-
-// Starting traversing the first 
-
-// array from 1st index till last 
-
-for
-(
-int
-i = 
-1
-; i < arr1.length; i++) 
-
-{ 
-
-// Checking whether current element 
-
-// is not equal to it's previous element 
-
-if
-(arr1[i] != arr1[i - 
-1
-]) 
-
-{ 
-
-System.out.print(arr1[i] + 
-" "
-); 
-
-++newtable[arr1[i]]; 
-
-} 
-
-} 
-
-
-// Finding only non common 
-
-// elements from 2nd array 
-
-for
-(
-int
-j = 
-0
-; j < arr2.length; j++) 
-
-{ 
-
-// By checking whether it's already 
-
-// present in newtable or not 
-
-if
-(newtable[arr2[j]] == 
-0
-) 
-
-{ 
-
-System.out.print(arr2[j] + 
-" "
-); 
-
-++newtable[arr2[j]]; 
-
-} 
-
-} 
-
-} 
-
-
-// Driver Code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-arr1[] = {
-1
-, 
-2
-, 
-2
-, 
-2
-, 
-3
-}; 
-
-int
-arr2[] = {
-2
-, 
-3
-, 
-4
-, 
-5
-}; 
-
-
-UnionArray(arr1, arr2); 
-
-} 
-} 
+    UnionArray(arr1, arr2);
+  }
+}

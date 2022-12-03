@@ -1,302 +1,141 @@
+// A Java program to remove BST
+// keys outside the given range
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
-// A Java program to remove BST 
-// keys outside the given range 
-import
-java.math.BigDecimal; 
-import
-java.util.ArrayList; 
-import
-java.util.Arrays; 
-import
-java.util.List; 
-import
-java.util.Scanner; 
+class Node {
 
-class
-Node 
-{ 
+  int key;
 
-int
-key; 
+  Node left;
 
-Node left; 
+  Node right;
+}
 
-Node right; 
-} 
+class GFG {
 
-class
-GFG 
-{ 
+  // Removes all nodes having value
 
-// Removes all nodes having value 
+  // outside the given range and
 
-// outside the given range and 
+  // returns the root of modified tree
 
-// returns the root of modified tree 
+  private static Node removeOutsideRange(Node root, int min, int max) {
+    // BASE CASE
 
-private
-static
-Node removeOutsideRange(Node root, 
+    if (root == null) {
+      return null;
+    }
 
-int
-min, 
-int
-max) 
+    // FIRST FIX THE LEFT AND
 
-{ 
+    // RIGHT SUBTREE OF ROOT
 
-// BASE CASE 
+    root.left = removeOutsideRange(root.left, min, max);
 
-if
-(root == 
-null
-) 
+    root.right = removeOutsideRange(root.right, min, max);
 
-{ 
+    // NOW FIX THE ROOT. THERE ARE
 
-return
-null
-; 
+    // TWO POSSIBLE CASES FOR THE ROOT
 
-} 
+    // 1. a) Root's key is smaller than
 
+    // min value(root is not in range)
 
-// FIRST FIX THE LEFT AND 
+    if (root.key < min) {
+      Node rchild = root.right;
 
-// RIGHT SUBTREE OF ROOT 
+      root = null;
 
-root.left = removeOutsideRange(root.left, 
+      return rchild;
+    }
 
-min, max); 
+    // 1. b) Root's key is greater than
 
-root.right = removeOutsideRange(root.right, 
+    // max value (Root is not in range)
 
-min, max); 
+    if (root.key > max) {
+      Node lchild = root.left;
 
+      root = null;
 
-// NOW FIX THE ROOT. THERE ARE 
+      return lchild;
+    }
 
-// TWO POSSIBLE CASES FOR THE ROOT 
+    // 2. Root in range
 
-// 1. a) Root's key is smaller than 
+    return root;
+  }
 
-// min value(root is not in range) 
+  public static Node newNode(int num) {
+    Node temp = new Node();
 
-if
-(root.key < min) 
+    temp.key = num;
 
-{ 
+    temp.left = null;
 
-Node rchild = root.right; 
+    temp.right = null;
 
-root = 
-null
-; 
+    return temp;
+  }
 
-return
-rchild; 
+  public static Node insert(Node root, int key) {
+    if (root == null) {
+      return newNode(key);
+    }
 
-} 
+    if (root.key > key) {
+      root.left = insert(root.left, key);
+    } else {
+      root.right = insert(root.right, key);
+    }
 
+    return root;
+  }
 
-// 1. b) Root's key is greater than 
+  private static void inorderTraversal(Node root) {
+    if (root != null) {
+      inorderTraversal(root.left);
 
-// max value (Root is not in range) 
+      System.out.print(root.key + " ");
 
-if
-(root.key > max) 
+      inorderTraversal(root.right);
+    }
+  }
 
-{ 
+  // Driver code
 
-Node lchild = root.left; 
+  public static void main(String[] args) {
+    Node root = null;
 
-root = 
-null
-; 
+    root = insert(root, 6);
 
-return
-lchild; 
+    root = insert(root, -13);
 
-} 
+    root = insert(root, 14);
 
+    root = insert(root, -8);
 
-// 2. Root in range 
+    root = insert(root, 15);
 
-return
-root; 
+    root = insert(root, 13);
 
-} 
+    root = insert(root, 7);
 
+    System.out.print("Inorder Traversal of " + "the given tree is: ");
 
-public
-static
-Node newNode(
-int
-num) 
+    inorderTraversal(root);
 
-{ 
+    root = removeOutsideRange(root, -10, 13);
 
-Node temp = 
-new
-Node(); 
+    System.out.print("\nInorder traversal of " + "the modified tree: ");
 
-temp.key = num; 
-
-temp.left = 
-null
-; 
-
-temp.right = 
-null
-; 
-
-return
-temp; 
-
-} 
-
-
-public
-static
-Node insert(Node root, 
-
-int
-key) 
-
-{ 
-
-if
-(root == 
-null
-) 
-
-{ 
-
-return
-newNode(key); 
-
-} 
-
-if
-(root.key > key) 
-
-{ 
-
-root.left = insert(root.left, key); 
-
-} 
-
-else
-
-{ 
-
-root.right = insert(root.right, key); 
-
-} 
-
-return
-root; 
-
-} 
-
-
-private
-static
-void
-inorderTraversal(Node root) 
-
-{ 
-
-if
-(root != 
-null
-) 
-
-{ 
-
-inorderTraversal(root.left); 
-
-System.out.print(root.key + 
-" "
-); 
-
-inorderTraversal(root.right); 
-
-} 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-Node root = 
-null
-; 
-
-root = insert(root, 
-6
-); 
-
-root = insert(root, -
-13
-); 
-
-root = insert(root, 
-14
-); 
-
-root = insert(root, -
-8
-); 
-
-root = insert(root, 
-15
-); 
-
-root = insert(root, 
-13
-); 
-
-root = insert(root, 
-7
-); 
-
-
-System.out.print(
-"Inorder Traversal of "
-+ 
-
-"the given tree is: "
-); 
-
-inorderTraversal(root); 
-
-
-root = removeOutsideRange(root, -
-10
-, 
-13
-); 
-
-
-System.out.print(
-"\nInorder traversal of "
-+ 
-
-"the modified tree: "
-); 
-
-inorderTraversal(root); 
-
-} 
-} 
-
-// This code is contributed 
-// by Divya 
+    inorderTraversal(root);
+  }
+}
+// This code is contributed
+// by Divya

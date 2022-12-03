@@ -1,253 +1,112 @@
+// A java program for iterative postorder traversal using stack
 
-// A java program for iterative postorder traversal using stack 
+import java.util.ArrayList;
+import java.util.Stack;
 
-import
-java.util.ArrayList; 
-import
-java.util.Stack; 
+// A binary tree node
+class Node {
 
-// A binary tree node 
-class
-Node 
-{ 
+  int data;
 
-int
-data; 
+  Node left, right;
 
-Node left, right; 
+  Node(int item) {
+    data = item;
 
+    left = right;
+  }
+}
 
-Node(
-int
-item) 
+class BinaryTree {
 
-{ 
+  Node root;
 
-data = item; 
+  ArrayList<Integer> list = new ArrayList<Integer>();
 
-left = right; 
+  // An iterative function to do postorder traversal
 
-} 
-} 
+  // of a given binary tree
 
-class
-BinaryTree 
-{ 
+  ArrayList<Integer> postOrderIterative(Node node) {
+    Stack<Node> S = new Stack<Node>();
 
-Node root; 
+    // Check for empty tree
 
-ArrayList<Integer> list = 
-new
-ArrayList<Integer>(); 
+    if (node == null) return list;
 
+    S.push(node);
 
-// An iterative function to do postorder traversal 
+    Node prev = null;
 
-// of a given binary tree 
+    while (!S.isEmpty()) {
+      Node current = S.peek();
 
-ArrayList<Integer> postOrderIterative(Node node) 
-
-{ 
-
-Stack<Node> S = 
-new
-Stack<Node>(); 
-
-
-// Check for empty tree 
-
-if
-(node == 
-null
-) 
-
-return
-list; 
-
-S.push(node); 
-
-Node prev = 
-null
-; 
-
-while
-(!S.isEmpty()) 
-
-{ 
-
-Node current = S.peek(); 
-
-
-/* go down the tree in search of a leaf an if so process it 
+      /* go down the tree in search of a leaf an if so process it 
 
 and pop stack otherwise move down */
 
-if
-(prev == 
-null
-|| prev.left == current || 
+      if (prev == null || prev.left == current || prev.right == current) {
+        if (current.left != null) S.push(current.left); else if (
+          current.right != null
+        ) S.push(current.right); else {
+          S.pop();
 
-prev.right == current) 
-
-{ 
-
-if
-(current.left != 
-null
-) 
-
-S.push(current.left); 
-
-else
-if
-(current.right != 
-null
-) 
-
-S.push(current.right); 
-
-else
-
-{ 
-
-S.pop(); 
-
-list.add(current.data); 
-
-} 
-
-
-/* go up the tree from left node, if the child is right 
+          list.add(current.data);
+        }
+        /* go up the tree from left node, if the child is right 
 
 push it onto stack otherwise process parent and pop 
 
 stack */
 
-} 
+      } else if (current.left == prev) {
+        if (current.right != null) S.push(current.right); else {
+          S.pop();
 
-else
-if
-(current.left == prev) 
-
-{ 
-
-if
-(current.right != 
-null
-) 
-
-S.push(current.right); 
-
-else
-
-{ 
-
-S.pop(); 
-
-list.add(current.data); 
-
-} 
-
-
-/* go up the tree from right node and after coming back 
+          list.add(current.data);
+        }
+        /* go up the tree from right node and after coming back 
 
 from right node process parent and pop stack */
 
-} 
+      } else if (current.right == prev) {
+        S.pop();
 
-else
-if
-(current.right == prev) 
+        list.add(current.data);
+      }
 
-{ 
+      prev = current;
+    }
 
-S.pop(); 
+    return list;
+  }
 
-list.add(current.data); 
+  // Driver program to test above functions
 
-} 
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
 
+    // Let us create trees shown in above diagram
 
-prev = current; 
+    tree.root = new Node(1);
 
-} 
+    tree.root.left = new Node(2);
 
+    tree.root.right = new Node(3);
 
-return
-list; 
+    tree.root.left.left = new Node(4);
 
-} 
+    tree.root.left.right = new Node(5);
 
+    tree.root.right.left = new Node(6);
 
-// Driver program to test above functions 
+    tree.root.right.right = new Node(7);
 
-public
-static
-void
-main(String args[]) 
+    ArrayList<Integer> mylist = tree.postOrderIterative(tree.root);
 
-{ 
+    System.out.println("Post order traversal of binary tree is :");
 
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-
-// Let us create trees shown in above diagram 
-
-tree.root = 
-new
-Node(
-1
-); 
-
-tree.root.left = 
-new
-Node(
-2
-); 
-
-tree.root.right = 
-new
-Node(
-3
-); 
-
-tree.root.left.left = 
-new
-Node(
-4
-); 
-
-tree.root.left.right = 
-new
-Node(
-5
-); 
-
-tree.root.right.left = 
-new
-Node(
-6
-); 
-
-tree.root.right.right = 
-new
-Node(
-7
-); 
-
-
-ArrayList<Integer> mylist = tree.postOrderIterative(tree.root); 
-
-
-System.out.println(
-"Post order traversal of binary tree is :"
-); 
-
-System.out.println(mylist); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    System.out.println(mylist);
+  }
+}
+// This code has been contributed by Mayank Jaiswal

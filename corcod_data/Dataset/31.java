@@ -1,262 +1,106 @@
+// Java program to Rearrange positive and negative
+// numbers in a array
+class GFG {
 
-// Java program to Rearrange positive and negative 
-// numbers in a array 
-class
-GFG { 
+  /* Function to print an array */
 
+  static void printArray(int A[], int size) {
+    for (int i = 0; i < size; i++) System.out.print(A[i] + " ");
 
-/* Function to print an array */
+    System.out.println("");
+  }
 
-static
-void
-printArray(
-int
-A[], 
-int
-size) 
-
-{ 
-
-for
-(
-int
-i = 
-0
-; i < size; i++) 
-
-System.out.print(A[i] + 
-" "
-); 
-
-System.out.println(
-""
-); 
-
-; 
-
-} 
-
-
-/* Function to reverse an array. An array can be 
+  /* Function to reverse an array. An array can be 
 reversed in O(n) time and O(1) space. */
 
-static
-void
-reverse(
-int
-arr[], 
-int
-l, 
-int
-r) 
+  static void reverse(int arr[], int l, int r) {
+    if (l < r) {
+      arr = swap(arr, l, r);
 
-{ 
+      reverse(arr, ++l, --r);
+    }
+  }
 
-if
-(l < r) { 
+  // Merges two subarrays of arr[].
 
-arr = swap(arr, l, r); 
+  // First subarray is arr[l..m]
 
-reverse(arr, ++l, --r); 
+  // Second subarray is arr[m+1..r]
 
-} 
+  static void merge(int arr[], int l, int m, int r) {
+    int i = l;
+    // Initial index of 1st subarray
 
-} 
+    int j = m + 1;
+    // Initial index of IInd
 
+    while (i <= m && arr[i] < 0) i++;
 
-// Merges two subarrays of arr[]. 
+    // arr[i..m] is positive
 
-// First subarray is arr[l..m] 
+    while (j <= r && arr[j] < 0) j++;
 
-// Second subarray is arr[m+1..r] 
+    // arr[j..r] is positive
 
-static
-void
-merge(
-int
-arr[], 
-int
-l, 
-int
-m, 
-int
-r) 
+    // reverse positive part of
 
-{ 
+    // left sub-array (arr[i..m])
 
-int
-i = l; 
-// Initial index of 1st subarray 
+    reverse(arr, i, m);
 
-int
-j = m + 
-1
-; 
-// Initial index of IInd 
+    // reverse negative part of
 
+    // right sub-array (arr[m+1..j-1])
 
-while
-(i <= m && arr[i] < 
-0
-) 
+    reverse(arr, m + 1, j - 1);
 
-i++; 
+    // reverse arr[i..j-1]
 
+    reverse(arr, i, j - 1);
+  }
 
-// arr[i..m] is positive 
+  // Function to Rearrange positive and negative
 
+  // numbers in a array
 
-while
-(j <= r && arr[j] < 
-0
-) 
+  static void RearrangePosNeg(int arr[], int l, int r) {
+    if (l < r) {
+      // Same as (l+r)/2, but avoids overflow for
 
-j++; 
+      // large l and h
 
+      int m = l + (r - l) / 2;
 
-// arr[j..r] is positive 
+      // Sort first and second halves
 
+      RearrangePosNeg(arr, l, m);
 
-// reverse positive part of 
+      RearrangePosNeg(arr, m + 1, r);
 
-// left sub-array (arr[i..m]) 
+      merge(arr, l, m, r);
+    }
+  }
 
-reverse(arr, i, m); 
+  static int[] swap(int[] arr, int i, int j) {
+    int temp = arr[i];
 
+    arr[i] = arr[j];
 
-// reverse negative part of 
+    arr[j] = temp;
 
-// right sub-array (arr[m+1..j-1]) 
+    return arr;
+  }
 
-reverse(arr, m + 
-1
-, j - 
-1
-); 
+  /* Driver code*/
 
+  public static void main(String[] args) {
+    int arr[] = { -12, 11, -13, -5, 6, -7, 5, -3, -6 };
 
-// reverse arr[i..j-1] 
+    int arr_size = arr.length;
 
-reverse(arr, i, j - 
-1
-); 
+    RearrangePosNeg(arr, 0, arr_size - 1);
 
-} 
-
-
-// Function to Rearrange positive and negative 
-
-// numbers in a array 
-
-static
-void
-RearrangePosNeg(
-int
-arr[], 
-int
-l, 
-int
-r) 
-
-{ 
-
-if
-(l < r) { 
-
-// Same as (l+r)/2, but avoids overflow for 
-
-// large l and h 
-
-int
-m = l + (r - l) / 
-2
-; 
-
-
-// Sort first and second halves 
-
-RearrangePosNeg(arr, l, m); 
-
-RearrangePosNeg(arr, m + 
-1
-, r); 
-
-
-merge(arr, l, m, r); 
-
-} 
-
-} 
-
-static
-int
-[] swap(
-int
-[] arr, 
-int
-i, 
-int
-j) 
-
-{ 
-
-int
-temp = arr[i]; 
-
-arr[i] = arr[j]; 
-
-arr[j] = temp; 
-
-return
-arr; 
-
-} 
-
-
-/* Driver code*/
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = { -
-12
-, 
-11
-, -
-13
-, -
-5
-, 
-6
-, -
-7
-, 
-5
-, -
-3
-, -
-6
-}; 
-
-int
-arr_size = arr.length; 
-
-
-RearrangePosNeg(arr, 
-0
-, arr_size - 
-1
-); 
-
-
-printArray(arr, arr_size); 
-
-} 
-} 
-
-// This code has been contributed by 29AjayKumar 
+    printArray(arr, arr_size);
+  }
+}
+// This code has been contributed by 29AjayKumar

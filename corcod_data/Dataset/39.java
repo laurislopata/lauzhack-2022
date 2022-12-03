@@ -1,136 +1,53 @@
+// Java program to update every array element with
+// multiplication of previous and next numbers in array
+import java.io.*;
+import java.lang.Math;
+import java.util.*;
 
-// Java program to update every array element with 
-// multiplication of previous and next numbers in array 
-import
-java.io.*; 
-import
-java.util.*; 
-import
-java.lang.Math; 
+class Multipy {
 
-class
-Multipy 
-{ 
+  static void modify(int arr[], int n) {
+    // Nothing to do when array size is 1
 
-static
-void
-modify(
-int
-arr[], 
-int
-n) 
+    if (n <= 1) return;
 
-{ 
+    // store current value of arr[0] and update it
 
-// Nothing to do when array size is 1 
+    int prev = arr[0];
 
-if
-(n <= 
-1
-) 
+    arr[0] = arr[0] * arr[1];
 
-return
-; 
+    // Update rest of the array elements
 
+    for (int i = 1; i < n - 1; i++) {
+      // Store current value of next interation
 
-// store current value of arr[0] and update it 
+      int curr = arr[i];
 
-int
-prev = arr[
-0
-]; 
+      // Update current value using previos value
 
-arr[
-0
-] = arr[
-0
-] * arr[
-1
-]; 
+      arr[i] = prev * arr[i + 1];
 
+      // Update previous value
 
-// Update rest of the array elements 
+      prev = curr;
+    }
 
-for
-(
-int
-i=
-1
-; i<n-
-1
-; i++) 
+    // Update last array element
 
-{ 
+    arr[n - 1] = prev * arr[n - 1];
+  }
 
-// Store current value of next interation 
+  // Driver program to test above function
 
-int
-curr = arr[i]; 
+  public static void main(String[] args) {
+    int arr[] = { 2, 3, 4, 5, 6 };
 
+    int n = arr.length;
 
-// Update current value using previos value 
+    modify(arr, n);
 
-arr[i] = prev * arr[i+
-1
-]; 
-
-
-// Update previous value 
-
-prev = curr; 
-
-} 
-
-
-// Update last array element 
-
-arr[n-
-1
-] = prev * arr[n-
-1
-]; 
-
-} 
-
-
-// Driver program to test above function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-arr[] = {
-2
-, 
-3
-, 
-4
-, 
-5
-, 
-6
-}; 
-
-int
-n = arr.length; 
-
-modify(arr, n); 
-
-for
-(
-int
-i=
-0
-; i<n; i++) 
-
-System.out.print(arr[i]+
-" "
-); 
-
-} 
-} 
+    for (int i = 0; i < n; i++) System.out.print(arr[i] + " ");
+  }
+}
 /* This code is contributed by Devesh Agrawal */

@@ -5,36 +5,37 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Solution {
-	public static void main(String[] args) {
-		Solution solution = new Solution();
-		System.out.println(solution.solve());
-	}
 
-	private int solve() {
-		Scanner in = new Scanner(System.in);
-		int n = in.nextInt();
-		int m = in.nextInt();
+  public static void main(String[] args) {
+    Solution solution = new Solution();
+    System.out.println(solution.solve());
+  }
 
-		int[] a = new int[m];
-		for (int i = 0; i < m; ++i) a[i] = in.nextInt();
+  private int solve() {
+    Scanner in = new Scanner(System.in);
+    int n = in.nextInt();
+    int m = in.nextInt();
 
-		if (n > m) return 0;
+    int[] a = new int[m];
+    for (int i = 0; i < m; ++i) a[i] = in.nextInt();
 
-		Map<Integer, Integer> map = new HashMap<>();
-		for (int k: a) map.put(k, map.getOrDefault(k, 0) + 1);
+    if (n > m) return 0;
 
-		List<Integer> keySet = new ArrayList<>(map.keySet());
-		int end = m / n;
+    Map<Integer, Integer> map = new HashMap<>();
+    for (int k : a) map.put(k, map.getOrDefault(k, 0) + 1);
 
-		keySet.sort((u, v) -> -Integer.compare(u, v));
-		do {
-			int count = 0;
-			for (int k: keySet) {
-				count += map.get(k) / end;
-				if (count >= n) return end;
-			}
-		} while (--end > 0);
+    List<Integer> keySet = new ArrayList<>(map.keySet());
+    int end = m / n;
 
-		return 0;
-	}
+    keySet.sort((u, v) -> -Integer.compare(u, v));
+    do {
+      int count = 0;
+      for (int k : keySet) {
+        count += map.get(k) / end;
+        if (count >= n) return end;
+      }
+    } while (--end > 0);
+
+    return 0;
+  }
 }

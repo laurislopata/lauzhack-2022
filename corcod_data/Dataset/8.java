@@ -1,113 +1,49 @@
+// JAVA implementation of left rotation
+// of an array K number of times
+import java.io.*;
+import java.lang.*;
+import java.util.*;
 
-// JAVA implementation of left rotation 
-// of an array K number of times 
-import
-java.util.*; 
-import
-java.lang.*; 
-import
-java.io.*; 
+class arr_rot {
 
-class
-arr_rot 
-{ 
+  // Function to leftRotate array multiple
 
-// Function to leftRotate array multiple 
+  // times
 
-// times 
-
-static
-void
-leftRotate(
-int
-arr[], 
-int
-n, 
-
-int
-k) 
-
-{ 
-
-/* To get the starting point of 
+  static void leftRotate(int arr[], int n, int k) {
+    /* To get the starting point of 
 
 rotated array */
 
-int
-mod = k % n; 
+    int mod = k % n;
 
+    // Prints the rotated array from
 
-// Prints the rotated array from 
+    // start position
 
-// start position 
+    for (int i = 0; i < n; ++i) System.out.print(arr[(i + mod) % n] + " ");
 
-for
-(
-int
-i = 
-0
-; i < n; ++i) 
+    System.out.println();
+  }
 
-System.out.print(arr[(i + mod) % n] 
+  // Driver program
 
-+ 
-" "
-); 
+  public static void main(String[] args) {
+    int arr[] = { 1, 3, 5, 7, 9 };
 
+    int n = arr.length;
 
-System.out.println(); 
+    int k = 2;
 
-} 
+    leftRotate(arr, n, k);
 
+    k = 3;
 
-// Driver program 
+    leftRotate(arr, n, k);
 
-public
-static
-void
-main (String[] args) 
+    k = 4;
 
-{ 
-
-int
-arr[] = { 
-1
-, 
-3
-, 
-5
-, 
-7
-, 
-9
-}; 
-
-int
-n = arr.length; 
-
-
-int
-k = 
-2
-; 
-
-leftRotate(arr, n, k); 
-
-
-k = 
-3
-; 
-
-leftRotate(arr, n, k); 
-
-
-k = 
-4
-; 
-
-leftRotate(arr, n, k); 
-
-} 
-} 
-
-// This code is contributed by Sanjal 
+    leftRotate(arr, n, k);
+  }
+}
+// This code is contributed by Sanjal

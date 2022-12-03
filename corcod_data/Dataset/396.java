@@ -1,46 +1,28 @@
-
-// Java program to construct a tree using inorder and preorder traversal 
+// Java program to construct a tree using inorder and preorder traversal
 
 /* A binary tree node has data, pointer to left child 
 
 and a pointer to right child */
-class
-Node { 
+class Node {
 
-char
-data; 
+  char data;
 
-Node left, right; 
+  Node left, right;
 
+  Node(char item) {
+    data = item;
 
-Node(
-char
-item) 
+    left = right = null;
+  }
+}
 
-{ 
+class BinaryTree {
 
-data = item; 
+  Node root;
 
-left = right = 
-null
-; 
+  static int preIndex = 0;
 
-} 
-} 
-
-class
-BinaryTree { 
-
-Node root; 
-
-static
-int
-preIndex = 
-0
-; 
-
-
-/* Recursive function to construct binary of size len from 
+  /* Recursive function to construct binary of size len from 
 
 Inorder traversal in[] and Preorder traversal pre[]. 
 
@@ -50,212 +32,86 @@ The function doesn't do any error checking for cases where
 
 inorder and preorder do not form a tree */
 
-Node buildTree(
-char
-in[], 
-char
-pre[], 
-int
-inStrt, 
-int
-inEnd) 
+  Node buildTree(char in[], char pre[], int inStrt, int inEnd) {
+    if (inStrt > inEnd) return null;
 
-{ 
-
-if
-(inStrt > inEnd) 
-
-return
-null
-; 
-
-
-/* Pick current node from Preorder traversal using preIndex 
+    /* Pick current node from Preorder traversal using preIndex 
 
 and increment preIndex */
 
-Node tNode = 
-new
-Node(pre[preIndex++]); 
+    Node tNode = new Node(pre[preIndex++]);
 
+    /* If this node has no children then return */
 
-/* If this node has no children then return */
+    if (inStrt == inEnd) return tNode;
 
-if
-(inStrt == inEnd) 
+    /* Else find the index of this node in Inorder traversal */
 
-return
-tNode; 
+    int inIndex = search(in, inStrt, inEnd, tNode.data);
 
-
-/* Else find the index of this node in Inorder traversal */
-
-int
-inIndex = search(in, inStrt, inEnd, tNode.data); 
-
-
-/* Using index in Inorder traversal, construct left and 
+    /* Using index in Inorder traversal, construct left and 
 
 right subtress */
 
-tNode.left = buildTree(in, pre, inStrt, inIndex - 
-1
-); 
+    tNode.left = buildTree(in, pre, inStrt, inIndex - 1);
 
-tNode.right = buildTree(in, pre, inIndex + 
-1
-, inEnd); 
+    tNode.right = buildTree(in, pre, inIndex + 1, inEnd);
 
+    return tNode;
+  }
 
-return
-tNode; 
+  /* UTILITY FUNCTIONS */
 
-} 
-
-
-/* UTILITY FUNCTIONS */
-
-
-/* Function to find index of value in arr[start...end] 
+  /* Function to find index of value in arr[start...end] 
 
 The function assumes that value is present in in[] */
 
-int
-search(
-char
-arr[], 
-int
-strt, 
-int
-end, 
-char
-value) 
+  int search(char arr[], int strt, int end, char value) {
+    int i;
 
-{ 
+    for (i = strt; i <= end; i++) {
+      if (arr[i] == value) return i;
+    }
 
-int
-i; 
+    return i;
+  }
 
-for
-(i = strt; i <= end; i++) { 
+  /* This funtcion is here just to test buildTree() */
 
-if
-(arr[i] == value) 
+  void printInorder(Node node) {
+    if (node == null) return;
 
-return
-i; 
+    /* first recur on left child */
 
-} 
+    printInorder(node.left);
 
-return
-i; 
+    /* then print the data of node */
 
-} 
+    System.out.print(node.data + " ");
 
+    /* now recur on right child */
 
-/* This funtcion is here just to test buildTree() */
+    printInorder(node.right);
+  }
 
-void
-printInorder(Node node) 
+  // driver program to test above functions
 
-{ 
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
 
-if
-(node == 
-null
-) 
+    char in[] = new char[] { 'D', 'B', 'E', 'A', 'F', 'C' };
 
-return
-; 
+    char pre[] = new char[] { 'A', 'B', 'D', 'E', 'C', 'F' };
 
+    int len = in.length;
 
-/* first recur on left child */
+    Node root = tree.buildTree(in, pre, 0, len - 1);
 
-printInorder(node.left); 
+    // building the tree by printing inorder traversal
 
+    System.out.println("Inorder traversal of constructed tree is : ");
 
-/* then print the data of node */
-
-System.out.print(node.data + 
-" "
-); 
-
-
-/* now recur on right child */
-
-printInorder(node.right); 
-
-} 
-
-
-// driver program to test above functions 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-char
-in[] = 
-new
-char
-[] { 
-'D'
-, 
-'B'
-, 
-'E'
-, 
-'A'
-, 
-'F'
-, 
-'C'
-}; 
-
-char
-pre[] = 
-new
-char
-[] { 
-'A'
-, 
-'B'
-, 
-'D'
-, 
-'E'
-, 
-'C'
-, 
-'F'
-}; 
-
-int
-len = in.length; 
-
-Node root = tree.buildTree(in, pre, 
-0
-, len - 
-1
-); 
-
-
-// building the tree by printing inorder traversal 
-
-System.out.println(
-"Inorder traversal of constructed tree is : "
-); 
-
-tree.printInorder(root); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    tree.printInorder(root);
+  }
+}
+// This code has been contributed by Mayank Jaiswal

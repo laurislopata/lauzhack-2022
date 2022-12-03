@@ -1,183 +1,81 @@
+// Java program to find maximum average
+// subarray of given length.
+import java.io.*;
 
-// Java program to find maximum average 
-// subarray of given length. 
-import
-java .io.*; 
+class GFG {
 
-class
-GFG { 
+  // Returns beginning index
 
+  // of maximum average
 
-// Returns beginning index 
+  // subarray of length 'k'
 
-// of maximum average 
+  static int findMaxAverage(int[] arr, int n, int k) {
+    // Check if 'k' is valid
 
-// subarray of length 'k' 
+    if (k > n) return -1;
 
-static
-int
-findMaxAverage(
-int
-[]arr, 
+    // Create and fill array
 
-int
-n, 
-int
-k) 
+    // to store cumulative
 
-{ 
+    // sum. csum[i] stores
 
+    // sum of arr[0] to arr[i]
 
-// Check if 'k' is valid 
+    int[] csum = new int[n];
 
-if
-(k > n) 
+    csum[0] = arr[0];
 
-return
--
-1
-; 
+    for (int i = 1; i < n; i++) csum[i] = csum[i - 1] + arr[i];
 
+    // Initialize max_sm as
 
-// Create and fill array 
+    // sum of first subarray
 
-// to store cumulative 
+    int max_sum = csum[k - 1], max_end = k - 1;
 
-// sum. csum[i] stores 
+    // Find sum of other
 
-// sum of arr[0] to arr[i] 
+    // subarrays and update
 
-int
-[]csum = 
-new
-int
-[n]; 
+    // max_sum if required.
 
+    for (int i = k; i < n; i++) {
+      int curr_sum = csum[i] - csum[i - k];
 
-csum[
-0
-] = arr[
-0
-]; 
+      if (curr_sum > max_sum) {
+        max_sum = curr_sum;
 
-for
-(
-int
-i = 
-1
-; i < n; i++) 
+        max_end = i;
+      }
+    }
 
-csum[i] = csum[i - 
-1
-] + arr[i]; 
+    // To avoid memory leak
 
+    //delete [] csum;
 
-// Initialize max_sm as 
+    // Return starting index
 
-// sum of first subarray 
+    return max_end - k + 1;
+  }
 
-int
-max_sum = csum[k - 
-1
-], 
+  // Driver Code
 
-max_end = k - 
-1
-; 
+  public static void main(String[] args) {
+    int[] arr = { 1, 12, -5, -6, 50, 3 };
 
+    int k = 4;
 
-// Find sum of other 
+    int n = arr.length;
 
-// subarrays and update 
-
-// max_sum if required. 
-
-for
-(
-int
-i = k; i < n; i++) 
-
-{ 
-
-int
-curr_sum = csum[i] - 
-
-csum[i - k]; 
-
-if
-(curr_sum > max_sum) 
-
-{ 
-
-max_sum = curr_sum; 
-
-max_end = i; 
-
-} 
-
-} 
-
-
-// To avoid memory leak 
-
-//delete [] csum; 
-
-
-// Return starting index 
-
-return
-max_end - k + 
-1
-; 
-
-} 
-
-
-// Driver Code 
-
-static
-public
-void
-main (String[] args) 
-
-{ 
-
-int
-[]arr = {
-1
-, 
-12
-, -
-5
-, -
-6
-, 
-50
-, 
-3
-}; 
-
-int
-k = 
-4
-; 
-
-int
-n = arr.length; 
-
-
-System.out.println(
-"The maximum "
-
-+ 
-"average subarray of length "
-
-+ k + 
-" begins at index "
-
-+ findMaxAverage(arr, n, k)); 
-
-} 
-} 
-
-// This code is contributed by anuj_67. 
+    System.out.println(
+      "The maximum " +
+      "average subarray of length " +
+      k +
+      " begins at index " +
+      findMaxAverage(arr, n, k)
+    );
+  }
+}
+// This code is contributed by anuj_67.

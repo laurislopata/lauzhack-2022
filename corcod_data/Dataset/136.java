@@ -1,83 +1,35 @@
+// Java code to find maximum triplet sum
+import java.io.*;
+import java.util.*;
 
-// Java code to find maximum triplet sum 
-import
-java.io.*; 
-import
-java.util.*; 
+class GFG {
 
+  // This function assumes that there are
 
-class
-GFG { 
+  // at least three elements in arr[].
 
+  static int maxTripletSum(int arr[], int n) {
+    // sort the given array
 
-// This function assumes that there are 
+    Arrays.sort(arr);
 
-// at least three elements in arr[]. 
+    // After sorting the array.
 
-static
-int
-maxTripletSum(
-int
-arr[], 
-int
-n) 
+    // Add last three element
 
-{ 
+    // of the given array
 
-// sort the given array 
+    return arr[n - 1] + arr[n - 2] + arr[n - 3];
+  }
 
-Arrays.sort(arr); 
+  // Driven code
 
+  public static void main(String args[]) {
+    int arr[] = { 1, 0, 8, 6, 4, 2 };
 
-// After sorting the array. 
+    int n = arr.length;
 
-// Add last three element 
-
-// of the given array 
-
-return
-arr[n - 
-1
-] + arr[n - 
-2
-] + arr[n - 
-3
-]; 
-
-} 
-
-
-// Driven code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-arr[] = { 
-1
-, 
-0
-, 
-8
-, 
-6
-, 
-4
-, 
-2
-}; 
-
-int
-n = arr.length; 
-
-System.out.println(maxTripletSum(arr, n)); 
-
-} 
-} 
-
-
-// This code is contributed by Nikita Tiwari. 
+    System.out.println(maxTripletSum(arr, n));
+  }
+}
+// This code is contributed by Nikita Tiwari.

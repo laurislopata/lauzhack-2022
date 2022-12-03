@@ -1,138 +1,59 @@
+// Java program to find the all full nodes in
+// a given binary tree
+public class FullNodes {
 
-// Java program to find the all full nodes in 
-// a given binary tree 
-public
-class
-FullNodes { 
+  // Traverses given tree in Inorder fashion and
 
+  // prints all nodes that have both children as
 
-// Traverses given tree in Inorder fashion and 
+  // non-empty.
 
-// prints all nodes that have both children as 
+  public static void findFullNode(Node root) {
+    if (root != null) {
+      findFullNode(root.left);
 
-// non-empty. 
+      if (root.left != null && root.right != null) System.out.print(
+        root.data + " "
+      );
 
-public
-static
-void
-findFullNode(Node root) 
+      findFullNode(root.right);
+    }
+  }
 
-{ 
+  public static void main(String args[]) {
+    Node root = new Node(1);
 
-if
-(root != 
-null
-) 
+    root.left = new Node(2);
 
-{ 
+    root.right = new Node(3);
 
-findFullNode(root.left); 
+    root.left.left = new Node(4);
 
-if
-(root.left != 
-null
-&& root.right != 
-null
-) 
+    root.right.left = new Node(5);
 
-System.out.print(root.data+
-" "
-); 
+    root.right.right = new Node(6);
 
-findFullNode(root.right); 
+    root.right.left.right = new Node(7);
 
-} 
+    root.right.right.right = new Node(8);
 
-} 
+    root.right.left.right.left = new Node(9);
 
-
-public
-static
-void
-main(String args[]) { 
-
-Node root = 
-new
-Node(
-1
-); 
-
-root.left = 
-new
-Node(
-2
-); 
-
-root.right = 
-new
-Node(
-3
-); 
-
-root.left.left = 
-new
-Node(
-4
-); 
-
-root.right.left = 
-new
-Node(
-5
-); 
-
-root.right.right = 
-new
-Node(
-6
-); 
-
-root.right.left.right = 
-new
-Node(
-7
-); 
-
-root.right.right.right = 
-new
-Node(
-8
-); 
-
-root.right.left.right.left = 
-new
-Node(
-9
-); 
-
-findFullNode(root); 
-
-} 
-} 
+    findFullNode(root);
+  }
+}
 
 /* A binary tree node */
-class
-Node 
-{ 
+class Node {
 
-int
-data; 
+  int data;
 
-Node left, right; 
+  Node left, right;
 
-Node(
-int
-data) 
+  Node(int data) {
+    left = right = null;
 
-{ 
-
-left=right=
-null
-; 
-
-this
-.data=data; 
-
-} 
-}; 
-//This code is contributed by Gaurav Tiwari 
+    this.data = data;
+  }
+}
+//This code is contributed by Gaurav Tiwari

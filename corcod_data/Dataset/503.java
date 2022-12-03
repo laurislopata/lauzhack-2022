@@ -1,145 +1,65 @@
+// Program to find minimum number of platforms
 
-// Program to find minimum number of platforms 
+import java.util.*;
 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG { 
+  // Returns minimum number of platforms reqquired
+  static int findPlatform(int arr[], int dep[], int n) {
+    // Sort arrival and departure arrays
 
-// Returns minimum number of platforms reqquired 
-static
-int
-findPlatform(
-int
-arr[], 
-int
-dep[], 
-int
-n) 
-{ 
+    Arrays.sort(arr);
 
-// Sort arrival and departure arrays 
+    Arrays.sort(dep);
 
-Arrays.sort(arr); 
+    // plat_needed indicates number of platforms
 
-Arrays.sort(dep); 
+    // needed at a time
 
+    int plat_needed = 1, result = 1;
 
-// plat_needed indicates number of platforms 
+    int i = 1, j = 0;
 
-// needed at a time 
+    // Similar to merge in merge sort to process
 
-int
-plat_needed = 
-1
-, result = 
-1
-; 
+    // all events in sorted order
 
-int
-i = 
-1
-, j = 
-0
-; 
+    while (i < n && j < n) {
+      // If next event in sorted order is arrival,
 
+      // increment count of platforms needed
 
-// Similar to merge in merge sort to process 
+      if (arr[i] <= dep[j]) {
+        plat_needed++;
 
-// all events in sorted order 
+        i++;
 
-while
-(i < n && j < n) 
+        // Update result if needed
 
-{ 
+        if (plat_needed > result) result = plat_needed;
+      }
+      // Else decrement count of platforms needed
 
-// If next event in sorted order is arrival, 
+      else {
+        plat_needed--;
 
-// increment count of platforms needed 
+        j++;
+      }
+    }
 
-if
-(arr[i] <= dep[j]) 
+    return result;
+  }
 
-{ 
+  // Driver program to test methods of graph class
+  public static void main(String[] args) {
+    int arr[] = { 900, 940, 950, 1100, 1500, 1800 };
 
-plat_needed++; 
+    int dep[] = { 910, 1200, 1120, 1130, 1900, 2000 };
 
-i++; 
+    int n = arr.length;
 
-
-// Update result if needed 
-
-if
-(plat_needed > result) 
-
-result = plat_needed; 
-
-} 
-
-
-// Else decrement count of platforms needed 
-
-else
-
-{ 
-
-plat_needed--; 
-
-j++; 
-
-} 
-
-} 
-
-
-return
-result; 
-} 
-
-// Driver program to test methods of graph class 
-public
-static
-void
-main(String[] args) 
-{ 
-
-int
-arr[] = {
-900
-, 
-940
-, 
-950
-, 
-1100
-, 
-1500
-, 
-1800
-}; 
-
-int
-dep[] = {
-910
-, 
-1200
-, 
-1120
-, 
-1130
-, 
-1900
-, 
-2000
-}; 
-
-int
-n = arr.length; 
-
-System.out.println(
-"Minimum Number of Platforms Required = "
-
-+ findPlatform(arr, dep, n)); 
-} 
-} 
+    System.out.println(
+      "Minimum Number of Platforms Required = " + findPlatform(arr, dep, n)
+    );
+  }
+}

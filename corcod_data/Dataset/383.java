@@ -1,149 +1,65 @@
+// Java program to find n-th node of
+// Postorder Traversal of Binary Tree
+public class NthNodePostOrder {
 
-// Java program to find n-th node of 
-// Postorder Traversal of Binary Tree 
-public
-class
-NthNodePostOrder { 
+  static int flag = 0;
 
+  // function to find the N-th node in the postorder
 
-static
-int
-flag = 
-0
-; 
+  // traversal of a given binary tree
 
+  public static void NthPostordernode(Node root, int N) {
+    if (root == null) return;
 
-// function to find the N-th node in the postorder 
+    if (flag <= N) {
+      // left recursion
 
-// traversal of a given binary tree 
+      NthPostordernode(root.left, N);
 
-public
-static
-void
-NthPostordernode(Node root, 
-int
-N) 
+      // right recursion
 
-{ 
+      NthPostordernode(root.right, N);
 
+      flag++;
 
-if
-(root == 
-null
-) 
+      // prints the n-th node of preorder traversal
 
-return
-; 
+      if (flag == N) System.out.print(root.data);
+    }
+  }
 
+  public static void main(String args[]) {
+    Node root = new Node(25);
 
-if
-(flag <= N) 
+    root.left = new Node(20);
 
-{ 
+    root.right = new Node(30);
 
-// left recursion 
+    root.left.left = new Node(18);
 
-NthPostordernode(root.left, N); 
+    root.left.right = new Node(22);
 
-// right recursion 
+    root.right.left = new Node(24);
 
-NthPostordernode(root.right, N); 
+    root.right.right = new Node(32);
 
-flag++; 
+    int N = 6;
 
-// prints the n-th node of preorder traversal 
+    // prints n-th node found
 
-if
-(flag == N) 
-
-System.out.print(root.data); 
-
-} 
-
-} 
-
-
-
-public
-static
-void
-main(String args[]) { 
-
-Node root = 
-new
-Node(
-25
-); 
-
-root.left = 
-new
-Node(
-20
-); 
-
-root.right = 
-new
-Node(
-30
-); 
-
-root.left.left = 
-new
-Node(
-18
-); 
-
-root.left.right = 
-new
-Node(
-22
-); 
-
-root.right.left = 
-new
-Node(
-24
-); 
-
-root.right.right = 
-new
-Node(
-32
-); 
-
-
-int
-N = 
-6
-; 
-
-
-// prints n-th node found 
-
-NthPostordernode(root, N); 
-
-} 
-} 
+    NthPostordernode(root, N);
+  }
+}
 
 /* A binary tree node structure */
-class
-Node 
-{ 
+class Node {
 
-int
-data; 
+  int data;
 
-Node left, right; 
+  Node left, right;
 
-Node(
-int
-data) 
-
-{ 
-
-this
-.data=data; 
-
-} 
-}; 
-// This code is contributed by Gaurav Tiwari 
+  Node(int data) {
+    this.data = data;
+  }
+}
+// This code is contributed by Gaurav Tiwari

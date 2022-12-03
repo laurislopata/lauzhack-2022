@@ -1,127 +1,67 @@
+// Java program to store sum of nodes in left subtree in every
+// node
+class GfG {
 
-// Java program to store sum of nodes in left subtree in every 
-// node 
-class
-GfG { 
+  // A tree node
+  static class node {
 
-// A tree node 
-static
-class
-node 
-{ 
+    int data;
 
-int
-data; 
+    node left, right;
+  }
 
-node left, right; 
-} 
+  // Function to modify a Binary Tree so that every node
+  // stores sum of values in its left child including its
+  // own value
+  static int updatetree(node root) {
+    // Base cases
 
-// Function to modify a Binary Tree so that every node 
-// stores sum of values in its left child including its 
-// own value 
-static
-int
-updatetree(node root) 
-{ 
+    if (root == null) return 0;
 
-// Base cases 
+    if (root.left == null && root.right == null) return root.data;
 
-if
-(root == 
-null
-) 
+    // Update left and right subtrees
 
-return
-0
-; 
+    int leftsum = updatetree(root.left);
 
-if
-(root.left == 
-null
-&& root.right == 
-null
-) 
+    int rightsum = updatetree(root.right);
 
-return
-root.data; 
+    // Add leftsum to current node
 
+    root.data += leftsum;
 
-// Update left and right subtrees 
+    // Return sum of values under root
 
-int
-leftsum = updatetree(root.left); 
+    return root.data + rightsum;
+  }
 
-int
-rightsum = updatetree(root.right); 
+  // Utility function to do inorder traversal
+  static void inorder(node node) {
+    if (node == null) return;
 
+    inorder(node.left);
 
-// Add leftsum to current node 
+    System.out.print(node.data + " ");
 
-root.data += leftsum; 
+    inorder(node.right);
+  }
 
+  // Utility function to create a new node
+  static node newNode(int data) {
+    node node = new node();
 
-// Return sum of values under root 
+    node.data = data;
 
-return
-root.data + rightsum; 
-} 
+    node.left = null;
 
-// Utility function to do inorder traversal 
-static
-void
-inorder(node node) 
-{ 
+    node.right = null;
 
-if
-(node == 
-null
-) 
+    return (node);
+  }
 
-return
-; 
-
-inorder(node.left); 
-
-System.out.print(node.data + 
-" "
-); 
-
-inorder(node.right); 
-} 
-
-// Utility function to create a new node 
-static
-node newNode(
-int
-data) 
-{ 
-
-node node = 
-new
-node(); 
-
-node.data = data; 
-
-node.left = 
-null
-; 
-
-node.right = 
-null
-; 
-
-return
-(node); 
-} 
-
-// Driver program 
-public
-static
-void
-main(String[] args) 
-{ 
-
-/* Let us construct below tree 
+  // Driver program
+  public static void main(String[] args) {
+    /* Let us construct below tree 
 
 1 
 
@@ -133,39 +73,22 @@ main(String[] args)
 
 4 5 6 */
 
-node root = newNode(
-1
-); 
+    node root = newNode(1);
 
-root.left = newNode(
-2
-); 
+    root.left = newNode(2);
 
-root.right = newNode(
-3
-); 
+    root.right = newNode(3);
 
-root.left.left = newNode(
-4
-); 
+    root.left.left = newNode(4);
 
-root.left.right = newNode(
-5
-); 
+    root.left.right = newNode(5);
 
-root.right.right = newNode(
-6
-); 
+    root.right.right = newNode(6);
 
+    updatetree(root);
 
-updatetree(root); 
+    System.out.println("Inorder traversal of the modified tree is");
 
-
-
-System.out.println(
-"Inorder traversal of the modified tree is"
-); 
-
-inorder(root); 
-} 
-} 
+    inorder(root);
+  }
+}

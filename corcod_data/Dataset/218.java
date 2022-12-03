@@ -1,123 +1,59 @@
+// Java program to reverse the number
+// using a stack
+import java.util.Stack;
 
-// Java program to reverse the number 
-// using a stack 
-import
-java.util.Stack; 
+public class GFG {
 
-public
-class
-GFG 
-{ 
+  // Stack to maintain order of digits
 
-// Stack to maintain order of digits 
+  static Stack<Integer> st = new Stack<>();
 
-static
-Stack<Integer> st= 
-new
-Stack<>(); 
+  // Function to push digits into stack
 
+  static void push_digits(int number) {
+    while (number != 0) {
+      st.push(number % 10);
 
-// Function to push digits into stack 
+      number = number / 10;
+    }
+  }
 
-static
-void
-push_digits(
-int
-number) 
+  // Function to reverse the number
 
-{ 
+  static int reverse_number(int number) {
+    // Function call to push number's
 
-while
-(number != 
-0
-) 
+    // digits to stack
 
-{ 
+    push_digits(number);
 
-st.push(number % 
-10
-); 
+    int reverse = 0;
 
-number = number / 
-10
-; 
+    int i = 1;
 
-} 
+    // Popping the digits and forming
 
-} 
+    // the reversed number
 
+    while (!st.isEmpty()) {
+      reverse = reverse + (st.peek() * i);
 
-// Function to reverse the number 
+      st.pop();
 
-static
-int
-reverse_number(
-int
-number) 
+      i = i * 10;
+    }
 
-{ 
+    // Return the reversed number formed
 
-// Function call to push number's 
+    return reverse;
+  }
 
-// digits to stack 
+  // Driver program to test above function
 
-push_digits(number); 
+  public static void main(String[] args) {
+    int number = 39997;
 
-int
-reverse = 
-0
-; 
-
-int
-i = 
-1
-; 
-
-
-// Popping the digits and forming 
-
-// the reversed number 
-
-while
-(!st.isEmpty()) 
-
-{ 
-
-reverse = reverse + (st.peek() * i); 
-
-st.pop(); 
-
-i = i * 
-10
-; 
-
-} 
-
-
-// Return the reversed number formed 
-
-return
-reverse; 
-
-} 
-
-
-// Driver program to test above function 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-number = 
-39997
-; 
-
-System.out.println(reverse_number(number)); 
-
-} 
-} 
-// This code is contributed by Sumit Ghosh 
+    System.out.println(reverse_number(number));
+  }
+}
+// This code is contributed by Sumit Ghosh

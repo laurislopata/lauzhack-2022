@@ -1,200 +1,100 @@
+// A recursive java program to print reverse level order traversal
+// using stack and queue
 
-// A recursive java program to print reverse level order traversal 
-// using stack and queue 
-
-import
-java.util.LinkedList; 
-import
-java.util.Queue; 
-import
-java.util.Stack; 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 /* A binary tree node has data, pointer to left and right children */
-class
-Node 
-{ 
+class Node {
 
-int
-data; 
+  int data;
 
-Node left, right; 
+  Node left, right;
 
+  Node(int item) {
+    data = item;
 
-Node(
-int
-item) 
+    left = right;
+  }
+}
 
-{ 
+class BinaryTree {
 
-data = item; 
+  Node root;
 
-left = right; 
+  /* Given a binary tree, print its nodes in reverse level order */
 
-} 
-} 
+  void reverseLevelOrder(Node node) {
+    Stack<Node> S = new Stack();
 
-class
-BinaryTree 
-{ 
+    Queue<Node> Q = new LinkedList();
 
-Node root; 
+    Q.add(node);
 
+    // Do something like normal level order traversal order.Following
 
-/* Given a binary tree, print its nodes in reverse level order */
+    // are the differences with normal level order traversal
 
-void
-reverseLevelOrder(Node node) 
+    // 1) Instead of printing a node, we push the node to stack
 
-{ 
+    // 2) Right subtree is visited before left subtree
 
-Stack<Node> S = 
-new
-Stack(); 
+    while (Q.isEmpty() == false) {
+      /* Dequeue node and make it root */
 
-Queue<Node> Q = 
-new
-LinkedList(); 
+      node = Q.peek();
 
-Q.add(node); 
+      Q.remove();
 
+      S.push(node);
 
-// Do something like normal level order traversal order.Following 
+      /* Enqueue right child */
 
-// are the differences with normal level order traversal 
+      if (node.right != null) // NOTE: RIGHT CHILD IS ENQUEUED BEFORE LEFT
 
-// 1) Instead of printing a node, we push the node to stack 
+      Q.add(node.right);
 
-// 2) Right subtree is visited before left subtree 
+      /* Enqueue left child */
 
-while
-(Q.isEmpty() == 
-false
-) 
+      if (node.left != null) Q.add(node.left);
+    }
 
-{ 
+    // Now pop all items from stack one by one and print them
 
-/* Dequeue node and make it root */
+    while (S.empty() == false) {
+      node = S.peek();
 
-node = Q.peek(); 
+      System.out.print(node.data + " ");
 
-Q.remove(); 
+      S.pop();
+    }
+  }
 
-S.push(node); 
+  // Driver program to test above functions
 
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
 
-/* Enqueue right child */
+    // Let us create trees shown in above diagram
 
-if
-(node.right != 
-null
-) 
+    tree.root = new Node(1);
 
-// NOTE: RIGHT CHILD IS ENQUEUED BEFORE LEFT 
+    tree.root.left = new Node(2);
 
-Q.add(node.right); 
+    tree.root.right = new Node(3);
 
+    tree.root.left.left = new Node(4);
 
-/* Enqueue left child */
+    tree.root.left.right = new Node(5);
 
-if
-(node.left != 
-null
-) 
+    tree.root.right.left = new Node(6);
 
-Q.add(node.left); 
+    tree.root.right.right = new Node(7);
 
-} 
+    System.out.println("Level Order traversal of binary tree is :");
 
-
-// Now pop all items from stack one by one and print them 
-
-while
-(S.empty() == 
-false
-) 
-
-{ 
-
-node = S.peek(); 
-
-System.out.print(node.data + 
-" "
-); 
-
-S.pop(); 
-
-} 
-
-} 
-
-
-// Driver program to test above functions 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-
-// Let us create trees shown in above diagram 
-
-tree.root = 
-new
-Node(
-1
-); 
-
-tree.root.left = 
-new
-Node(
-2
-); 
-
-tree.root.right = 
-new
-Node(
-3
-); 
-
-tree.root.left.left = 
-new
-Node(
-4
-); 
-
-tree.root.left.right = 
-new
-Node(
-5
-); 
-
-tree.root.right.left = 
-new
-Node(
-6
-); 
-
-tree.root.right.right = 
-new
-Node(
-7
-); 
-
-
-System.out.println(
-"Level Order traversal of binary tree is :"
-); 
-
-tree.reverseLevelOrder(tree.root); 
-
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    tree.reverseLevelOrder(tree.root);
+  }
+}
+// This code has been contributed by Mayank Jaiswal

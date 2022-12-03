@@ -1,201 +1,99 @@
-
-// Java program to construct tree from inorder traversal 
+// Java program to construct tree from inorder traversal
 
 /* A binary tree node has data, pointer to left child 
 
 and a pointer to right child */
-class
-Node 
-{ 
+class Node {
 
-int
-data; 
+  int data;
 
-Node left, right; 
+  Node left, right;
 
+  Node(int item) {
+    data = item;
 
-Node(
-int
-item) 
+    left = right = null;
+  }
+}
 
-{ 
+class BinaryTree {
 
-data = item; 
+  Node root;
 
-left = right = 
-null
-; 
-
-} 
-} 
-
-class
-BinaryTree 
-{ 
-
-Node root; 
-
-
-/* Recursive function to construct binary of size len from 
+  /* Recursive function to construct binary of size len from 
 
 Inorder traversal inorder[]. Initial values of start and end 
 
 should be 0 and len -1. */
 
-Node buildTree(
-int
-inorder[], 
-int
-start, 
-int
-end, Node node) 
+  Node buildTree(int inorder[], int start, int end, Node node) {
+    if (start > end) return null;
 
-{ 
+    /* Find index of the maximum element from Binary Tree */
 
-if
-(start > end) 
+    int i = max(inorder, start, end);
 
-return
-null
-; 
+    /* Pick the maximum value and make it root */
 
+    node = new Node(inorder[i]);
 
-/* Find index of the maximum element from Binary Tree */
-
-int
-i = max(inorder, start, end); 
-
-
-/* Pick the maximum value and make it root */
-
-node = 
-new
-Node(inorder[i]); 
-
-
-/* If this is the only element in inorder[start..end], 
+    /* If this is the only element in inorder[start..end], 
 
 then return it */
 
-if
-(start == end) 
+    if (start == end) return node;
 
-return
-node; 
-
-
-/* Using index in Inorder traversal, construct left and 
+    /* Using index in Inorder traversal, construct left and 
 
 right subtress */
 
-node.left = buildTree(inorder, start, i - 
-1
-, node.left); 
+    node.left = buildTree(inorder, start, i - 1, node.left);
 
-node.right = buildTree(inorder, i + 
-1
-, end, node.right); 
+    node.right = buildTree(inorder, i + 1, end, node.right);
 
+    return node;
+  }
 
-return
-node; 
+  /* UTILITY FUNCTIONS */
 
-} 
+  /* Function to find index of the maximum value in arr[start...end] */
 
+  int max(int arr[], int strt, int end) {
+    int i, max = arr[strt], maxind = strt;
 
-/* UTILITY FUNCTIONS */
+    for (i = strt + 1; i <= end; i++) {
+      if (arr[i] > max) {
+        max = arr[i];
 
+        maxind = i;
+      }
+    }
 
-/* Function to find index of the maximum value in arr[start...end] */
+    return maxind;
+  }
 
-int
-max(
-int
-arr[], 
-int
-strt, 
-int
-end) 
+  /* This funtcion is here just to test buildTree() */
 
-{ 
+  void printInorder(Node node) {
+    if (node == null) return;
 
-int
-i, max = arr[strt], maxind = strt; 
+    /* first recur on left child */
 
-for
-(i = strt + 
-1
-; i <= end; i++) 
+    printInorder(node.left);
 
-{ 
+    /* then print the data of node */
 
-if
-(arr[i] > max) 
+    System.out.print(node.data + " ");
 
-{ 
+    /* now recur on right child */
 
-max = arr[i]; 
+    printInorder(node.right);
+  }
 
-maxind = i; 
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
 
-} 
-
-} 
-
-return
-maxind; 
-
-} 
-
-
-/* This funtcion is here just to test buildTree() */
-
-void
-printInorder(Node node) 
-
-{ 
-
-if
-(node == 
-null
-) 
-
-return
-; 
-
-
-/* first recur on left child */
-
-printInorder(node.left); 
-
-
-/* then print the data of node */
-
-System.out.print(node.data + 
-" "
-); 
-
-
-/* now recur on right child */
-
-printInorder(node.right); 
-
-} 
-
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-
-/* Assume that inorder traversal of following tree is given 
+    /* Assume that inorder traversal of following tree is given 
 
 40 
 
@@ -207,41 +105,17 @@ BinaryTree();
 
 5 28 */
 
-int
-inorder[] = 
-new
-int
-[]{
-5
-, 
-10
-, 
-40
-, 
-30
-, 
-28
-}; 
+    int inorder[] = new int[] { 5, 10, 40, 30, 28 };
 
-int
-len = inorder.length; 
+    int len = inorder.length;
 
-Node mynode = tree.buildTree(inorder, 
-0
-, len - 
-1
-, tree.root); 
+    Node mynode = tree.buildTree(inorder, 0, len - 1, tree.root);
 
+    /* Let us test the built tree by printing Inorder traversal */
 
-/* Let us test the built tree by printing Inorder traversal */
+    System.out.println("Inorder traversal of the constructed tree is ");
 
-System.out.println(
-"Inorder traversal of the constructed tree is "
-); 
-
-tree.printInorder(mynode); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    tree.printInorder(mynode);
+  }
+}
+// This code has been contributed by Mayank Jaiswal

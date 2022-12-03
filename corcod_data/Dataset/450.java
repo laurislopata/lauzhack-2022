@@ -1,205 +1,83 @@
+// Java code to calculate maximum unique
+// element of every segment of array
+import java.io.*;
+import java.util.*;
 
-// Java code to calculate maximum unique 
-// element of every segment of array 
-import
-java.io.*; 
-import
-java.util.*; 
-class
-GFG { 
+class GFG {
 
+  static void find_max(int[] A, int N, int K) {
+    // Storing counts of first K-1 elements
 
-static
-void
-find_max(
-int
-[] A, 
-int
-N, 
-int
-K) 
+    // Also storing distinct elements.
 
-{ 
+    HashMap<Integer, Integer> Count = new HashMap<>();
 
-// Storing counts of first K-1 elements 
+    for (int i = 0; i < K - 1; i++) if (Count.containsKey(A[i])) Count.put(
+      A[i],
+      1 + Count.get(A[i])
+    ); else Count.put(A[i], 1);
 
-// Also storing distinct elements. 
+    TreeSet<Integer> Myset = new TreeSet<Integer>();
 
-HashMap<Integer, Integer> Count = 
-new
-HashMap<>(); 
+    for (Map.Entry x : Count.entrySet()) {
+      if (Integer.parseInt(String.valueOf(x.getValue())) == 1) Myset.add(
+        Integer.parseInt(String.valueOf(x.getKey()))
+      );
+    }
 
-for
-(
-int
-i = 
-0
-; i < K - 
-1
-; i++) 
+    // Before every iteration of this loop,
 
-if
-(Count.containsKey(A[i])) 
+    // we maintain that K-1 elements of current
 
-Count.put(A[i], 
-1
-+ Count.get(A[i])); 
+    // window are processed.
 
-else
+    for (int i = K - 1; i < N; i++) {
+      // Process K-th element of current window
 
-Count.put(A[i], 
-1
-); 
+      if (Count.containsKey(A[i])) Count.put(
+        A[i],
+        1 + Count.get(A[i])
+      ); else Count.put(A[i], 1);
 
+      if (Integer.parseInt(String.valueOf(Count.get(A[i]))) == 1) Myset.add(
+        A[i]
+      ); else Myset.remove(A[i]);
 
-TreeSet<Integer> Myset = 
-new
-TreeSet<Integer>(); 
+      // If there are no distinct
 
-for
-(Map.Entry x : Count.entrySet()) { 
+      // elements in current window
 
-if
-(Integer.parseInt(String.valueOf(x.getValue())) == 
-1
-) 
+      if (Myset.size() == 0) System.out.println("Nothing");
+      // Set is ordered and last element
 
-Myset.add(Integer.parseInt(String.valueOf(x.getKey()))); 
+      // of set gives us maximum element.
 
-} 
+      else System.out.println(Myset.last());
 
+      // Remove first element of current
 
-// Before every iteration of this loop, 
+      // window before next iteration.
 
-// we maintain that K-1 elements of current 
+      int x = A[i - K + 1];
 
-// window are processed. 
+      Count.put(x, Count.get(x) - 1);
 
-for
-(
-int
-i = K - 
-1
-; i < N; i++) { 
+      if (Integer.parseInt(String.valueOf(Count.get(x))) == 1) Myset.add(x);
 
+      if (Integer.parseInt(String.valueOf(Count.get(x))) == 0) Myset.remove(x);
+    }
+  }
 
-// Process K-th element of current window 
+  // Driver code
 
-if
-(Count.containsKey(A[i])) 
+  public static void main(String args[]) {
+    int[] a = { 1, 2, 2, 3, 3 };
 
-Count.put(A[i], 
-1
-+ Count.get(A[i])); 
+    int n = a.length;
 
-else
+    int k = 3;
 
-Count.put(A[i], 
-1
-); 
-
-
-if
-(Integer.parseInt(String.valueOf(Count.get(A[i]))) == 
-1
-) 
-
-Myset.add(A[i]); 
-
-else
-
-Myset.remove(A[i]); 
-
-
-// If there are no distinct 
-
-// elements in current window 
-
-if
-(Myset.size() == 
-0
-) 
-
-System.out.println(
-"Nothing"
-); 
-
-
-// Set is ordered and last element 
-
-// of set gives us maximum element. 
-
-else
-
-System.out.println(Myset.last()); 
-
-
-// Remove first element of current 
-
-// window before next iteration. 
-
-int
-x = A[i - K + 
-1
-]; 
-
-Count.put(x, Count.get(x) - 
-1
-); 
-
-
-if
-(Integer.parseInt(String.valueOf(Count.get(x))) == 
-1
-) 
-
-Myset.add(x); 
-
-if
-(Integer.parseInt(String.valueOf(Count.get(x))) == 
-0
-) 
-
-Myset.remove(x); 
-
-} 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-int
-[] a = { 
-1
-, 
-2
-, 
-2
-, 
-3
-, 
-3
-}; 
-
-int
-n = a.length; 
-
-int
-k = 
-3
-; 
-
-find_max(a, n, k); 
-
-} 
-} 
-
-// This code is contributed by rachana soma 
+    find_max(a, n, k);
+  }
+}
+// This code is contributed by rachana soma

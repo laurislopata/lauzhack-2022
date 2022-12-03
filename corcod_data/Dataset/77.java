@@ -1,177 +1,84 @@
+// Java O(n) solution for
+// finding smallest subarray
+// with sum greater than x
+import java.io.*;
 
-// Java O(n) solution for 
-// finding smallest subarray 
-// with sum greater than x 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  // Returns length of smallest
+  // subarray with sum greater
+  // than x. If there is no
+  // subarray with given sum,
+  // then returns n+1
+  static int smallestSubWithSum(int arr[], int n, int x) {
+    // Initialize current
 
-// Returns length of smallest 
-// subarray with sum greater 
-// than x. If there is no 
-// subarray with given sum, 
-// then returns n+1 
-static
-int
-smallestSubWithSum(
-int
-arr[], 
+    // sum and minimum length
 
-int
-n, 
-int
-x) 
-{ 
+    int curr_sum = 0, min_len = n + 1;
 
-// Initialize current 
+    // Initialize starting
 
-// sum and minimum length 
+    // and ending indexes
 
-int
-curr_sum = 
-0
-, min_len = n + 
-1
-; 
+    int start = 0, end = 0;
 
+    while (end < n) {
+      // Keep adding array
 
-// Initialize starting 
+      // elements while current
 
-// and ending indexes 
+      // sum is smaller than x
 
-int
-start = 
-0
-, end = 
-0
-; 
+      while (curr_sum <= x && end < n) {
+        // Ignore subarrays with
 
-while
-(end < n) 
+        // negative sum if x is
 
-{ 
+        // positive.
 
-// Keep adding array 
+        if (curr_sum <= 0 && x > 0) {
+          start = end;
 
-// elements while current 
+          curr_sum = 0;
+        }
 
-// sum is smaller than x 
+        curr_sum += arr[end++];
+      }
 
-while
-(curr_sum <= x && end < n) 
+      // If current sum becomes
 
-{ 
+      // greater than x.
 
-// Ignore subarrays with 
+      while (curr_sum > x && start < n) {
+        // Update minimum
 
-// negative sum if x is 
+        // length if needed
 
-// positive. 
+        if (end - start < min_len) min_len = end - start;
 
-if
-(curr_sum <= 
-0
-&& x > 
-0
-) 
+        // remove starting elements
 
-{ 
+        curr_sum -= arr[start++];
+      }
+    }
 
-start = end; 
+    return min_len;
+  }
 
-curr_sum = 
-0
-; 
+  // Driver Code
+  public static void main(String[] args) {
+    int arr1[] = { -8, 1, 4, 2, -6 };
 
-} 
+    int x = 6;
 
+    int n1 = arr1.length;
 
-curr_sum += arr[end++]; 
+    int res1 = smallestSubWithSum(arr1, n1, x);
 
-} 
-
-
-// If current sum becomes 
-
-// greater than x. 
-
-while
-(curr_sum > x && start < n) 
-
-{ 
-
-// Update minimum 
-
-// length if needed 
-
-if
-(end - start < min_len) 
-
-min_len = end - start; 
-
-
-// remove starting elements 
-
-curr_sum -= arr[start++]; 
-
-} 
-
-} 
-
-return
-min_len; 
-} 
-
-
-// Driver Code 
-public
-static
-void
-main (String[] args) 
-{ 
-
-int
-arr1[] = {- 
-8
-, 
-1
-, 
-4
-, 
-2
-, -
-6
-}; 
-
-int
-x = 
-6
-; 
-
-int
-n1 = arr1.length; 
-
-int
-res1 = smallestSubWithSum(arr1, 
-
-n1, x); 
-
-if
-(res1 == n1 + 
-1
-) 
-
-System.out.println(
-"Not possible"
-); 
-
-else
-
-System.out.println (res1); 
-} 
-} 
-
-// This code is contributed by ajit 
+    if (res1 == n1 + 1) System.out.println(
+      "Not possible"
+    ); else System.out.println(res1);
+  }
+}
+// This code is contributed by ajit

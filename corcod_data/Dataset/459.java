@@ -1,345 +1,160 @@
+// Java program to find the maximum profit job sequence
+// from a given array of jobs with deadlines and profits
+import java.util.*;
 
-// Java program to find the maximum profit job sequence 
-// from a given array of jobs with deadlines and profits 
-import
-java.util.*; 
+// A Simple Disjoint Set Data Structure
+class DisjointSet {
 
-// A Simple Disjoint Set Data Structure 
-class
-DisjointSet 
-{ 
+  int parent[];
 
-int
-parent[]; 
+  // Constructor
 
+  DisjointSet(int n) {
+    parent = new int[n + 1];
 
-// Constructor 
+    // Every node is a parent of itself
 
-DisjointSet(
-int
-n) 
+    for (int i = 0; i <= n; i++) parent[i] = i;
+  }
 
-{ 
+  // Path Compression
 
-parent = 
-new
-int
-[n + 
-1
-]; 
-
-
-// Every node is a parent of itself 
-
-for
-(
-int
-i = 
-0
-; i <= n; i++) 
-
-parent[i] = i; 
-
-} 
-
-
-// Path Compression 
-
-int
-find(
-int
-s) 
-
-{ 
-
-/* Make the parent of the nodes in the path 
+  int find(int s) {
+    /* Make the parent of the nodes in the path 
 
 from u--> parent[u] point to parent[u] */
 
-if
-(s == parent[s]) 
+    if (s == parent[s]) return s;
 
-return
-s; 
+    return parent[s] = find(parent[s]);
+  }
 
-return
-parent[s] = find(parent[s]); 
+  // Makes u as parent of v.
 
-} 
+  void merge(int u, int v) {
+    //update the greatest available
 
+    //free slot to u
 
-// Makes u as parent of v. 
+    parent[v] = u;
+  }
+}
 
-void
-merge(
-int
-u, 
-int
-v) 
+class Job implements Comparator<Job> {
 
-{ 
+  // Each job has a unique-id, profit and deadline
 
-//update the greatest available 
+  char id;
 
-//free slot to u 
+  int deadline, profit;
 
-parent[v] = u; 
+  // Constructors
 
-} 
-} 
+  public Job() {}
 
-class
-Job 
-implements
-Comparator<Job> 
-{ 
+  public Job(char id, int deadline, int profit) {
+    this.id = id;
 
-// Each job has a unique-id, profit and deadline 
+    this.deadline = deadline;
 
-char
-id; 
+    this.profit = profit;
+  }
 
-int
-deadline, profit; 
+  // Returns the maximum deadline from the set of jobs
 
+  public static int findMaxDeadline(ArrayList<Job> arr) {
+    int ans = Integer.MIN_VALUE;
 
-// Constructors 
+    for (Job temp : arr) ans = Math.max(temp.deadline, ans);
 
-public
-Job() { } 
+    return ans;
+  }
 
-public
-Job(
-char
-id,
-int
-deadline,
-int
-profit) 
+  // Prints optimal job sequence
 
-{ 
+  public static void printJobScheduling(ArrayList<Job> arr) {
+    // Sort Jobs in descending order on the basis
 
-this
-.id = id; 
+    // of their profit
 
-this
-.deadline = deadline; 
+    Collections.sort(arr, new Job());
 
-this
-.profit = profit; 
+    // Find the maximum deadline among all jobs and
 
-} 
+    // create a disjoint set data structure with
 
+    // maxDeadline disjoint sets initially.
 
-// Returns the maximum deadline from the set of jobs 
+    int maxDeadline = findMaxDeadline(arr);
 
-public
-static
-int
-findMaxDeadline(ArrayList<Job> arr) 
+    DisjointSet dsu = new DisjointSet(maxDeadline);
 
-{ 
+    // Traverse through all the jobs
 
-int
-ans = Integer.MIN_VALUE; 
+    for (Job temp : arr) {
+      // Find the maximum available free slot for
 
-for
-(Job temp : arr) 
+      // this job (corresponding to its deadline)
 
-ans = Math.max(temp.deadline, ans); 
+      int availableSlot = dsu.find(temp.deadline);
 
-return
-ans; 
+      // If maximum available free slot is greater
 
-} 
+      // than 0, then free slot available
 
+      if (availableSlot > 0) {
+        // This slot is taken by this job 'i'
 
-// Prints optimal job sequence 
+        // so we need to update the greatest free
 
-public
-static
-void
-printJobScheduling(ArrayList<Job> arr) 
+        // slot. Note that, in merge, we make
 
-{ 
+        // first parameter as parent of second
 
-// Sort Jobs in descending order on the basis 
+        // parameter. So future queries for
 
-// of their profit 
+        // availableSlot will return maximum slot
 
-Collections.sort(arr, 
-new
-Job()); 
+        // from set of "availableSlot - 1"
 
+        dsu.merge(dsu.find(availableSlot - 1), availableSlot);
 
-// Find the maximum deadline among all jobs and 
+        System.out.print(temp.id + " ");
+      }
+    }
 
-// create a disjoint set data structure with 
+    System.out.println();
+  }
 
-// maxDeadline disjoint sets initially. 
+  // Used to sort in descending order on the basis
 
-int
-maxDeadline = findMaxDeadline(arr); 
+  // of profit for each job
 
-DisjointSet dsu = 
-new
-DisjointSet(maxDeadline); 
+  public int compare(Job j1, Job j2) {
+    return j1.profit > j2.profit ? -1 : 1;
+  }
+}
 
+// Driver code
+class Main {
 
-// Traverse through all the jobs 
+  public static void main(String args[]) {
+    ArrayList<Job> arr = new ArrayList<Job>();
 
-for
-(Job temp : arr) 
+    arr.add(new Job('a', 2, 100));
 
-{ 
+    arr.add(new Job('b', 1, 19));
 
-// Find the maximum available free slot for 
+    arr.add(new Job('c', 2, 27));
 
-// this job (corresponding to its deadline) 
+    arr.add(new Job('d', 1, 25));
 
-int
-availableSlot = dsu.find(temp.deadline); 
+    arr.add(new Job('e', 3, 15));
 
+    System.out.println(
+      "Following jobs need to be " + "executed for maximum profit"
+    );
 
-
-// If maximum available free slot is greater 
-
-// than 0, then free slot available 
-
-if
-(availableSlot > 
-0
-) 
-
-{ 
-
-// This slot is taken by this job 'i' 
-
-// so we need to update the greatest free 
-
-// slot. Note that, in merge, we make 
-
-// first parameter as parent of second 
-
-// parameter. So future queries for 
-
-// availableSlot will return maximum slot 
-
-// from set of "availableSlot - 1" 
-
-dsu.merge(dsu.find(availableSlot - 
-1
-), 
-
-availableSlot); 
-
-System.out.print(temp.id + 
-" "
-); 
-
-} 
-
-} 
-
-System.out.println(); 
-
-} 
-
-
-// Used to sort in descending order on the basis 
-
-// of profit for each job 
-
-public
-int
-compare(Job j1, Job j2) 
-
-{ 
-
-return
-j1.profit > j2.profit? -
-1
-: 
-1
-; 
-
-} 
-} 
-
-// Driver code 
-class
-Main 
-{ 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-ArrayList<Job> arr=
-new
-ArrayList<Job>(); 
-
-arr.add(
-new
-Job(
-'a'
-,
-2
-,
-100
-)); 
-
-arr.add(
-new
-Job(
-'b'
-,
-1
-,
-19
-)); 
-
-arr.add(
-new
-Job(
-'c'
-,
-2
-,
-27
-)); 
-
-arr.add(
-new
-Job(
-'d'
-,
-1
-,
-25
-)); 
-
-arr.add(
-new
-Job(
-'e'
-,
-3
-,
-15
-)); 
-
-System.out.println(
-"Following jobs need to be "
-+ 
-
-"executed for maximum profit"
-); 
-
-Job.printJobScheduling(arr); 
-
-} 
-} 
+    Job.printJobScheduling(arr);
+  }
+}

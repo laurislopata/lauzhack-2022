@@ -1,147 +1,61 @@
+// Java implementation to find the first negative
+// integer in every window of size k
+import java.util.*;
 
-// Java implementation to find the first negative 
-// integer in every window of size k 
-import
-java.util.*; 
+class solution {
 
-class
-solution 
-{ 
+  // function to find the first negative
+  // integer in every window of size k
+  static void printFirstNegativeInteger(int arr[], int n, int k) {
+    // flag to check whether window contains
 
-// function to find the first negative 
-// integer in every window of size k 
-static
-void
-printFirstNegativeInteger(
-int
-arr[], 
-int
-n, 
-int
-k) 
-{ 
+    // a negative integer or not
 
-// flag to check whether window contains 
+    boolean flag;
 
-// a negative integer or not 
+    // Loop for each subarray(window) of size k
 
-boolean
-flag; 
+    for (int i = 0; i < (n - k + 1); i++) {
+      flag = false;
 
+      // traverse through the current window
 
-// Loop for each subarray(window) of size k 
+      for (int j = 0; j < k; j++) {
+        // if a negative integer is found, then
 
-for
-(
-int
-i = 
-0
-; i<(n-k+
-1
-); i++) 
+        // it is the first negative integer for
 
-{ 
+        // current window. Print it, set the flag
 
-flag = 
-false
-; 
+        // and break
 
+        if (arr[i + j] < 0) {
+          System.out.print((arr[i + j]) + " ");
 
-// traverse through the current window 
+          flag = true;
 
-for
-(
-int
-j = 
-0
-; j<k; j++) 
+          break;
+        }
+      }
 
-{ 
+      // if the current window does not
 
-// if a negative integer is found, then 
+      // contain a negative integer
 
-// it is the first negative integer for 
+      if (!flag) System.out.print("0" + " ");
+    }
+  }
 
-// current window. Print it, set the flag 
+  // Driver program to test above functions
+  public static void main(String args[]) {
+    int arr[] = { 12, -1, -7, 8, -15, 30, 16, 28 };
 
-// and break 
+    int n = arr.length;
 
-if
-(arr[i+j] < 
-0
-) 
+    int k = 3;
 
-{ 
-
-System.out.print((arr[i+j])+
-" "
-); 
-
-flag = 
-true
-; 
-
-break
-; 
-
-} 
-
-} 
-
-
-// if the current window does not 
-
-// contain a negative integer 
-
-if
-(!flag) 
-
-System.out.print(
-"0"
-+
-" "
-); 
-
-} 
-} 
-
-// Driver program to test above functions 
-public
-static
-void
-main(String args[]) 
-{ 
-
-int
-arr[] = {
-12
-, -
-1
-, -
-7
-, 
-8
-, -
-15
-, 
-30
-, 
-16
-, 
-28
-}; 
-
-int
-n = arr.length; 
-
-int
-k = 
-3
-; 
-
-printFirstNegativeInteger(arr, n, k); 
-
-} 
-} 
-// This code is contributed by 
-// Shashank_Sharma 
+    printFirstNegativeInteger(arr, n, k);
+  }
+}
+// This code is contributed by
+// Shashank_Sharma

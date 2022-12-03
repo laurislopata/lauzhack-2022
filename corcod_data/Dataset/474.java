@@ -1,174 +1,95 @@
+// Java implementation of
+// above algorithm
+import java.io.*;
+import java.util.*;
 
-// Java implementation of 
-// above algorithm 
-import
-java.io.*; 
-import
-java.util.*; 
+public class GFG {
 
-public
-class
-GFG { 
+  static int MaxSumDifference(Integer[] a, int n) {
+    // final sequence stored in the vector
 
+    List<Integer> finalSequence = new ArrayList<Integer>();
 
-static
-int
-MaxSumDifference(Integer []a, 
-int
-n) 
+    // sort the original array
 
-{ 
+    // so that we can retrieve
 
+    // the large elements from
 
-// final sequence stored in the vector 
+    // the end of array elements
 
-List<Integer> finalSequence = 
+    Arrays.sort(a);
 
-new
-ArrayList<Integer>(); 
+    // In this loop first we will insert
 
+    // one smallest element not entered
 
-// sort the original array 
+    // till that time in final sequence
 
-// so that we can retrieve 
+    // and then enter a highest element
 
-// the large elements from 
+    // (not entered till that time) in
 
-// the end of array elements 
+    // final sequence so that we
 
-Arrays.sort(a); 
+    // have large difference value. This
 
+    // process is repeated till all array
 
-// In this loop first we will insert 
+    // has completely entered in sequence.
 
-// one smallest element not entered 
+    // Here, we have loop till n/2 because
 
-// till that time in final sequence 
+    // we are inserting two elements at a
 
-// and then enter a highest element 
+    // time in loop.
 
-// (not entered till that time) in 
+    for (int i = 0; i < n / 2; ++i) {
+      finalSequence.add(a[i]);
 
-// final sequence so that we 
+      finalSequence.add(a[n - i - 1]);
+    }
 
-// have large difference value. This 
+    // variable to store the
 
-// process is repeated till all array 
+    // maximum sum of absolute
 
-// has completely entered in sequence. 
+    // difference
 
-// Here, we have loop till n/2 because 
+    int MaximumSum = 0;
 
-// we are inserting two elements at a 
+    // In this loop absolute difference
 
-// time in loop. 
+    // of elements for the final sequence
 
-for
-(
-int
-i = 
-0
-; i < n / 
-2
-; ++i) { 
+    // is calculated.
 
-finalSequence.add(a[i]); 
+    for (int i = 0; i < n - 1; ++i) {
+      MaximumSum =
+        MaximumSum + Math.abs(finalSequence.get(i) - finalSequence.get(i + 1));
+    }
 
-finalSequence.add(a[n - i - 
-1
-]); 
+    // absolute difference of last element
 
-} 
+    // and 1st element
 
+    MaximumSum =
+      MaximumSum + Math.abs(finalSequence.get(n - 1) - finalSequence.get(0));
 
-// variable to store the 
+    // return the value
 
-// maximum sum of absolute 
+    return MaximumSum;
+  }
 
-// difference 
+  // Driver Code
 
-int
-MaximumSum = 
-0
-; 
+  public static void main(String args[]) {
+    Integer[] a = { 1, 2, 4, 8 };
 
+    int n = a.length;
 
-// In this loop absolute difference 
-
-// of elements for the final sequence 
-
-// is calculated. 
-
-for
-(
-int
-i = 
-0
-; i < n - 
-1
-; ++i) { 
-
-MaximumSum = MaximumSum + 
-
-Math.abs(finalSequence.get(i) 
-
-- finalSequence.get(i + 
-1
-)); 
-
-} 
-
-
-// absolute difference of last element 
-
-// and 1st element 
-
-MaximumSum = MaximumSum + 
-
-Math.abs(finalSequence.get(n - 
-1
-) 
-
-- finalSequence.get(
-0
-)); 
-
-
-// return the value 
-
-return
-MaximumSum; 
-
-} 
-
-
-// Driver Code 
-
-public
-static
-void
-main(String args[]) 
-
-{ 
-
-Integer []a = { 
-1
-, 
-2
-, 
-4
-, 
-8
-}; 
-
-int
-n = a.length; 
-
-
-System.out.print(MaxSumDifference(a, n)); 
-
-} 
-} 
-
-// This code is contributed by 
-// Manish Shaw (manishshaw1) 
+    System.out.print(MaxSumDifference(a, n));
+  }
+}
+// This code is contributed by
+// Manish Shaw (manishshaw1)

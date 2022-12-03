@@ -1,200 +1,85 @@
+// Java Program to find max subarray
+// sum excluding some elements
+import java.util.*;
 
-// Java Program to find max subarray 
-// sum excluding some elements 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  // Utility function for findMaxSubarraySum()
 
+  // with the following parameters
 
-// Utility function for findMaxSubarraySum() 
+  // A => Array A,
 
-// with the following parameters 
+  // B => Array B,
 
-// A => Array A, 
+  // n => Number of elements in Array A,
 
-// B => Array B, 
+  // m => Number of elements in Array B
 
-// n => Number of elements in Array A, 
+  static int findMaxSubarraySumUtil(int A[], int B[], int n, int m) {
+    // set max_so_far to INT_MIN
 
-// m => Number of elements in Array B 
+    int max_so_far = Integer.MIN_VALUE, curr_max = 0;
 
-static
-int
-findMaxSubarraySumUtil(
-int
-A[], 
-int
-B[], 
+    for (int i = 0; i < n; i++) {
+      // if the element is present in B,
 
-int
-n, 
-int
-m) 
+      // set current max to 0 and move to
 
-{ 
+      // the next element
 
+      if (Arrays.binarySearch(B, A[i]) >= 0) {
+        curr_max = 0;
 
-// set max_so_far to INT_MIN 
+        continue;
+      }
 
-int
-max_so_far = Integer.MIN_VALUE, curr_max = 
-0
-; 
+      // Proceed as in Kadane's Algorithm
 
+      curr_max = Math.max(A[i], curr_max + A[i]);
 
-for
-(
-int
-i = 
-0
-; i < n; i++) 
+      max_so_far = Math.max(max_so_far, curr_max);
+    }
 
-{ 
+    return max_so_far;
+  }
 
+  // Wrapper for findMaxSubarraySumUtil()
 
-// if the element is present in B, 
+  static void findMaxSubarraySum(int A[], int B[], int n, int m) {
+    // sort array B to apply Binary Search
 
-// set current max to 0 and move to 
+    Arrays.sort(B);
 
-// the next element 
+    int maxSubarraySum = findMaxSubarraySumUtil(A, B, n, m);
 
-if
-(Arrays.binarySearch(B, A[i]) >= 
-0
-) 
+    // This case will occour when all elements
 
-{ 
+    // of A are present in B, thus no subarray
 
-curr_max = 
-0
-; 
+    // can be formed
 
-continue
-; 
+    if (maxSubarraySum == Integer.MIN_VALUE) {
+      System.out.println("Maximum subarray sum cant be found");
+    } else {
+      System.out.println("The Maximum subarray sum = " + maxSubarraySum);
+    }
+  }
 
-} 
+  // Driver Code
 
+  public static void main(String[] args) {
+    int A[] = { 3, 4, 5, -4, 6 };
 
-// Proceed as in Kadane's Algorithm 
+    int B[] = { 1, 8, 5 };
 
-curr_max = Math.max(A[i], curr_max + A[i]); 
+    int n = A.length;
 
-max_so_far = Math.max(max_so_far, curr_max); 
+    int m = B.length;
 
-} 
+    // Calling fucntion
 
-return
-max_so_far; 
-
-} 
-
-
-// Wrapper for findMaxSubarraySumUtil() 
-
-static
-void
-findMaxSubarraySum(
-int
-A[], 
-int
-B[], 
-
-int
-n, 
-int
-m) 
-
-{ 
-
-// sort array B to apply Binary Search 
-
-Arrays.sort(B); 
-
-
-int
-maxSubarraySum = findMaxSubarraySumUtil(A, B, 
-
-n, m); 
-
-
-// This case will occour when all elements 
-
-// of A are present in B, thus no subarray 
-
-// can be formed 
-
-if
-(maxSubarraySum == Integer.MIN_VALUE) 
-
-{ 
-
-System.out.println(
-"Maximum subarray sum cant be found"
-); 
-
-} 
-
-else
-
-{ 
-
-System.out.println(
-"The Maximum subarray sum = "
-
-+ maxSubarraySum); 
-
-} 
-
-} 
-
-
-// Driver Code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-int
-A[] = {
-3
-, 
-4
-, 
-5
-, -
-4
-, 
-6
-}; 
-
-int
-B[] = {
-1
-, 
-8
-, 
-5
-}; 
-
-
-int
-n = A.length; 
-
-int
-m = B.length; 
-
-
-// Calling fucntion 
-
-findMaxSubarraySum(A, B, n, m); 
-
-} 
-} 
-
-// This code has been contributed by 29AjayKumar 
+    findMaxSubarraySum(A, B, n, m);
+  }
+}
+// This code has been contributed by 29AjayKumar

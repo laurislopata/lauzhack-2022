@@ -1,313 +1,155 @@
+// Java program to fin maximum cash
+// flow among a set of persons
 
-// Java program to fin maximum cash 
-// flow among a set of persons 
+class GFG {
 
-class
-GFG 
-{ 
+  // Number of persons (or vertices in the graph)
 
-// Number of persons (or vertices in the graph) 
+  static final int N = 3;
 
-static
-final
-int
-N = 
-3
-; 
+  // A utility function that returns
 
+  // index of minimum value in arr[]
 
-// A utility function that returns 
+  static int getMin(int arr[]) {
+    int minInd = 0;
 
-// index of minimum value in arr[] 
+    for (int i = 1; i < N; i++) if (arr[i] < arr[minInd]) minInd = i;
 
-static
-int
-getMin(
-int
-arr[]) 
+    return minInd;
+  }
 
-{ 
+  // A utility function that returns
 
-int
-minInd = 
-0
-; 
+  // index of maximum value in arr[]
 
-for
-(
-int
-i = 
-1
-; i < N; i++) 
+  static int getMax(int arr[]) {
+    int maxInd = 0;
 
-if
-(arr[i] < arr[minInd]) 
+    for (int i = 1; i < N; i++) if (arr[i] > arr[maxInd]) maxInd = i;
 
-minInd = i; 
+    return maxInd;
+  }
 
-return
-minInd; 
+  // A utility function to return minimum of 2 values
 
-} 
+  static int minOf2(int x, int y) {
+    return (x < y) ? x : y;
+  }
 
+  // amount[p] indicates the net amount
 
-// A utility function that returns 
+  // to be credited/debited to/from person 'p'
 
-// index of maximum value in arr[] 
+  // If amount[p] is positive, then
 
-static
-int
-getMax(
-int
-arr[]) 
+  // i'th person will amount[i]
 
-{ 
+  // If amount[p] is negative, then
 
-int
-maxInd = 
-0
-; 
+  // i'th person will give -amount[i]
 
-for
-(
-int
-i = 
-1
-; i < N; i++) 
+  static void minCashFlowRec(int amount[]) {
+    // Find the indexes of minimum and
 
-if
-(arr[i] > arr[maxInd]) 
+    // maximum values in amount[]
 
-maxInd = i; 
+    // amount[mxCredit] indicates the maximum amount
 
-return
-maxInd; 
+    // to be given (or credited) to any person .
 
-} 
+    // And amount[mxDebit] indicates the maximum amount
 
+    // to be taken(or debited) from any person.
 
-// A utility function to return minimum of 2 values 
+    // So if there is a positive value in amount[],
 
-static
-int
-minOf2(
-int
-x, 
-int
-y) 
+    // then there must be a negative value
 
-{ 
+    int mxCredit = getMax(amount), mxDebit = getMin(amount);
 
-return
-(x < y) ? x: y; 
+    // If both amounts are 0, then
 
-} 
+    // all amounts are settled
 
+    if (amount[mxCredit] == 0 && amount[mxDebit] == 0) return;
 
-// amount[p] indicates the net amount 
+    // Find the minimum of two amounts
 
-// to be credited/debited to/from person 'p' 
+    int min = minOf2(-amount[mxDebit], amount[mxCredit]);
 
-// If amount[p] is positive, then 
+    amount[mxCredit] -= min;
 
-// i'th person will amount[i] 
+    amount[mxDebit] += min;
 
-// If amount[p] is negative, then 
+    // If minimum is the maximum amount to be
 
-// i'th person will give -amount[i] 
+    System.out.println(
+      "Person " + mxDebit + " pays " + min + " to " + "Person " + mxCredit
+    );
 
-static
-void
-minCashFlowRec(
-int
-amount[]) 
+    // Recur for the amount array.
 
-{ 
+    // Note that it is guaranteed that
 
-// Find the indexes of minimum and 
+    // the recursion would terminate
 
-// maximum values in amount[] 
+    // as either amount[mxCredit] or
 
-// amount[mxCredit] indicates the maximum amount 
+    // amount[mxDebit] becomes 0
 
-// to be given (or credited) to any person . 
+    minCashFlowRec(amount);
+  }
 
-// And amount[mxDebit] indicates the maximum amount 
+  // Given a set of persons as graph[]
 
-// to be taken(or debited) from any person. 
+  // where graph[i][j] indicates
 
-// So if there is a positive value in amount[], 
+  // the amount that person i needs to
 
-// then there must be a negative value 
+  // pay person j, this function
 
-int
-mxCredit = getMax(amount), mxDebit = getMin(amount); 
+  // finds and prints the minimum
 
+  // cash flow to settle all debts.
 
-// If both amounts are 0, then 
+  static void minCashFlow(int graph[][]) {
+    // Create an array amount[],
 
-// all amounts are settled 
+    // initialize all value in it as 0.
 
-if
-(amount[mxCredit] == 
-0
-&& amount[mxDebit] == 
-0
-) 
+    int amount[] = new int[N];
 
-return
-; 
+    // Calculate the net amount to
 
+    // be paid to person 'p', and
 
-// Find the minimum of two amounts 
+    // stores it in amount[p]. The
 
-int
-min = minOf2(-amount[mxDebit], amount[mxCredit]); 
+    // value of amount[p] can be
 
-amount[mxCredit] -= min; 
+    // calculated by subtracting
 
-amount[mxDebit] += min; 
+    // debts of 'p' from credits of 'p'
 
+    for (int p = 0; p < N; p++) for (int i = 0; i < N; i++) amount[p] +=
+      (graph[i][p] - graph[p][i]);
 
-// If minimum is the maximum amount to be 
+    minCashFlowRec(amount);
+  }
 
-System.out.println(
-"Person "
-+ mxDebit + 
-" pays "
-+ min 
+  // Driver code
 
-+ 
-" to "
-+ 
-"Person "
-+ mxCredit); 
+  public static void main(String[] args) {
+    // graph[i][j] indicates the amount
 
+    // that person i needs to pay person j
 
-// Recur for the amount array. 
+    int graph[][] = { { 0, 1000, 2000 }, { 0, 0, 5000 }, { 0, 0, 0 } };
 
-// Note that it is guaranteed that 
+    // Print the solution
 
-// the recursion would terminate 
-
-// as either amount[mxCredit] or 
-
-// amount[mxDebit] becomes 0 
-
-minCashFlowRec(amount); 
-
-} 
-
-
-// Given a set of persons as graph[] 
-
-// where graph[i][j] indicates 
-
-// the amount that person i needs to 
-
-// pay person j, this function 
-
-// finds and prints the minimum 
-
-// cash flow to settle all debts. 
-
-static
-void
-minCashFlow(
-int
-graph[][]) 
-
-{ 
-
-// Create an array amount[], 
-
-// initialize all value in it as 0. 
-
-int
-amount[]=
-new
-int
-[N]; 
-
-
-// Calculate the net amount to 
-
-// be paid to person 'p', and 
-
-// stores it in amount[p]. The 
-
-// value of amount[p] can be 
-
-// calculated by subtracting 
-
-// debts of 'p' from credits of 'p' 
-
-for
-(
-int
-p = 
-0
-; p < N; p++) 
-
-for
-(
-int
-i = 
-0
-; i < N; i++) 
-
-amount[p] += (graph[i][p] - graph[p][i]); 
-
-
-minCashFlowRec(amount); 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-// graph[i][j] indicates the amount 
-
-// that person i needs to pay person j 
-
-int
-graph[][] = { {
-0
-, 
-1000
-, 
-2000
-}, 
-
-{
-0
-, 
-0
-, 
-5000
-}, 
-
-{
-0
-, 
-0
-, 
-0
-},}; 
-
-
-// Print the solution 
-
-minCashFlow(graph); 
-
-} 
-} 
-
-// This code is contributed by Anant Agarwal. 
+    minCashFlow(graph);
+  }
+}
+// This code is contributed by Anant Agarwal.

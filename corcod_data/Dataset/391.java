@@ -1,220 +1,109 @@
+// Java program to reverse alternate levels of a tree
+class Sol {
 
-// Java program to reverse alternate levels of a tree 
-class
-Sol 
-{ 
+  static class Node {
 
-static
-class
-Node 
-{ 
+    char key;
 
-char
-key; 
+    Node left, right;
+  }
 
-Node left, right; 
-}; 
+  static void preorder(Node root1, Node root2, int lvl) {
+    // Base cases
 
-static
-void
-preorder( Node root1, Node root2, 
-int
-lvl) 
-{ 
+    if (root1 == null || root2 == null) return;
 
-// Base cases 
+    // Swap subtrees if level is even
 
-if
-(root1 == 
-null
-|| root2==
-null
-) 
+    if (lvl % 2 == 0) {
+      char t = root1.key;
 
-return
-; 
+      root1.key = root2.key;
 
+      root2.key = t;
+    }
 
-// Swap subtrees if level is even 
+    // Recur for left and right subtrees (Note : left of root1
 
-if
-(lvl % 
-2
-== 
-0
-) 
+    // is passed and right of root2 in first call and opposite
 
-{ 
+    // in second call.
 
-char
-t = root1.key; 
+    preorder(root1.left, root2.right, lvl + 1);
 
-root1.key = root2.key; 
+    preorder(root1.right, root2.left, lvl + 1);
+  }
 
-root2.key = t; 
+  // This function calls preorder() for left and right children
+  // of root
+  static void reverseAlternate(Node root) {
+    preorder(root.left, root.right, 0);
+  }
 
-} 
+  // Inorder traversal (used to print initial and
+  // modified trees)
+  static void printInorder(Node root) {
+    if (root == null) return;
 
+    printInorder(root.left);
 
-// Recur for left and right subtrees (Note : left of root1 
+    System.out.print(root.key + " ");
 
-// is passed and right of root2 in first call and opposite 
+    printInorder(root.right);
+  }
 
-// in second call. 
+  // A utility function to create a new node
+  static Node newNode(int key) {
+    Node temp = new Node();
 
-preorder(root1.left, root2.right, lvl+
-1
-); 
+    temp.left = temp.right = null;
 
-preorder(root1.right, root2.left, lvl+
-1
-); 
-} 
+    temp.key = (char) key;
 
-// This function calls preorder() for left and right children 
-// of root 
-static
-void
-reverseAlternate( Node root) 
-{ 
+    return temp;
+  }
 
-preorder(root.left, root.right, 
-0
-); 
-} 
+  // Driver program to test above functions
+  public static void main(String args[]) {
+    Node root = newNode('a');
 
-// Inorder traversal (used to print initial and 
-// modified trees) 
-static
-void
-printInorder( Node root) 
-{ 
+    root.left = newNode('b');
 
-if
-(root == 
-null
-) 
+    root.right = newNode('c');
 
-return
-; 
+    root.left.left = newNode('d');
 
-printInorder(root.left); 
+    root.left.right = newNode('e');
 
-System.out.print( root.key + 
-" "
-); 
+    root.right.left = newNode('f');
 
-printInorder(root.right); 
-} 
+    root.right.right = newNode('g');
 
-// A utility function to create a new node 
-static
-Node newNode(
-int
-key) 
-{ 
+    root.left.left.left = newNode('h');
 
-Node temp = 
-new
-Node(); 
+    root.left.left.right = newNode('i');
 
-temp.left = temp.right = 
-null
-; 
+    root.left.right.left = newNode('j');
 
-temp.key = (
-char
-)key; 
+    root.left.right.right = newNode('k');
 
-return
-temp; 
-} 
+    root.right.left.left = newNode('l');
 
-// Driver program to test above functions 
-public
-static
-void
-main(String args[]) 
-{ 
+    root.right.left.right = newNode('m');
 
-Node root = newNode(
-'a'
-); 
+    root.right.right.left = newNode('n');
 
-root.left = newNode(
-'b'
-); 
+    root.right.right.right = newNode('o');
 
-root.right = newNode(
-'c'
-); 
+    System.out.print("Inorder Traversal of given tree\n");
 
-root.left.left = newNode(
-'d'
-); 
+    printInorder(root);
 
-root.left.right = newNode(
-'e'
-); 
+    reverseAlternate(root);
 
-root.right.left = newNode(
-'f'
-); 
+    System.out.print("\n\nInorder Traversal of modified tree\n");
 
-root.right.right = newNode(
-'g'
-); 
-
-root.left.left.left = newNode(
-'h'
-); 
-
-root.left.left.right = newNode(
-'i'
-); 
-
-root.left.right.left = newNode(
-'j'
-); 
-
-root.left.right.right = newNode(
-'k'
-); 
-
-root.right.left.left = newNode(
-'l'
-); 
-
-root.right.left.right = newNode(
-'m'
-); 
-
-root.right.right.left = newNode(
-'n'
-); 
-
-root.right.right.right = newNode(
-'o'
-); 
-
-
-System.out.print(
-"Inorder Traversal of given tree\n"
-); 
-
-printInorder(root); 
-
-
-reverseAlternate(root); 
-
-
-System.out.print(
-"\n\nInorder Traversal of modified tree\n"
-); 
-
-printInorder(root); 
-
-} 
-} 
-
-// This code is contributed by Arnab Kundu 
+    printInorder(root);
+  }
+}
+// This code is contributed by Arnab Kundu

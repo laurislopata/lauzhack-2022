@@ -1,391 +1,170 @@
+// Java program for special level order traversal
 
-// Java program for special level order traversal 
-
-import
-java.util.LinkedList; 
-import
-java.util.Queue; 
+import java.util.LinkedList;
+import java.util.Queue;
 
 /* Class containing left and right child of current 
 
 node and key value*/
-class
-Node 
-{ 
+class Node {
 
-int
-data; 
+  int data;
 
-Node left, right; 
+  Node left, right;
 
+  public Node(int item) {
+    data = item;
 
-public
-Node(
-int
-item) 
+    left = right = null;
+  }
+}
 
-{ 
+class BinaryTree {
 
-data = item; 
+  Node root;
 
-left = right = 
-null
-; 
-
-} 
-} 
-
-class
-BinaryTree 
-{ 
-
-Node root; 
-
-
-/* Given a perfect binary tree, print its nodes in specific 
+  /* Given a perfect binary tree, print its nodes in specific 
 
 level order */
 
-void
-printSpecificLevelOrder(Node node) 
+  void printSpecificLevelOrder(Node node) {
+    if (node == null) return;
 
-{ 
+    // Let us print root and next level first
 
-if
-(node == 
-null
-) 
+    System.out.print(node.data);
 
-return
-; 
+    // Since it is perfect Binary Tree, right is not checked
 
+    if (node.left != null) System.out.print(
+      " " + node.left.data + " " + node.right.data
+    );
 
-// Let us print root and next level first 
+    // Do anything more if there are nodes at next level in
 
-System.out.print(node.data); 
+    // given perfect Binary Tree
 
+    if (node.left.left == null) return;
 
-// Since it is perfect Binary Tree, right is not checked 
+    // Create a queue and enqueue left and right children of root
 
-if
-(node.left != 
-null
-) 
+    Queue<Node> q = new LinkedList<Node>();
 
-System.out.print(
-" "
-+ node.left.data + 
-" "
-+ node.right.data); 
+    q.add(node.left);
 
+    q.add(node.right);
 
-// Do anything more if there are nodes at next level in 
+    // We process two nodes at a time, so we need two variables
 
-// given perfect Binary Tree 
+    // to store two front items of queue
 
-if
-(node.left.left == 
-null
-) 
+    Node first = null, second = null;
 
-return
-; 
+    // traversal loop
 
+    while (!q.isEmpty()) {
+      // Pop two items from queue
 
-// Create a queue and enqueue left and right children of root 
+      first = q.peek();
 
-Queue<Node> q = 
-new
-LinkedList<Node>(); 
+      q.remove();
 
-q.add(node.left); 
+      second = q.peek();
 
-q.add(node.right); 
+      q.remove();
 
+      // Print children of first and second in reverse order
 
-// We process two nodes at a time, so we need two variables 
+      System.out.print(" " + first.left.data + " " + second.right.data);
 
-// to store two front items of queue 
+      System.out.print(" " + first.right.data + " " + second.left.data);
 
-Node first = 
-null
-, second = 
-null
-; 
+      // If first and second have grandchildren, enqueue them
 
+      // in reverse order
 
-// traversal loop 
+      if (first.left.left != null) {
+        q.add(first.left);
 
-while
-(!q.isEmpty()) 
+        q.add(second.right);
 
-{ 
+        q.add(first.right);
 
-// Pop two items from queue 
+        q.add(second.left);
+      }
+    }
+  }
 
-first = q.peek(); 
+  // Driver program to test for above functions
 
-q.remove(); 
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
 
-second = q.peek(); 
+    tree.root = new Node(1);
 
-q.remove(); 
+    tree.root.left = new Node(2);
 
+    tree.root.right = new Node(3);
 
-// Print children of first and second in reverse order 
+    tree.root.left.left = new Node(4);
 
-System.out.print(
-" "
-+ first.left.data + 
-" "
-+second.right.data); 
+    tree.root.left.right = new Node(5);
 
-System.out.print(
-" "
-+ first.right.data + 
-" "
-+second.left.data); 
+    tree.root.right.left = new Node(6);
 
+    tree.root.right.right = new Node(7);
 
-// If first and second have grandchildren, enqueue them 
+    tree.root.left.left.left = new Node(8);
 
-// in reverse order 
+    tree.root.left.left.right = new Node(9);
 
-if
-(first.left.left != 
-null
-) 
+    tree.root.left.right.left = new Node(10);
 
-{ 
+    tree.root.left.right.right = new Node(11);
 
-q.add(first.left); 
+    tree.root.right.left.left = new Node(12);
 
-q.add(second.right); 
+    tree.root.right.left.right = new Node(13);
 
-q.add(first.right); 
+    tree.root.right.right.left = new Node(14);
 
-q.add(second.left); 
+    tree.root.right.right.right = new Node(15);
 
-} 
+    tree.root.left.left.left.left = new Node(16);
 
-} 
+    tree.root.left.left.left.right = new Node(17);
 
-} 
+    tree.root.left.left.right.left = new Node(18);
 
+    tree.root.left.left.right.right = new Node(19);
 
-// Driver program to test for above functions 
+    tree.root.left.right.left.left = new Node(20);
 
-public
-static
-void
-main(String args[]) 
+    tree.root.left.right.left.right = new Node(21);
 
-{ 
+    tree.root.left.right.right.left = new Node(22);
 
-BinaryTree tree = 
-new
-BinaryTree(); 
+    tree.root.left.right.right.right = new Node(23);
 
-tree.root = 
-new
-Node(
-1
-); 
+    tree.root.right.left.left.left = new Node(24);
 
-tree.root.left = 
-new
-Node(
-2
-); 
+    tree.root.right.left.left.right = new Node(25);
 
-tree.root.right = 
-new
-Node(
-3
-); 
-
-
-tree.root.left.left = 
-new
-Node(
-4
-); 
-
-tree.root.left.right = 
-new
-Node(
-5
-); 
-
-tree.root.right.left = 
-new
-Node(
-6
-); 
-
-tree.root.right.right = 
-new
-Node(
-7
-); 
-
-
-tree.root.left.left.left = 
-new
-Node(
-8
-); 
-
-tree.root.left.left.right = 
-new
-Node(
-9
-); 
-
-tree.root.left.right.left = 
-new
-Node(
-10
-); 
-
-tree.root.left.right.right = 
-new
-Node(
-11
-); 
-
-tree.root.right.left.left = 
-new
-Node(
-12
-); 
-
-tree.root.right.left.right = 
-new
-Node(
-13
-); 
-
-tree.root.right.right.left = 
-new
-Node(
-14
-); 
-
-tree.root.right.right.right = 
-new
-Node(
-15
-); 
-
-
-tree.root.left.left.left.left = 
-new
-Node(
-16
-); 
-
-tree.root.left.left.left.right = 
-new
-Node(
-17
-); 
-
-tree.root.left.left.right.left = 
-new
-Node(
-18
-); 
-
-tree.root.left.left.right.right = 
-new
-Node(
-19
-); 
-
-tree.root.left.right.left.left = 
-new
-Node(
-20
-); 
-
-tree.root.left.right.left.right = 
-new
-Node(
-21
-); 
-
-tree.root.left.right.right.left = 
-new
-Node(
-22
-); 
-
-tree.root.left.right.right.right = 
-new
-Node(
-23
-); 
-
-tree.root.right.left.left.left = 
-new
-Node(
-24
-); 
-
-tree.root.right.left.left.right = 
-new
-Node(
-25
-); 
-
-tree.root.right.left.right.left = 
-new
-Node(
-26
-); 
-
-tree.root.right.left.right.right = 
-new
-Node(
-27
-); 
-
-tree.root.right.right.left.left = 
-new
-Node(
-28
-); 
-
-tree.root.right.right.left.right = 
-new
-Node(
-29
-); 
-
-tree.root.right.right.right.left = 
-new
-Node(
-30
-); 
-
-tree.root.right.right.right.right = 
-new
-Node(
-31
-); 
-
-
-System.out.println(
-"Specific Level Order traversal of binary"
-
-+
-"tree is "
-); 
-
-tree.printSpecificLevelOrder(tree.root); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    tree.root.right.left.right.left = new Node(26);
+
+    tree.root.right.left.right.right = new Node(27);
+
+    tree.root.right.right.left.left = new Node(28);
+
+    tree.root.right.right.left.right = new Node(29);
+
+    tree.root.right.right.right.left = new Node(30);
+
+    tree.root.right.right.right.right = new Node(31);
+
+    System.out.println("Specific Level Order traversal of binary" + "tree is ");
+
+    tree.printSpecificLevelOrder(tree.root);
+  }
+}
+// This code has been contributed by Mayank Jaiswal

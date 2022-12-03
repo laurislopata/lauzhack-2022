@@ -1,216 +1,84 @@
+// Java program to find palindromic substrings of a string
 
-// Java program to find palindromic substrings of a string 
+public class GFG {
 
-public
-class
-GFG 
-{ 
+  // Returns total number of palindrome substring of
 
-// Returns total number of palindrome substring of 
+  // length greater then equal to 2
 
-// length greater then equal to 2 
+  static int CountPS(char str[], int n) {
+    // create empty 2-D matrix that counts all palindrome
 
-static
-int
-CountPS(
-char
-str[], 
-int
-n) 
+    // substring. dp[i][j] stores counts of palindromic
 
-{ 
+    // substrings in st[i..j]
 
-// create empty 2-D matrix that counts all palindrome 
+    int dp[][] = new int[n][n];
 
-// substring. dp[i][j] stores counts of palindromic 
+    // P[i][j] = true if substring str[i..j] is palindrome,
 
-// substrings in st[i..j] 
+    // else false
 
-int
-dp[][] = 
-new
-int
-[n][n]; 
+    boolean P[][] = new boolean[n][n];
 
+    // palindrome of single length
 
-// P[i][j] = true if substring str[i..j] is palindrome, 
+    for (int i = 0; i < n; i++) P[i][i] = true;
 
-// else false 
+    // palindrome of length 2
 
-boolean
-P[][] = 
-new
-boolean
-[n][n]; 
+    for (int i = 0; i < n - 1; i++) {
+      if (str[i] == str[i + 1]) {
+        P[i][i + 1] = true;
 
+        dp[i][i + 1] = 1;
+      }
+    }
 
-// palindrome of single length 
+    // Palindromes of length more than 2. This loop is similar
 
-for
-(
-int
-i= 
-0
-; i< n; i++) 
+    // to Matrix Chain Multiplication. We start with a gap of
 
-P[i][i] = 
-true
-; 
+    // length 2 and fill the DP table in a way that gap between
 
+    // starting and ending indexes increases one by one by
 
-// palindrome of length 2 
+    // outer loop.
 
-for
-(
-int
-i=
-0
-; i<n-
-1
-; i++) 
+    for (int gap = 2; gap < n; gap++) {
+      // Pick starting point for current gap
 
-{ 
+      for (int i = 0; i < n - gap; i++) {
+        // Set ending point
 
-if
-(str[i] == str[i+
-1
-]) 
+        int j = gap + i;
 
-{ 
+        // If current string is palindrome
 
-P[i][i+
-1
-] = 
-true
-; 
+        if (str[i] == str[j] && P[i + 1][j - 1]) P[i][j] = true;
 
-dp[i][i+
-1
-] = 
-1
-; 
+        // Add current palindrome substring ( + 1)
 
-} 
+        // and rest palindrome substring (dp[i][j-1] + dp[i+1][j])
 
-} 
+        // remove common palindrome substrings (- dp[i+1][j-1])
 
+        if (P[i][j] == true) dp[i][j] =
+          dp[i][j - 1] + dp[i + 1][j] + 1 - dp[i + 1][j - 1]; else dp[i][j] =
+          dp[i][j - 1] + dp[i + 1][j] - dp[i + 1][j - 1];
+      }
+    }
 
-// Palindromes of length more than 2. This loop is similar 
+    // return total palindromic substrings
 
-// to Matrix Chain Multiplication. We start with a gap of 
+    return dp[0][n - 1];
+  }
 
-// length 2 and fill the DP table in a way that gap between 
+  // Driver Method
 
-// starting and ending indexes increases one by one by 
+  public static void main(String[] args) {
+    String str = "abaab";
 
-// outer loop. 
-
-for
-(
-int
-gap=
-2
-; gap<n; gap++) 
-
-{ 
-
-// Pick starting point for current gap 
-
-for
-(
-int
-i=
-0
-; i<n-gap; i++) 
-
-{ 
-
-// Set ending point 
-
-int
-j = gap + i; 
-
-
-// If current string is palindrome 
-
-if
-(str[i] == str[j] && P[i+
-1
-][j-
-1
-] ) 
-
-P[i][j] = 
-true
-; 
-
-
-// Add current palindrome substring ( + 1) 
-
-// and rest palindrome substring (dp[i][j-1] + dp[i+1][j]) 
-
-// remove common palindrome substrings (- dp[i+1][j-1]) 
-
-if
-(P[i][j] == 
-true
-) 
-
-dp[i][j] = dp[i][j-
-1
-] + dp[i+
-1
-][j] + 
-1
-- dp[i+
-1
-][j-
-1
-]; 
-
-else
-
-dp[i][j] = dp[i][j-
-1
-] + dp[i+
-1
-][j] - dp[i+
-1
-][j-
-1
-]; 
-
-} 
-
-} 
-
-
-// return total palindromic substrings 
-
-return
-dp[
-0
-][n-
-1
-]; 
-
-} 
-
-
-// Driver Method 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-String str = 
-"abaab"
-; 
-
-System.out.println(CountPS(str.toCharArray(), str.length())); 
-
-} 
-} 
+    System.out.println(CountPS(str.toCharArray(), str.length()));
+  }
+}

@@ -1,54 +1,55 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class MinimumDiameterTree{
-    public static void main(String[] args) {
-	InputReader in = new InputReader (System.in);
-	PrintWriter out = new PrintWriter (System.out);
+public class MinimumDiameterTree {
 
-	int n = in.nextInt();
-	int s = in.nextInt();
-	int deg[] = new int [n];
-	
-	for (int i = 1; i < n; ++i) {
-	    deg[in.nextInt() - 1] ++;
-	    deg[in.nextInt() - 1] ++;
-	}
+  public static void main(String[] args) {
+    InputReader in = new InputReader(System.in);
+    PrintWriter out = new PrintWriter(System.out);
 
-	int l = 0;
-	for (int i = 0; i < n; ++i)
-	    if (deg[i] == 1) l ++;
+    int n = in.nextInt();
+    int s = in.nextInt();
+    int deg[] = new int[n];
 
-	out.println((double) 2 * s / l);
-	out.close();
+    for (int i = 1; i < n; ++i) {
+      deg[in.nextInt() - 1]++;
+      deg[in.nextInt() - 1]++;
     }
 
-    public static class InputReader {
-	public BufferedReader reader;
-	public StringTokenizer tokenizer;
+    int l = 0;
+    for (int i = 0; i < n; ++i) if (deg[i] == 1) l++;
 
-	public InputReader(InputStream stream) {
-	    reader = new BufferedReader(new InputStreamReader(stream), 32768);
-	    tokenizer = null;
-	}
+    out.println((double) 2 * s / l);
+    out.close();
+  }
 
-	public String next() {
-	    while (tokenizer == null || !tokenizer.hasMoreTokens()) {
-		try {
-		    tokenizer = new StringTokenizer(reader.readLine());
-		} catch(IOException e) {
-		    throw new RuntimeException(e);
-		}
-	    }
-	    return tokenizer.nextToken();
-	}
+  public static class InputReader {
 
-	public int nextInt() {
-	    return Integer.parseInt(next());
-	}
+    public BufferedReader reader;
+    public StringTokenizer tokenizer;
 
-	public long nextLong() {
-            return Long.parseLong(next());
+    public InputReader(InputStream stream) {
+      reader = new BufferedReader(new InputStreamReader(stream), 32768);
+      tokenizer = null;
+    }
+
+    public String next() {
+      while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+        try {
+          tokenizer = new StringTokenizer(reader.readLine());
+        } catch (IOException e) {
+          throw new RuntimeException(e);
         }
+      }
+      return tokenizer.nextToken();
     }
+
+    public int nextInt() {
+      return Integer.parseInt(next());
+    }
+
+    public long nextLong() {
+      return Long.parseLong(next());
+    }
+  }
 }

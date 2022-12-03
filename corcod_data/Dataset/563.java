@@ -2,9 +2,10 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+
   static Scanner in = new Scanner(System.in);
   static PrintWriter out = new PrintWriter(System.out);
-  
+
   public static void main(String[] args) {
     int n = in.nextInt();
     int m = in.nextInt();
@@ -37,7 +38,6 @@ public class Main {
       sweets += sum - boyMember.last() * m;
       out.println(sweets);
     } else {
-
       if (NBoyMax > 1) {
         sweets += sum - boyMember.last() * m;
         out.println(sweets);
@@ -45,7 +45,7 @@ public class Main {
         Object[] boyList = boyMember.toArray();
         if (boyList.length > 1) {
           long boy = 0;
-          boy = (long)boyList[boyList.length - 2];
+          boy = (long) boyList[boyList.length - 2];
           sweets += (sum - smallestGirl - boyMember.last() * (m - 1));
           sweets += (smallestGirl - boy);
           out.println(sweets);

@@ -1,277 +1,109 @@
+// Java Program to construct ancestor matrix for a given tree
+import java.util.*;
 
-// Java Program to construct ancestor matrix for a given tree 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  // ancestorMatrix function to populate the matrix of
 
-// ancestorMatrix function to populate the matrix of 
+  public static void ancestorMatrix(Node root, int matrix[][], int size) {
+    // base case:
 
-public
-static
-void
-ancestorMatrix(Node root , 
+    if (root == null) return;
 
-int
-matrix[][],
-int
-size) 
+    // call recursively for a preorder {left}
 
-{ 
+    ancestorMatrix(root.left, matrix, size);
 
+    // call recursively for preorder {right}
 
-// base case: 
+    ancestorMatrix(root.right, matrix, size);
 
-if
-(root==
-null
-) 
+    // here we will reach the root node automatically
 
-return
-; 
+    // try solving on pen and paper
 
+    if (root.left != null) {
+      // make the current node as parent of its children node
 
-// call recursively for a preorder {left} 
+      matrix[root.data][root.left.data] = 1;
 
-ancestorMatrix(root.left, matrix, size); 
+      // iterate through all the columns of children node
 
+      // all nodes which are children to
 
-// call recursively for preorder {right} 
+      // children of root node will also
 
-ancestorMatrix(root.right, matrix, size); 
+      // be children of root node
 
+      for (int i = 0; i < size; i++) {
+        // if children of root node is a parent
 
-// here we will reach the root node automatically 
+        // of someone (i.e 1) then make that node
 
-// try solving on pen and paper 
+        // as children of root also
 
+        if (matrix[root.left.data][i] == 1) matrix[root.data][i] = 1;
+      }
+    }
 
-if
-(root.left != 
-null
-) 
+    // same procedure followed for right node as well
 
-{ 
+    if (root.right != null) {
+      matrix[root.data][root.right.data] = 1;
 
-// make the current node as parent of its children node 
+      for (int i = 0; i < size; i++) {
+        if (matrix[root.right.data][i] == 1) matrix[root.data][i] = 1;
+      }
+    }
+  }
 
-matrix[root.data][root.left.data] = 
-1
-; 
+  // Driver program to test the program
 
+  public static void main(String[] args) {
+    // construct the binary tree as follows
 
-// iterate through all the columns of children node 
+    Node tree_root = new Node(5);
 
-// all nodes which are children to 
+    tree_root.left = new Node(1);
 
-// children of root node will also 
+    tree_root.right = new Node(2);
 
-// be children of root node 
+    tree_root.left.left = new Node(0);
 
-for
-(
-int
-i = 
-0
-; i < size; i++) 
+    tree_root.left.right = new Node(4);
 
-{ 
+    tree_root.right.left = new Node(3);
 
-// if children of root node is a parent 
+    // size of matrix
 
-// of someone (i.e 1) then make that node 
+    int size = 6;
 
-// as children of root also 
+    int matrix[][] = new int[size][size];
 
-if
-(matrix[root.left.data][i] == 
-1
-) 
+    ancestorMatrix(tree_root, matrix, size);
 
-matrix[root.data][i] = 
-1
-; 
+    for (int i = 0; i < size; i++) {
+      for (int j = 0; j < size; j++) {
+        System.out.print(matrix[i][j] + " ");
+      }
 
-} 
+      System.out.println();
+    }
+  }
 
-} 
+  // node class for tree node
 
+  static class Node {
 
-// same procedure followed for right node as well 
+    public int data;
 
-if
-(root.right != 
-null
-) 
+    public Node left, right;
 
-{ 
-
-matrix[root.data][root.right.data] = 
-1
-; 
-
-
-for
-(
-int
-i = 
-0
-; i < size; i++) 
-
-{ 
-
-if
-(matrix[root.right.data][i]==
-1
-) 
-
-matrix[root.data][i] = 
-1
-; 
-
-} 
-
-} 
-
-
-
-} 
-
-
-// Driver program to test the program 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-
-// construct the binary tree as follows 
-
-Node tree_root = 
-new
-Node(
-5
-); 
-
-tree_root.left = 
-new
-Node (
-1
-); 
-
-tree_root.right = 
-new
-Node(
-2
-); 
-
-tree_root.left.left = 
-new
-Node(
-0
-); 
-
-tree_root.left.right = 
-new
-Node(
-4
-); 
-
-tree_root.right.left = 
-new
-Node(
-3
-); 
-
-
-// size of matrix 
-
-int
-size = 
-6
-; 
-
-int
-matrix [][] = 
-new
-int
-[size][size]; 
-
-
-ancestorMatrix(tree_root, matrix, size); 
-
-
-for
-(
-int
-i = 
-0
-; i < size; i++) 
-
-{ 
-
-for
-(
-int
-j = 
-0
-; j < size; j++) 
-
-{ 
-
-System.out.print(matrix[i][j]+
-" "
-); 
-
-} 
-
-System.out.println(); 
-
-} 
-
-} 
-
-
-// node class for tree node 
-
-static
-class
-Node 
-
-{ 
-
-public
-int
-data ; 
-
-public
-Node left ,right; 
-
-public
-Node (
-int
-data) 
-
-{ 
-
-this
-.data = data; 
-
-this
-.left = 
-this
-.right = 
-null
-; 
-
-} 
-
-} 
-} 
-
-// This code is contributed by Sparsh Singhal 
+    public Node(int data) {
+      this.data = data;
+
+      this.left = this.right = null;
+    }
+  }
+}
+// This code is contributed by Sparsh Singhal

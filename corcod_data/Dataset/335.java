@@ -1,195 +1,59 @@
+// Java program to find Maximum path sum
+// start any column in row '0' and ends
+// up to any column in row 'n-1'
+import java.util.*;
 
-// Java program to find Maximum path sum 
-// start any column in row '0' and ends 
-// up to any column in row 'n-1' 
-import
-java.util.*; 
+class GFG {
 
-class
-GFG { 
+  static int N = 4;
 
+  // function find maximum sum path
 
-static
-int
-N = 
-4
-; 
+  static int MaximumPath(int Mat[][]) {
+    int result = 0;
 
+    // creat 2D matrix to store the sum
 
-// function find maximum sum path 
+    // of the path
 
-static
-int
-MaximumPath(
-int
-Mat[][]) 
+    int dp[][] = new int[N][N + 2];
 
-{ 
+    // initialize all dp matrix as '0'
 
-int
-result = 
-0
-; 
+    for (int[] rows : dp) Arrays.fill(rows, 0);
 
+    // copy all element of first column into
 
-// creat 2D matrix to store the sum 
+    // 'dp' first column
 
-// of the path 
+    for (int i = 0; i < N; i++) dp[0][i + 1] = Mat[0][i];
 
-int
-dp[][] = 
-new
-int
-[N][N + 
-2
-]; 
+    for (int i = 1; i < N; i++) for (int j = 1; j <= N; j++) dp[i][j] =
+      Math.max(dp[i - 1][j - 1], Math.max(dp[i - 1][j], dp[i - 1][j + 1])) +
+      Mat[i][j - 1];
 
+    // Find maximum path sum that end ups
 
-// initialize all dp matrix as '0' 
+    // at any column of last row 'N-1'
 
-for
-(
-int
-[] rows : dp) 
+    for (int i = 0; i <= N; i++) result = Math.max(result, dp[N - 1][i]);
 
-Arrays.fill(rows, 
-0
-); 
+    // return maximum sum path
 
+    return result;
+  }
 
-// copy all element of first column into 
+  // driver code
 
-// 'dp' first column 
+  public static void main(String arg[]) {
+    int Mat[][] = {
+      { 4, 2, 3, 4 },
+      { 2, 9, 1, 10 },
+      { 15, 1, 3, 0 },
+      { 16, 92, 41, 44 },
+    };
 
-for
-(
-int
-i = 
-0
-; i < N; i++) 
-
-dp[
-0
-][i + 
-1
-] = Mat[
-0
-][i]; 
-
-
-for
-(
-int
-i = 
-1
-; i < N; i++) 
-
-for
-(
-int
-j = 
-1
-; j <= N; j++) 
-
-dp[i][j] = Math.max(dp[i - 
-1
-][j - 
-1
-], 
-
-Math.max(dp[i - 
-1
-][j], 
-
-dp[i - 
-1
-][j + 
-1
-])) + 
-
-Mat[i][j - 
-1
-]; 
-
-
-// Find maximum path sum that end ups 
-
-// at any column of last row 'N-1' 
-
-for
-(
-int
-i = 
-0
-; i <= N; i++) 
-
-result = Math.max(result, dp[N - 
-1
-][i]); 
-
-
-// return maximum sum path 
-
-return
-result; 
-
-} 
-
-
-// driver code 
-
-public
-static
-void
-main(String arg[]) 
-
-{ 
-
-int
-Mat[][] = { { 
-4
-, 
-2
-, 
-3
-, 
-4
-}, 
-
-{ 
-2
-, 
-9
-, 
-1
-, 
-10
-}, 
-
-{ 
-15
-, 
-1
-, 
-3
-, 
-0
-}, 
-
-{ 
-16
-, 
-92
-, 
-41
-, 
-44
-} }; 
-
-
-System.out.println(MaximumPath(Mat)); 
-
-} 
-} 
-
-// This code is contributed by Anant Agarwal. 
+    System.out.println(MaximumPath(Mat));
+  }
+}
+// This code is contributed by Anant Agarwal.

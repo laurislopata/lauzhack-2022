@@ -1,216 +1,99 @@
+// Java program to check if all leaves are at same level
 
-// Java program to check if all leaves are at same level 
+// A binary tree node
+class Node {
 
-// A binary tree node 
-class
-Node 
-{ 
+  int data;
 
-int
-data; 
+  Node left, right;
 
-Node left, right; 
+  Node(int item) {
+    data = item;
 
+    left = right = null;
+  }
+}
 
-Node(
-int
-item) 
+class Leaf {
 
-{ 
+  int leaflevel = 0;
+}
 
-data = item; 
+class BinaryTree {
 
-left = right = 
-null
-; 
+  Node root;
 
-} 
-} 
+  Leaf mylevel = new Leaf();
 
-class
-Leaf 
-{ 
-
-int
-leaflevel=
-0
-; 
-} 
-
-class
-BinaryTree 
-{ 
-
-Node root; 
-
-Leaf mylevel = 
-new
-Leaf(); 
-
-
-/* Recursive function which checks whether all leaves are at same 
+  /* Recursive function which checks whether all leaves are at same 
 
 level */
 
-boolean
-checkUtil(Node node, 
-int
-level, Leaf leafLevel) 
+  boolean checkUtil(Node node, int level, Leaf leafLevel) {
+    // Base case
 
-{ 
+    if (node == null) return true;
 
-// Base case 
+    // If a leaf node is encountered
 
-if
-(node == 
-null
-) 
+    if (node.left == null && node.right == null) {
+      // When a leaf node is found first time
 
-return
-true
-; 
+      if (leafLevel.leaflevel == 0) {
+        // Set first found leaf's level
 
+        leafLevel.leaflevel = level;
 
-// If a leaf node is encountered 
+        return true;
+      }
 
-if
-(node.left == 
-null
-&& node.right == 
-null
-) 
+      // If this is not first leaf node, compare its level with
 
-{ 
+      // first leaf's level
 
-// When a leaf node is found first time 
+      return (level == leafLevel.leaflevel);
+    }
 
-if
-(leafLevel.leaflevel == 
-0
-) 
+    // If this node is not leaf, recursively check left and right
 
-{ 
+    // subtrees
 
-// Set first found leaf's level 
+    return (
+      checkUtil(node.left, level + 1, leafLevel) &&
+      checkUtil(node.right, level + 1, leafLevel)
+    );
+  }
 
-leafLevel.leaflevel = level; 
-
-return
-true
-; 
-
-} 
-
-
-// If this is not first leaf node, compare its level with 
-
-// first leaf's level 
-
-return
-(level == leafLevel.leaflevel); 
-
-} 
-
-
-// If this node is not leaf, recursively check left and right 
-
-// subtrees 
-
-return
-checkUtil(node.left, level + 
-1
-, leafLevel) 
-
-&& checkUtil(node.right, level + 
-1
-, leafLevel); 
-
-} 
-
-
-/* The main function to check if all leafs are at same level. 
+  /* The main function to check if all leafs are at same level. 
 
 It mainly uses checkUtil() */
 
-boolean
-check(Node node) 
+  boolean check(Node node) {
+    int level = 0;
 
-{ 
+    return checkUtil(node, level, mylevel);
+  }
 
-int
-level = 
-0
-; 
+  public static void main(String args[]) {
+    // Let us create the tree as shown in the example
 
-return
-checkUtil(node, level, mylevel); 
+    BinaryTree tree = new BinaryTree();
 
-} 
+    tree.root = new Node(12);
 
+    tree.root.left = new Node(5);
 
-public
-static
-void
-main(String args[]) 
+    tree.root.left.left = new Node(3);
 
-{ 
+    tree.root.left.right = new Node(9);
 
-// Let us create the tree as shown in the example 
+    tree.root.left.left.left = new Node(1);
 
-BinaryTree tree = 
-new
-BinaryTree(); 
+    tree.root.left.right.left = new Node(1);
 
-tree.root = 
-new
-Node(
-12
-); 
-
-tree.root.left = 
-new
-Node(
-5
-); 
-
-tree.root.left.left = 
-new
-Node(
-3
-); 
-
-tree.root.left.right = 
-new
-Node(
-9
-); 
-
-tree.root.left.left.left = 
-new
-Node(
-1
-); 
-
-tree.root.left.right.left = 
-new
-Node(
-1
-); 
-
-if
-(tree.check(tree.root)) 
-
-System.out.println(
-"Leaves are at same level"
-); 
-
-else
-
-System.out.println(
-"Leaves are not at same level"
-); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal 
+    if (tree.check(tree.root)) System.out.println(
+      "Leaves are at same level"
+    ); else System.out.println("Leaves are not at same level");
+  }
+}
+// This code has been contributed by Mayank Jaiswal

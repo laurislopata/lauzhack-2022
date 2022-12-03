@@ -1,132 +1,46 @@
+// Java program to find the maximum stolen value
+import java.io.*;
 
-// Java program to find the maximum stolen value 
-import
-java.io.*; 
+class GFG {
 
-class
-GFG 
-{ 
+  // Function to calculate the maximum stolen value
 
-// Function to calculate the maximum stolen value 
+  static int maxLoot(int hval[], int n) {
+    if (n == 0) return 0;
 
-static
-int
-maxLoot(
-int
-hval[], 
-int
-n) 
+    int value1 = hval[0];
 
-{ 
+    if (n == 1) return value1;
 
-if
-(n == 
-0
-) 
+    int value2 = Math.max(hval[0], hval[1]);
 
-return
-0
-; 
+    if (n == 2) return value2;
 
+    // contains maximum stolen value at the end
 
-int
-value1 = hval[
-0
-]; 
+    int max_val = 0;
 
-if
-(n == 
-1
-) 
+    // Fill remaining positions
 
-return
-value1; 
+    for (int i = 2; i < n; i++) {
+      max_val = Math.max(hval[i] + value1, value2);
 
+      value1 = value2;
 
-int
-value2 = Math.max(hval[
-0
-], hval[
-1
-]); 
+      value2 = max_val;
+    }
 
-if
-(n == 
-2
-) 
+    return max_val;
+  }
 
-return
-value2; 
+  // driver program
 
+  public static void main(String[] args) {
+    int hval[] = { 6, 7, 1, 3, 8, 2, 4 };
 
-// contains maximum stolen value at the end 
+    int n = hval.length;
 
-int
-max_val = 
-0
-; 
-
-
-// Fill remaining positions 
-
-for
-(
-int
-i=
-2
-; i<n; i++) 
-
-{ 
-
-max_val = Math.max(hval[i]+value1, value2); 
-
-value1 = value2; 
-
-value2 = max_val; 
-
-} 
-
-
-return
-max_val; 
-
-} 
-
-
-// driver program 
-
-public
-static
-void
-main (String[] args) 
-
-{ 
-
-int
-hval[] = {
-6
-, 
-7
-, 
-1
-, 
-3
-, 
-8
-, 
-2
-, 
-4
-}; 
-
-int
-n = hval.length; 
-
-System.out.println(
-"Maximum loot value : "
-+ maxLoot(hval, n)); 
-
-} 
-} 
-
-// Contributed by Pramod kumar 
+    System.out.println("Maximum loot value : " + maxLoot(hval, n));
+  }
+}
+// Contributed by Pramod kumar

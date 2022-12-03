@@ -1,225 +1,100 @@
+// Java program to check if there exist an edge whose
+// removal creates two trees of same size
 
-// Java program to check if there exist an edge whose 
-// removal creates two trees of same size 
+class Node {
 
-class
-Node 
-{ 
+  int key;
 
-int
-key; 
+  Node left, right;
 
-Node left, right; 
+  public Node(int key) {
+    this.key = key;
 
+    left = right = null;
+  }
+}
 
-public
-Node(
-int
-key) 
+class Res {
 
-{ 
+  boolean res = false;
+}
 
-this
-.key = key; 
+class BinaryTree {
 
-left = right = 
-null
-; 
+  Node root;
 
-} 
-} 
+  // To calculate size of tree with given root
 
-class
-Res 
-{ 
+  int count(Node node) {
+    if (node == null) return 0;
 
-boolean
-res = 
-false
-; 
-} 
+    return count(node.left) + count(node.right) + 1;
+  }
 
-class
-BinaryTree 
-{ 
+  // This function returns size of tree rooted with given
 
-Node root; 
+  // root. It also set "res" as true if there is an edge
 
+  // whose removal divides tree in two halves.
 
-// To calculate size of tree with given root 
+  // n is size of tree
 
-int
-count(Node node) 
+  int checkRec(Node root, int n, Res res) {
+    // Base case
 
-{ 
+    if (root == null) return 0;
 
-if
-(node == 
-null
-) 
+    // Compute sizes of left and right children
 
-return
-0
-; 
+    int c = checkRec(root.left, n, res) + 1 + checkRec(root.right, n, res);
 
+    // If required property is true for current node
 
-return
-count(node.left) + count(node.right) + 
-1
-; 
+    // set "res" as true
 
-} 
+    if (c == n - c) res.res = true;
 
+    // Return size
 
-// This function returns size of tree rooted with given 
+    return c;
+  }
 
-// root. It also set "res" as true if there is an edge 
+  // This function mainly uses checkRec()
 
-// whose removal divides tree in two halves. 
+  boolean check(Node root) {
+    // Count total nodes in given tree
 
-// n is size of tree 
+    int n = count(root);
 
-int
-checkRec(Node root, 
-int
-n, Res res) 
+    // Initialize result and recursively check all nodes
 
-{ 
+    Res res = new Res();
 
-// Base case 
+    checkRec(root, n, res);
 
-if
-(root == 
-null
-) 
+    return res.res;
+  }
 
-return
-0
-; 
+  // Driver code
 
+  public static void main(String[] args) {
+    BinaryTree tree = new BinaryTree();
 
-// Compute sizes of left and right children 
+    tree.root = new Node(5);
 
-int
-c = checkRec(root.left, n, res) + 
-1
+    tree.root.left = new Node(1);
 
-+ checkRec(root.right, n, res); 
+    tree.root.right = new Node(6);
 
+    tree.root.left.left = new Node(3);
 
-// If required property is true for current node 
+    tree.root.right.left = new Node(7);
 
-// set "res" as true 
+    tree.root.right.right = new Node(4);
 
-if
-(c == n - c) 
-
-res.res = 
-true
-; 
-
-
-// Return size 
-
-return
-c; 
-
-} 
-
-
-// This function mainly uses checkRec() 
-
-boolean
-check(Node root) 
-
-{ 
-
-// Count total nodes in given tree 
-
-int
-n = count(root); 
-
-
-// Initialize result and recursively check all nodes 
-
-Res res = 
-new
-Res(); 
-
-checkRec(root, n, res); 
-
-
-return
-res.res; 
-
-} 
-
-
-// Driver code 
-
-public
-static
-void
-main(String[] args) 
-
-{ 
-
-BinaryTree tree = 
-new
-BinaryTree(); 
-
-tree.root = 
-new
-Node(
-5
-); 
-
-tree.root.left = 
-new
-Node(
-1
-); 
-
-tree.root.right = 
-new
-Node(
-6
-); 
-
-tree.root.left.left = 
-new
-Node(
-3
-); 
-
-tree.root.right.left = 
-new
-Node(
-7
-); 
-
-tree.root.right.right = 
-new
-Node(
-4
-); 
-
-if
-(tree.check(tree.root) == 
-true
-) 
-
-System.out.println(
-"YES"
-); 
-
-else
-
-System.out.println(
-"NO"
-); 
-
-} 
-} 
-
-// This code has been contributed by Mayank Jaiswal(mayank_24) 
+    if (tree.check(tree.root) == true) System.out.println(
+      "YES"
+    ); else System.out.println("NO");
+  }
+}
+// This code has been contributed by Mayank Jaiswal(mayank_24)
