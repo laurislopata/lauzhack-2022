@@ -142,10 +142,23 @@ for code in ['1008.java']:
         if ast_code is not None:
             graph_code = graph_parse(ast_code, vect)
         print(vect)
+
+        train_model(vect)
+
         graphs.append(graph_code)
     except: 
         print("file not found")
     
+# def train_model(filename):
+#     # Read the data
+#     data = pd.read_csv(filename)
+
+#     model = LinearRegression()
+#     model.fit(X, y)
+#     return model
+
+
+# train_model('corcod_data/metadata.csv')
 
 # g2v.fit()
 
