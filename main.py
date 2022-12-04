@@ -1,6 +1,6 @@
+x = [1,2,3]
 for i in x:
 	for j in y:
-while:
-asdada
-asdadad
-awdawd
+while True:
+	for asdajo:
+  
