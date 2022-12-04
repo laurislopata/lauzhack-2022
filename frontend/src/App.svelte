@@ -43,6 +43,16 @@
 				<li class="item">
 					<div class="item">
 						<div class="id">
+							{#if !item.rre}
+							<button on:click={() => axios.get(url + "/enable/" + item.id).then(() => reload())}>Enable RRE</button>
+							Reactive Runtime Environment is disabled
+							{:else}
+							<button on:click={() => axios.get(url + "/disable/" + item.id).then(() => reload())}>Disable RRE</button>
+							Reactive Runtime Environment is enabled
+							
+							{/if}
+						</div>
+						<div class="id">
 							<div>Name: {item.name}</div> 
 							<div>Id: {item.id.substring(0,10)}</div>
 							<div>Status: {item.status}</div>
