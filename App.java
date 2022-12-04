@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 
 public class CF1197B {
 
+  
   public static void main(String[] args) {
     FastReader input = new FastReader();
     int n = input.nextInt();
