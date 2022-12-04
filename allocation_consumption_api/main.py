@@ -3,6 +3,7 @@ import consumption
 import consumption_comparison
 import smart_advisors
 import socket
+import jsonify
 
 #Create a flask app
 app = Flask(__name__)
@@ -63,7 +64,7 @@ def post():
     uid = socket.gethostname() + str(len(dB))
 
     #Store the results in a dictionary
-    dB[uid] = {
+    response = {
         "uid": uid,
         "monetary_cost": monetary_cost, 
         "electricity_cost": electricity_cost, 
@@ -74,7 +75,9 @@ def post():
         "server_region_recommendation": server_region_recommendation
     }
 
-    return 'Posted'
+    dB[uid] = response
+
+    return response
 
 #Create a post route
 @app.route('/sustainable_models_recompute/{string:uid}', methods=['POST'])
@@ -82,7 +85,7 @@ def post_recompute(uid):
     monetary_cost, electricity_cost, carbon_cost, electricity_comparison, carbon_comparison, hardware_recommendation, server_region_recommendation = compute_model(request)
 
     #Store the results in a dictionary
-    dB[uid] = {
+    response = {
         "uid": uid,
         "monetary_cost": monetary_cost, 
         "electricity_cost": electricity_cost, 
@@ -93,13 +96,20 @@ def post_recompute(uid):
         "server_region_recommendation": server_region_recommendation
     }
 
-    return 'Recomputed'
+    dB[uid] = response
+
+    return response
 
 #Create a get route to display all dB entries
 @app.route('/sustainable_models', methods=['GET'])
 def get():
     print(dB)
     return dB
+
+#Create a get route to display all dB entries
+@app.route('/sustainable_models/{string:uid}', methods=['GET'])
+def get_json(uid):
+    return jsonify(dB[uid])
 
 ### DEBUGGING ###
 #Create a get route to retrieve google cloud co2 data
