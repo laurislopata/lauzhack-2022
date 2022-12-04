@@ -77,14 +77,6 @@ def retrieve_co2_cost(runtime, region): #runtime in hours
     
     return co2_cost
 
-# Costs from https://www.exoscale.com/calculator/
-
-# Costs from Google Cloud Platform: https://cloud.google.com/products/calculator
-
-# Electricity costs: https://app.electricitymaps.com/map
-
-# Cumulator: https://pypi.org/project/cumulator/
-
 # Our world in Energy: https://ourworldindata.org/energy
 def retrieve_pricing_data_from_exoscale():
     url = "https://www.exoscale.com/pricing/"
@@ -99,8 +91,6 @@ def retrieve_pricing_data_from_exoscale():
     #Add all table entries to the dict
     for t in range(1, 11):
         T = tr_elements[t]
-        for j in T.iterchildren():
-            print(j.text_content())
 
         dict_entry = {}
 
@@ -184,7 +174,7 @@ def retrieve_pricing_data_from_exoscale():
         table_dict[ram_val] = dict_entry
         i += 1
     
-    print(table_dict)
+    #print(table_dict)
     return table_dict
 
 

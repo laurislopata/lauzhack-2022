@@ -31,8 +31,8 @@ def compute_model(request):
     electricity_comparison = consumption_comparison.compare_electricity(electricity_cost)
     carbon_comparison = consumption_comparison.compare_carbon_footprint(carbon_cost)
 
-    hardware_recommendation = smart_advisors.smart_hardware_allocator(runtime_complexity)
-    location_recommendation = smart_advisors.smart_location_allocator()
+    hardware_recommendation = smart_advisors.smart_hardware_allocator(runtime)
+    server_region_recommendation = smart_advisors.smart_location_allocator()
 
     print("Monetary_cost: ", monetary_cost, "CHF")
 
@@ -44,14 +44,20 @@ def compute_model(request):
     print("Carbon_cost: ", carbon_cost, " gCo2eq")
     print("Carbon_comparison:", carbon_comparison)
 
-    return monetary_cost, electricity_cost, carbon_cost, electricity_comparison, carbon_comparison
+    print()
+    print("Hardware recommendation: ", hardware_recommendation)
+
+    print()
+    print("Server region recommendation: ", server_region_recommendation)
+
+    return monetary_cost, electricity_cost, carbon_cost, electricity_comparison, carbon_comparison, hardware_recommendation, server_region_recommendation
     
 
 #Create a post route
 @app.route('/sustainable_models', methods=['POST'])
 def post():
     
-    monetary_cost, electricity_cost, carbon_cost, electricity_comparison, carbon_comparison = compute_model(request)
+    monetary_cost, electricity_cost, carbon_cost, electricity_comparison, carbon_comparison, hardware_recommendation, server_region_recommendation = compute_model(request)
     
     #Generate a uid for the request
     uid = socket.gethostname() + str(len(dB))
@@ -63,7 +69,9 @@ def post():
         "electricity_cost": electricity_cost, 
         "electricity_comparison": electricity_comparison, 
         "carbon_cost": carbon_cost, 
-        "carbon_comparison": carbon_comparison
+        "carbon_comparison": carbon_comparison,
+        "hardware_recommendation": hardware_recommendation,
+        "server_region_recommendation": server_region_recommendation
     }
 
     return 'Posted'
@@ -71,7 +79,7 @@ def post():
 #Create a post route
 @app.route('/sustainable_models_recompute/{string:uid}', methods=['POST'])
 def post_recompute(uid):
-    monetary_cost, electricity_cost, carbon_cost, electricity_comparison, carbon_comparison = compute_model(request)
+    monetary_cost, electricity_cost, carbon_cost, electricity_comparison, carbon_comparison, hardware_recommendation, server_region_recommendation = compute_model(request)
 
     #Store the results in a dictionary
     dB[uid] = {
@@ -80,7 +88,9 @@ def post_recompute(uid):
         "electricity_cost": electricity_cost, 
         "electricity_comparison": electricity_comparison, 
         "carbon_cost": carbon_cost, 
-        "carbon_comparison": carbon_comparison
+        "carbon_comparison": carbon_comparison,
+        "hardware_recommendation": hardware_recommendation,
+        "server_region_recommendation": server_region_recommendation
     }
 
     return 'Recomputed'
@@ -120,7 +130,6 @@ def get_electricity_map_data():
     #Call the retrieve_server_cost function from consumption.py
     #By default, assume the input size is n=1000
     electricity_map_data = smart_advisors.smart_location_allocator(data["region"])
-    print(electricity_map_data)
     
     return 'Got'
 

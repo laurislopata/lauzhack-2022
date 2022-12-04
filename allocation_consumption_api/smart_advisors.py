@@ -16,16 +16,16 @@ def smart_hardware_allocator(runtime): #runtime in hours
     # If the runtime is less than 1 second, use the old hardware
     if runtime < 1:
         best_config = hardware_configurations["old_hardware"]
-        return "The best configuration to use is the " + best_config["name"] + " since you have a small workload. This hardware is " + best_config["description"] + "."
+        return "The best configuration to use is the " + best_config["name"] + " since you have a small workload (runtime is " + str(runtime) +  " seconds). This hardware is " + best_config["description"] + "."
     # If the runtime is more than 1 second, use the latest hardware
     else:
         best_config = hardware_configurations["latest_hardware"]
-        return "The best configuration to use is the " + best_config["name"] + " since you have an intense workload. This hardware is " + best_config["description"] + "."
+        return "The best configuration to use is the " + best_config["name"] + " since you have an intense workload (runtime is " + str(runtime) +  " seconds). This hardware is " + best_config["description"] + "."
 
 
 
 #Identify the server from electricity maps with the lowest carbon intensity
-def smart_location_allocator(current_region="Zurich"):
+def smart_location_allocator():
 
     base_url = "https://api-access.electricitymaps.com/tw0j3yl62nfpdjv4/"
 
@@ -35,7 +35,7 @@ def smart_location_allocator(current_region="Zurich"):
     europe_zone_keys = ["AT", "BE", "BG", "CH", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GB", "GR", "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK"]
     
     for zone in europe_zone_keys:
-        print("Zone: ", zone)
+        #print("Zone: ", zone)
         zone_url = base_url + "/carbon-intensity/latest?zone=" + zone
         zone_data = requests.get(zone_url, headers={"X-BLOBR-KEY": electricity_map_api_key}).json()
 
@@ -43,7 +43,7 @@ def smart_location_allocator(current_region="Zurich"):
         if "carbonIntensity" in zone_data:
             european_zones_carbon_data[zone_data["carbonIntensity"]] = zone_data
     
-    print(list(european_zones_carbon_data))
+    #print(list(european_zones_carbon_data))
 
     #Find the zone with the lowest carbon intensity
     min_zone_carbon_intensity = 1000
@@ -56,8 +56,40 @@ def smart_location_allocator(current_region="Zurich"):
     #Retrieve the current lowest carbon intensity zone
     optimal_location = european_zones_carbon_data[min_zone_carbon_intensity]
 
-    recommendation_string = "The optimal location to run your workload at the current time is " + optimal_location["zone"] + " since it has the lowest carbon intensity."
+    #Create a mapping between zone keys and country names
+    zone_key_to_country_name = {
+        "AT": "Austria",
+        "BE": "Belgium",
+        "BG": "Bulgaria",
+        "CH": "Switzerland",
+        "CY": "Cyprus",
+        "CZ": "Czechia",
+        "DE": "Germany",
+        "DK": "Denmark",
+        "EE": "Estonia",
+        "ES": "Spain",
+        "FI": "Finland",
+        "FR": "France",
+        "GB": "United Kingdom",
+        "GR": "Greece",
+        "HR": "Croatia",
+        "HU": "Hungary",
+        "IE": "Ireland",
+        "IT": "Italy",
+        "LT": "Lithuania",
+        "LU": "Luxembourg",
+        "LV": "Latvia",
+        "MT": "Malta",
+        "NL": "Netherlands",
+        "NO": "Norway",
+        "PL": "Poland",
+        "PT": "Portugal",
+        "RO": "Romania",
+        "SE": "Sweden",
+        "SI": "Slovenia",
+        "SK": "Slovakia"
+    }
 
-    print(recommendation_string)
+    recommendation_string = "The optimal location to run your workload at the current time is " + zone_key_to_country_name[optimal_location["zone"]] + " since it has the lowest carbon intensity, with a carbon intensity of " + str(optimal_location["carbonIntensity"]) + " gCO2eq/kWh."
 
     return recommendation_string
