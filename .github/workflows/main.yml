@@ -3,11 +3,11 @@ on: [push]
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Code Efficiency Overview
     steps:
       - name: Efficiency Check
         id: hello
-        uses: ktotam1/Efficiency@dc965a8cb4780152b363d511cf8a73e90ca66e92
+        uses: ktotam1/Efficiency@main
         with:
           repo: ${{ github.repository }}
           ref: ${{ github.ref }}
