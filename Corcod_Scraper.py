@@ -67,42 +67,87 @@ def ast_parse(java_code):
     except:
         return None
 
-def graph_parse(tree):
-    try:
-        for node in tree:
-            
-        return graph
-    except:
-        return None
+def graph_parse(tree, vector):
+    if len(tree.children) > 0:
+        for child in tree.children:
+            if child:
+                for li in child:
+                    if li.__class__.__name__ == 'MethodDeclaration':
+                        vector["MethodDeclaration"] = vector["MethodDeclaration"] + 1
+                    if li.__class__.__name__ == 'IfStatement':
+                        vector["IfStatement"] = vector["IfStatement"] + 1
+                    if li.__class__.__name__ == 'ForStatement':
+                        vector["ForStatement"] = vector["ForStatement"] + 1
+                    if li.__class__.__name__ == 'ClassDeclaration':
+                        vector["ClassDeclaration"] = vector["ClassDeclaration"] + 1
+                    if li.__class__.__name__ == 'WhileStatement':
+                        vector["WhileStatement"] = vector["WhileStatement"] + 1
+                    if li.__class__.__name__ == 'StatementExpression':
+                        vector["StatementExpression"] = vector["StatementExpression"] + 1
+                    if li.__class__.__name__ == 'LocalVariableDeclaration':
+                        vector["LocalVariableDeclaration"] = vector["LocalVariableDeclaration"] + 1
+                    if hasattr(li, 'body'):
+                        for node in li.body: 
+                            if (not node is None) and (issubclass(type(node), javalang.tree.Statement) or issubclass(type(node), javalang.tree.Expression) or issubclass(type(node), javalang.tree.Declaration)):    
+                                left_loop = False
+                                if node.__class__.__name__ == 'MethodDeclaration':
+                                    vector["MethodDeclaration"] = vector["MethodDeclaration"] + 1
+                                if node.__class__.__name__ == 'IfStatement':
+                                    vector["IfStatement"] = vector["IfStatement"] + 1
+                                if node.__class__.__name__ == 'ForStatement':
+                                    vector["ForStatement"] = vector["ForStatement"] + 1
+                                    vector["CurrentNestingLevel"] = vector["CurrentNestingLevel"] + 1
+                                    if vector["CurrentNestingLevel"] > vector["MaxNestingLevel"]:
+                                        vector["MaxNestingLevel"] = vector["CurrentNestingLevel"]
+                                    left_loop = True
+                                if node.__class__.__name__ == 'ClassDeclaration':
+                                    vector["ClassDeclaration"] = vector["ClassDeclaration"] + 1
+                                if node.__class__.__name__ == 'WhileStatement':
+                                    vector["WhileStatement"] = vector["WhileStatement"] + 1
+                                    vector["CurrentNestingLevel"] = vector["CurrentNestingLevel"] + 1
+                                    if vector["CurrentNestingLevel"] > vector["MaxNestingLevel"]:
+                                        vector["MaxNestingLevel"] = vector["CurrentNestingLevel"]
+                                    left_loop = True
+                                if node.__class__.__name__ == 'StatementExpression':
+                                    vector["StatementExpression"] = vector["StatementExpression"] + 1
+                                
+                                graph_parse(node, vector)
+                                if left_loop: 
+                                    vector["CurrentNestingLevel"] = vector["CurrentNestingLevel"] - 1 
 
 
 
 #Graph2Vec module is used to convert the AST to a graph
 
-from graph2vec import Graph2Vec
-import graph2vec.trainer as trainer
+# from graph2vec import Graph2Vec
+# import graph2vec.trainer as trainer
 
 
-g2v = Graph2Vec(vector_dimensions= 1024)
+# g2v = Graph2Vec(vector_dimensions= 1024)
 
 # ML algorithm
 
 graphs = []
 
-for code in data_points:
+for code in ['1008.java']:
     graph = Graph()
+    try: 
+        java_code = open('corcod_data/Dataset/' + code ).read()
+        nw_code = remove_comments(java_code)
 
-    java_code = open('corcod_data/Dataset/' + code[0]).read()
+        ast_code = ast_parse(nw_code)
+        vect = {"MethodDeclaration": 0, "IfStatement": 0, "ForStatement": 0, 
+        "ClassDeclaration": 0, "WhileStatement": 0, "StatementExpression": 0, 
+        "LocalVariableDeclaration": 0, "MaxNestingLevel": 0, "CurrentNestingLevel": 0}
+        if ast_code is not None:
+            graph_code = graph_parse(ast_code, vect)
+        print(vect)
+        graphs.append(graph_code)
+    except: 
+        print("file not found")
+    
 
-    nw_code = remove_comments(java_code)
+# g2v.fit()
 
-    ast_code = ast_parse(nw_code)
-
-    graph_code = graph_parse(ast_code)
-
-    graphs.append(graph_code)
-
-g2v.fit()
-
-g2v.train(graph_code)
+# g2v.train(graph_code)
 

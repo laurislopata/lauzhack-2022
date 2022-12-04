@@ -61,7 +61,6 @@ public class Main {
     return true;
   }
 
-  // tar の方が数字が大きいかどうか
   static boolean compare(String tar, String src) {
     if (src == null) return true;
     if (src.length() == tar.length()) {
@@ -119,14 +118,11 @@ public class Main {
 
     @Override
     public int compareTo(Pair p) {
-      return first == p.first ? second - p.second : first - p.first; //firstで昇順にソート
-      //return (first == p.first ? second - p.second : first - p.first) * -1; //firstで降順にソート
-      //return second == p.second ? first - p.first : second - p.second;//secondで昇順にソート
-      //return (second == p.second ? first - p.first : second - p.second)*-1;//secondで降順にソート
+      return first == p.first ? second - p.second : first - p.first; //first
+      
     }
   }
 
-  //繰り返し二乗法
   public static long pow(long x, long n) {
     long ans = 1;
     while (n > 0) {
@@ -144,7 +140,6 @@ public class Main {
     return (x * pow(y, mod - 2)) % mod;
   }
 
-  //fac, inv, finvテーブルの初期化、これ使う場合はinitComb()で初期化必要
   public static void initComb() {
     fac[0] = finv[0] = inv[0] = fac[1] = finv[1] = inv[1] = 1;
     for (int i = 2; i < size; ++i) {
@@ -227,7 +222,7 @@ public class Main {
     int high = arr.length;
     int mid;
     while (low < high) {
-      mid = ((high - low) >>> 1) + low; //(low + high) / 2 (オーバーフロー対策)
+      mid = ((high - low) >>> 1) + low; //(low + high) / 2 
       if (arr[mid] < value) {
         low = mid + 1;
       } else {
@@ -237,14 +232,12 @@ public class Main {
     return low;
   }
 
-  //n,mの最大公約数
   public static long gcd(long n, long m) {
     if (m > n) return gcd(m, n);
     if (m == 0) return n;
     return gcd(m, n % m);
   }
 
-  //3要素のソート
   private class Pair2 implements Comparable<Pair2> {
 
     String s;
@@ -265,7 +258,6 @@ public class Main {
     }
   }
 
-  //c -> intに変換
   public static int c2i(char c) {
     if ('A' <= c && c <= 'Z') {
       return c - 'A';
@@ -274,7 +266,6 @@ public class Main {
     }
   }
 
-  // int -> charに変換
   public static char i2c(int i) {
     if (0 <= i && i < 26) {
       return (char) (i + 'A');
