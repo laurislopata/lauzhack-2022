@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^5.0.2",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
@@ -19,6 +20,9 @@
   },
   "dependencies": {
     "axios": "^1.2.0",
+    "delay": "^5.0.0",
+    "html-to-md": "^0.8.2",
+    "playwright": "^1.28.1",
     "sirv-cli": "^2.0.0"
   }
 }

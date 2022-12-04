@@ -1,0 +1,133 @@
+import delay from 'delay';
+import html2md from 'html-to-md';
+import { chromium } from 'playwright';
+export class ChatGPTAPI {
+    /**
+     * @param opts.userDataDir — Path to a directory for storing persistent chromium session data
+     * @param opts.chatUrl — OpenAI chat URL
+     * @param opts.headless - Whether or not to use headless mode
+     * @param opts.markdown — Whether or not to parse chat messages as markdown
+     */
+    constructor(opts = {}) {
+        const { userDataDir = '/tmp/chatgpt', chatUrl = 'https://chat.openai.com/', headless = false, markdown = true } = opts;
+        this._userDataDir = userDataDir;
+        this._headless = !!headless;
+        this._chatUrl = chatUrl;
+        this._markdown = !!markdown;
+    }
+    async init(opts = {}) {
+        const { auth = 'eager' } = opts;
+        this._browser = await chromium.launchPersistentContext(this._userDataDir, {
+            headless: this._headless
+        });
+        this._page = await this._browser.newPage();
+        await this._page.goto(this._chatUrl);
+        // dismiss welcome modal
+        do {
+            const modalSelector = '[data-headlessui-state="open"]';
+            if (!(await this._page.$(modalSelector))) {
+                break;
+            }
+            try {
+                await this._page.click(`${modalSelector} button:last-child`, {
+                    timeout: 1000
+                });
+            }
+            catch (err) {
+                // "next" button not found in welcome modal
+                break;
+            }
+        } while (true);
+        if (auth === 'blocking') {
+            do {
+                const isSignedIn = await this.getIsSignedIn();
+                if (isSignedIn) {
+                    break;
+                }
+                console.log('Please sign in to ChatGPT using the Chromium browser window and dismiss the welcome modal...');
+                await delay(1000);
+            } while (true);
+        }
+        return this._page;
+    }
+    async getIsSignedIn() {
+        try {
+            const inputBox = await this._getInputBox();
+            return !!inputBox;
+        }
+        catch (err) {
+            // can happen when navigating during login
+            return false;
+        }
+    }
+    async getLastMessage() {
+        const messages = await this.getMessages();
+        if (messages) {
+            return messages[messages.length - 1];
+        }
+        else {
+            return null;
+        }
+    }
+    async getPrompts() {
+        // Get all prompts
+        const messages = await this._page.$$('[class*="ConversationItem__Message"]:has([class*="ConversationItem__ActionButtons"]):has([class*="ConversationItem__Role"] [class*="Avatar__Wrapper"])');
+        // prompts are always plaintext
+        return Promise.all(messages.map((a) => a.innerText()));
+    }
+    async getMessages() {
+        // Get all complete messages
+        // (in-progress messages that are being streamed back don't contain action buttons)
+        const messages = await this._page.$$('[class*="ConversationItem__Message"]:has([class*="ConversationItem__ActionButtons"]):not(:has([class*="ConversationItem__Role"] [class*="Avatar__Wrapper"]))');
+        if (this._markdown) {
+            const htmlMessages = await Promise.all(messages.map((a) => a.innerHTML()));
+            const markdownMessages = htmlMessages.map((messageHtml) => {
+                // parse markdown from message HTML
+                messageHtml = messageHtml.replace('Copy code</button>', '</button>');
+                return html2md(messageHtml, {
+                    ignoreTags: [
+                        'button',
+                        'svg',
+                        'style',
+                        'form',
+                        'noscript',
+                        'script',
+                        'meta',
+                        'head'
+                    ],
+                    skipTags: ['button', 'svg']
+                });
+            });
+            return markdownMessages;
+        }
+        else {
+            // plaintext
+            const plaintextMessages = await Promise.all(messages.map((a) => a.innerText()));
+            return plaintextMessages;
+        }
+    }
+    async sendMessage(message) {
+        const inputBox = await this._getInputBox();
+        if (!inputBox)
+            throw new Error('not signed in');
+        const lastMessage = await this.getLastMessage();
+        await inputBox.click({ force: true });
+        await inputBox.fill(message, { force: true });
+        await inputBox.press('Enter');
+        do {
+            await delay(1000);
+            // TODO: this logic needs some work because we can have repeat messages...
+            const newLastMessage = await this.getLastMessage();
+            if (newLastMessage &&
+                (lastMessage === null || lastMessage === void 0 ? void 0 : lastMessage.toLowerCase()) !== (newLastMessage === null || newLastMessage === void 0 ? void 0 : newLastMessage.toLowerCase())) {
+                return newLastMessage;
+            }
+        } while (true);
+    }
+    async close() {
+        return await this._browser.close();
+    }
+    async _getInputBox() {
+        return this._page.$('div[class*="PromptTextarea__TextareaWrapper"] textarea');
+    }
+}
