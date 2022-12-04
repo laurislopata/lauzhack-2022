@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: ktotam1/Efficiency@v2
+        uses: ktotam1/Efficiency@c77d5ed438f68337977af32198ba82d699d9e40f
         with:
           who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step
