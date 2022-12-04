@@ -1,16 +1,28 @@
-#Scraping a csv file from a website and tokenizing it using NLP
+#Scraping a csv file from a website and tokenizing it using ML algorithm
 
-# import nltk
+
+#import nltk
 #nltk.download('punkt') #uncomment this line if you are running this for the first time
 #nltk.download('stopwords') #uncomment this line if you are running this for the first time
 
 
-# from nltk.tokenize import word_tokenize
-# from nltk.corpus import stopwords
+#from nltk.tokenize import word_tokenize
+#from nltk.corpus import stopwords
 
-#Reading the file
+#Reading the csv file 
 import pandas as pd
+
 import numpy as np
+
+# Removing the comments using regex
+import regex as re
+
+# Parsing java code
+import javalang
+
+# Creating a graph
+from run_time_ML.graph import Graph
+
 
 #Reading the file
 csv_data = open('corcod_data/metadata.csv')
@@ -20,99 +32,77 @@ csv_data = pd.read_csv(csv_data)
 #print(data_point)
 
 data_points = np.array((csv_data.file_name, csv_data.complexity))
-print(data_points[0][1])
 
 #java_code = java_code.read()
 
 
 java_code = open('corcod_data/Dataset/' + '1.java')
 java_code = java_code.read()
-print(java_code)
+
+# Removing the comments from the code
+def remove_comments(string):
+    pattern = r"(\".*?\"|\'.*?\')|(/\*.*?\*/|//[^\r\n]*$)"
+    # first group captures quoted strings (double or single)
+    # second group captures comments (//single-line or /* multi-line */)
+    regex = re.compile(pattern, re.MULTILINE|re.DOTALL)
+    def _replacer(match):
+        # if the 2nd group (capturing comments) is not None,
+        # it means we have captured a non-quoted (real) comment string.
+        if match.group(2) is not None:
+            return "" # so we will return empty to remove the comment
+        else: # otherwise, we will return the 1st group
+            return match.group(1) # captured quoted-string
+    return regex.sub(_replacer, string)
+
+nw_code = remove_comments(java_code)
 
 
-# words = word_tokenize(java_code)
-# #print(words)
+# Ast module is used to parse the java code
+#print(java_code)
 
-# stop_words = set(stopwords.words("english"))
-# added_stop_words = ["{","}",
-#                     "(",")",";","=","<",">","[","]",".",",","/","*","&","%","$","#","@","!","?","|","\"","\'","\\","`","~","^","-","+","_","0","1","2","3","4","5","6","7","8","9"]
+def ast_parse(java_code):
+    try:
+        tree = javalang.parse.parse(java_code)
+        return tree
+    except:
+        return None
 
-# print(stop_words)
+def graph_parse(tree):
+    try:
+        for node in tree:
+            
+        return graph
+    except:
+        return None
 
-# filtered_sentence = [w for w in words if not w in stop_words]
 
-# #print(filtered_sentence)
 
-    
-# """
+#Graph2Vec module is used to convert the AST to a graph
 
-# filtered_sentence = []
+from graph2vec import Graph2Vec
+import graph2vec.trainer as trainer
 
-# for w in words:
-#     if w not in stop_words:
-#         filtered_sentence.append(w)
 
-# print(filtered_sentence)
+g2v = Graph2Vec(vector_dimensions= 1024)
 
-# filtered_sentence = [w for w in words if not w in stop_words]
+# ML algorithm
 
-# print(filtered_sentence)
+graphs = []
 
-# filtered_sentence = []
+for code in data_points:
+    graph = Graph()
 
-# for w in words:
-#     if w not in stop_words:
-#         filtered_sentence.append(w)
+    java_code = open('corcod_data/Dataset/' + code[0]).read()
 
-# print(filtered_sentence)
+    nw_code = remove_comments(java_code)
 
-# filtered_sentence = [w for w in words if not w in stop_words]
+    ast_code = ast_parse(nw_code)
 
-# print(filtered_sentence)
+    graph_code = graph_parse(ast_code)
 
-# filtered_sentence = []
+    graphs.append(graph_code)
 
-# for w in words:
-#     if w not in stop_words:
-#         filtered_sentence.append(w)
+g2v.fit()
 
-# print(filtered_sentence)
-
-# filtered_sentence = [w for w in words if not w in stop_words]
-
-# print(filtered_sentence)
-
-# filtered_sentence = []
-
-# for w in words:
-#     if w not in stop_words:
-#         filtered_sentence.append(w)
-
-# print(filtered_sentence)
-
-# filtered_sentence = [w for w in words if not w in stop_words]
-
-# print(filtered_sentence)
-
-# filtered_sentence = []
-
-# for w in words:
-#     if w not in stop_words:
-#         filtered_sentence.append(w)
-
-# print(filtered_sentence)
-
-# filtered_sentence = [w for w in words if not w in stop_words]
-
-# print(filtered_sentence)
-
-# filtered_sentence = []
-
-# for w in words:
-#     if w not in stop_words:
-#         filtered_sentence.append(w)
-
-# print(filtered_sentence)
-# """
-
+g2v.train(graph_code)
 
