@@ -1,6 +1,6 @@
 ## Project Demo
 
-[](https://youtu.be/xih-XiKhoQ4)
+[![](https://img.youtube.com/vi/xih-XiKhoQ4/0.jpg)](https://youtu.be/xih-XiKhoQ4)
 
 ## Problem
 
