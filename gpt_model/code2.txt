@@ -1,0 +1,1 @@
+What is the running time complexity of this code #include <iostream> using namespace std; int main() { double a = 1.2; int b = 5; for(int i = 0; i < 125; i++) { double c = a + b; } return 0; }

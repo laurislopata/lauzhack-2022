@@ -1,0 +1,1 @@
+How much memory in gigabytes does this code allocate: #include <iostream> using namespace std; int main() { double a = 1.2; int b = 5; for(int i = 0; i < 125; i++) { double c = a + b; } return 0; }
